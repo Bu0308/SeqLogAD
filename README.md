@@ -1,6 +1,6 @@
 # Sequence-Aware Log Anomaly + RAG + AI Agent Platform
 
-Repository skeleton for the 8-week MVP described in [`00_MASTER_PLAN.md`](00_MASTER_PLAN.md).
+Repository for an 8-week sequence-aware log anomaly detection and investigation MVP.
 
 ## Current status
 
@@ -23,7 +23,7 @@ No HDFS/BGL data has been downloaded. No parser, sequence builder, model, RAG, a
 
 ## Start point
 
-The first implementation work begins with `PLAN-001`, followed by the data contract and Phase 1 pipeline. See [`03_TASK_BACKLOG.md`](03_TASK_BACKLOG.md).
+The public engineering contracts and current project boundaries are maintained under [`docs/`](docs/README.md).
 
 Day 1 contracts:
 

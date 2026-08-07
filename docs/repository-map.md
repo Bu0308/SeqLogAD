@@ -44,4 +44,4 @@ This document describes the repository after Day 2 dataset acquisition foundatio
 - Model configs are grouped under `configs/models/`.
 - `src/storage/` exists because the architecture requires a backend boundary before Elasticsearch integration.
 - No `data/evaluation/`, `src/common/config/`, `src/common/logging/` or implementation-only directories were added because they are not needed for Day 1.
-- `Plan/master-implementation-plan.md` remains the detailed source plan; root management documents provide Day 1 operational contracts.
+- Detailed planning artifacts remain local-only; public operational contracts live under `docs/`.
