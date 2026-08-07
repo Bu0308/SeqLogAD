@@ -1,0 +1,47 @@
+# DATA-001 acquisition contract. No data is downloaded by this config.
+dataset:
+  key: hdfs
+  dataset_id: HDFS_v1
+  dataset_name: HDFS Log Dataset v1
+  dataset_version: zenodo-8196385:HDFS_v1
+  enabled: true
+  priority: P0
+  source:
+    name: LogPAI Loghub / Zenodo
+    reference: https://github.com/logpai/loghub/tree/master/HDFS
+    record_doi: https://doi.org/10.5281/zenodo.8196385
+    accessed_on: "2026-08-07"
+  raw_dir: data/raw/hdfs/HDFS_v1
+  manifest_path: data/manifests/hdfs_manifest.json
+  expected_files:
+    - path: HDFS.log
+      required: true
+      role: log
+      description: Raw HDFS_v1 log stream.
+    - path: preprocessed/anomaly_label.csv
+      required: true
+      role: label
+      description: Ground-truth normal/anomaly labels at block-trace level.
+    - path: HDFS_v1.zip
+      required: false
+      role: archive
+      description: Source archive; may be removed after verified extraction if policy is recorded.
+  labels:
+    available: true
+    file: preprocessed/anomaly_label.csv
+    level: block_trace
+    notes: Loghub states that traces are grouped by block ID and labeled normal/anomaly.
+  acquisition:
+    method: archive_download
+    url: https://zenodo.org/records/8196385/files/HDFS_v1.zip?download=1
+    archive: HDFS_v1.zip
+    source_checksum:
+      algorithm: md5
+      value: 76a24b4d9a6164d543fb275f89773260
+    manual_fallback: Download HDFS_v1.zip from Zenodo record 8196385, verify the source MD5, and extract without overwriting existing raw files.
+    acquired_at_utc: null
+  licensing:
+    status: VERIFIED_LOGHUB_TERMS
+    source_license: LOGHUB_RESEARCH_ACADEMIC_TERMS
+    usage_notes: Research/academic use; reference the Loghub repository, cite the Loghub paper where applicable, and retain the Loghub license notice with dataset copies.
+    review_required: true

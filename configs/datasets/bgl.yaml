@@ -1,0 +1,43 @@
+# DATA-001 acquisition contract. No data is downloaded by this config.
+dataset:
+  key: bgl
+  dataset_id: BGL
+  dataset_name: Blue Gene/L System Log
+  dataset_version: zenodo-8196385:BGL
+  enabled: true
+  priority: P0
+  source:
+    name: LogPAI Loghub / Zenodo
+    reference: https://github.com/logpai/loghub/tree/master/BGL
+    record_doi: https://doi.org/10.5281/zenodo.8196385
+    accessed_on: "2026-08-07"
+  raw_dir: data/raw/bgl/BGL
+  manifest_path: data/manifests/bgl_manifest.json
+  expected_files:
+    - path: BGL.log
+      required: true
+      role: log
+      description: Raw BGL log with alert/non-alert marker in the first column.
+    - path: BGL.zip
+      required: false
+      role: archive
+      description: Source archive; may be removed after verified extraction if policy is recorded.
+  labels:
+    available: true
+    file: BGL.log
+    level: log_line
+    notes: Loghub documents '-' as non-alert and other first-column values as alert categories.
+  acquisition:
+    method: archive_download
+    url: https://zenodo.org/records/8196385/files/BGL.zip?download=1
+    archive: BGL.zip
+    source_checksum:
+      algorithm: md5
+      value: 4452953c470f2d95fcb32d5f6e733f7a
+    manual_fallback: Download BGL.zip from Zenodo record 8196385, verify the source MD5, and extract without overwriting existing raw files.
+    acquired_at_utc: null
+  licensing:
+    status: VERIFIED_LOGHUB_TERMS
+    source_license: LOGHUB_RESEARCH_ACADEMIC_TERMS
+    usage_notes: Research/academic use; reference the Loghub repository, cite the Loghub and BGL papers where applicable, and retain the Loghub license notice with dataset copies.
+    review_required: true

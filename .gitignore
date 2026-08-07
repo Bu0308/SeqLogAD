@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Local data and generated artifacts
+data/raw/**
+!data/raw/
+!data/raw/README.md
+!data/raw/hdfs/
+!data/raw/hdfs/.gitkeep
+!data/raw/bgl/
+!data/raw/bgl/.gitkeep
+data/parsed/**
+data/processed/**
+data/knowledge_base/**
+!data/parsed/README.md
+!data/processed/README.md
+!data/knowledge_base/README.md
+outputs/checkpoints/*
+outputs/indexes/*
+outputs/results/*
+outputs/reports/*
+outputs/traces/*
+!*/README.md
+!*/.gitkeep
+
+# Acquisition leftovers and local archives
+*.part
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local project planning artifacts
+/Plan/
+/00_MASTER_PLAN.md
+/01_ARCHITECTURE.md
+/02_RESEARCH_PLAN.md
+/03_TASK_BACKLOG.md
+/04_TEST_PLAN.md
+/05_8_WEEK_ROADMAP.md
+/06_DECISIONS.md
+/07_EXPERIMENT_TRACKER.md

@@ -1,0 +1,13 @@
+# P0 placeholder for DET-004.
+model:
+  name: lstm_next_event
+  status: P0
+  hidden_size: TODO
+  layers: TODO
+  dropout: TODO
+training:
+  seed: TODO
+  epochs: TODO
+  batch_size: TODO
+  max_sequence_length: TODO
+  early_stopping: TODO

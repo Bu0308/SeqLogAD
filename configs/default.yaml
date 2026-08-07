@@ -1,0 +1,50 @@
+# Day 1 configuration convention skeleton. Not a runnable experiment config.
+project:
+  name: sequence-aware-log-investigation
+  experiment_id: EXP-YYYYMMDD-NNN
+  seed: 42
+
+dataset:
+  name: TODO
+  version: TODO
+  raw_path: TODO
+  processed_path: TODO
+
+parsing:
+  parser: drain3
+  config_path: TODO
+
+sequence:
+  strategy: TODO
+  window_size: TODO
+  grouping_key: TODO
+
+split:
+  strategy: chronological
+  train: TODO
+  validation: TODO
+  test: TODO
+
+model:
+  type: TODO
+  config: TODO
+
+scoring:
+  aggregation: TODO
+  threshold_strategy: TODO
+
+retrieval:
+  backend: local
+  top_k: TODO
+
+agent:
+  enabled: false
+  max_tool_calls: TODO
+  max_rounds: TODO
+
+output:
+  root: outputs
+  run_dir: outputs/runs/EXP-YYYYMMDD-NNN
+
+logging:
+  level: INFO

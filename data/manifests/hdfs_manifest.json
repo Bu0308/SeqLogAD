@@ -1,0 +1,83 @@
+{
+  "dataset_fingerprint": "0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013",
+  "dataset_id": "HDFS_v1",
+  "dataset_name": "HDFS Log Dataset v1",
+  "dataset_version": "zenodo-8196385:HDFS_v1",
+  "files": [
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".log",
+      "path": "data/raw/hdfs/HDFS_v1/HDFS.log",
+      "role": "log",
+      "sha256": "0783096174d7832c618337f9609e06e04abd86ddd7089b3c12b407e63bfebc52",
+      "size_bytes": 1577982906
+    },
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".csv",
+      "path": "data/raw/hdfs/HDFS_v1/preprocessed/Event_occurrence_matrix.csv",
+      "role": "metadata",
+      "sha256": "59ab8b8a6d12f18f41b35e9eb0113655825b9bf9d9787c1a6f72fface7cc01a7",
+      "size_bytes": 53099247
+    },
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".csv",
+      "path": "data/raw/hdfs/HDFS_v1/preprocessed/Event_traces.csv",
+      "role": "metadata",
+      "sha256": "68cd80eac007b28f5ca10d8acceb104d61067e74e1c4eef2c6c6015b2d769d3c",
+      "size_bytes": 125412805
+    },
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".log_templates.csv",
+      "path": "data/raw/hdfs/HDFS_v1/preprocessed/HDFS.log_templates.csv",
+      "role": "metadata",
+      "sha256": "92e5200c9ddd9c38730d1a983c957e2a36b34cf8bd9434a6eba46932b1c3b1d4",
+      "size_bytes": 1607
+    },
+    {
+      "compression": null,
+      "encoding_status": "NON_UTF8",
+      "extension": ".npz",
+      "path": "data/raw/hdfs/HDFS_v1/preprocessed/HDFS.npz",
+      "role": "metadata",
+      "sha256": "0ccfacd40ff339f7f1755906f8121c1589a20acb8a2a625839a5caa9f66d91a7",
+      "size_bytes": 52907681
+    },
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".csv",
+      "path": "data/raw/hdfs/HDFS_v1/preprocessed/anomaly_label.csv",
+      "role": "label",
+      "sha256": "1c711ed6c8848fc3243fb4d092f172f31d128c8a6ec7f26ebba72ab931885ed8",
+      "size_bytes": 18637554
+    }
+  ],
+  "integrity": {
+    "all_hashes_computed": true,
+    "all_required_files_present": true
+  },
+  "raw_root": "data/raw/hdfs/HDFS_v1",
+  "schema_version": "1.0",
+  "source": {
+    "accessed_on": "2026-08-07",
+    "acquired_at_utc": null,
+    "license_status": "VERIFIED_LOGHUB_TERMS",
+    "name": "LogPAI Loghub / Zenodo",
+    "record_doi": "https://doi.org/10.5281/zenodo.8196385",
+    "reference": "https://github.com/logpai/loghub/tree/master/HDFS",
+    "source_archive": "HDFS_v1.zip",
+    "source_archive_checksum": "md5:76a24b4d9a6164d543fb275f89773260",
+    "usage_notes": "Research/academic use; reference the Loghub repository, cite the Loghub paper where applicable, and retain the Loghub license notice with dataset copies."
+  },
+  "statistics": {
+    "file_count": 6,
+    "total_bytes": 1828041800
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "dataset_fingerprint": "c9ee7a8db13d37c88f896e305ed12dc7a66b586cdae4e388db4949f78afbe861",
+  "dataset_id": "BGL",
+  "dataset_name": "Blue Gene/L System Log",
+  "dataset_version": "zenodo-8196385:BGL",
+  "files": [
+    {
+      "compression": null,
+      "encoding_status": "UTF8_COMPATIBLE",
+      "extension": ".log",
+      "path": "data/raw/bgl/BGL/BGL.log",
+      "role": "log",
+      "sha256": "666130b15ef44eb32fd02bd053e6c6e007c37696b5e7e8b9d8e45b729876a5d2",
+      "size_bytes": 743185031
+    }
+  ],
+  "integrity": {
+    "all_hashes_computed": true,
+    "all_required_files_present": true
+  },
+  "raw_root": "data/raw/bgl/BGL",
+  "schema_version": "1.0",
+  "source": {
+    "accessed_on": "2026-08-07",
+    "acquired_at_utc": null,
+    "license_status": "VERIFIED_LOGHUB_TERMS",
+    "name": "LogPAI Loghub / Zenodo",
+    "record_doi": "https://doi.org/10.5281/zenodo.8196385",
+    "reference": "https://github.com/logpai/loghub/tree/master/BGL",
+    "source_archive": "BGL.zip",
+    "source_archive_checksum": "md5:4452953c470f2d95fcb32d5f6e733f7a",
+    "usage_notes": "Research/academic use; reference the Loghub repository, cite the Loghub and BGL papers where applicable, and retain the Loghub license notice with dataset copies."
+  },
+  "statistics": {
+    "file_count": 1,
+    "total_bytes": 743185031
+  }
+}

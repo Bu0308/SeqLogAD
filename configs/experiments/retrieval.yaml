@@ -1,0 +1,7 @@
+# Planned experiment only. No index has been built.
+experiment_id: EXP-RET-001
+methods: [bm25, dense, sequential, hybrid]
+datasets: [hdfs, bgl]
+top_k: [1, 3, 5]
+weight_tuning_split: validation
+output_path: outputs/results/retrieval/

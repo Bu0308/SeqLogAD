@@ -1,0 +1,13 @@
+# P0 placeholder for RETR-001 through RETR-006.
+backend: local
+methods:
+  lexical: bm25
+  dense: faiss
+  sequential: lcs_or_edit_distance
+  fusion: weighted_hybrid
+top_k: TODO
+weights:
+  alpha_semantic: TODO
+  beta_sequence: TODO
+  gamma_metadata: TODO
+tuning_split: validation

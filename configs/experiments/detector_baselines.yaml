@@ -1,0 +1,7 @@
+# Planned experiment only. No run has been started.
+experiment_id: EXP-DET-001
+datasets: [hdfs, bgl]
+models: [frequency, ngram, markov, isolation_forest]
+split: chronological
+seed: TODO
+output_path: outputs/results/detectors/

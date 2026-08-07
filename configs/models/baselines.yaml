@@ -1,0 +1,8 @@
+# P0 placeholder for DET-002 and DET-003.
+models:
+  - frequency
+  - ngram
+  - markov
+  - isolation_forest
+seed: TODO
+threshold: TODO

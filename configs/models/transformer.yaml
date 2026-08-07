@@ -1,0 +1,10 @@
+# P1 placeholder for DET-005. Do not activate before P0 baselines and LSTM.
+model:
+  name: lightweight_transformer_next_event
+  status: P1
+  layers: TODO
+  heads: TODO
+  embedding_size: TODO
+training:
+  seed: TODO
+  epochs: TODO

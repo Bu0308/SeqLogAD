@@ -1,0 +1,6 @@
+# Planned experiment only. No model/API call is made by this scaffold.
+experiment_id: EXP-AGT-001
+conditions: [one_shot, agent_without_verifier, agent_with_verifier]
+max_tool_calls: TODO
+seed: TODO
+output_path: outputs/results/agent/
