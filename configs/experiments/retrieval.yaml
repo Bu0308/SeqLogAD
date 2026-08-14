@@ -1,7 +1,11 @@
-# Planned experiment only. No index has been built.
-experiment_id: EXP-RET-001
-methods: [bm25, dense, sequential, hybrid]
+# Planned Expert D/downstream retrieval placeholder. No index has been built.
+experiment_id: D0-D1
+status: NOT_RUN
+execution_owner: HUMAN
+methods_p0: [edit_distance, lcs, event_ngram_overlap, transition_overlap]
+methods_p1: [dense]
 datasets: [hdfs, bgl]
 top_k: [1, 3, 5]
-weight_tuning_split: validation
+reference_partition: BASE_TRAIN
+weight_tuning_split: VAL_EXPERT
 output_path: outputs/results/retrieval/

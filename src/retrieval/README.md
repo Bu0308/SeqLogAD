@@ -1,13 +1,7 @@
 # Retrieval
 
-Provides backend-agnostic lexical, dense, sequential and hybrid retrieval.
+Planned Expert D compares observed event sequences with normal references fitted only from `BASE_TRAIN`.
 
-Input: query sequence/text, knowledge-base records and metadata filters.
+P0 structural methods: edit distance, LCS, event n-gram overlap, and transition overlap. Expected output includes nearest-normal IDs, scores/distances, and coordinate-aware structural differences.
 
-Output: ranked `RetrievalItem` records with scores, ranks and evidence IDs.
-
-Dependencies: BM25, FAISS and embedding libraries are deferred until Phase 3.
-
-Planned files: `interfaces.py`, `bm25.py`, `dense.py`, `embeddings.py`, `sequential_similarity.py`, `hybrid.py`.
-
-Implementation status: no index has been built and no retrieval code has started.
+Dense semantic retrieval and generic BM25/hybrid knowledge retrieval are P1/downstream unless later evidence changes scope. No index or retrieval implementation exists.

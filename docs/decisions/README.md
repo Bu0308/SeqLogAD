@@ -1,3 +1,3 @@
 # Decision records
 
-Public decision context is documented alongside the relevant architecture and reproducibility documents. Detailed planning logs remain local-only.
+The active architecture decision log is version-controlled at [`../../Plan/06_DECISIONS.md`](../../Plan/06_DECISIONS.md). Historical decisions are retained and superseding V3 decisions identify their predecessors explicitly.

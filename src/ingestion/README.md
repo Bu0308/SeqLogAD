@@ -1,6 +1,6 @@
 # Ingestion
 
-Day 2 implements only the dataset acquisition boundary, not log parsing.
+This module implements the dataset acquisition/integrity boundary, not log parsing.
 
 - `dataset_config.py`: strict Pydantic contracts for per-dataset YAML.
 - `dataset_acquisition.py`: safe archive download with dry-run, timeout, temporary file and checksum gate; no extraction.
@@ -14,4 +14,4 @@ Output: presence reports, archive acquisition result, manifest or verification r
 
 Dependencies: `src/common/checksum.py`, Pydantic and PyYAML. Network is used only when the operator explicitly runs a non-dry-run download command; tests are offline.
 
-Not implemented: archive extraction, canonical event schema, Drain3, transformation, sequencing or dataset analysis.
+Not implemented here: archive extraction, canonical event schema, Drain3, transformation, sequencing, models, or dataset analysis.

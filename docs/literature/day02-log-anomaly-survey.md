@@ -1,5 +1,7 @@
 # Day 2 Reading Note — Log Anomaly Detection Survey
 
+> **HISTORICAL READING NOTE.** This artifact records the Day 2 V1/V2 reading state. Active V3 research questions and contribution status are defined in `docs/research-questions.md` and `Plan/02_RESEARCH_PLAN.md`.
+
 ## Source and reading scope
 
 Primary survey: Landauer et al., [Deep Learning for Anomaly Detection in Log Data: A Survey](https://arxiv.org/abs/2207.03820), published in *Machine Learning with Applications* (2023). Day 2 selectively reviewed the problem framing, preprocessing pipeline, anomaly concepts, sequential approaches, datasets and evaluation discussion. This is a reading note, not full LIT-001 gap validation.

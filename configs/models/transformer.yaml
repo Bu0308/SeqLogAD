@@ -1,10 +1,15 @@
-# P1 placeholder for DET-005. Do not activate before P0 baselines and LSTM.
+# V3 Expert A placeholder. Not runnable; no architecture/loss is implemented.
 model:
-  name: lightweight_transformer_next_event
-  status: P1
+  name: seqlogad_t
+  role: expert_a_contextual_sequence
+  status: PLANNED_P0
   layers: TODO
   heads: TODO
   embedding_size: TODO
 training:
+  owner: HUMAN
   seed: TODO
   epochs: TODO
+objectives:
+  variants: [A0_next, A1_next_rank, A2_next_localization, A3_combined]
+  novelty_status: UNVERIFIED

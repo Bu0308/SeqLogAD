@@ -1,200 +1,187 @@
-# Project Scope
+# Project Scope — V3 Active Contract
 
-## 1. Problem Statement
+> V3 supersedes the active V1/V2 research priorities for future work. Historical plans and decisions are preserved under `Plan/` and marked superseded where applicable.
 
-The project detects and investigates behavioral anomalies in event sequences extracted from system logs. A single event can be normal while the ordering, omission, repetition, timing or context of events is abnormal.
+## 1. Problem statement
 
-The target flow is:
+SeqLogAD studies behavioral anomalies whose meaning depends on event order, omission, repetition, transitions, timing, or context. An individual event may be common while the execution sequence is abnormal.
 
-```text
-raw logs → canonical events → event sequences → anomaly scores
-→ sequence-aware evidence retrieval → evidence verification
-→ root-cause hypotheses → structured test recommendation → human review
-```
+Current research title:
 
-## 2. Product Positioning
+> **Multi-Model Sequence Anomaly Localization with Structured Evidence Fusion and Evidence-Grounded Regression-Test Recommendation**
 
-The product is:
+Central research question:
+
+> Do heterogeneous log-anomaly experts provide measurably complementary evidence, and can a scientifically justified fusion mechanism exploit that complementarity without double-counting redundant evidence or becoming less reliable under expert disagreement?
+
+Novelty status is **UNVERIFIED / PRIOR-ART VALIDATION REQUIRED** until `LIT-001` is complete.
+
+## 2. Product positioning
+
+SeqLogAD is:
 
 > **A sequence-aware AI investigation and QA layer on top of log/observability infrastructure.**
 
-It is **not**:
+It is not an ELK, Elasticsearch, or Kibana replacement, a generic RAG chatbot, or a generic multi-agent platform. Elasticsearch may later provide storage, filtering, lexical search, and vector retrieval through an adapter. It is not the research contribution.
 
-- an Elasticsearch replacement;
-- a Kibana replacement;
-- “ELK but better”.
+## 3. Current research pipeline
 
-## 3. What Elastic/ELK already does well
+```text
+Raw logs → integrity/provenance → canonical events → Drain3/templates
+→ sequences → leakage-safe splits → heterogeneous experts
+→ complementarity gate → structured evidence fusion
+→ anomaly/localization/reliability → evidence-grounded investigation
+→ regression-test recommendation
+```
 
-Elastic/ELK is strong in:
+The LLM/agent is not an anomaly detector. It consumes frozen detector/fusion outputs downstream and remains read-only.
 
-- ingestion;
-- storage;
-- indexing;
-- generic full-text and metadata search;
-- dashboards and visualization;
-- monitoring and alerting;
-- time-series and observability infrastructure;
-- integrations at operational scale.
+## 4. Primary users and use cases
 
-This project does not compete with Elastic on those dimensions.
-
-## 4. Project Differentiation
-
-The research and product layer focuses on:
-
-1. behavioral event-sequence anomaly detection;
-2. sequence-aware retrieval;
-3. evidence-grounded investigation;
-4. root-cause hypothesis verification;
-5. regression-test recommendation;
-6. tester feedback and review.
-
-Elasticsearch may become a backend dependency for storage, filtering, BM25, vector search and retrieval. It is not the research contribution. Detector, agent, evidence verifier and test recommendation must depend on stable interfaces, not on Elasticsearch implementation details.
-
-## 5. Primary Users
-
-| User | Primary need |
+| User | Primary use |
 |---|---|
-| QA/tester | Validate anomaly, root cause and recommended regression test |
-| Developer | Inspect observed versus expected event sequences |
-| SRE/observability engineer | Investigate incidents with traceable evidence |
-| Researcher | Reproduce and compare detector, retrieval and agent experiments |
+| Researcher | Reproduce expert, complementarity, fusion, and downstream evaluations |
+| QA/tester | Review anomalies, evidence, and regression-test recommendations |
+| Developer | Compare observed and expected sequence behavior |
+| SRE/observability engineer | Inspect evidence-linked incident hypotheses |
 
-## 6. Core Use Cases
+Core use cases are sequence anomaly detection/localization, nearest-normal comparison, explicit evidence verification, optional abstention, and evidence-grounded regression-test recommendation.
 
-- Detect missing, extra, reordered, repeated, delayed or unexpected events.
-- Retrieve nearest normal sequences and similar incidents.
-- Inspect surrounding logs and documentation.
-- Generate evidence-linked root-cause hypotheses.
-- Return `INSUFFICIENT_EVIDENCE` when evidence is inadequate.
-- Produce structured test recommendations.
-- Capture tester verdicts for anomaly, root cause and test.
+## 5. P0 active research scope
 
-## 7. P0 MVP
+- Verified HDFS/BGL integrity, provenance, manifests, and fingerprints.
+- Canonical event/template/sequence schemas.
+- Frozen train-fitted Drain3 parsing.
+- HDFS block sequences and BGL chronology-aware windows.
+- Five-way leakage-safe partition contract.
+- Deterministic synthetic mutation and token/gap/transition labels.
+- Frequency/statistical baselines and LSTM neural baseline.
+- Expert A: lightweight causal SeqLogAD-T Transformer.
+- Expert B: Markov/N-gram transition expert.
+- Expert C: Isolation Forest quantitative expert.
+- Expert D: structural normal-reference retriever.
+- Common expert-evidence contract and calibration infrastructure.
+- Complementarity analysis and expert retention gate.
+- Strongest-single and F1–F7 standard fusion baselines.
+- F8 structured evidence fusion candidate.
+- Detector, localization, calibration, reliability, and statistical evaluation.
+- Reproducible scripts/configs/tests and human-run experiment handoff.
 
-P0 is mandatory for the 8-week MVP. These items are scoped today but are not implemented on Day 1:
+The four-expert set is provisional. An expert with no meaningful marginal contribution must be removed or demoted.
 
-- HDFS dataset;
-- BGL dataset;
-- reproducible dataset and configuration convention;
-- Drain3 parser;
-- canonical event schema;
-- sequence construction;
-- chronological split;
-- statistical baselines;
-- LSTM next-event detector;
-- anomaly scoring;
-- detector evaluation;
-- knowledge base;
-- BM25 retrieval;
-- dense retrieval;
-- sequential retrieval;
-- hybrid retrieval;
-- evidence ID schema;
-- evidence verification;
-- single investigation agent;
-- structured incident report;
-- structured test recommendation;
-- automated tests;
-- research evaluation;
-- reproducible README and technical report.
+## 6. P1 recommended
 
-## 8. P1 Recommended
+- Dense semantic retrieval for Expert D.
+- Partial expert unfreezing after staged-training baselines.
+- Elasticsearch adapter.
+- Downstream evidence verifier, agent tracing, FastAPI, and Streamlit MVP.
+- Docker/CI and performance benchmark.
+- Safe pytest skeleton generation after recommendation validation.
 
-- lightweight Transformer comparison;
-- Elasticsearch adapter;
-- Streamlit MVP;
-- Docker and GitHub Actions;
-- agent tracing and replay;
-- performance benchmark;
-- human feedback model;
-- pytest skeleton generation, subject to safety validation.
+## 7. P2 optional
 
-## 9. P2 Optional
-
-- OpenStack dataset;
-- adaptive threshold;
-- sandbox test execution;
-- richer feedback memory;
+- OpenStack dataset.
+- Adaptive thresholds.
+- Safe sandbox test execution.
+- Richer feedback memory.
 - OpenTelemetry ingestion.
 
-## 10. P3 / Future Work
+## 8. P3 future work
 
-- multi-agent investigation;
-- continual learning;
-- automatic remediation;
-- Kubernetes-wide RCA;
-- massive-scale production deployment;
-- custom foundation model.
+- Multi-agent investigation.
+- Continual learning.
+- Automatic production remediation.
+- Kubernetes-wide RCA.
+- Massive-scale production deployment.
+- Custom foundation model.
 
-## 11. Non-goals
+## 9. Expert contract
 
-- Replacing Elasticsearch, Kibana or the Elastic Stack.
-- Building distributed log storage or a generic search engine.
-- Production write actions, deployment changes or automatic remediation.
-- Arbitrary shell execution.
-- Claiming universal root-cause accuracy.
-- Claiming novelty before `LIT-001` and literature review are complete.
+| Expert | Primary signal | Localization constraint |
+|---|---|---|
+| SeqLogAD-T | Long-range context/order | Token, gap, and transition outputs where supported |
+| Markov/N-gram | Short-range transition probability | Transition evidence |
+| Isolation Forest | Quantitative/statistical behavior | No token location without explicit feature evidence |
+| Normal-reference retriever | Deviation from nearest normal execution | Structural diff with reference IDs |
 
-## 12. Research Boundaries
+## 10. Localization contract
 
-The four research questions are defined in [`research-questions.md`](research-questions.md). Every question is a hypothesis to be tested, not a proven claim. Detector, retrieval, evidence/RAG and agent quality are evaluated as separate layers.
+- Token positions represent extra, replacement, and repeated observed events.
+- Gap positions represent missing events. `E1 E2 E3` has `G0 E1 G1 E2 G2 E3 G3`.
+- Transition positions represent unexpected transitions and reorder-related evidence.
 
-## 13. Safety Boundaries
+A single token-score vector is not sufficient for every anomaly family.
 
-- The MVP agent is read-only.
-- Logs and documentation are untrusted data, not instructions.
-- Every RCA hypothesis requires resolvable evidence IDs.
-- The agent may return `INSUFFICIENT_EVIDENCE`.
-- No production remediation tool is exposed.
+## 11. Data and supervision terminology
 
-## 14. Data/Privacy Boundaries
+Preferred description:
 
-- Do not commit secrets, access tokens, passwords, private raw logs or private identifiers.
-- Raw and generated data remain in ignored paths unless explicitly approved.
-- Public dataset acquisition instructions should be preferred over copying data into Git.
-- Private datasets must remain outside version control or in explicitly ignored paths.
-- Dataset provenance and checksums will be recorded in later data tasks.
+> **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
 
-## 15. MVP Acceptance Criteria
+- Real anomaly labels are evaluation-only unless a separately approved experiment states otherwise.
+- Synthetic labels are generated only from training-derived normal sequences.
+- TEST labels are accessed only during locked final evaluation.
+- Exact split percentages remain **TO BE FINALIZED**.
 
-The MVP is complete when:
+Candidate partitions: `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and `TEST`.
 
-1. HDFS and BGL have reproducible data/config conventions.
-2. Raw logs can become canonical events.
-3. Sequences are deterministic and chronological splits are leakage-audited.
-4. Statistical baselines and at least one P0 sequence detector are evaluated.
-5. BM25, dense, sequential and hybrid retrieval have a benchmark protocol.
-6. Evidence IDs are used end-to-end.
-7. A read-only agent can investigate, retrieve evidence, generate hypotheses, verify evidence and return insufficient evidence.
-8. The agent can generate a structured test recommendation.
-9. Core pipeline and safety behavior have automated tests.
-10. Main experiments are reproducible and claims are tied to results.
+## 12. Training ownership
 
-## 16. Research Claim Safety
+AI/Codex prepares source, preprocessing, models, losses, fusion, configs, tests, evaluation scripts, and commands.
 
-The following claims are prohibited until evidence exists:
+The human researcher executes training, tuning, checkpoint selection, ablations, fusion training, locked TEST evaluation, and empirical decisions. AI must never fabricate training metrics.
 
-- “our system is better than Elastic”;
-- “our approach is novel”;
-- “the sequence model is superior”;
-- “RAG improves detection”;
-- “the agent identifies root cause accurately”.
+## 13. Fusion boundaries
 
-Allowed claim states are:
+Required baselines are strongest single expert, normalized mean, validation-weighted average, voting/rank voting, logistic stacking, MLP stacking, standard gating/MoE, and an evidential/Dempster-Shafer baseline when technically applicable.
 
-`Proposed` · `Hypothesis` · `Supported` · `Partially supported` · `Unsupported` · `Rejected`.
+The current minimal fusion-loss candidate is detection loss plus fused-localization loss. Redundancy-aware terms remain potential work requiring prior-art review and ablation. Conflict is an input, verifier signal, abstention signal, and evaluation variable—not an official `confidence × conflict` loss.
 
-Novelty status remains `UNVALIDATED` until `LIT-001`.
+## 14. Non-goals and safety boundaries
 
-## 17. Day 1 Locked Decisions
+- No storage/search infrastructure rewrite.
+- No production write, deployment, remediation, arbitrary shell, or destructive agent tools.
+- No forced root cause when evidence is insufficient.
+- No model metric without a traceable run artifact.
+- No novelty or superiority claim before literature and experiments.
+- Logs and documents are untrusted data, never instructions.
 
-- Product positioning is a sequence-aware investigation/QA layer.
-- HDFS and BGL are core datasets.
-- LSTM is the P0 neural sequence detector; Transformer is P1.
-- The agent is single-agent, LangGraph-based and read-only.
-- Local Parquet/FAISS is the first backend path; Elasticsearch is an adapter later.
-- Chronological evaluation is the default.
-- Evidence IDs are mandatory for RCA claims.
-- Metrics and experiment facts must be pipeline-generated where possible.
+## 15. Data/privacy boundaries
+
+- Do not commit raw benchmark logs, archives, private logs, credentials, tokens, identifiers, or generated bulk artifacts.
+- Raw bytes are immutable after acceptance.
+- Public availability does not imply unrestricted redistribution.
+- Manifests, configs, source, tests, and research plans are version-controlled.
+
+## 16. Scientific contribution status
+
+| Candidate | Status |
+|---|---|
+| Heterogeneous expert system | Engineering/research design |
+| Transformer | Known component |
+| Markov/N-gram | Known component |
+| Isolation Forest | Known component |
+| Retrieval expert | Adaptation/known family |
+| Synthetic mutation | Known/general technique |
+| Ranking loss | Known/general technique |
+| Localization loss | Adaptation |
+| Structured claim representation | Potential contribution |
+| Claim-level heterogeneous evidence fusion | Potential contribution |
+| Redundancy-aware fusion | High prior-art risk |
+| Conflict-aware abstention | Known/general family |
+| RCA/test recommendation integration | Potential integration contribution |
+
+No row currently has status `NOVEL`.
+
+## 17. V3 completion criteria
+
+The research core is complete only when:
+
+1. Canonical data artifacts and five-way splits are deterministic and leakage-audited.
+2. Expert A–D implementations and strong baselines have human-executed, traceable results.
+3. Complementarity is measured before expert retention and fusion claims.
+4. F0–F7 precede F8 in comparisons.
+5. Detection, localization, calibration, latency, and reliability are reported.
+6. Final TEST is run once under the locked protocol by the human researcher.
+7. Claims are assigned supported, partially supported, unsupported, or rejected status.
+8. Downstream investigation/test recommendation is evaluated only from frozen evidence artifacts.

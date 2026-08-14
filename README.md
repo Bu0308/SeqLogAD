@@ -2,216 +2,246 @@
 
 # SeqLogAD
 
-### Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs
+### Multi-Model Sequence Anomaly Localization for System Logs
+
+A research project studying heterogeneous sequence-anomaly experts, structured evidence fusion, and evidence-grounded regression-test recommendation for large-scale system logs.
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 ![Tests](https://img.shields.io/badge/tests-27%20passed-brightgreen)
 ![Stage](https://img.shields.io/badge/stage-data%20integrity-orange)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
-An eight-week research project exploring behavioral anomaly detection in event-log sequences, with a planned evidence-grounded investigation and QA layer.
-
 </div>
 
 > [!IMPORTANT]
-> The repository currently implements the **dataset acquisition, provenance, checksum, manifest, and verification foundation**. Parsing, sequence construction, anomaly models, retrieval, RAG, and the investigation agent are planned but not implemented yet.
+> Only the dataset integrity and provenance foundation is implemented. Canonical events, Drain3 parsing, sequences, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
 
-## Why sequence-aware anomaly detection?
+## Research direction
 
-Many operational failures are invisible to event-frequency monitoring. Every event may be common and no `ERROR` message may appear, while the execution order is still wrong.
+SeqLogAD studies:
+
+> **Multi-Model Sequence Anomaly Localization with Structured Evidence Fusion and Evidence-Grounded Regression-Test Recommendation.**
+
+Central research question:
+
+> Do heterogeneous log-anomaly experts provide measurably complementary evidence, and can a scientifically justified fusion mechanism exploit that complementarity without double-counting redundant evidence or becoming less reliable under expert disagreement?
+
+The four-expert design is provisional. An expert remains in the final fusion only if complementarity analysis demonstrates measurable incremental value.
+
+Novelty status: **UNVERIFIED / PRIOR-ART VALIDATION REQUIRED**. “Structured Evidence Consensus Fusion” is a working name, not a novelty claim.
+
+## Why sequence anomalies matter
+
+Operational failures can occur even when every individual event is common and no `ERROR` line appears:
 
 ```text
 Expected: LOGIN_REQUEST → TOKEN_VALIDATE → USER_LOOKUP → SESSION_CREATE → LOGIN_SUCCESS
 Observed: LOGIN_REQUEST →                  USER_LOOKUP → SESSION_CREATE → LOGIN_SUCCESS
 ```
 
-The anomaly is the missing validation step, not an unusual individual log line. SeqLogAD is designed to study missing, extra, reordered, repeated, unexpected-transition, timing, and contextual sequence anomalies.
+The missing validation step is a behavioral sequence anomaly. SeqLogAD targets missing, extra, reordered, repeated, unexpected-transition, timing, and contextual anomalies.
 
-## Project positioning
+Localization uses separate coordinate systems:
 
-SeqLogAD is intended to become a **sequence-aware AI investigation and QA layer on top of log and observability infrastructure**.
+- **Token positions:** extra, replacement, or repeated observed events.
+- **Gap positions:** missing events; for `E1 E2 E3`, the gaps are `G0 E1 G1 E2 G2 E3 G3`.
+- **Transition positions:** unexpected transitions and reorder-related evidence.
 
-It is not an Elasticsearch or Kibana replacement. Elasticsearch may later provide storage, filtering, lexical search, and vector retrieval; the research focus remains sequence intelligence, evidence verification, and test recommendation.
+## Product positioning
 
-## Current status
+SeqLogAD is a **sequence-aware AI investigation and QA layer on top of observability infrastructure**.
 
-| Capability | Status | What exists today |
-|---|---|---|
-| Dataset contracts | ✅ Implemented | Strict Pydantic/YAML contracts for HDFS and BGL |
-| Safe acquisition | ✅ Implemented | Dry-run, timeout, temporary `.part` file, checksum gate, no extraction |
-| File integrity | ✅ Implemented | Streaming MD5/SHA-256 helpers and source checksum validation |
-| Dataset manifests | ✅ Implemented | Deterministic JSON manifests and content-based fingerprints |
-| Manifest verification | ✅ Implemented | Required-file, size, checksum, and mutation checks |
-| Real BGL acceptance | ✅ Verified | Canonical archive and extracted bytes verified end to end |
-| Real HDFS acceptance | 🟡 Partial | Extracted bytes verified; canonical source archive re-check remains open |
-| Parsing and event templates | ⏳ Planned | Module placeholders only |
-| Sequence construction and splits | ⏳ Planned | Module placeholders only |
-| Baselines, LSTM, Transformer | ⏳ Planned | Module placeholders only |
-| Retrieval, RAG, agent, API, UI | ⏳ Planned | Module placeholders only |
+It is not an ELK, Elasticsearch, or Kibana replacement; it is not a generic RAG chatbot or generic multi-agent platform. Elasticsearch may later provide P1/P2 storage and search adapters, but it is not the research contribution.
 
-## Target architecture
+The LLM/agent is not an anomaly detector. It is a downstream, read-only consumer of frozen expert/fusion outputs and evidence IDs.
 
-```mermaid
-flowchart LR
-    A["Raw event logs"] --> B["Dataset integrity gate<br/>Implemented"]
-    B --> C["Parsing and event templates<br/>Planned"]
-    C --> D["Event sequences<br/>Planned"]
-    D --> E["Unsupervised anomaly detection<br/>Planned"]
-    E --> F["Sequence-aware retrieval<br/>Planned"]
-    F --> G["Evidence-grounded investigation<br/>Planned"]
-    G --> H["Root-cause hypotheses and QA tests<br/>Planned"]
+## Research architecture
 
-    classDef active fill:#d1fae5,stroke:#059669,color:#064e3b;
-    classDef planned fill:#f3f4f6,stroke:#9ca3af,color:#374151;
-    class B active;
-    class A,C,D,E,F,G,H planned;
+```text
+Raw System Logs
+      ↓
+Dataset Integrity / Provenance                 [IMPLEMENTED]
+      ↓
+Canonical Event Representation                 [PLANNED]
+      ↓
+Drain3 Parsing / Templates                     [PLANNED]
+      ↓
+Event Sequence Construction                    [PLANNED]
+      ↓
+Leakage-Safe Dataset Splits                    [PLANNED]
+      ↓
+┌──────────────────────────────────────────────────────────┐
+│ HETEROGENEOUS EXPERTS                          [PLANNED] │
+│ A — SeqLogAD-T lightweight causal Transformer           │
+│ B — Markov / N-gram transition expert                   │
+│ C — Isolation Forest quantitative expert                │
+│ D — normal-reference structural retrieval expert        │
+└───────────────────────────┬──────────────────────────────┘
+                            ↓
+Complementarity Analysis                       [PLANNED]
+                            ↓
+Structured Evidence Fusion                     [PLANNED]
+                            ↓
+Anomaly + Localization + Reliability           [PLANNED]
+                            ↓
+Evidence-Grounded Investigation                [PLANNED]
+                            ↓
+Regression-Test Recommendation                 [PLANNED]
 ```
+
+## Expert overview
+
+| Expert | Primary inductive bias | Expected evidence | Status |
+|---|---|---|---|
+| A — SeqLogAD-T | Long-range context and order | Missing/reordered/contextually inconsistent events | Planned |
+| B — Markov/N-gram | Short local transition probability | Rare or unexpected transitions | Planned |
+| C — Isolation Forest | Quantitative/statistical behavior | Length, frequency, repetition, entropy, rarity | Planned |
+| D — Normal-reference retrieval | Deviation from historical normal execution | Nearest-normal IDs and structural differences | Planned |
+
+Dense semantic retrieval is P1. Expert D starts with edit distance, LCS, event n-gram overlap, and transition overlap.
+
+## Complementarity and fusion gates
+
+Before proposed fusion training, the project must measure score correlation, prediction disagreement, error overlap, oracle ensemble gain, anomaly-family conditional performance, localization overlap, and marginal contribution. Redundant experts may be removed or demoted.
+
+Required fusion ladder:
+
+| ID | Baseline |
+|---|---|
+| F0 | Strongest single expert |
+| F1 | Normalized mean |
+| F2 | Validation-weighted average |
+| F3 | Voting/rank voting |
+| F4 | Logistic stacking |
+| F5 | MLP stacking |
+| F6 | Standard gating/MoE |
+| F7 | Evidential/Dempster-Shafer, if technically applicable |
+| F8 | Proposed structured fusion |
+
+The minimal fusion-loss candidate is detection loss plus fused-localization loss. A redundancy term is only potential work pending prior-art and ablation evidence. Conflict is currently an input, verifier signal, abstention signal, and evaluation variable—not the rejected `confidence × conflict` core penalty.
+
+## Current implementation status
+
+| Capability | Status | Evidence today |
+|---|---|---|
+| Dataset contracts | Implemented | Strict HDFS/BGL Pydantic/YAML contracts |
+| Safe acquisition | Implemented | Canonical source, `.part`, timeout, checksum, non-overwrite policy |
+| Checksums | Implemented | Streaming source MD5 and local SHA-256 |
+| Manifests/fingerprints | Implemented | Deterministic version-controlled JSON manifests |
+| Manifest verification | Implemented | Independent file-size/hash/fingerprint checks |
+| Canonical event schemas | Planned | Placeholder boundary only |
+| Drain3 parsing/templates | Planned | No logs parsed by the project pipeline |
+| Sequences/splits/mutations | Planned | No processed sequence artifacts |
+| Experts A–D | Planned | No model implementation, fit, training, or checkpoints |
+| Complementarity/calibration/fusion | Planned | No experiment has run |
+| Retrieval/RAG/agent/API/UI | Planned downstream | Placeholder modules only |
 
 ## Dataset provenance
 
-Raw benchmark data is intentionally excluded from Git. Version-controlled manifests identify the exact extracted bytes expected by this project.
+Raw benchmarks are excluded from Git. The manifests identify the exact extracted bytes accepted locally.
 
-| Dataset | Manifested files | Manifested bytes | Required files | Manifest | Source archive gate |
+| Dataset | Manifested files | Bytes | Source archive | Manifest | Fingerprint |
 |---|---:|---:|---|---|---|
-| HDFS_v1 | 6 | 1,828,041,800 | 2/2 present | ✅ Verified | 🟡 Archive re-check pending |
-| BGL | 1 | 743,185,031 | 1/1 present | ✅ Verified | ✅ Verified |
+| HDFS_v1 | 6 | 1,828,041,800 | Verified | Verified | `0103c63b...4013` |
+| BGL | 1 | 743,185,031 | Verified | Verified | `c9ee7a8d...e861` |
 
-<details>
-<summary>Dataset fingerprints</summary>
+Full fingerprints and source checksums are recorded in the [HDFS dataset card](docs/datasets/hdfs.md), [BGL dataset card](docs/datasets/bgl.md), and [acquisition documentation](docs/dataset-acquisition.md). Downloadability does not imply unrestricted redistribution; raw data and archives are not distributed in this repository.
 
-- **HDFS_v1:** `0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013`
-- **BGL:** `c9ee7a8db13d37c88f896e305ed12dc7a66b586cdae4e388db4949f78afbe861`
-
-</details>
-
-See the [HDFS dataset card](docs/datasets/hdfs.md), [BGL dataset card](docs/datasets/bgl.md), and [acquisition policy](docs/dataset-acquisition.md) for source checksums, expected paths, integrity status, and usage notes.
-
-## Quick start
-
-### 1. Clone and create an environment
+## Quick start: verify the implemented foundation
 
 ```bash
 git clone https://github.com/Bu0308/SeqLogAD.git
 cd SeqLogAD
-
 python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install -e ".[dev]"
-```
-
-### 2. Run the offline test suite
-
-```bash
 python3 -m pytest -q
 ```
 
-Current expected result:
-
-```text
-27 passed
-```
-
-### 3. Prepare datasets
-
-Datasets are not included in the repository. Follow [docs/dataset-acquisition.md](docs/dataset-acquisition.md) and preserve the expected layout:
-
-```text
-data/raw/hdfs/HDFS_v1/
-├── HDFS.log
-└── preprocessed/anomaly_label.csv
-
-data/raw/bgl/BGL/
-└── BGL.log
-```
-
-Preview configured download destinations without network transfer:
-
-```bash
-python3 -m scripts.download_data --dataset all --dry-run
-```
-
-### 4. Verify local bytes against the manifests
+After acquiring datasets according to [docs/dataset-acquisition.md](docs/dataset-acquisition.md):
 
 ```bash
 python3 -m scripts.verify_dataset --dataset hdfs --json
 python3 -m scripts.verify_dataset --dataset bgl --json
 ```
 
-For initial dataset registration, `scripts.build_dataset_manifest` creates the manifest only when required files are complete. It refuses to overwrite an existing manifest unless `--force` is explicitly supplied and never modifies raw files.
+No parser, model-training, fusion-training, or final-test command exists yet.
 
-## Implemented command-line tools
+## Research questions
 
-| Command | Purpose |
-|---|---|
-| `python3 -m scripts.download_data --dataset <name>` | Safely download the configured source archive without extraction |
-| `python3 -m scripts.download_data --dataset all --dry-run` | Resolve sources and destinations without network access |
-| `python3 -m scripts.build_dataset_manifest --dataset <name>` | Build a deterministic manifest from local bytes |
-| `python3 -m scripts.verify_dataset --dataset <name> --json` | Recompute and report required-file and manifest integrity |
+All questions are **HYPOTHESIS — TO BE TESTED**:
 
-Supported dataset keys are `hdfs` and `bgl`.
+1. **Expert value:** How well do individually optimized heterogeneous experts capture different behavioral anomaly mechanisms?
+2. **Complementarity:** Do heterogeneous experts exhibit measurable complementary error and localization patterns?
+3. **Fusion:** Can structured evidence fusion outperform the strongest individual expert and standard fusion baselines?
+4. **Reliability/redundancy:** Does explicit handling of expert dependency improve reliability and false-positive control without sacrificing detection performance?
+5. **Downstream value:** Does fused structured evidence improve evidence-grounded investigation and regression-test recommendation compared with score-only context?
 
-## Testing
+See [research questions](docs/research-questions.md) and [project scope](docs/project-scope.md).
 
-The active suite contains 27 network-independent tests covering:
+## Human and AI research workflow
 
-- streaming checksums for text, empty, binary, changed, and missing files;
-- strict dataset configuration and path validation;
-- `PRESENT`, `PARTIAL`, and `MISSING` dataset states;
-- safe download success, failure, interruption, checksum mismatch, and dry-run behavior;
-- deterministic manifest ordering and fingerprints;
-- manifest reload and independent verification;
-- synthetic raw-file mutation detection;
-- supported Python runtime smoke testing.
+### AI/Codex prepares
 
-Future parser/model/RAG test files are explicit placeholders and do not count as implemented coverage.
+- source code, preprocessing, models, losses, fusion, configs;
+- training/evaluation scripts and commands;
+- tests, documentation, and reproducibility checks.
+
+### Human researcher executes and decides
+
+- actual model/fusion training and hyperparameter tuning;
+- checkpoint selection and ablation experiments;
+- locked final-test execution;
+- empirical conclusions and research decisions.
+
+AI must never fabricate metrics or imply that a planned experiment ran.
+
+## Candidate data and training protocol
+
+The preferred terminology is:
+
+> **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
+
+Candidate partitions are `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and locked `TEST`. Exact percentages remain **TO BE FINALIZED**. Real anomaly labels are evaluation-only unless a future experiment explicitly documents otherwise.
+
+Training is staged: freeze data artifacts, fit experts independently, freeze experts, generate fusion-development evidence, calibrate, measure complementarity, train fusion, select thresholds/abstention, and finally execute locked TEST. Human execution is required for all empirical stages.
 
 ## Repository map
 
 ```text
-configs/datasets/     Version-controlled HDFS and BGL contracts
-data/manifests/       Real dataset identity and integrity manifests
-docs/                 Scope, research questions, acquisition, and reproducibility
-scripts/              Thin dataset acquisition and verification CLIs
-src/common/           Streaming checksum utilities
-src/ingestion/        Config, acquisition, presence, manifest, and verification logic
-tests/                Offline unit/integration tests and synthetic fixtures
+configs/          Version-controlled dataset and future experiment contracts
+data/manifests/   Exact accepted raw-dataset identities
+docs/             Active public scope, research, data, and reproducibility docs
+Plan/             Version-controlled historical and V3 research plans
+scripts/          Implemented dataset-integrity CLIs; future thin entrypoints
+src/ingestion/    Implemented dataset integrity/provenance foundation
+src/*             Planned parser, sequence, expert, fusion, and downstream boundaries
+tests/            27 active foundation tests plus explicit future placeholders
+outputs/          Ignored experiment artifacts grouped by experiment ID
 ```
 
-Other `src/` modules currently reserve planned boundaries; they are not working implementations.
+## Scientific integrity
 
-## Research direction
-
-SeqLogAD separates evaluation into four layers:
-
-1. **Detection:** statistical baselines versus sequence models under leakage-safe chronological evaluation.
-2. **Retrieval:** lexical, dense, sequential, and hybrid retrieval.
-3. **Evidence grounding:** LLM-only versus RAG versus RAG with explicit evidence verification.
-4. **Investigation and QA:** bounded tool use, supported hypotheses, and structured regression-test recommendations.
-
-All research statements remain hypotheses until supported by controlled experiments. See [research questions](docs/research-questions.md) and [project scope](docs/project-scope.md).
-
-## Engineering principles
-
+- No novelty or superiority claim precedes `LIT-001` and controlled experiments.
+- No training metric is entered as a result without a traceable run artifact.
+- Parser, expert, calibrator, fusion, threshold, and retrieval fit scopes exclude TEST.
 - Raw datasets are immutable and excluded from Git.
-- Scientific identity is content-based; filesystem modification time is excluded.
-- Configuration and manifests are version-controlled.
-- Chronological splits are the default for future detector evaluation.
-- Baselines come before complex sequence models.
-- The future investigation agent is single-agent, read-only, bounded, and evidence-linked.
-- The system may return `INSUFFICIENT_EVIDENCE`; it is never forced to invent a root cause.
-- No claim of novelty or superiority is made before literature and experimental validation.
+- Configuration, manifests, research decisions, and experiment status are version-controlled.
+- Downstream hypotheses require evidence IDs and may return `INSUFFICIENT_EVIDENCE`.
 
 ## Documentation
 
-- [Project scope](docs/project-scope.md)
-- [Research questions](docs/research-questions.md)
-- [Dataset acquisition](docs/dataset-acquisition.md)
+- [V3 master implementation plan](Plan/master-implementation-plan-v3.md)
+- [Architecture](Plan/01_ARCHITECTURE.md)
+- [Research plan](Plan/02_RESEARCH_PLAN.md)
+- [Task backlog](Plan/03_TASK_BACKLOG.md)
+- [Test plan](Plan/04_TEST_PLAN.md)
+- [Relative 8-week roadmap](Plan/05_8_WEEK_ROADMAP.md)
+- [Decision log](Plan/06_DECISIONS.md)
+- [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
 - [Reproducibility](docs/reproducibility.md)
-- [Configuration convention](docs/config-convention.md)
-- [Repository map](docs/repository-map.md)
-- [Testing strategy](docs/testing/README.md)
 
-## Data and usage notice
+## License and data notice
 
-HDFS and BGL are obtained from the canonical [LogPAI Loghub](https://github.com/logpai/loghub) / [Zenodo record 8196385](https://doi.org/10.5281/zenodo.8196385). Dataset downloadability does not grant unrestricted redistribution. Review and retain the source usage terms and citations. This repository distributes configs, manifests, documentation, and synthetic fixtures—not benchmark raw logs.
+Project source licensing has not yet been declared in this repository. HDFS and BGL come from the canonical [LogPAI Loghub](https://github.com/logpai/loghub) / [Zenodo record 8196385](https://doi.org/10.5281/zenodo.8196385). Review and retain source terms and citations; this repository contains configs, manifests, documentation, source, and synthetic fixtures—not benchmark raw logs.

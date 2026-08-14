@@ -1,11 +1,13 @@
-# P0 placeholder for DET-004.
+# V3 strong neural baseline placeholder. Not runnable; human training only.
 model:
   name: lstm_next_event
-  status: P0
+  role: neural_baseline
+  status: PLANNED
   hidden_size: TODO
   layers: TODO
   dropout: TODO
 training:
+  owner: HUMAN
   seed: TODO
   epochs: TODO
   batch_size: TODO

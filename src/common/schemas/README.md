@@ -1,5 +1,11 @@
 # Schemas
 
-Canonical records for `LogEvent`, `EventTemplate`, `EventSequence`, `AnomalyResult`, `RetrievalItem`, `Evidence`, `Incident`, `Hypothesis`, `TestRecommendation`, `Investigation` and `HumanFeedback`.
+Planned V3 canonical records:
 
-Implementation begins in DATA-002 and RAG-001.
+- `LogEvent` and `EventTemplate`;
+- `EventSequence` and five-way partition identity;
+- `MutationRecord` with token/gap/transition targets;
+- `ExpertEvidence` and structured support/contradiction claims;
+- downstream anomaly, evidence, hypothesis, incident, test, investigation, and feedback records.
+
+Unsupported localization fields must remain absent rather than fabricated. Implementation has not started.

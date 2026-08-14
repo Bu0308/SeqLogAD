@@ -1,9 +1,7 @@
 # Evaluation
 
-Owns chronological splits, leakage audits, detector/retrieval/agent metrics and replayable experiment reports.
+Planned responsibilities include five-way group-aware chronology, leakage audits, detector/localization metrics, calibration, complementarity, fusion comparisons, paired statistics, and replayable reports.
 
-Input: model outputs, retrieval judgments and investigation traces.
+Complementarity must measure score correlation, disagreement, error overlap, oracle gain, anomaly-family performance, localization overlap, and marginal contribution before proposed fusion training.
 
-Output: metrics tables, plots, latency reports and research artifacts.
-
-Implementation status: placeholder only.
+Only dataset-integrity tests currently run; no model evaluation result exists.

@@ -1,12 +1,15 @@
 # Configuration
 
-Configuration is split by concern: datasets, models, retrieval, agent and experiments. Values are placeholders until the corresponding task starts.
+Dataset YAML files are active acquisition/integrity contracts. Model, retrieval, agent, and experiment YAML files are non-runnable placeholders until their owning tasks validate schemas and commands.
 
-The cross-cutting configuration shape is documented in [`../docs/config-convention.md`](../docs/config-convention.md), with the Day 1 skeleton at `configs/default.yaml`.
+V3 requires explicit five-way split scope, expert identity, calibration/fusion input artifacts, seed, dataset fingerprint, and human-run ownership. Exact split ratios remain **TO BE FINALIZED**.
 
 Rules:
 
-- No secrets in YAML.
-- Every run records the selected config path.
-- Train-only fitting and chronological split behavior must be explicit.
-- P0 configurations are implemented before P1/P2 configurations are activated.
+- no secrets or private absolute paths;
+- no TEST fitting/tuning;
+- all overrides and selected artifacts are traceable;
+- structural Expert D is P0; dense retrieval is P1;
+- no future dependency is activated merely because a placeholder exists.
+
+See [`../docs/config-convention.md`](../docs/config-convention.md).

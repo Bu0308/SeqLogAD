@@ -1,3 +1,5 @@
 # Experiment documentation
 
-Reserved for dataset cards, run reports, result tables and failure analysis. The tracker at the repository root is the index.
+This directory will contain human-executed run reports, result tables, paired statistics, failures, negative results, and threats-to-validity notes. Planned IDs and status live in [`../../Plan/07_EXPERIMENT_TRACKER.md`](../../Plan/07_EXPERIMENT_TRACKER.md).
+
+No model experiment has run. Empty metric fields mean `NOT_RUN`, not zero. Final TEST execution is human-owned.

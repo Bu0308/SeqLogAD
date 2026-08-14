@@ -1,44 +1,33 @@
 # Toolchain Checklist
 
-Checked on **2026-08-07**. No private hostnames, usernames, serial numbers, credentials or full private machine paths are recorded.
+Last documentation audit: **2026-08-14**. No private hostnames, usernames, serial numbers, credentials, or absolute home paths are recorded here.
 
-## Development environment
+## Current development environment
 
-| Tool | Status | Version/details | Day 1 impact |
+| Tool | Status | Version/details | Impact |
 |---|---|---|---|
-| Operating system | AVAILABLE | macOS/Darwin environment | Non-blocking |
-| Python | AVAILABLE | 3.12.6 | Compatible with current `>=3.11` policy |
-| pip | AVAILABLE | 26.0.1 | Non-blocking |
-| Git executable | AVAILABLE | 2.48.1 | Non-blocking |
-| Git repository metadata | MISSING | Current folder has no `.git` directory | Non-blocking Day 1; reproducibility limitation |
-| pytest module | AVAILABLE | 9.0.3 via `python3 -m pytest` | Non-blocking |
-| pytest executable | MISSING | `pytest` is not on PATH | Non-blocking; use `python3 -m pytest` or activate project environment |
-| pytest-cov module | MISSING | Optional coverage plugin is not installed | Non-blocking Day 1; needed before coverage reporting |
-| Docker | AVAILABLE | 28.1.1 | Non-blocking check passed |
-| Docker Compose | AVAILABLE | v2.35.1-desktop.1 | Non-blocking check passed |
+| Operating system | AVAILABLE | macOS/Darwin | Non-blocking |
+| Python | AVAILABLE | 3.12.6 | Within current `>=3.11` policy |
+| Git | AVAILABLE | Repository initialized; branch `main` | Required before experiments |
+| pytest | AVAILABLE | 27 foundation tests pass through `python3 -m pytest` | Foundation suite operational |
+| Drain3 import | MISSING | Declared in `pyproject.toml`, absent from current interpreter | Blocks parsing, not documentation |
+| Docker | AVAILABLE at Day 1 check | Not reconfigured by V3 docs task | P1, non-blocking |
+| Docker Compose | AVAILABLE at Day 1 check | Not reconfigured by V3 docs task | P1, non-blocking |
 
-## Python policy
+## Known environment-contract issues
 
-The repository currently requires Python `>=3.11`. Recommended development range is Python 3.11–3.12 for the planned PyTorch, Polars, PyArrow, Drain3, LangGraph and FastAPI stack. The current Python 3.12.6 installation is retained; no upgrade or downgrade is performed on Day 1.
+1. `pyproject.toml` declares `pyarrow>=17,<20`; the currently observed environment has PyArrow 23.x. Compatibility has not been established, so the bound is not changed by documentation work.
+2. Setuptools discovers packages below `src/`, while current runtime imports use the `src.*` namespace. Editable-install/import behavior must be tested and resolved before adding V3 implementation modules.
+3. Drain3 is declared in `pyproject.toml` but is not importable in the current interpreter. Install/lock it only in the dedicated environment task before parsing.
+4. PyTorch, scikit-learn, FAISS, calibration, and downstream framework dependencies must be introduced only when their implementation task begins.
+5. `python3 -m pip check` reports existing global-environment conflicts: Streamlit expects `protobuf<5` while 7.35.1 is installed, and OpenCV expects NumPy 2.x while 1.26.4 is installed. These packages are not used by the current foundation, but a clean project environment is required before future phases.
+6. A reproducible package lock/environment snapshot is still missing.
 
-## Dependency policy
+## Current blocking classification
 
-No future-stack dependency was installed or added today. `pyproject.toml` contains only the existing Phase 1 foundation and development test metadata. PyTorch, FAISS, LangGraph, Streamlit, FastAPI and Elasticsearch clients remain deferred until their tasks require them.
+- **Documentation/Git review:** no toolchain blocker.
+- **Canonical-event implementation:** packaging/import contract must be resolved first.
+- **Parsing:** Drain3 availability and parser-state persistence must be verified.
+- **Model experiments:** dependency lock, five-way split, configs, and human-run protocol are required.
 
-## Blocking issues
-
-- None for Day 1 scope/config/documentation work.
-
-## Non-blocking issues
-
-- `pytest` executable is unavailable on PATH, although `python3 -m pytest` works.
-- `pytest-cov` is not installed in the current Python environment.
-- Current directory is not a Git repository.
-- Dataset and future ML dependencies are intentionally not installed.
-
-## Recommended actions for Day 2+
-
-1. Create or select the project virtual environment.
-2. Install the minimal project/dev dependencies in that environment.
-3. Make the repository a Git repository before reproducibility experiments begin.
-4. Keep Docker available for later optional integration checks.
+No dependency was installed or version bound changed during the V3 documentation task.

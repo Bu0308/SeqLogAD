@@ -1,77 +1,73 @@
-# Configuration Convention
+# Configuration Convention — V3
 
-## Canonical configuration shape
+Config files are version-controlled contracts. Current model/experiment YAML files are non-runnable placeholders until their implementation tasks validate them.
 
-The initial convention is represented by [`../configs/default.yaml`](../configs/default.yaml). Specialized configs live under `configs/datasets/`, `configs/models/`, `configs/retrieval/`, `configs/agent/` and `configs/experiments/`.
-
-The logical sections are:
+## Logical shape
 
 ```yaml
 project:
-  name: ...
-  experiment_id: ...
-  seed: ...
+  name: seqlogad
+  experiment_id: EXP-YYYYMMDD-NNN
+  seed: 42
 
 dataset:
-  name: ...
-  version: ...
-  raw_path: ...
-  processed_path: ...
+  name: TODO
+  version: TODO
+  fingerprint: TODO
+  raw_path: TODO
+  processed_path: TODO
 
 parsing:
-  parser: ...
-  config_path: ...
+  parser: drain3
+  fit_partition: BASE_TRAIN
+  state_artifact: TODO
 
 sequence:
-  strategy: ...
-  window_size: ...
-  grouping_key: ...
+  strategy: TODO
+  grouping_key: TODO
+  window_size: TODO
 
 split:
-  strategy: chronological
-  train: ...
-  validation: ...
-  test: ...
+  strategy: group_aware_chronological
+  base_train: TODO
+  fusion_train: TODO
+  val_expert: TODO
+  val_fusion: TODO
+  test: TODO
 
-model:
-  type: ...
-  config: ...
+experts:
+  enabled: [transformer, markov, isolation_forest, normal_reference]
+  configs: TODO
 
-scoring:
-  aggregation: ...
-  threshold_strategy: ...
+calibration:
+  fit_partition: VAL_FUSION
+  method: TODO
 
-retrieval:
-  backend: ...
-  top_k: ...
-
-agent:
-  enabled: ...
-  max_tool_calls: ...
-  max_rounds: ...
+fusion:
+  enabled: false
+  method: TODO
+  input_artifact: TODO
 
 output:
-  root: ...
-  run_dir: ...
-
-logging:
-  level: ...
+  root: outputs
+  run_dir: outputs/runs/EXP-YYYYMMDD-NNN
 ```
+
+Exact split percentages remain **TO BE FINALIZED** and must be locked before preprocessing. A placeholder config cannot be used for a run.
 
 ## Rules
 
-1. Config files are version-controlled.
-2. Dataset paths, model parameters, thresholds, seeds and output paths are not hard-coded in implementation code.
-3. Every experiment references an explicit config path.
-4. The selected configuration must be copied into the experiment run directory later.
-5. Secrets and API keys never enter committed YAML; use environment variables or a secret store.
-6. Config overrides must be visible in the run metadata.
-7. Config validation is planned for REPRO-001 follow-up work, not implemented on Day 1.
-8. Train-only fitting, chronological splitting and validation-only tuning must be explicit.
-9. Placeholder values are allowed in skeleton configs but cannot be used for a real run.
+1. Do not hard-code paths, parameters, thresholds, seeds, partitions, or output directories in implementation code.
+2. Every run stores the selected config path, resolved snapshot, overrides, Git state, dataset fingerprint, and artifact IDs.
+3. Secrets/API keys never enter committed YAML.
+4. Parser/expert/reference/calibration/fusion/threshold fit scopes are explicit.
+5. TEST never participates in fitting, tuning, checkpoint selection, or config selection.
+6. Failed and multi-seed runs receive distinct non-overwriting experiment IDs.
+7. Human execution is required for training, tuning, fusion training, and final TEST.
+8. Config validation and package compatibility must pass before a config loses placeholder status.
 
-## Priority convention
+## Priority
 
-- P0 configs are required for the core pipeline.
-- P1 configs are available as documented placeholders but do not block the local path.
-- P2/P3 configs are not activated by default.
+- P0: structural normal-reference retrieval and core experts/fusion controls.
+- P1: dense retrieval, partial unfreezing, Elasticsearch, API/UI, downstream polish.
+- P2/P3: disabled unless an explicit scope decision activates them.

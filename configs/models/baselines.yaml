@@ -1,8 +1,13 @@
-# P0 placeholder for DET-002 and DET-003.
+# V3 baseline/expert placeholder. Not runnable; no estimator has been fitted.
 models:
   - frequency
   - ngram
   - markov
   - isolation_forest
+  - lstm
+roles:
+  markov: expert_b_transition
+  isolation_forest: expert_c_quantitative
+  lstm: neural_baseline
 seed: TODO
 threshold: TODO

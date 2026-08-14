@@ -1,15 +1,7 @@
 # Agent
 
-Contains the bounded, single-agent investigation workflow.
+Planned downstream read-only investigation workflow. The agent is not an anomaly detector and consumes only frozen, versioned expert/fusion evidence.
 
-Input: anomaly IDs and service-layer tool contracts.
+It may retrieve evidence, compare observed/expected sequences, propose and verify hypotheses, return `INSUFFICIENT_EVIDENCE`, and recommend regression tests. It has no shell, production write, remediation, training, or model-update tool.
 
-Output: investigation traces, verified hypotheses, test recommendations and incident reports.
-
-Dependencies: LangGraph and a model provider are deferred until AGT-001/AGT-002.
-
-Planned files: `state.py`, `graph.py`, `tracing.py` and read-only tools.
-
-Safety boundary: no shell, production write or automatic remediation tool.
-
-Implementation status: placeholder only; no model calls are made.
+LangGraph/provider dependencies and implementation remain deferred until the scientific core produces stable artifacts.

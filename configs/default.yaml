@@ -1,18 +1,20 @@
-# Day 1 configuration convention skeleton. Not a runnable experiment config.
+# V3 configuration convention skeleton. Not a runnable experiment config.
 project:
-  name: sequence-aware-log-investigation
+  name: seqlogad
   experiment_id: EXP-YYYYMMDD-NNN
   seed: 42
 
 dataset:
   name: TODO
   version: TODO
+  fingerprint: TODO
   raw_path: TODO
   processed_path: TODO
 
 parsing:
   parser: drain3
-  config_path: TODO
+  fit_partition: BASE_TRAIN
+  state_artifact: TODO
 
 sequence:
   strategy: TODO
@@ -20,14 +22,20 @@ sequence:
   grouping_key: TODO
 
 split:
-  strategy: chronological
-  train: TODO
-  validation: TODO
+  strategy: group_aware_chronological
+  base_train: TODO
+  fusion_train: TODO
+  val_expert: TODO
+  val_fusion: TODO
   test: TODO
 
-model:
-  type: TODO
-  config: TODO
+experts:
+  enabled:
+    - transformer
+    - markov
+    - isolation_forest
+    - normal_reference
+  configs: TODO
 
 scoring:
   aggregation: TODO
@@ -36,9 +44,20 @@ scoring:
 retrieval:
   backend: local
   top_k: TODO
+  dense_enabled: false
+
+calibration:
+  method: TODO
+  fit_partition: VAL_FUSION
+
+fusion:
+  enabled: false
+  method: TODO
+  input_artifact: TODO
 
 agent:
   enabled: false
+  role: downstream_only
   max_tool_calls: TODO
   max_rounds: TODO
 

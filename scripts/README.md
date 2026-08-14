@@ -1,6 +1,6 @@
 # Scripts
 
-Day 2 command wrappers:
+Implemented dataset-integrity command wrappers:
 
 - `python3 -m scripts.download_data --dataset hdfs --dry-run`: resolve and display archive destination without network access.
 - `python3 -m scripts.verify_dataset --dataset hdfs`: report required-file presence and verify an existing manifest.

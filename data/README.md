@@ -1,47 +1,46 @@
 # Dataset Policy
 
-This directory separates immutable source bytes from every derived artifact. HDFS and BGL are the P0 benchmark datasets, but neither dataset is stored in this repository or present locally as of Day 2.
+This directory separates immutable source bytes from every derived artifact. HDFS and BGL are present locally for the current researcher, verified against version-controlled manifests, and intentionally excluded from Git.
 
 ## Directory layout
 
-| Path | Purpose | Git policy |
-|---|---|---|
-| `raw/hdfs/` | Locally acquired HDFS source files | Contents ignored; `.gitkeep` only |
-| `raw/bgl/` | Locally acquired BGL source files | Contents ignored; `.gitkeep` only |
-| `manifests/` | Versioned JSON identity and integrity records | Committed after real bytes are verified |
-| `parsed/` | Future canonical events and templates | Generated data ignored |
-| `processed/` | Future sequences, splits and features | Generated data ignored |
-| `knowledge_base/` | Future normal sequences, incidents, docs and tests | Generated data ignored |
+| Path | Purpose | Git policy | Current status |
+|---|---|---|---|
+| `raw/hdfs/` | Local HDFS source files | Contents ignored | Present and verified locally |
+| `raw/bgl/` | Local BGL source files | Contents ignored | Present and verified locally |
+| `manifests/` | Versioned JSON identity/integrity records | Tracked | HDFS/BGL verified manifests |
+| `parsed/` | Future canonical events/templates | Generated contents ignored | Not generated |
+| `processed/` | Future sequences/splits/features/evidence | Generated contents ignored | Not generated |
+| `knowledge_base/` | Future downstream evidence corpus | Generated contents ignored | Not generated |
 
 ## Raw-data immutability
 
-After an archive or extracted raw file passes verification, it is read-only input. Code must not normalize, rewrite, rename or silently replace it. Corrections produce a separately identified dataset snapshot and manifest. A `.part` file is never considered dataset content.
+Accepted raw files are read-only scientific inputs. Parsing must write to `parsed/`; sequence, split, mutation, and feature pipelines must write to `processed/` or experiment-specific outputs. Never normalize, rewrite, rename, or corrupt the accepted raw tree.
 
-## Acquisition
+## Integrity and identity
 
-Version-controlled contracts are in `configs/datasets/hdfs.yaml` and `configs/datasets/bgl.yaml`. The safe downloader stores the configured archive only; it never extracts or transforms it. See `docs/dataset-acquisition.md` for verified sources and the manual fallback.
+- Source-published MD5 validates canonical archive transfer.
+- Streaming SHA-256 identifies each extracted scientific file.
+- Dataset fingerprints hash sorted `relative_path:file_sha256` entries.
+- Modification times and machine-specific absolute paths are excluded.
+- HDFS and BGL manifests live in `data/manifests/` and are version-controlled.
 
-## Manifest, checksums and identity
+Recheck local data without mutation:
 
-Each raw file is recorded with repository-relative path, byte size, SHA-256, role, extension, compression and encoding status. The dataset fingerprint is SHA-256 over the sorted `relative_path:file_sha256` list. Modification time is excluded because it can change without a content change. Source-published MD5 values are used only to validate downloaded archives; scientific identity uses SHA-256.
+```bash
+python3 -m scripts.verify_dataset --dataset hdfs --json
+python3 -m scripts.verify_dataset --dataset bgl --json
+```
 
-`schema_version` describes the manifest format. `dataset_version` identifies the source snapshot. They are independent and must not be conflated.
+## Split and label safety for future work
 
-## Git, licensing and privacy
+- Assign chronological/group partitions before overlapping window creation.
+- Fit parser, experts, normal-reference index, calibrators, fusion, and thresholds without TEST.
+- Real HDFS/BGL anomaly labels are evaluation-only unless an approved experiment explicitly states otherwise.
+- Synthetic localization/fusion labels come only from training-derived mutations.
 
-- Do not commit benchmark archives, raw logs, private logs or derived bulk data.
-- Do not commit passwords, tokens, personal identifiers or proprietary host/service details.
-- Loghub provides custom research/academic usage terms, not an assumed SPDX license. Review the source terms before redistribution and retain the required notice/citations with any dataset copy.
-- Prefer acquisition instructions and checksums over copying public benchmark data into Git.
+## Git, licensing, and privacy
 
-## Reproducing a dataset state
-
-1. Review `docs/dataset-acquisition.md` and the relevant dataset card.
-2. Dry-run the configured acquisition command.
-3. Acquire the archive from the configured source and verify its published source checksum.
-4. Extract manually without overwriting existing files and preserve the source notice.
-5. Confirm required file presence.
-6. Build a manifest and commit the manifest, config and documentation—not the raw bytes.
-7. Re-run manifest verification before parsing or experiments.
-
-Future parsing and sequence tasks may read `raw/`, but must write only to `parsed/`, `processed/` or experiment-specific output directories.
+- Never commit archives, raw logs, private logs, generated bulk data, credentials, or identifiers.
+- Public availability is not redistribution permission; retain Loghub terms and citations.
+- Commit configs, manifests, source, tests, documentation, and research plans.

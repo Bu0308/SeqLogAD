@@ -1,6 +1,9 @@
-# Planned experiment only. No model/API call is made by this scaffold.
-experiment_id: EXP-AGT-001
-conditions: [one_shot, agent_without_verifier, agent_with_verifier]
+# Planned downstream RQ5 placeholder. No model/API call is made.
+experiment_id: DS0-DS3
+status: NOT_RUN
+execution_owner: HUMAN
+conditions: [score_only, strongest_expert_evidence, fused_structured_evidence]
+input_artifact: TODO_FROZEN_EVIDENCE
 max_tool_calls: TODO
 seed: TODO
 output_path: outputs/results/agent/

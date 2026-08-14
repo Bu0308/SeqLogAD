@@ -1,13 +1,9 @@
 # Sequences
 
-Builds event sequences using session/block, sliding-window or time-window strategies.
+Planned dataset-specific sequence construction:
 
-Input: canonical parsed events.
+- HDFS block/session grouping with group-aware chronology;
+- BGL chronology-aware windows created only inside partitions;
+- deterministic mutation records for missing, extra, reorder, and repeat cases.
 
-Output: `EventSequence` records with ordering, boundaries, labels and split metadata.
-
-Dependencies: Polars, PyArrow and common schemas.
-
-Planned files: `base.py`, `strategies.py`.
-
-Implementation status: placeholder only; no sequence data exists.
+Localization uses separate token, gap, and transition coordinates. Inputs are canonical parsed events; outputs carry partition and source-artifact provenance. No sequence data has been generated.

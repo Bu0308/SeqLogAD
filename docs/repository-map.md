@@ -1,47 +1,58 @@
-# Repository Map
+# Repository Map — V3
 
-This document describes the repository after Day 2 dataset acquisition foundations. All later pipeline work remains deferred.
+This map distinguishes the implemented dataset-integrity foundation from planned V3 research modules.
 
 ## Top-level areas
 
 | Path | Responsibility | Current status |
 |---|---|---|
-| `configs/` | Version-controlled dataset, model, retrieval, agent and experiment configuration | HDFS/BGL acquisition contracts; later configs remain placeholders |
-| `data/` | Raw, manifest, parsed, processed and knowledge-base stages | Raw directories empty; no dataset downloaded; manifest policy documented |
-| `docs/` | Architecture, research, experiment, testing and Day 1 conventions | Active documentation |
-| `notebooks/` | Exploration and result visualization only | README only |
-| `src/` | Reusable production modules | Day 2 checksum/acquisition/manifest tooling only |
-| `tests/` | Unit, integration, API, agent, security and performance tests | Day 1 smoke test, Day 2 offline tests and later placeholders |
-| `scripts/` | Thin orchestration entry points | Day 2 download, manifest-build and verification commands |
-| `outputs/` | Experiment-specific checkpoints, indexes, results, reports, traces and run metadata | README only |
-| `docker/` | Container/deployment documentation | README only |
-| `.github/workflows/` | Future CI workflows | README only |
+| `configs/` | Version-controlled dataset and future experiment contracts | Dataset configs active; model/experiment configs are non-runnable placeholders |
+| `data/raw/` | Immutable local HDFS/BGL bytes | Present locally; contents ignored by Git |
+| `data/manifests/` | Exact accepted raw-file identities | HDFS and BGL manifests implemented and verified |
+| `data/parsed/` | Future canonical events/templates | Planned; generated contents ignored |
+| `data/processed/` | Future sequences/splits/features/evidence | Planned; generated contents ignored |
+| `docs/` | Active public scope, research, dataset, and reproducibility contracts | Active V3 documentation |
+| `Plan/` | Version-controlled historical and V3 planning/decision records | V3 synchronization active; older master preserved |
+| `src/` | Reusable implementation modules | Ingestion integrity implemented; other areas placeholders |
+| `scripts/` | Thin command entrypoints | Dataset acquisition/manifest/verification implemented |
+| `tests/` | Offline unit/integration/security/performance contracts | 27 active foundation tests; future tests are placeholders |
+| `outputs/` | Experiment-specific artifacts | Generated contents ignored |
+| `docker/` | Future container setup | Documentation placeholder |
+| `.github/workflows/` | Future CI | Documentation placeholder only |
 
-## Source modules
+## V3 module responsibilities
 
-| Module | Responsibility | First relevant task |
+| Module | V3 responsibility | Status |
 |---|---|---|
-| `src/ingestion/` | Dataset acquisition, presence, manifest and future source adapters | DATA-001 active |
-| `src/parsing/` | Drain3 and BGL canonical parsing | PARSE-001/002 |
-| `src/sequences/` | Session, block, sliding and time-window construction | SEQ-001 |
-| `src/models/` | Statistical, Isolation Forest, LSTM and optional Transformer detectors | DET-002–005 |
-| `src/scoring/` | Event-to-sequence aggregation and thresholds | DET-001 |
-| `src/retrieval/` | BM25, dense, sequential and hybrid retrieval | RETR-001–006 |
-| `src/rag/` | Knowledge base, evidence, hypotheses and verifier | KB-001, RAG-001/002 |
-| `src/agent/` | Bounded single-agent workflow, tools and traces | AGT-001/002 |
-| `src/evaluation/` | Splits, leakage audits and benchmark evaluation | SEQ-002, EVAL-001 |
-| `src/api/` | Future FastAPI thin layer | API-001 |
-| `src/common/` | Shared checksum now; canonical schemas later | DATA-001 active, DATA-002 next |
-| `src/storage/` | Backend-independent storage boundary | RETR-001, ELK-001 |
-| `src/testing/` | Structured test recommendation and optional skeleton validation | TEST-001/002 |
-| `src/feedback/` | Future human-review persistence | FEED-001 |
-| `src/ui/` | Future Streamlit views | UI-001 |
+| `src/ingestion/` | Dataset contracts, acquisition, checksums, manifests, verification | Implemented |
+| `src/common/schemas/` | Canonical events, sequences, mutations, ExpertEvidence, claims | Planned |
+| `src/parsing/` | Frozen train-fitted Drain3 and dataset adapters | Planned |
+| `src/sequences/` | HDFS block/BGL windows and token/gap/transition mutation labels | Planned |
+| `src/models/` | Statistical/LSTM baselines and experts A–C | Planned |
+| `src/retrieval/` | Expert D structural normal-reference retrieval; dense P1 | Planned |
+| `src/scoring/` | Aggregation, thresholds, calibration, masks | Planned |
+| `src/evaluation/` | Five-way split, leakage audit, expert/complementarity/fusion metrics | Planned |
+| `src/rag/` | Downstream evidence schemas and verifier | Planned downstream |
+| `src/agent/` | Read-only consumer of frozen evidence artifacts | Planned downstream |
+| `src/testing/` | Structured regression-test recommendation | Planned downstream |
+| `src/storage/` | Backend-independent local/Elasticsearch boundary | Planned |
+| `src/api/`, `src/ui/` | Thin future delivery surfaces | Planned P1 |
 
-## Deliberate differences from the reference map
+## Active execution flow
 
-- Dataset configs use `configs/datasets/hdfs.yaml` and `configs/datasets/bgl.yaml`, not one combined file.
-- Real manifests live under `data/manifests/`; tiny synthetic bytes under `tests/fixtures/datasets/` are test data, not HDFS/BGL samples.
-- Model configs are grouped under `configs/models/`.
-- `src/storage/` exists because the architecture requires a backend boundary before Elasticsearch integration.
-- No `data/evaluation/`, `src/common/config/`, `src/common/logging/` or implementation-only directories were added because they are not needed for Day 1.
-- Detailed planning artifacts remain local-only; public operational contracts live under `docs/`.
+Today the only implemented flow is:
+
+```text
+dataset YAML → path/config validation → acquisition/checksum policy
+→ required-file validation → manifest build/reload → integrity verification
+```
+
+The V3 scientific path from canonical event onward is planned, not implemented.
+
+## Architecture boundaries
+
+- Experts and fusion do not depend on FastAPI, Streamlit, Elasticsearch, or an LLM provider.
+- Expert D uses only `BASE_TRAIN` normal references.
+- Agent/RAG cannot fit or alter detectors and cannot perform production writes.
+- All future commands remain thin wrappers over tested `src/` logic.
+- The existing `src.*` import/package convention requires a packaging review before implementation expansion.
