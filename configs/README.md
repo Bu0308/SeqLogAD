@@ -2,7 +2,7 @@
 
 Dataset YAML files are active acquisition/integrity contracts. Model, retrieval, agent, and experiment YAML files are non-runnable placeholders until their owning tasks validate schemas and commands.
 
-V3 requires explicit five-way split scope, expert identity, calibration/fusion input artifacts, seed, dataset fingerprint, and human-run ownership. Exact split ratios remain **TO BE FINALIZED**.
+V3 requires explicit five-way split scope, expert identity, calibration/fusion input artifacts, seed, dataset fingerprint, and human-run ownership. `protocols/protocol-v1.yaml` freezes the chronological `60/10/10/10/10` scientific protocol; it is not a runnable experiment config.
 
 Rules:
 

@@ -9,7 +9,7 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 
-from src.ingestion.errors import DatasetConfigError
+from seqlogad.ingestion.errors import DatasetConfigError
 
 
 FileRole = Literal["log", "label", "metadata", "archive"]

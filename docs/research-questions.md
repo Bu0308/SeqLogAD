@@ -2,6 +2,8 @@
 
 All questions and hypotheses below are **HYPOTHESIS — TO BE TESTED**. No experimental conclusion or novelty claim is implied.
 
+All RQs use the same frozen data-access, split, leakage, fitting, and evaluation contract in [`research-protocol.md`](research-protocol.md). PR-AUC is the primary real-anomaly detection metric; synthetic localization and real-anomaly evaluation remain separate.
+
 ## RQ1 — Expert value
 
 **Question:** How well do individually optimized heterogeneous experts capture different behavioral anomaly mechanisms?

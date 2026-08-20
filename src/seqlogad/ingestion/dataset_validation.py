@@ -7,7 +7,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict
 
-from src.ingestion.dataset_config import DatasetDefinition, resolve_repository_path
+from seqlogad.ingestion.dataset_config import DatasetDefinition, resolve_repository_path
 
 
 class DatasetPresenceStatus(str, Enum):

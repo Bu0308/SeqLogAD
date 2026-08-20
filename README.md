@@ -6,8 +6,8 @@
 
 A research project studying heterogeneous sequence-anomaly experts, structured evidence fusion, and evidence-grounded regression-test recommendation for large-scale system logs.
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Tests](https://img.shields.io/badge/tests-27%20passed-brightgreen)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+![Tests](https://img.shields.io/badge/tests-31%20passed-brightgreen)
 ![Stage](https://img.shields.io/badge/stage-data%20integrity-orange)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
@@ -129,6 +129,8 @@ The minimal fusion-loss candidate is detection loss plus fused-localization loss
 | Checksums | Implemented | Streaming source MD5 and local SHA-256 |
 | Manifests/fingerprints | Implemented | Deterministic version-controlled JSON manifests |
 | Manifest verification | Implemented | Independent file-size/hash/fingerprint checks |
+| Reproducible Python environment | Implemented | Python 3.12, editable `seqlogad` package, tested dependency lock |
+| Scientific protocol | Frozen | Human-approved `PROTOCOL-001` plus machine-readable regression guard |
 | Canonical event schemas | Planned | Placeholder boundary only |
 | Drain3 parsing/templates | Planned | No logs parsed by the project pipeline |
 | Sequences/splits/mutations | Planned | No processed sequence artifacts |
@@ -154,17 +156,19 @@ git clone https://github.com/Bu0308/SeqLogAD.git
 cd SeqLogAD
 python3 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -e ".[dev]"
-python3 -m pytest -q
+python -m pip install -c requirements.lock -e ".[dev]"
+python -m pip check
+python -m pytest -q
 ```
 
 After acquiring datasets according to [docs/dataset-acquisition.md](docs/dataset-acquisition.md):
 
 ```bash
-python3 -m scripts.verify_dataset --dataset hdfs --json
-python3 -m scripts.verify_dataset --dataset bgl --json
+seqlogad-verify-dataset --project-root . --dataset hdfs --json
+seqlogad-verify-dataset --project-root . --dataset bgl --json
 ```
+
+The canonical import namespace is `seqlogad.*`; imports do not require `PYTHONPATH` or execution from the repository root. The repository-local `scripts.*` wrappers remain available for compatibility.
 
 No parser, model-training, fusion-training, or final-test command exists yet.
 
@@ -197,13 +201,15 @@ See [research questions](docs/research-questions.md) and [project scope](docs/pr
 
 AI must never fabricate metrics or imply that a planned experiment ran.
 
-## Candidate data and training protocol
+## Frozen data and training protocol
 
 The preferred terminology is:
 
 > **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
 
-Candidate partitions are `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and locked `TEST`. Exact percentages remain **TO BE FINALIZED**. Real anomaly labels are evaluation-only unless a future experiment explicitly documents otherwise.
+The human-approved split is chronological `60/10/10/10/10` across `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and locked `TEST`. Labels may filter authorized normal pools and support validation, but they never enter model inputs or base self-supervised losses. TEST labels remain sealed until one human-executed final command.
+
+HDFS preserves block/session atomicity and purges boundary-spanning components. BGL uses non-overlapping 100-event parent windows. Drain3 is fitted on normal `BASE_TRAIN` messages and then frozen. The complete source-of-truth contract is [PROTOCOL-001](docs/research-protocol.md); its literature and method provenance are recorded in the [task citation note](docs/references/PROTOCOL-001-citations.md).
 
 Training is staged: freeze data artifacts, fit experts independently, freeze experts, generate fusion-development evidence, calibrate, measure complementarity, train fusion, select thresholds/abstention, and finally execute locked TEST. Human execution is required for all empirical stages.
 
@@ -214,10 +220,10 @@ configs/          Version-controlled dataset and future experiment contracts
 data/manifests/   Exact accepted raw-dataset identities
 docs/             Active public scope, research, data, and reproducibility docs
 Plan/             Version-controlled historical and V3 research plans
-scripts/          Implemented dataset-integrity CLIs; future thin entrypoints
-src/ingestion/    Implemented dataset integrity/provenance foundation
-src/*             Planned parser, sequence, expert, fusion, and downstream boundaries
-tests/            27 active foundation tests plus explicit future placeholders
+scripts/                  Compatibility wrappers for installed CLIs
+src/seqlogad/ingestion/   Implemented dataset integrity/provenance foundation
+src/seqlogad/*            Canonical package namespace and planned module boundaries
+tests/                    31 active foundation/environment/protocol tests plus future placeholders
 outputs/          Ignored experiment artifacts grouped by experiment ID
 ```
 
@@ -241,6 +247,8 @@ outputs/          Ignored experiment artifacts grouped by experiment ID
 - [Decision log](Plan/06_DECISIONS.md)
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
 - [Reproducibility](docs/reproducibility.md)
+- [Frozen scientific protocol](docs/research-protocol.md)
+- [PROTOCOL-001 citations and method provenance](docs/references/PROTOCOL-001-citations.md)
 
 ## License and data notice
 

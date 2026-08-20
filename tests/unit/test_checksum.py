@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from src.common.checksum import sha256_file
+from seqlogad.common.checksum import sha256_file
 
 
 def test_known_small_file(tmp_path: Path) -> None:

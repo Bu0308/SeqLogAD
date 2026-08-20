@@ -28,12 +28,12 @@ sequence:
   window_size: TODO
 
 split:
-  strategy: group_aware_chronological
-  base_train: TODO
-  fusion_train: TODO
-  val_expert: TODO
-  val_fusion: TODO
-  test: TODO
+  strategy: raw_chronological
+  base_train: 0.60
+  fusion_train: 0.10
+  val_expert: 0.10
+  val_fusion: 0.10
+  test: 0.10
 
 experts:
   enabled: [transformer, markov, isolation_forest, normal_reference]
@@ -53,7 +53,7 @@ output:
   run_dir: outputs/runs/EXP-YYYYMMDD-NNN
 ```
 
-Exact split percentages remain **TO BE FINALIZED** and must be locked before preprocessing. A placeholder config cannot be used for a run.
+The split values and scientific access rules are frozen by `PROTOCOL-001`. `configs/protocols/protocol-v1.yaml` is the machine-readable protocol source of truth. It is a contract, not a runnable experiment config; model and artifact fields in other placeholders still require implementation-time validation.
 
 ## Rules
 

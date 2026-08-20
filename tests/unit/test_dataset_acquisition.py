@@ -9,9 +9,9 @@ from pathlib import Path
 
 import pytest
 
-from src.ingestion.dataset_acquisition import download_dataset_archive
-from src.ingestion.dataset_config import DatasetDefinition, SourceChecksum
-from src.ingestion.errors import ChecksumMismatchError
+from seqlogad.ingestion.dataset_acquisition import download_dataset_archive
+from seqlogad.ingestion.dataset_config import DatasetDefinition, SourceChecksum
+from seqlogad.ingestion.errors import ChecksumMismatchError
 
 
 ProjectFactory = Callable[[str], tuple[Path, DatasetDefinition]]

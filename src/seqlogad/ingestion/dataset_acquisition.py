@@ -8,9 +8,9 @@ from typing import BinaryIO, Callable, ContextManager, Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from src.common.checksum import digest_file
-from src.ingestion.dataset_config import DatasetDefinition, resolve_repository_path
-from src.ingestion.errors import ChecksumMismatchError, DatasetConfigError
+from seqlogad.common.checksum import digest_file
+from seqlogad.ingestion.dataset_config import DatasetDefinition, resolve_repository_path
+from seqlogad.ingestion.errors import ChecksumMismatchError, DatasetConfigError
 
 
 OpenUrl = Callable[..., ContextManager[BinaryIO]]

@@ -5,8 +5,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-from src.ingestion.dataset_config import DatasetDefinition
-from src.ingestion.dataset_manifest import (
+from seqlogad.ingestion.dataset_config import DatasetDefinition
+from seqlogad.ingestion.dataset_manifest import (
     build_dataset_manifest,
     verify_dataset_manifest,
     write_dataset_manifest,

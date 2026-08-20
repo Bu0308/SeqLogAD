@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from src.ingestion.dataset_config import DatasetDefinition
+from seqlogad.ingestion.dataset_config import DatasetDefinition
 
 
 FIXTURE_ROOT = Path(__file__).parent / "fixtures/datasets"

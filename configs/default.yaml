@@ -22,12 +22,13 @@ sequence:
   grouping_key: TODO
 
 split:
-  strategy: group_aware_chronological
-  base_train: TODO
-  fusion_train: TODO
-  val_expert: TODO
-  val_fusion: TODO
-  test: TODO
+  protocol: configs/protocols/protocol-v1.yaml
+  strategy: raw_chronological
+  base_train: 0.60
+  fusion_train: 0.10
+  val_expert: 0.10
+  val_fusion: 0.10
+  test: 0.10
 
 experts:
   enabled:

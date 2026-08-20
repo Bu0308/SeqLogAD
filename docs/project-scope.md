@@ -118,12 +118,12 @@ Preferred description:
 
 > **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
 
-- Real anomaly labels are evaluation-only unless a separately approved experiment states otherwise.
+- Real anomaly labels may filter authorized normal pools and support validation/evaluation, but they never enter model inputs or base self-supervised losses.
 - Synthetic labels are generated only from training-derived normal sequences.
 - TEST labels are accessed only during locked final evaluation.
-- Exact split percentages remain **TO BE FINALIZED**.
+- The frozen chronological split is `60/10/10/10/10`.
 
-Candidate partitions: `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and `TEST`.
+Partitions: `BASE_TRAIN` (60%), `FUSION_TRAIN` (10%), `VAL_EXPERT` (10%), `VAL_FUSION` (10%), and `TEST` (10%). HDFS preserves block/session atomicity with boundary purge; BGL uses non-overlapping 100-event parent windows. Full access, leakage, parser, mutation, selection, and TEST-lock rules are frozen in [`research-protocol.md`](research-protocol.md).
 
 ## 12. Training ownership
 

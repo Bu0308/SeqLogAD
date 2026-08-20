@@ -1,33 +1,49 @@
 # Toolchain Checklist
 
-Last documentation audit: **2026-08-14**. No private hostnames, usernames, serial numbers, credentials, or absolute home paths are recorded here.
+Last verified: **2026-08-20**. No private hostnames, usernames, serial numbers, credentials, or absolute home paths are recorded here.
 
 ## Current development environment
 
 | Tool | Status | Version/details | Impact |
 |---|---|---|---|
 | Operating system | AVAILABLE | macOS/Darwin | Non-blocking |
-| Python | AVAILABLE | 3.12.6 | Within current `>=3.11` policy |
+| Python | AVAILABLE | 3.12.6 in project-local `.venv` | Matches tested `>=3.12,<3.13` policy |
 | Git | AVAILABLE | Repository initialized; branch `main` | Required before experiments |
-| pytest | AVAILABLE | 27 foundation tests pass through `python3 -m pytest` | Foundation suite operational |
-| Drain3 import | MISSING | Declared in `pyproject.toml`, absent from current interpreter | Blocks parsing, not documentation |
+| Editable package | AVAILABLE | `seqlogad==0.1.0`; canonical namespace `seqlogad.*` | Imports verified outside repository root |
+| Build backend | AVAILABLE | setuptools 80.9.0 in isolated builds | Exact version pinned in `pyproject.toml` |
+| pytest | AVAILABLE | 9.1.1; 31 tests pass in `.venv` | Foundation/environment/protocol suite operational |
+| PyArrow | AVAILABLE | 19.0.1 | Satisfies declared `>=17,<20` contract |
+| Drain3 | AVAILABLE | 0.9.11 | Import verified; no parser logic implemented |
+| Polars | AVAILABLE | 1.43.2 | Satisfies declared `>=1,<2` contract |
+| Pydantic | AVAILABLE | 2.13.4 | Satisfies declared `>=2,<3` contract |
 | Docker | AVAILABLE at Day 1 check | Not reconfigured by V3 docs task | P1, non-blocking |
 | Docker Compose | AVAILABLE at Day 1 check | Not reconfigured by V3 docs task | P1, non-blocking |
 
-## Known environment-contract issues
+## Resolved environment contract
 
-1. `pyproject.toml` declares `pyarrow>=17,<20`; the currently observed environment has PyArrow 23.x. Compatibility has not been established, so the bound is not changed by documentation work.
-2. Setuptools discovers packages below `src/`, while current runtime imports use the `src.*` namespace. Editable-install/import behavior must be tested and resolved before adding V3 implementation modules.
-3. Drain3 is declared in `pyproject.toml` but is not importable in the current interpreter. Install/lock it only in the dedicated environment task before parsing.
-4. PyTorch, scikit-learn, FAISS, calibration, and downstream framework dependencies must be introduced only when their implementation task begins.
-5. `python3 -m pip check` reports existing global-environment conflicts: Streamlit expects `protobuf<5` while 7.35.1 is installed, and OpenCV expects NumPy 2.x while 1.26.4 is installed. These packages are not used by the current foundation, but a clean project environment is required before future phases.
-6. A reproducible package lock/environment snapshot is still missing.
+1. `pyproject.toml` is the dependency contract; `requirements.lock` is the tested Python 3.12/macOS ARM64 resolution snapshot used as installation constraints.
+2. Source uses the conventional `src/seqlogad/` layout and canonical imports use `seqlogad.*`.
+3. `python -m pip install -c requirements.lock -e ".[dev]"` succeeds in a clean project-local `.venv`.
+4. Imports and installed CLI help run outside the repository root without `PYTHONPATH` or `sys.path` modification.
+5. `python -m pip check` reports no broken requirements in `.venv`.
+6. The global interpreter still has unrelated conflicts, but it is not the project execution environment.
+
+Future ML, retrieval, agent, API, and UI dependencies are intentionally absent until their owning implementation tasks begin.
 
 ## Current blocking classification
 
 - **Documentation/Git review:** no toolchain blocker.
-- **Canonical-event implementation:** packaging/import contract must be resolved first.
-- **Parsing:** Drain3 availability and parser-state persistence must be verified.
+- **Canonical-event implementation:** environment/package prerequisite is satisfied; the research protocol remains the next gate.
+- **Parsing:** Drain3 package availability is verified; parser-state semantics and parsing implementation remain future work.
 - **Model experiments:** dependency lock, five-way split, configs, and human-run protocol are required.
 
-No dependency was installed or version bound changed during the V3 documentation task.
+## Verified commands
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -c requirements.lock -e ".[dev]"
+.venv/bin/python -m pip check
+.venv/bin/python -m pytest -q
+```
+
+Installed CLI entrypoints are `seqlogad-download-data`, `seqlogad-build-dataset-manifest`, and `seqlogad-verify-dataset`. Dataset paths are resolved from the explicit `--project-root` argument when commands run outside the repository.

@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools==80.9.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sequence-aware-log-investigation"
+name = "seqlogad"
 version = "0.1.0"
 description = "Research skeleton for sequence-aware log anomaly detection and evidence-grounded investigation."
-requires-python = ">=3.11"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "drain3>=0.9,<1",
     "polars>=1,<2",
@@ -15,14 +15,21 @@ dependencies = [
     "pyyaml>=6,<7",
 ]
 
+[project.scripts]
+seqlogad-download-data = "seqlogad.cli.download_data:main"
+seqlogad-build-dataset-manifest = "seqlogad.cli.build_dataset_manifest:main"
+seqlogad-verify-dataset = "seqlogad.cli.verify_dataset:main"
+
 [project.optional-dependencies]
 dev = [
+    "packaging>=24,<27",
     "pytest>=8,<10",
     "pytest-cov>=5,<6",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["seqlogad*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

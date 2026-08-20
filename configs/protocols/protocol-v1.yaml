@@ -1,0 +1,222 @@
+# Machine-readable scientific contract. This file is not an executable experiment config.
+protocol:
+  id: PROTOCOL-001
+  version: "1.0"
+  status: FROZEN_HUMAN_APPROVED
+  approved_on: "2026-08-20"
+  empirical_status: NOT_RUN
+  execution_ready: false
+  human_readable_contract: docs/research-protocol.md
+  citation_note: docs/references/PROTOCOL-001-citations.md
+
+framing:
+  description: normal-only self-supervised sequential anomaly detection with synthetic supervision for anomaly localization and fusion
+  anomaly_labels_as_model_input: false
+  anomaly_labels_in_base_loss: false
+  synthetic_and_real_results_separate: true
+
+partitions:
+  strategy: raw_chronological
+  stratified: false
+  order:
+    - BASE_TRAIN
+    - FUSION_TRAIN
+    - VAL_EXPERT
+    - VAL_FUSION
+    - TEST
+  ratios:
+    BASE_TRAIN: 0.60
+    FUSION_TRAIN: 0.10
+    VAL_EXPERT: 0.10
+    VAL_FUSION: 0.10
+    TEST: 0.10
+  val_fusion_regions:
+    calibration_fraction_of_total: 0.05
+    selection_fraction_of_total: 0.05
+  split_before_train_fitted_transform: true
+  split_before_window_generation: true
+  record_target_and_realized_ratios: true
+
+labels:
+  normal_pool_filtering: true
+  validation_selection: true
+  test_sealed_until_final_command: true
+  test_execution_owner: HUMAN
+  test_execution_count: 1
+
+hdfs:
+  scientific_raw_log: HDFS.log
+  controlled_label_file: anomaly_label.csv
+  grouping_unit: block_session
+  chronological_key: earliest_source_line_index
+  shared_line_policy: atomic_connected_component
+  boundary_policy: PURGED_BOUNDARY
+  unassigned_line_policy: audited_separate_pool
+  preprocessed_loghub_artifacts_as_scientific_input: false
+  real_localization_status: NOT_AVAILABLE
+  sequence_context_cap:
+    source: BASE_TRAIN_normal_length_p99
+    hard_cap: 256
+
+bgl:
+  ordering: source_line_chronological
+  label_isolated_from_message: true
+  parent_window_events: 100
+  overlap: 0
+  residual_min_events: 20
+  short_residual_policy: DROPPED_SHORT_WINDOW
+  parent_anomaly_rule: any_source_alert
+  causal_subcontexts_within_parent_only: true
+  evaluation_unit: parent_window
+
+parser:
+  implementation_family: drain3
+  fit_partition: BASE_TRAIN
+  fit_normal_only: true
+  freeze_after_fit: true
+  transform_later_partitions_read_only: true
+  unseen_event_id: EVT_UNSEEN
+  discovery_order_event_ids_allowed: false
+  report_oov_by_partition: true
+
+sequences:
+  localization_coordinates:
+    - token
+    - gap
+    - transition
+  padding_mask_required: true
+  padding_contributes_to_loss_or_score: false
+
+synthetic_mutation:
+  mutate_raw_data: false
+  expert_training_source: BASE_TRAIN_normal
+  fusion_training_source: FUSION_TRAIN_normal
+  families:
+    - missing
+    - extra
+    - repeated
+    - replacement
+    - reorder
+  unexpected_transition_generator: false
+  deterministic_ids: true
+  reject_noop: true
+  frequency_bucket_sampling: true
+
+training:
+  staged: true
+  joint_end_to_end_default: false
+  human_executes_empirical_training: true
+  stochastic_report_seeds:
+    - 42
+    - 43
+    - 44
+  development_seed: 42
+  initial_config_budget_per_stochastic_core_method: 12
+  multi_seed_confirmation_candidates: 2
+  expert_selection_primary_metric: PR_AUC
+  tie_breakers:
+    - lower_FPR
+    - lower_latency
+
+scoring:
+  aggregations:
+    - mean
+    - max
+    - top_r
+  top_r_fraction: 0.10
+  top_r_minimum: 1
+  primary_threshold: validation_max_F1
+  secondary_threshold: validation_FPR_0.01
+  primary_detection_metric: PR_AUC
+
+complementarity:
+  required_before_fusion: true
+  metrics:
+    - pearson_score_correlation
+    - spearman_score_correlation
+    - prediction_disagreement
+    - error_overlap
+    - oracle_ensemble_gain
+    - anomaly_family_performance
+    - localization_overlap
+    - marginal_contribution
+  decisions:
+    - KEEP
+    - DEMOTE
+    - REMOVE
+  remove_thresholds:
+    absolute_spearman_min: 0.95
+    error_overlap_min: 0.90
+    leave_one_out_delta_max: 0.005
+    require_confidence_interval_contains_zero: true
+    require_no_unique_evidence: true
+  keep_thresholds:
+    absolute_pr_auc_gain_min: 0.005
+    family_recall_or_localization_gain_min: 0.02
+
+fusion:
+  required_comparators:
+    - F0_strongest_single
+    - F1_normalized_mean
+    - F2_validation_weighted_average
+    - F3_voting_or_rank_voting
+    - F4_logistic_stacking
+    - F5_mlp_stacking
+    - F6_standard_gating_or_moe
+    - F7_evidential_if_justified
+    - F8_structured_evidence_consensus
+  f8_status: PROPOSED_TO_BE_TESTED
+  f8_may_fail: true
+  redundancy_loss_status: PRIOR_ART_AND_EMPIRICAL_GATE_REQUIRED
+  confidence_times_conflict_loss_enabled: false
+
+evaluation:
+  report_datasets_separately: true
+  detection:
+    primary_metric: PR_AUC
+    metrics:
+      - precision
+      - recall
+      - f1
+      - false_positive_rate
+      - latency_median
+      - latency_p95
+      - throughput
+      - peak_memory
+  localization:
+    separate_coordinate_families: true
+    hdfs_real_localization: N_A
+    synthetic_and_real_reports_separate: true
+  calibration:
+    metrics:
+      - brier_score
+      - negative_log_likelihood
+      - expected_calibration_error
+    ece_equal_mass_bins: 15
+  abstention:
+    metrics:
+      - risk_coverage
+      - area_under_risk_coverage
+      - error_at_matched_coverage
+  statistics:
+    confidence_level: 0.95
+    paired_bootstrap_resamples: 5000
+    hdfs_resampling_unit: block_session
+    bgl_resampling_unit: temporal_parent_window_block
+    paired_binary_test: mcnemar_when_applicable
+    multiple_comparison_correction: holm_within_declared_family
+
+downstream:
+  rag_agent_role: frozen_evidence_consumer_only
+  detector_override_allowed: false
+  hidden_test_label_access: false
+  evidence_ids_required: true
+  insufficient_evidence_allowed: true
+  production_writes_allowed: false
+
+change_control:
+  behavioral_change_requires_new_version: true
+  decision_log_required: true
+  citation_update_required: true
+  preserve_old_versions: true
+

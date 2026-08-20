@@ -9,14 +9,14 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from src.common.checksum import sha256_file
-from src.ingestion.dataset_config import (
+from seqlogad.common.checksum import sha256_file
+from seqlogad.ingestion.dataset_config import (
     DatasetDefinition,
     ExpectedFile,
     resolve_repository_path,
 )
-from src.ingestion.dataset_validation import validate_dataset_presence
-from src.ingestion.errors import ManifestValidationError
+from seqlogad.ingestion.dataset_validation import validate_dataset_presence
+from seqlogad.ingestion.errors import ManifestValidationError
 
 
 MANIFEST_SCHEMA_VERSION = "1.0"

@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from src.ingestion.dataset_config import DatasetDefinition, load_dataset_config
-from src.ingestion.dataset_validation import DatasetPresenceStatus, validate_dataset_presence
-from src.ingestion.errors import DatasetConfigError
+from seqlogad.ingestion.dataset_config import DatasetDefinition, load_dataset_config
+from seqlogad.ingestion.dataset_validation import DatasetPresenceStatus, validate_dataset_presence
+from seqlogad.ingestion.errors import DatasetConfigError
 
 
 ProjectFactory = Callable[[str], tuple[Path, DatasetDefinition]]
