@@ -46,6 +46,7 @@ Every future run records:
 - random seed;
 - dataset identifier, version and checksum;
 - parser version/config;
+- canonical event/template schema version and schema artifact hash;
 - sequence strategy;
 - model name/version/config;
 - expert-evidence schema version and expert checkpoint IDs;

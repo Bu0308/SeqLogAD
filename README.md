@@ -7,14 +7,14 @@
 A research project studying heterogeneous sequence-anomaly experts, structured evidence fusion, and evidence-grounded regression-test recommendation for large-scale system logs.
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Tests](https://img.shields.io/badge/tests-31%20passed-brightgreen)
-![Stage](https://img.shields.io/badge/stage-data%20integrity-orange)
+![Tests](https://img.shields.io/badge/tests-48%20passed-brightgreen)
+![Stage](https://img.shields.io/badge/stage-canonical%20schema-orange)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
 </div>
 
 > [!IMPORTANT]
-> Only the dataset integrity and provenance foundation is implemented. Canonical events, Drain3 parsing, sequences, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
+> Dataset integrity/provenance, the reproducible environment, the frozen scientific protocol, and canonical event/template schema contracts are implemented. No real canonical event artifact has been generated. Drain3 parsing, sequences, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
 
 ## Research direction
 
@@ -62,7 +62,7 @@ Raw System Logs
       ↓
 Dataset Integrity / Provenance                 [IMPLEMENTED]
       ↓
-Canonical Event Representation                 [PLANNED]
+Canonical Event/Template Schema                [IMPLEMENTED CONTRACT]
       ↓
 Drain3 Parsing / Templates                     [PLANNED]
       ↓
@@ -131,7 +131,7 @@ The minimal fusion-loss candidate is detection loss plus fused-localization loss
 | Manifest verification | Implemented | Independent file-size/hash/fingerprint checks |
 | Reproducible Python environment | Implemented | Python 3.12, editable `seqlogad` package, tested dependency lock |
 | Scientific protocol | Frozen | Human-approved `PROTOCOL-001` plus machine-readable regression guard |
-| Canonical event schemas | Planned | Placeholder boundary only |
+| Canonical event/template schemas | Implemented; awaiting audit | Strict immutable `SCHEMA-001` contract; no real event artifact generated |
 | Drain3 parsing/templates | Planned | No logs parsed by the project pipeline |
 | Sequences/splits/mutations | Planned | No processed sequence artifacts |
 | Experts A–D | Planned | No model implementation, fit, training, or checkpoints |
@@ -223,7 +223,7 @@ Plan/             Version-controlled historical and V3 research plans
 scripts/                  Compatibility wrappers for installed CLIs
 src/seqlogad/ingestion/   Implemented dataset integrity/provenance foundation
 src/seqlogad/*            Canonical package namespace and planned module boundaries
-tests/                    31 active foundation/environment/protocol tests plus future placeholders
+tests/                    48 active foundation/environment/protocol/schema tests plus future placeholders
 outputs/          Ignored experiment artifacts grouped by experiment ID
 ```
 
@@ -249,6 +249,8 @@ outputs/          Ignored experiment artifacts grouped by experiment ID
 - [Reproducibility](docs/reproducibility.md)
 - [Frozen scientific protocol](docs/research-protocol.md)
 - [PROTOCOL-001 citations and method provenance](docs/references/PROTOCOL-001-citations.md)
+- [Canonical event/template schema](docs/schemas/canonical-events.md)
+- [SCHEMA-001 citations and method provenance](docs/references/SCHEMA-001-citations.md)
 
 ## License and data notice
 

@@ -8,6 +8,6 @@ Output: validated schemas, configuration objects and common logging conventions.
 
 Dependencies: Pydantic, PyYAML and standard library.
 
-Planned files: `schemas/`, `config/`, `logging/`.
+Implemented: `checksum.py` and `schemas/events.py`. Planned: shared config/logging helpers and later sequence/evidence schemas.
 
 Implementation status: placeholder only.

@@ -6,6 +6,7 @@ Active public documentation lives under `docs/`. Version-controlled research pla
 - `research-questions.md`: RQ1–RQ5 and falsification criteria.
 - `research-protocol.md`: frozen supervision, split, leakage, fitting, and evaluation contract.
 - `references/`: task-specific citation and method-provenance notes.
+- `schemas/`: versioned scientific data contracts and field-level boundaries.
 - `architecture/`: architecture index and future diagrams/contracts.
 - `research/`: prior-art and contribution-status material.
 - `experiments/`: human-run experiment evidence and failure analyses.

@@ -1,11 +1,19 @@
 # Schemas
 
-Planned V3 canonical records:
+Implemented in `SCHEMA-001`:
 
-- `LogEvent` and `EventTemplate`;
-- `EventSequence` and five-way partition identity;
-- `MutationRecord` with token/gap/transition targets;
-- `ExpertEvidence` and structured support/contradiction claims;
-- downstream anomaly, evidence, hypothesis, incident, test, investigation, and feedback records.
+- strict, immutable `LogEvent` and `EventTemplate` contracts;
+- deterministic event-occurrence and template identities;
+- dataset/source/group/partition provenance;
+- structurally isolated supervision and label-free model-input view;
+- canonical JSON/hash helpers and schema regression tests.
 
-Unsupported localization fields must remain absent rather than fabricated. Implementation has not started.
+Input: versioned parser output plus previously assigned provenance and authorized non-TEST supervision. Output: validated schema version `1.0` records. Dependencies: Pydantic and the frozen `PROTOCOL-001` contract.
+
+Planned after SCHEMA-001:
+
+- `EventSequence`, split-manifest identity and localization coordinates (`SCHEMA-002`);
+- `MutationRecord`, `ExpertEvidence` and structured claims;
+- downstream anomaly, evidence, hypothesis, incident, test, investigation and feedback records.
+
+No parser, sequence, mutation, detector, fusion, RAG or agent behavior is implemented here. See `docs/schemas/canonical-events.md`.

@@ -11,7 +11,7 @@ Last verified: **2026-08-20**. No private hostnames, usernames, serial numbers, 
 | Git | AVAILABLE | Repository initialized; branch `main` | Required before experiments |
 | Editable package | AVAILABLE | `seqlogad==0.1.0`; canonical namespace `seqlogad.*` | Imports verified outside repository root |
 | Build backend | AVAILABLE | setuptools 80.9.0 in isolated builds | Exact version pinned in `pyproject.toml` |
-| pytest | AVAILABLE | 9.1.1; 31 tests pass in `.venv` | Foundation/environment/protocol suite operational |
+| pytest | AVAILABLE | 9.1.1; 48 tests pass in `.venv` | Foundation/environment/protocol/schema suite operational |
 | PyArrow | AVAILABLE | 19.0.1 | Satisfies declared `>=17,<20` contract |
 | Drain3 | AVAILABLE | 0.9.11 | Import verified; no parser logic implemented |
 | Polars | AVAILABLE | 1.43.2 | Satisfies declared `>=1,<2` contract |
