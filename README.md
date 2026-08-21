@@ -62,13 +62,23 @@ Raw System Logs
       ↓
 Dataset Integrity / Provenance                 [IMPLEMENTED]
       ↓
-Canonical Event/Template Schema                [IMPLEMENTED CONTRACT]
+Minimal Metadata + Group-Key Extraction        [PLANNED]
       ↓
-Drain3 Parsing / Templates                     [PLANNED]
+Raw Chronological Pre-Partition                [PLANNED]
+BASE_TRAIN / FUSION_TRAIN / VAL_EXPERT
+VAL_FUSION / sealed TEST
       ↓
-Event Sequence Construction                    [PLANNED; SCHEMA CONTRACT IMPLEMENTED]
+Label Isolation + Normal-Pool Filtering        [CONTRACT IMPLEMENTED; PIPELINE PLANNED]
       ↓
-Leakage-Safe Dataset Splits                    [PLANNED]
+Fit Drain3 on Normal BASE_TRAIN, Then Freeze   [PLANNED]
+      ↓
+Transform Every Partition Read-Only            [PLANNED]
+      ↓
+Canonical Event/Template Artifacts             [SCHEMA IMPLEMENTED; GENERATION PLANNED]
+      ↓
+Build Sequences Inside Each Partition          [SCHEMA IMPLEMENTED; BUILDER PLANNED]
+      ↓
+Synthetic Mutation + Localization Targets      [SCHEMA IMPLEMENTED; GENERATOR PLANNED]
       ↓
 ┌──────────────────────────────────────────────────────────┐
 │ HETEROGENEOUS EXPERTS                          [PLANNED] │
@@ -78,15 +88,22 @@ Leakage-Safe Dataset Splits                    [PLANNED]
 │ D — normal-reference structural retrieval expert        │
 └───────────────────────────┬──────────────────────────────┘
                             ↓
-Complementarity Analysis                       [PLANNED]
+Freeze Experts + Generate Versioned Evidence    [PLANNED]
                             ↓
-Structured Evidence Fusion                     [PLANNED]
+Calibration + Complementarity Analysis          [PLANNED]
                             ↓
-Anomaly + Localization + Reliability           [PLANNED]
+KEEP / DEMOTE / REMOVE Gate                     [PLANNED]
                             ↓
-Evidence-Grounded Investigation                [PLANNED]
+Fusion Baselines F0–F7 + Proposed F8            [PLANNED]
                             ↓
-Regression-Test Recommendation                 [PLANNED]
+Anomaly + Token/Gap/Transition Localization
++ Reliability / Optional Abstention             [PLANNED]
+                            ↓
+Locked Final TEST Evaluation                    [PLANNED; HUMAN ONLY]
+                            ↓
+Evidence-Grounded Investigation                 [PLANNED; DOWNSTREAM]
+                            ↓
+Regression-Test Recommendation                  [PLANNED; DOWNSTREAM]
 ```
 
 ## Expert overview
@@ -133,8 +150,9 @@ The minimal fusion-loss candidate is detection loss plus fused-localization loss
 | Scientific protocol | Frozen | Human-approved `PROTOCOL-001` plus machine-readable regression guard |
 | Canonical event/template schemas | Implemented and approved | Frozen immutable `SCHEMA-001` contract; no real event artifact generated |
 | Sequence/localization/mutation schemas | Implemented; awaiting audit | Strict `SCHEMA-002` contracts; no real sequence or mutation artifact generated |
-| Drain3 parsing/templates | Planned | No logs parsed by the project pipeline |
-| Split/sequence/mutation generators | Planned | No processed sequence artifacts |
+| Raw pre-partition/split manifest | Planned | Must occur before parser fitting and window generation |
+| Drain3 fit/freeze and canonical-event generation | Planned | No logs parsed by the project pipeline |
+| Sequence/mutation generators | Planned | No processed sequence or mutation artifacts |
 | Experts A–D | Planned | No model implementation, fit, training, or checkpoints |
 | Complementarity/calibration/fusion | Planned | No experiment has run |
 | Retrieval/RAG/agent/API/UI | Planned downstream | Placeholder modules only |
