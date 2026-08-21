@@ -12,7 +12,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTUR
 | SCHEMA-002 | MUST | AI | SCHEMA-001 | DONE | Sequence/mutation/partition/localization contracts and active tests pass; no real artifact claimed |
 | PROTOCOL-001-v1.0 | HISTORICAL | AI_PREP/HUMAN_EXECUTE | — | SUPERSEDED | Preserved as approved historical protocol |
 | FREEZE-v1.1 | MUST | AI_PREP/HUMAN_EXECUTE | audit approval | DONE | Protocol/config/ADR/RQs/scope/roadmap/citations are consistent and validated |
-| LIT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FREEZE-v1.1 | IN_PROGRESS | Systematic targeted matrix/search log completed; every contribution/prior-art state approved |
+| LIT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FREEZE-v1.1 | DONE | Targeted matrix, reproducible search log, citation note, dataset/baseline matrices, and conservative prior-art states completed; no novelty claim established |
 | EFFECT-001 | MUST | HUMAN | LIT-001 | NOT_STARTED | Minimum practical effect and statistical comparison family frozen before first run |
 | SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | NOT_STARTED | Protocol v1.1 identity is supported by split/sequence contracts without weakening TEST/schema safeguards |
 
@@ -65,4 +65,3 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTUR
 | REPORT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FINAL-TEST-001 | NOT_STARTED | Claims map to run artifacts; null results and limitations retained |
 | RETR/RAG/AGENT | FUTURE | AI_PREP/HUMAN_EXECUTE | completed scientific core | FUTURE | Requires separate scope/protocol |
 | API/UI/ELK | FUTURE | AI | completed scientific core | FUTURE | Delivery work cannot delay core research |
-

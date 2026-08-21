@@ -3,7 +3,7 @@
 - **Name:** Blue Gene/L System Log (`BGL`).
 - **Purpose in project:** Core candidate benchmark for chronology-aware dataset-suitability, trivial-baseline ceiling, and sequence-added-value evaluation.
 - **Source:** [LogPAI Loghub BGL](https://github.com/logpai/loghub/tree/master/BGL); canonical archive record [Zenodo 8196385](https://doi.org/10.5281/zenodo.8196385).
-- **Reference:** Loghub repository/readme and its linked BGL/Loghub publications; exact literature citations remain part of LIT-001.
+- **Reference:** Loghub repository/readme and its linked BGL/Loghub publications; dataset-suitability evidence is mapped in [`../literature/prior-art-matrix-v1.1.md`](../literature/prior-art-matrix-v1.1.md) and [`../references/LIT-001-citations.md`](../references/LIT-001-citations.md).
 - **Source archive:** `BGL.zip`, 57,489,019 bytes; canonical MD5 `4452953c470f2d95fcb32d5f6e733f7a` matched exactly; local SHA-256 `d67fd82a711aea0157a9b83175892c6ee60e384a2ddf5bc51f39118453816da8`.
 - **Archive safety:** Valid ZIP with two members, no duplicate names, traversal, absolute paths, symlinks or nested archives; full ZIP CRC test passed.
 - **Extracted root:** `data/raw/bgl/BGL/`. Both extracted members were independently SHA-256 compared with archive members and matched.

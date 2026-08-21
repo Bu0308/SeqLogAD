@@ -1,10 +1,10 @@
 # Research Freeze v1.1 — Citation and Method-Provenance Note
 
-**Task:** Scientific redirect, scope reduction, negative-control registration, and repository consistency repair  
-**Date:** 2026-08-21  
-**Protocol:** [`../research-protocol-v1.1.md`](../research-protocol-v1.1.md)  
-**Empirical status:** `NOT_RUN`  
-**Novelty status:** `UNVERIFIED`
+- **Task:** Scientific redirect, scope reduction, negative-control registration, and repository consistency repair
+- **Date:** 2026-08-21
+- **Protocol:** [`../research-protocol-v1.1.md`](../research-protocol-v1.1.md)
+- **Empirical status:** `NOT_RUN`
+- **Novelty status:** `UNVERIFIED`
 
 No parser, split, baseline, model, localization, fusion, or TEST experiment was executed for this task. External findings below motivate risks and controls; they are not SeqLogAD results.
 
@@ -129,4 +129,4 @@ The following are pre-registered SeqLogAD design decisions, not findings attribu
 - [x] No novelty, SOTA, sequence superiority, dataset-unsuitability, or fusion-superiority claim is made.
 - [x] Preprints are labeled as preprints.
 - [x] No external code/data/model artifact was copied.
-- [x] LIT-001 remains `IN_PROGRESS`; this targeted matrix is not represented as a systematic review.
+- [x] At the v1.1 freeze, LIT-001 remained `IN_PROGRESS`. It was later completed as a targeted review in [`LIT-001-citations.md`](LIT-001-citations.md) and is not represented as an exhaustive systematic review.

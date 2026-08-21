@@ -50,7 +50,7 @@ The approved direction is `HYBRID_B_PLUS_C`:
 - **Conditional (Option C):** study localization faithfulness only if sequence signal and localization sanity gates pass.
 - **Fallback (Option A):** consider a different/expanded dataset only after the current datasets fail pre-registered suitability gates and literature supports a candidate.
 
-Current novelty status is **UNVERIFIED**. Recent work already covers multi-pattern fusion, mixture-of-experts, localization, and structured synthetic logs; no component is advertised as novel before `LIT-001` is complete.
+`LIT-001` is complete as a targeted review. It found strong prior art for generic sequence models, multi-pattern fusion, mixture-of-experts, localization, and synthetic log generation. SeqLogAD therefore makes **no component-level algorithmic novelty claim**; its active contribution is a controlled empirical study whose outcome remains `NOT_RUN`. Any future novelty claim requires a new claim-specific systematic search.
 
 ## Minimal gated architecture
 
@@ -210,6 +210,8 @@ outputs/          Ignored experiment-specific artifacts
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
 - [Protocol v1.1](docs/research-protocol-v1.1.md)
 - [Targeted prior-art matrix](docs/literature/prior-art-matrix-v1.1.md)
+- [LIT-001 reproducible search log](docs/literature/LIT-001-search-log.md)
+- [LIT-001 citations and method provenance](docs/references/LIT-001-citations.md)
 - [Research Freeze v1.1 citations](docs/references/RESEARCH-FREEZE-v1.1-citations.md)
 
 ## Scientific integrity and license

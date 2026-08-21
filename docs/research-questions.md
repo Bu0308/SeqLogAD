@@ -54,4 +54,4 @@ Transformer, complementarity/fusion, RAG/Agent, and regression-test recommendati
 
 Allowed empirical claim states: `PROPOSED`, `HYPOTHESIS`, `SUPPORTED`, `PARTIALLY_SUPPORTED`, `UNSUPPORTED`, `REJECTED`.
 
-Novelty remains independently `UNVERIFIED` until `LIT-001` is complete. External paper results are prior-work evidence, never SeqLogAD results.
+The targeted `LIT-001` review is complete and establishes no algorithmic novelty claim. Any future novelty claim requires a new claim-specific systematic search. External paper results are prior-work evidence, never SeqLogAD results.

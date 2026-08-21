@@ -111,7 +111,7 @@ Do not write `output.csv`, `result-final-v2.csv` or `latest-model.pt` at reposit
 
 Default execution stages:
 
-1. Complete LIT-001 and freeze practical-effect policy.
+1. Use the completed LIT-001 review to freeze the practical-effect and statistical-comparison policy in `EFFECT-001`.
 2. Freeze raw split identities and physical TEST guard before parser/window generation.
 3. Fit/freeze parser on normal `BASE_TRAIN`; create canonical events/sequences inside partitions.
 4. Human runs KT-1/KT-2 order-insensitive suitability analyses.

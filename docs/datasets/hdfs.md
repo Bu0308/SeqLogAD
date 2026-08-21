@@ -3,7 +3,7 @@
 - **Name:** HDFS Log Dataset v1 (`HDFS_v1`).
 - **Purpose in project:** Core candidate benchmark for leakage-safe dataset-suitability, order-insensitive baseline, and sequence-added-value evaluation.
 - **Source:** [LogPAI Loghub HDFS](https://github.com/logpai/loghub/tree/master/HDFS); canonical archive record [Zenodo 8196385](https://doi.org/10.5281/zenodo.8196385).
-- **Reference:** Loghub repository/readme and its linked HDFS/Loghub publications; exact literature citations remain part of LIT-001.
+- **Reference:** Loghub repository/readme and its linked HDFS/Loghub publications; dataset-suitability evidence is mapped in [`../literature/prior-art-matrix-v1.1.md`](../literature/prior-art-matrix-v1.1.md) and [`../references/LIT-001-citations.md`](../references/LIT-001-citations.md).
 - **Extracted root:** `data/raw/hdfs/HDFS_v1/`.
 - **Required files:** `HDFS.log` and `preprocessed/anomaly_label.csv`, both locally present and non-empty.
 - **Labels:** CSV at block-trace level with header `BlockId,Label`. Distribution analysis and joins are not part of Day 2.5.

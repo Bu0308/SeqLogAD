@@ -41,7 +41,7 @@ MUST: unseen event, sequence length, total count, count vector, and Markov/N-gra
 
 ## Literature status
 
-`LIT-001 = IN_PROGRESS`. The targeted matrix confirms prior-art/dataset-suitability risk around common benchmarks, multi-model fusion/MoE, localization, and synthetic logs. It does not establish an exact SeqLogAD result or novelty decision.
+`LIT-001 = DONE` as a targeted, reproducible review. It confirms material HDFS/BGL ceiling/variant risk, requires strong order-insensitive controls, and finds strong prior art for generic Transformer, fusion/MoE, localization, and synthetic-mutation claims. It establishes no SeqLogAD result and no algorithmic novelty. A new claim-specific systematic search is required before any future novelty claim.
 
 ## Scientific integrity
 
@@ -51,4 +51,3 @@ MUST: unseen event, sequence length, total count, count vector, and Markov/N-gra
 - External findings are never relabeled as project metrics.
 - Human owns execution and conclusions; AI prepares code/tests/commands.
 - Negative results are retained and reported.
-
