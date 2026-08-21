@@ -7,14 +7,14 @@
 A research project studying heterogeneous sequence-anomaly experts, structured evidence fusion, and evidence-grounded regression-test recommendation for large-scale system logs.
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Tests](https://img.shields.io/badge/tests-48%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/tests-73%20passed-brightgreen)
 ![Stage](https://img.shields.io/badge/stage-canonical%20schema-orange)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
 </div>
 
 > [!IMPORTANT]
-> Dataset integrity/provenance, the reproducible environment, the frozen scientific protocol, and canonical event/template schema contracts are implemented. No real canonical event artifact has been generated. Drain3 parsing, sequences, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
+> Dataset integrity/provenance, the reproducible environment, the frozen scientific protocol, and canonical event/template schemas are implemented. Sequence, partition, localization, and mutation schema contracts are implemented and awaiting human audit. No real canonical event or sequence artifact has been generated. Drain3 parsing, split/sequence/mutation generation, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
 
 ## Research direction
 
@@ -66,7 +66,7 @@ Canonical Event/Template Schema                [IMPLEMENTED CONTRACT]
       ↓
 Drain3 Parsing / Templates                     [PLANNED]
       ↓
-Event Sequence Construction                    [PLANNED]
+Event Sequence Construction                    [PLANNED; SCHEMA CONTRACT IMPLEMENTED]
       ↓
 Leakage-Safe Dataset Splits                    [PLANNED]
       ↓
@@ -131,9 +131,10 @@ The minimal fusion-loss candidate is detection loss plus fused-localization loss
 | Manifest verification | Implemented | Independent file-size/hash/fingerprint checks |
 | Reproducible Python environment | Implemented | Python 3.12, editable `seqlogad` package, tested dependency lock |
 | Scientific protocol | Frozen | Human-approved `PROTOCOL-001` plus machine-readable regression guard |
-| Canonical event/template schemas | Implemented; awaiting audit | Strict immutable `SCHEMA-001` contract; no real event artifact generated |
+| Canonical event/template schemas | Implemented and approved | Frozen immutable `SCHEMA-001` contract; no real event artifact generated |
+| Sequence/localization/mutation schemas | Implemented; awaiting audit | Strict `SCHEMA-002` contracts; no real sequence or mutation artifact generated |
 | Drain3 parsing/templates | Planned | No logs parsed by the project pipeline |
-| Sequences/splits/mutations | Planned | No processed sequence artifacts |
+| Split/sequence/mutation generators | Planned | No processed sequence artifacts |
 | Experts A–D | Planned | No model implementation, fit, training, or checkpoints |
 | Complementarity/calibration/fusion | Planned | No experiment has run |
 | Retrieval/RAG/agent/API/UI | Planned downstream | Placeholder modules only |
@@ -223,7 +224,7 @@ Plan/             Version-controlled historical and V3 research plans
 scripts/                  Compatibility wrappers for installed CLIs
 src/seqlogad/ingestion/   Implemented dataset integrity/provenance foundation
 src/seqlogad/*            Canonical package namespace and planned module boundaries
-tests/                    48 active foundation/environment/protocol/schema tests plus future placeholders
+tests/                    73 active foundation/environment/protocol/schema tests plus future placeholders
 outputs/          Ignored experiment artifacts grouped by experiment ID
 ```
 
@@ -251,6 +252,8 @@ outputs/          Ignored experiment artifacts grouped by experiment ID
 - [PROTOCOL-001 citations and method provenance](docs/references/PROTOCOL-001-citations.md)
 - [Canonical event/template schema](docs/schemas/canonical-events.md)
 - [SCHEMA-001 citations and method provenance](docs/references/SCHEMA-001-citations.md)
+- [Sequence/localization/mutation schema](docs/schemas/event-sequences-and-localization.md)
+- [SCHEMA-002 citations and method provenance](docs/references/SCHEMA-002-citations.md)
 
 ## License and data notice
 

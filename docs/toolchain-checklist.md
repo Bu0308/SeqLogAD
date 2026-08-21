@@ -11,7 +11,7 @@ Last verified: **2026-08-20**. No private hostnames, usernames, serial numbers, 
 | Git | AVAILABLE | Repository initialized; branch `main` | Required before experiments |
 | Editable package | AVAILABLE | `seqlogad==0.1.0`; canonical namespace `seqlogad.*` | Imports verified outside repository root |
 | Build backend | AVAILABLE | setuptools 80.9.0 in isolated builds | Exact version pinned in `pyproject.toml` |
-| pytest | AVAILABLE | 9.1.1; 48 tests pass in `.venv` | Foundation/environment/protocol/schema suite operational |
+| pytest | AVAILABLE | 9.1.1; 73 tests pass in `.venv` | Foundation/environment/protocol/schema suite operational |
 | PyArrow | AVAILABLE | 19.0.1 | Satisfies declared `>=17,<20` contract |
 | Drain3 | AVAILABLE | 0.9.11 | Import verified; no parser logic implemented |
 | Polars | AVAILABLE | 1.43.2 | Satisfies declared `>=1,<2` contract |
@@ -33,7 +33,7 @@ Future ML, retrieval, agent, API, and UI dependencies are intentionally absent u
 ## Current blocking classification
 
 - **Documentation/Git review:** no toolchain blocker.
-- **Canonical-event implementation:** environment/package prerequisite is satisfied; the research protocol remains the next gate.
+- **Schema implementation:** environment/package prerequisite and frozen research protocol are satisfied; SCHEMA-001 is approved and SCHEMA-002 awaits human audit.
 - **Parsing:** Drain3 package availability is verified; parser-state semantics and parsing implementation remain future work.
 - **Model experiments:** dependency lock, five-way split, configs, and human-run protocol are required.
 

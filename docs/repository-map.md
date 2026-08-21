@@ -15,7 +15,7 @@ This map distinguishes the implemented dataset-integrity foundation from planned
 | `Plan/` | Version-controlled historical and V3 planning/decision records | V3 synchronization active; older master preserved |
 | `src/seqlogad/` | Canonical installable Python package | Ingestion integrity and CLI modules implemented; other areas placeholders |
 | `scripts/` | Compatibility wrappers for installed command entrypoints | Dataset acquisition/manifest/verification wrappers implemented |
-| `tests/` | Offline unit/integration/security/performance contracts | 48 active foundation/environment/protocol/schema tests; future tests are placeholders |
+| `tests/` | Offline unit/integration/security/performance contracts | 73 active foundation/environment/protocol/schema tests; future tests are placeholders |
 | `outputs/` | Experiment-specific artifacts | Generated contents ignored |
 | `docker/` | Future container setup | Documentation placeholder |
 | `.github/workflows/` | Future CI | Documentation placeholder only |
@@ -25,7 +25,7 @@ This map distinguishes the implemented dataset-integrity foundation from planned
 | Module | V3 responsibility | Status |
 |---|---|---|
 | `src/seqlogad/ingestion/` | Dataset contracts, acquisition, checksums, manifests, verification | Implemented |
-| `src/seqlogad/common/schemas/` | Canonical events, sequences, mutations, ExpertEvidence, claims | `LogEvent`/`EventTemplate` implemented; later schemas planned |
+| `src/seqlogad/common/schemas/` | Canonical events, sequences, mutations, ExpertEvidence, claims | `LogEvent`/`EventTemplate` approved; sequence/localization/mutation contracts await audit; evidence schemas planned |
 | `src/seqlogad/parsing/` | Frozen train-fitted Drain3 and dataset adapters | Planned |
 | `src/seqlogad/sequences/` | HDFS block/BGL windows and token/gap/transition mutation labels | Planned |
 | `src/seqlogad/models/` | Statistical/LSTM baselines and experts A–C | Planned |
@@ -46,7 +46,7 @@ Implemented foundation flows are:
 dataset YAML → path/config validation → acquisition/checksum policy
 → required-file validation → manifest build/reload → integrity verification
 
-synthetic schema input → strict LogEvent/EventTemplate validation
+synthetic schema input → strict LogEvent/EventTemplate/EventSequence/MutationRecord validation
 → deterministic identity/serialization → label-free model-input view
 ```
 

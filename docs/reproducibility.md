@@ -47,6 +47,7 @@ Every future run records:
 - dataset identifier, version and checksum;
 - parser version/config;
 - canonical event/template schema version and schema artifact hash;
+- sequence/mutation schema versions, split-manifest ID, partition-assignment ID, ordered-event content hash, and schema artifact hash;
 - sequence strategy;
 - model name/version/config;
 - expert-evidence schema version and expert checkpoint IDs;

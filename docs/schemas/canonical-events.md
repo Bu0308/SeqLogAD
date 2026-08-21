@@ -4,7 +4,8 @@
 |---|---|
 | Task | `SCHEMA-001` |
 | Schema version | `1.0` |
-| Status | **IMPLEMENTED — AWAITING HUMAN AUDIT** |
+| Status | **FROZEN — HUMAN APPROVED** |
+| Approval date | 2026-08-21 |
 | Source module | `src/seqlogad/common/schemas/events.py` |
 | Scientific protocol | `docs/research-protocol.md` |
 | Method provenance | `docs/references/SCHEMA-001-citations.md` |
@@ -42,7 +43,7 @@ LogEvent
 └── to_model_input()      explicit label-free sequence-model view
 ```
 
-`EventSequence`, mutation coordinates, sequence masks, and split-manifest records belong to `SCHEMA-002` and later tasks.
+`EventSequence`, partition identities, mutation records, and coordinate-aware localization are defined by the awaiting-audit `SCHEMA-002` contract. Generated split manifests, real sequences, batching masks, and mutations belong to later implementation tasks.
 
 ## 3. EventTemplate
 
