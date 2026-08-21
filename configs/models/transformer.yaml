@@ -1,15 +1,13 @@
-# V3 Expert A placeholder. Not runnable; no architecture/loss is implemented.
+# Conditional v1.1 placeholder. No architecture/loss is implemented.
 model:
   name: seqlogad_t
-  role: expert_a_contextual_sequence
-  status: PLANNED_P0
-  layers: TODO
-  heads: TODO
-  embedding_size: TODO
+  status: CONDITIONAL_SEQUENCE_SIGNAL_GATE
+  gate_requires:
+    - KT-1_COMPLETE
+    - KT-2_COMPLETE
+    - KT-3_COMPLETE
+    - RESIDUAL_LONG_RANGE_RESEARCH_QUESTION
 training:
   owner: HUMAN
-  seed: TODO
-  epochs: TODO
-objectives:
-  variants: [A0_next, A1_next_rank, A2_next_localization, A3_combined]
-  novelty_status: UNVERIFIED
+  empirical_status: NOT_RUN
+novelty_status: UNVERIFIED

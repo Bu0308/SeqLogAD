@@ -1,4 +1,4 @@
-# V3 configuration convention skeleton. Not a runnable experiment config.
+# Research Freeze v1.1 convention skeleton. Not a runnable experiment config.
 project:
   name: seqlogad
   experiment_id: EXP-YYYYMMDD-NNN
@@ -11,9 +11,14 @@ dataset:
   raw_path: TODO
   processed_path: TODO
 
+protocol:
+  contract: configs/protocols/protocol-v1.1.yaml
+  empirical_status: NOT_RUN
+
 parsing:
   parser: drain3
   fit_partition: BASE_TRAIN
+  fit_normal_only: true
   state_artifact: TODO
 
 sequence:
@@ -22,45 +27,23 @@ sequence:
   grouping_key: TODO
 
 split:
-  protocol: configs/protocols/protocol-v1.yaml
   strategy: raw_chronological
   base_train: 0.60
-  fusion_train: 0.10
+  fusion_train_reserved: 0.10
   val_expert: 0.10
-  val_fusion: 0.10
+  val_fusion_reserved: 0.10
   test: 0.10
+  physical_test_guard: TODO
 
-experts:
-  enabled:
-    - transformer
-    - markov
-    - isolation_forest
-    - normal_reference
-  configs: TODO
+methods:
+  must: [unseen_event_type, sequence_length, count_vector, markov_ngram]
+  should: [isolation_forest]
+  conditional: [transformer, localization, simple_fusion]
 
 scoring:
   aggregation: TODO
-  threshold_strategy: TODO
-
-retrieval:
-  backend: local
-  top_k: TODO
-  dense_enabled: false
-
-calibration:
-  method: TODO
-  fit_partition: VAL_FUSION
-
-fusion:
-  enabled: false
-  method: TODO
-  input_artifact: TODO
-
-agent:
-  enabled: false
-  role: downstream_only
-  max_tool_calls: TODO
-  max_rounds: TODO
+  threshold_strategy: TODO_VALIDATION_ONLY
+  primary_metric: PR_AUC
 
 output:
   root: outputs

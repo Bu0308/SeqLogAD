@@ -1,9 +1,14 @@
-# V3 planned baseline family only. Status remains NOT_RUN.
-experiment_id: B0-B3
+# v1.1 killer-experiment placeholder. Not runnable; all conditions are NOT_RUN.
+experiment_ids: [KT-1, KT-2, KT-3]
 status: NOT_RUN
 execution_owner: HUMAN
 datasets: [hdfs, bgl]
-models: [frequency, markov_ngram, isolation_forest, lstm]
+order_insensitive_methods:
+  must: [unseen_event_type, sequence_length, event_count_vector]
+  should: [isolation_forest]
+sequential_method: markov_ngram
 split_artifact: TODO_FIVE_WAY_SPLIT
-seed: TODO
-output_path: outputs/results/detectors/
+practical_effect: TO_BE_FROZEN_BEFORE_RUN
+seeds: [42, 43, 44]
+primary_metric: PR_AUC
+output_path: outputs/results/killer-experiments/

@@ -1,15 +1,8 @@
-# V3 strong neural baseline placeholder. Not runnable; human training only.
+# Historical V3 placeholder retained for provenance. Not runnable.
 model:
   name: lstm_next_event
-  role: neural_baseline
-  status: PLANNED
-  hidden_size: TODO
-  layers: TODO
-  dropout: TODO
+  status: REMOVED_FROM_V1_1_CORE
+  reactivation_requires: NEW_PROTOCOL_DECISION
 training:
   owner: HUMAN
-  seed: TODO
-  epochs: TODO
-  batch_size: TODO
-  max_sequence_length: TODO
-  early_stopping: TODO
+  empirical_status: NOT_RUN

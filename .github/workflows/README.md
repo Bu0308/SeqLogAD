@@ -1,3 +1,3 @@
 # CI workflows
 
-GitHub Actions are planned in OPS-001. No CI workflow is active in the repository scaffold.
+`ci.yml` is the minimal active workflow. It uses Python 3.12, installs the project with `requirements.lock` as constraints, runs `pip check`, and runs the full pytest suite. It does not download datasets, parse logs, execute experiments, or access TEST.

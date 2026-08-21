@@ -1,6 +1,6 @@
 # Day 2 Reading Note — Log Anomaly Detection Survey
 
-> **HISTORICAL READING NOTE.** This artifact records the Day 2 V1/V2 reading state. Active V3 research questions and contribution status are defined in `docs/research-questions.md` and `Plan/02_RESEARCH_PLAN.md`.
+> **HISTORICAL READING NOTE.** This artifact records the Day 2 V1/V2 reading state. Active v1.1 research questions and contribution status are defined in `docs/research-questions.md`, `docs/literature/prior-art-matrix-v1.1.md`, and `Plan/02_RESEARCH_PLAN.md`.
 
 ## Source and reading scope
 

@@ -1,9 +1,6 @@
-# Planned downstream RQ5 placeholder. No model/API call is made.
-experiment_id: DS0-DS3
-status: NOT_RUN
+# Future downstream placeholder. No model/API call is made.
+status: FUTURE_OUTSIDE_V1_1_CORE
+role: frozen_evidence_consumer_only
 execution_owner: HUMAN
-conditions: [score_only, strongest_expert_evidence, fused_structured_evidence]
-input_artifact: TODO_FROZEN_EVIDENCE
-max_tool_calls: TODO
-seed: TODO
-output_path: outputs/results/agent/
+reactivation_requires: COMPLETED_CORE_AND_NEW_SCOPE_DECISION
+empirical_status: NOT_RUN

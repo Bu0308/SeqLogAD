@@ -1,10 +1,12 @@
-# PROTOCOL-001 — Citation and Method-Provenance Note
+# PROTOCOL-001 v1.0 — Historical Citation and Method-Provenance Note
+
+> Preserved for [`research-protocol-v1.0.md`](../research-protocol-v1.0.md). Active v1.1 provenance is recorded in [`RESEARCH-FREEZE-v1.1-citations.md`](RESEARCH-FREEZE-v1.1-citations.md).
 
 **Task:** Freeze supervision, raw pre-partition, split, leakage, and evaluation protocol  
 **Status:** **FROZEN — HUMAN APPROVED**  
 **Created:** 2026-08-20  
 **Approved:** 2026-08-20  
-**Protocol:** [`../research-protocol.md`](../research-protocol.md)  
+**Protocol:** [`../research-protocol-v1.0.md`](../research-protocol-v1.0.md)
 **Research claims:** None. No experiment has been run and no cited result is treated as a SeqLogAD result.
 
 ## Citation rule for this project

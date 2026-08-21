@@ -9,7 +9,7 @@
 
 ### CITE-SCHEMA-001-01 — Frozen SeqLogAD scientific protocol
 
-- **Source:** `docs/research-protocol.md`, `PROTOCOL-001` version 1.0.
+- **Source:** `docs/research-protocol-v1.0.md`, `PROTOCOL-001` version 1.0.
 - **Status:** VERIFIED — HUMAN APPROVED local source of truth.
 - **Consulted for:** five-way partition names, label-access rules, TEST sealing, HDFS block/session identity, BGL inline-label isolation, Drain3 fit/freeze boundary, `EVT_UNSEEN`, and deterministic event identity requirements.
 - **SeqLogAD use:** Direct internal requirements implemented as schema validators and tests.
@@ -74,4 +74,3 @@ These decisions are untested as research improvements and carry no novelty claim
 - [x] Aletheia is explicitly recorded as not used.
 - [x] No external code or scientific data was copied.
 - [ ] Human researcher audits and accepts SCHEMA-001.
-

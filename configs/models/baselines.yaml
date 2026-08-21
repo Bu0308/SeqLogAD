@@ -1,13 +1,14 @@
-# V3 baseline/expert placeholder. Not runnable; no estimator has been fitted.
-models:
-  - frequency
-  - ngram
-  - markov
-  - isolation_forest
+# v1.1 method inventory placeholder. Not runnable; no estimator has been fitted.
+must:
+  - unseen_event_type
+  - sequence_length
+  - total_event_count
+  - event_count_vector
+  - markov_ngram
+should:
+  - isolation_forest_order_insensitive
+removed_from_core:
   - lstm
-roles:
-  markov: expert_b_transition
-  isolation_forest: expert_c_quantitative
-  lstm: neural_baseline
 seed: TODO
-threshold: TODO
+threshold: TODO_VALIDATION_ONLY
+empirical_status: NOT_RUN

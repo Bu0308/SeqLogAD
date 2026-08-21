@@ -1,61 +1,59 @@
-# Repository Map — V3
-
-This map distinguishes the implemented dataset-integrity foundation from planned V3 research modules.
+# Repository Map — Research Freeze v1.1
 
 ## Top-level areas
 
 | Path | Responsibility | Current status |
 |---|---|---|
-| `configs/` | Version-controlled dataset, scientific protocol, and future experiment contracts | Dataset configs and `protocols/protocol-v1.yaml` active; model/experiment configs are non-runnable placeholders |
-| `data/raw/` | Immutable local HDFS/BGL bytes | Present locally; contents ignored by Git |
-| `data/manifests/` | Exact accepted raw-file identities | HDFS and BGL manifests implemented and verified |
-| `data/parsed/` | Future canonical events/templates | Planned; generated contents ignored |
-| `data/processed/` | Future sequences/splits/features/evidence | Planned; generated contents ignored |
-| `docs/` | Active public scope, research, dataset, and reproducibility contracts | Active V3 documentation |
-| `Plan/` | Version-controlled historical and V3 planning/decision records | V3 synchronization active; older master preserved |
-| `src/seqlogad/` | Canonical installable Python package | Ingestion integrity and CLI modules implemented; other areas placeholders |
-| `scripts/` | Compatibility wrappers for installed command entrypoints | Dataset acquisition/manifest/verification wrappers implemented |
-| `tests/` | Offline unit/integration/security/performance contracts | 73 active foundation/environment/protocol/schema tests; future tests are placeholders |
-| `outputs/` | Experiment-specific artifacts | Generated contents ignored |
-| `docker/` | Future container setup | Documentation placeholder |
-| `.github/workflows/` | Future CI | Documentation placeholder only |
+| `configs/` | Dataset contracts, active protocol v1.1, and clearly gated placeholders | Dataset/protocol active; model/experiment placeholders non-runnable |
+| `data/raw/` | Immutable local HDFS/BGL bytes | Present locally; ignored by Git |
+| `data/manifests/` | Accepted raw-file hashes and dataset fingerprints | Implemented, verified, version-controlled |
+| `data/parsed/` | Future parser/canonical-event artifacts | Empty/generated contents ignored |
+| `data/processed/` | Future split/sequence/control artifacts | Empty/generated contents ignored |
+| `docs/` | Active scope, protocol, RQs, dataset cards, literature, citations | v1.1 active; v1.0 preserved |
+| `Plan/` | Active v1.1 plan plus historical V1/V2/V3 plans and ADRs | Intended to be version-controlled |
+| `src/seqlogad/` | Canonical installable Python package | Ingestion and schemas implemented; scientific pipeline placeholders |
+| `scripts/` | Compatibility wrappers for installed data-foundation CLIs | Implemented for acquisition/manifest/verification only |
+| `tests/` | Active foundation/schema/protocol contracts and labeled future placeholders | Current suite must pass; placeholders are not implementation claims |
+| `outputs/` | Experiment-specific outputs | Generated contents ignored |
+| `docker/` | Container documentation | Minimal runtime skeleton only |
+| `.github/workflows/` | Continuous integration | Minimal Python/pip/pytest workflow |
 
-## V3 module responsibilities
+## Package modules
 
-| Module | V3 responsibility | Status |
+| Module | Active responsibility | Status/scope |
 |---|---|---|
-| `src/seqlogad/ingestion/` | Dataset contracts, acquisition, checksums, manifests, verification | Implemented |
-| `src/seqlogad/common/schemas/` | Canonical events, sequences, mutations, ExpertEvidence, claims | `LogEvent`/`EventTemplate` approved; sequence/localization/mutation contracts await audit; evidence schemas planned |
-| `src/seqlogad/parsing/` | Frozen train-fitted Drain3 and dataset adapters | Planned |
-| `src/seqlogad/sequences/` | HDFS block/BGL windows and token/gap/transition mutation labels | Planned |
-| `src/seqlogad/models/` | Statistical/LSTM baselines and experts A–C | Planned |
-| `src/seqlogad/retrieval/` | Expert D structural normal-reference retrieval; dense P1 | Planned |
-| `src/seqlogad/scoring/` | Aggregation, thresholds, calibration, masks | Planned |
-| `src/seqlogad/evaluation/` | Five-way split, leakage audit, expert/complementarity/fusion metrics | Planned |
-| `src/seqlogad/rag/` | Downstream evidence schemas and verifier | Planned downstream |
-| `src/seqlogad/agent/` | Read-only consumer of frozen evidence artifacts | Planned downstream |
-| `src/seqlogad/testing/` | Structured regression-test recommendation | Planned downstream |
-| `src/seqlogad/storage/` | Backend-independent local/Elasticsearch boundary | Planned |
-| `src/seqlogad/api/`, `src/seqlogad/ui/` | Thin future delivery surfaces | Planned P1 |
+| `seqlogad.ingestion` | Dataset config, acquisition, checksums, manifests, verification | Implemented |
+| `seqlogad.common.schemas` | Canonical event/template and sequence/localization/mutation contracts | Implemented/tested; no real artifact generated |
+| `seqlogad.parsing` | Future normal-BASE Drain3 fit/freeze/read-only transform | MUST / not implemented |
+| `seqlogad.sequences` | HDFS/BGL construction and sequence-destruction provenance | MUST / not implemented |
+| `seqlogad.models` | Order-insensitive controls and Markov/N-gram | MUST/SHOULD / not implemented; neural models conditional/non-core |
+| `seqlogad.evaluation` | Raw split, TEST guard, leakage audit, KT-1–KT-3 metrics | MUST / not implemented |
+| `seqlogad.scoring` | Validation-only aggregation/threshold contracts | MUST when detector exists |
+| `seqlogad.retrieval`, `rag`, `agent`, `testing` | Former V3/downstream modules | FUTURE / placeholders only |
+| `seqlogad.api`, `ui`, `storage` | Delivery/backend boundaries | FUTURE / placeholders only |
 
 ## Active execution flow
 
-Implemented foundation flows are:
+Implemented today:
 
 ```text
-dataset YAML → path/config validation → acquisition/checksum policy
-→ required-file validation → manifest build/reload → integrity verification
+dataset YAML → source/path checks → acquisition policy → required-file checks
+→ deterministic manifest/fingerprint → independent verification
 
-synthetic schema input → strict LogEvent/EventTemplate/EventSequence/MutationRecord validation
-→ deterministic identity/serialization → label-free model-input view
+synthetic schema fixture → strict validation → deterministic serialization/identity
 ```
 
-No real log has been parsed into canonical events. The V3 scientific path from parser execution onward remains planned.
+Not implemented today:
 
-## Architecture boundaries
+```text
+raw pre-partition → parser fit/freeze → canonical artifacts → sequences
+→ baselines → Markov → sequence destruction → scientific gate → TEST
+```
 
-- Experts and fusion do not depend on FastAPI, Streamlit, Elasticsearch, or an LLM provider.
-- Expert D uses only `BASE_TRAIN` normal references.
-- Agent/RAG cannot fit or alter detectors and cannot perform production writes.
-- All future commands remain thin wrappers over tested `seqlogad.*` package logic.
-- Installed commands accept an explicit repository root for data/config resolution; imports never depend on cwd.
+## Boundaries
+
+- Imports use installed `seqlogad.*`, not cwd/PYTHONPATH hacks.
+- Raw bytes/manifests are not changed by scientific planning.
+- TEST remains unavailable to routine model/data-selection code.
+- Future downstream modules cannot fit, change, or override detectors.
+- Historical documents are evidence of prior decisions, not active requirements.

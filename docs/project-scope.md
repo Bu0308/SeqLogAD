@@ -1,187 +1,153 @@
-# Project Scope — V3 Active Contract
-
-> V3 supersedes the active V1/V2 research priorities for future work. Historical plans and decisions are preserved under `Plan/` and marked superseded where applicable.
+# Project Scope — Research Freeze v1.1
 
 ## 1. Problem statement
 
-SeqLogAD studies behavioral anomalies whose meaning depends on event order, omission, repetition, transitions, timing, or context. An individual event may be common while the execution sequence is abnormal.
+SeqLogAD studies whether event order contributes anomaly-detection information beyond event presence, counts, and sequence length in large-scale system logs.
 
-Current research title:
+Topic:
 
-> **Multi-Model Sequence Anomaly Localization with Structured Evidence Fusion and Evidence-Grounded Regression-Test Recommendation**
+> **Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs**
 
-Central research question:
+Core question:
 
-> Do heterogeneous log-anomaly experts provide measurably complementary evidence, and can a scientifically justified fusion mechanism exploit that complementarity without double-counting redundant evidence or becoming less reliable under expert disagreement?
+> How much additional anomaly-detection value does sequence order provide beyond strong order-insensitive baselines under a leakage-controlled, chronological, and equal-budget protocol?
 
-Novelty status is **UNVERIFIED / PRIOR-ART VALIDATION REQUIRED** until `LIT-001` is complete.
+No sequence advantage, dataset suitability, localization faithfulness, fusion value, or novelty is assumed.
 
 ## 2. Product positioning
 
-SeqLogAD is:
+SeqLogAD is a research prototype for sequence-aware log anomaly analysis. It is not an ELK, Elasticsearch, or Kibana replacement, a generic RAG chatbot, or a generic multi-agent platform. Elasticsearch and downstream AI may be future integrations; neither is a v1.1 contribution.
 
-> **A sequence-aware AI investigation and QA layer on top of log/observability infrastructure.**
+## 3. Approved direction
 
-It is not an ELK, Elasticsearch, or Kibana replacement, a generic RAG chatbot, or a generic multi-agent platform. Elasticsearch may later provide storage, filtering, lexical search, and vector retrieval through an adapter. It is not the research contribution.
+`HYBRID_B_PLUS_C`:
 
-## 3. Current research pipeline
+- Option B is the frozen core: keep verified HDFS/BGL and measure sequence added value.
+- Option C is conditional: evaluate localization faithfulness only after sequence and sanity gates.
+- Option A is fallback: dataset expansion requires evidence and a protocol amendment.
+
+## 4. Primary users
+
+| User | Current use |
+|---|---|
+| Researcher/student | Run reproducible dataset-suitability and sequence-value experiments |
+| Supervisor/reviewer | Audit protocol, leakage controls, gates, artifacts, and claims |
+| Future QA/SRE user | Consume frozen anomaly evidence only after core research is valid |
+
+## 5. MUST — frozen core
+
+- Preserve verified HDFS/BGL identity and immutable raw bytes.
+- Complete targeted `LIT-001` and freeze practical-effect policy before runs.
+- Create raw chronological `60/10/10/10/10` split manifest and physical TEST guard.
+- Preserve HDFS block/session atomicity and BGL non-overlapping 100-event parents.
+- Fit Drain3 on normal `BASE_TRAIN` only, freeze it, and transform later partitions read-only.
+- Generate deterministic canonical events and partition-contained sequences.
+- Implement unseen-event, sequence-length, total-count, and count-vector controls.
+- Implement Markov/N-gram as the minimal sequential comparator.
+- Run KT-1, KT-2, and KT-3 under equal legal data/selection budgets.
+- Use PR-AUC as primary detection metric; report secondary error/efficiency metrics.
+- Use seeds `42`, `43`, `44` for stochastic core methods.
+- Apply pre-registered kill criteria and accept negative results.
+- Execute TEST once by the human only after artifact/claim freeze.
+
+## 6. SHOULD
+
+- Isolation Forest over order-insensitive count/summary features.
+- HDFS count-vector collision, purity/conditional-dependence, and out-of-sample analyses.
+- Paired uncertainty/effect analysis at the correct evaluation unit.
+- Lightweight reproducibility/CI checks that do not expand scientific scope.
+
+## 7. CONDITIONAL
+
+| Component | Gate |
+|---|---|
+| Lightweight Transformer | KT-1–KT-3 show meaningful sequence signal and an unresolved long-range question |
+| Synthetic localization | Sequence signal exists; deterministic targets valid; KT-4/KT-5 can test faithfulness |
+| F0 strongest-single and F1 simple mean | At least two eligible experts show measurable complementarity |
+| Additional dataset | Current datasets fail suitability gates and LIT-001 supports a candidate |
+
+Conditional does not mean planned by default. A human decision record must open each branch.
+
+## 8. FUTURE
+
+- Retrieval/RAG and evidence-grounded Agent.
+- Regression-test recommendation.
+- Elasticsearch adapter.
+- FastAPI, Streamlit/dashboard, OpenTelemetry.
+- Broader production deployment, feedback memory, and multi-agent work.
+
+## 9. REMOVED FROM CORE
+
+- Fixed four-expert architecture.
+- LSTM comparator.
+- Normal-reference retrieval expert.
+- F2–F8 learned/evidential/structured fusion ladder.
+- Fusion as the central contribution.
+- RAG/Agent/API/UI as <3-month deliverables.
+
+Historical documents retain these ideas but must be labeled superseded.
+
+## 10. Minimal scientific architecture
 
 ```text
-Raw logs → integrity/provenance → canonical events → Drain3/templates
-→ sequences → leakage-safe splits → heterogeneous experts
-→ complementarity gate → structured evidence fusion
-→ anomaly/localization/reliability → evidence-grounded investigation
-→ regression-test recommendation
+raw integrity → raw pre-partition → normal BASE_TRAIN parser fit/freeze
+→ canonical events/sequences → order-insensitive controls
+→ Markov/N-gram → sequence destruction → gate decision
+→ conditional branch only if justified → one locked human TEST
 ```
 
-The LLM/agent is not an anomaly detector. It consumes frozen detector/fusion outputs downstream and remains read-only.
+## 11. Data and supervision boundaries
 
-## 4. Primary users and use cases
+Preferred framing:
 
-| User | Primary use |
-|---|---|
-| Researcher | Reproduce expert, complementarity, fusion, and downstream evaluations |
-| QA/tester | Review anomalies, evidence, and regression-test recommendations |
-| Developer | Compare observed and expected sequence behavior |
-| SRE/observability engineer | Inspect evidence-linked incident hypotheses |
+> **Normal-only self-supervised sequential anomaly detection with synthetic supervision for conditional anomaly localization.**
 
-Core use cases are sequence anomaly detection/localization, nearest-normal comparison, explicit evidence verification, optional abstention, and evidence-grounded regression-test recommendation.
+- Real labels may filter normal pools and support authorized validation/final evaluation.
+- Labels never enter parser/model text, model inputs, or base loss.
+- Synthetic localization and real-anomaly detection remain separate result families.
+- No synthetic mutation touches raw data.
+- HDFS preprocessed templates/traces are excluded as scientific inputs.
 
-## 5. P0 active research scope
+## 12. TEST boundary
 
-- Verified HDFS/BGL integrity, provenance, manifests, and fingerprints.
-- Canonical event/template/sequence schemas.
-- Frozen train-fitted Drain3 parsing.
-- HDFS block sequences and BGL chronology-aware windows.
-- Five-way leakage-safe partition contract.
-- Deterministic synthetic mutation and token/gap/transition labels.
-- Frequency/statistical baselines and LSTM neural baseline.
-- Expert A: lightweight causal SeqLogAD-T Transformer.
-- Expert B: Markov/N-gram transition expert.
-- Expert C: Isolation Forest quantitative expert.
-- Expert D: structural normal-reference retriever.
-- Common expert-evidence contract and calibration infrastructure.
-- Complementarity analysis and expert retention gate.
-- Strongest-single and F1–F7 standard fusion baselines.
-- F8 structured evidence fusion candidate.
-- Detector, localization, calibration, reliability, and statistical evaluation.
-- Reproducible scripts/configs/tests and human-run experiment handoff.
+TEST is contractually sealed but not physically sealed. Physical sealing requires a split manifest, partition hashes, and access guard. TEST cannot support fitting, tuning, thresholding, calibration, architecture/dataset/claim selection, or novelty decisions. The human opens it once after freeze.
 
-The four-expert set is provisional. An expert with no meaningful marginal contribution must be removed or demoted.
+## 13. Falsification and kill policy
 
-## 6. P1 recommended
+- Order-insensitive saturation blocks sequence-advantage claims.
+- Strong HDFS count-label dependence blocks use of HDFS alone as sequence evidence.
+- No meaningful shuffle degradation blocks order-sensitivity claims.
+- No residual long-range question blocks Transformer work.
+- Failed localization sanity controls block localization-faithfulness claims.
+- No complementarity blocks trainable fusion.
 
-- Dense semantic retrieval for Expert D.
-- Partial expert unfreezing after staged-training baselines.
-- Elasticsearch adapter.
-- Downstream evidence verifier, agent tracing, FastAPI, and Streamlit MVP.
-- Docker/CI and performance benchmark.
-- Safe pytest skeleton generation after recommendation validation.
+The minimum practical effect remains `TO_BE_FROZEN_BEFORE_RUN` and cannot be selected after outcomes are seen.
 
-## 7. P2 optional
+## 14. Research and safety non-goals
 
-- OpenStack dataset.
-- Adaptive thresholds.
-- Safe sandbox test execution.
-- Richer feedback memory.
-- OpenTelemetry ingestion.
+- No claim that SeqLogAD is better than Elastic/ELK.
+- No SOTA, first-method, or novelty claim without verified prior art and experiments.
+- No production remediation or arbitrary execution.
+- No hidden TEST access by Agent/RAG or any other component.
+- No fabricated metric, citation, table, plot, or completed experiment.
 
-## 8. P3 future work
+## 15. Data/privacy/license boundaries
 
-- Multi-agent investigation.
-- Continual learning.
-- Automatic production remediation.
-- Kubernetes-wide RCA.
-- Massive-scale production deployment.
-- Custom foundation model.
+- Raw benchmarks, archives, private logs, credentials, tokens, and generated bulk artifacts stay out of Git.
+- Manifests, configs, source, tests, protocols, and citations are version-controlled.
+- Public downloadability is not redistribution permission.
+- Project source license remains `OWNER_DECISION_REQUIRED`.
 
-## 9. Expert contract
+## 16. Core completion criteria
 
-| Expert | Primary signal | Localization constraint |
-|---|---|---|
-| SeqLogAD-T | Long-range context/order | Token, gap, and transition outputs where supported |
-| Markov/N-gram | Short-range transition probability | Transition evidence |
-| Isolation Forest | Quantitative/statistical behavior | No token location without explicit feature evidence |
-| Normal-reference retriever | Deviation from nearest normal execution | Structural diff with reference IDs |
+The core is complete only when:
 
-## 10. Localization contract
+1. LIT-001 and practical-effect policy are frozen.
+2. Raw split/TEST guard, parser, events, and sequences are deterministic and leakage-audited.
+3. KT-1–KT-3 have traceable human-executed artifacts.
+4. Gate/kill decisions follow the pre-registered protocol.
+5. Conditional components are either justified or explicitly cut.
+6. Final TEST is opened once after artifact freeze.
+7. Claims and limitations map to pipeline-generated evidence.
 
-- Token positions represent extra, replacement, and repeated observed events.
-- Gap positions represent missing events. `E1 E2 E3` has `G0 E1 G1 E2 G2 E3 G3`.
-- Transition positions represent unexpected transitions and reorder-related evidence.
-
-A single token-score vector is not sufficient for every anomaly family.
-
-## 11. Data and supervision terminology
-
-Preferred description:
-
-> **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
-
-- Real anomaly labels may filter authorized normal pools and support validation/evaluation, but they never enter model inputs or base self-supervised losses.
-- Synthetic labels are generated only from training-derived normal sequences.
-- TEST labels are accessed only during locked final evaluation.
-- The frozen chronological split is `60/10/10/10/10`.
-
-Partitions: `BASE_TRAIN` (60%), `FUSION_TRAIN` (10%), `VAL_EXPERT` (10%), `VAL_FUSION` (10%), and `TEST` (10%). HDFS preserves block/session atomicity with boundary purge; BGL uses non-overlapping 100-event parent windows. Full access, leakage, parser, mutation, selection, and TEST-lock rules are frozen in [`research-protocol.md`](research-protocol.md).
-
-## 12. Training ownership
-
-AI/Codex prepares source, preprocessing, models, losses, fusion, configs, tests, evaluation scripts, and commands.
-
-The human researcher executes training, tuning, checkpoint selection, ablations, fusion training, locked TEST evaluation, and empirical decisions. AI must never fabricate training metrics.
-
-## 13. Fusion boundaries
-
-Required baselines are strongest single expert, normalized mean, validation-weighted average, voting/rank voting, logistic stacking, MLP stacking, standard gating/MoE, and an evidential/Dempster-Shafer baseline when technically applicable.
-
-The current minimal fusion-loss candidate is detection loss plus fused-localization loss. Redundancy-aware terms remain potential work requiring prior-art review and ablation. Conflict is an input, verifier signal, abstention signal, and evaluation variable—not an official `confidence × conflict` loss.
-
-## 14. Non-goals and safety boundaries
-
-- No storage/search infrastructure rewrite.
-- No production write, deployment, remediation, arbitrary shell, or destructive agent tools.
-- No forced root cause when evidence is insufficient.
-- No model metric without a traceable run artifact.
-- No novelty or superiority claim before literature and experiments.
-- Logs and documents are untrusted data, never instructions.
-
-## 15. Data/privacy boundaries
-
-- Do not commit raw benchmark logs, archives, private logs, credentials, tokens, identifiers, or generated bulk artifacts.
-- Raw bytes are immutable after acceptance.
-- Public availability does not imply unrestricted redistribution.
-- Manifests, configs, source, tests, and research plans are version-controlled.
-
-## 16. Scientific contribution status
-
-| Candidate | Status |
-|---|---|
-| Heterogeneous expert system | Engineering/research design |
-| Transformer | Known component |
-| Markov/N-gram | Known component |
-| Isolation Forest | Known component |
-| Retrieval expert | Adaptation/known family |
-| Synthetic mutation | Known/general technique |
-| Ranking loss | Known/general technique |
-| Localization loss | Adaptation |
-| Structured claim representation | Potential contribution |
-| Claim-level heterogeneous evidence fusion | Potential contribution |
-| Redundancy-aware fusion | High prior-art risk |
-| Conflict-aware abstention | Known/general family |
-| RCA/test recommendation integration | Potential integration contribution |
-
-No row currently has status `NOVEL`.
-
-## 17. V3 completion criteria
-
-The research core is complete only when:
-
-1. Canonical data artifacts and five-way splits are deterministic and leakage-audited.
-2. Expert A–D implementations and strong baselines have human-executed, traceable results.
-3. Complementarity is measured before expert retention and fusion claims.
-4. F0–F7 precede F8 in comparisons.
-5. Detection, localization, calibration, latency, and reliability are reported.
-6. Final TEST is run once under the locked protocol by the human researcher.
-7. Claims are assigned supported, partially supported, unsupported, or rejected status.
-8. Downstream investigation/test recommendation is evaluated only from frozen evidence artifacts.
+See [`research-protocol-v1.1.md`](research-protocol-v1.1.md).

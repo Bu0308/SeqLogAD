@@ -1,16 +1,18 @@
 # Documentation
 
-Active public documentation lives under `docs/`. Version-controlled research plans, architecture, decisions, backlog, roadmap, and experiment tracker live under `Plan/`.
+Active scientific documentation:
 
-- `project-scope.md`: active V3 product/research contract.
-- `research-questions.md`: RQ1–RQ5 and falsification criteria.
-- `research-protocol.md`: frozen supervision, split, leakage, fitting, and evaluation contract.
-- `references/`: task-specific citation and method-provenance notes.
-- `schemas/`: versioned scientific data contracts and field-level boundaries.
-- `architecture/`: architecture index and future diagrams/contracts.
-- `research/`: prior-art and contribution-status material.
-- `experiments/`: human-run experiment evidence and failure analyses.
-- `testing/`: active/future test requirements.
-- `datasets/` and `dataset-acquisition.md`: immutable dataset provenance.
+- [`project-scope.md`](project-scope.md): v1.1 core, conditional, future, and removed scope.
+- [`research-questions.md`](research-questions.md): RQ1–RQ3 core and conditional RQ4.
+- [`research-protocol.md`](research-protocol.md): current protocol entry point.
+- [`research-protocol-v1.1.md`](research-protocol-v1.1.md): active frozen protocol.
+- [`research-protocol-v1.0.md`](research-protocol-v1.0.md): preserved historical protocol.
+- [`literature/prior-art-matrix-v1.1.md`](literature/prior-art-matrix-v1.1.md): targeted `LIT-001` matrix (`IN_PROGRESS`).
+- [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md): source and method provenance for the redirect.
+- [`datasets/`](datasets/): immutable dataset identity and suitability caveats.
+- [`schemas/`](schemas/): implemented schema contracts; not evidence that data artifacts exist.
+- [`reproducibility.md`](reproducibility.md): environment/artifact discipline.
 
-Historical documents remain identifiable as historical/superseded; they are not silently rewritten into current experimental claims.
+Planning, architecture, backlog, roadmap, ADRs, and experiment status live under [`../Plan/`](../Plan/). The active plan is `master-implementation-plan-v1.1.md`; V1/V2/V3 plans are historical and labeled superseded.
+
+No documentation file may turn `NOT_RUN` work into a result or treat a placeholder module as implementation.

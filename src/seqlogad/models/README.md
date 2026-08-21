@@ -1,15 +1,15 @@
 # Models
 
-Planned V3 model boundary for statistical/LSTM baselines and heterogeneous experts A–C.
+Planned v1.1 boundary for the smallest methods needed to test sequence added value.
 
 | Component | Role | Status |
 |---|---|---|
-| Frequency/statistical | Reference baseline | Not implemented |
-| Markov/N-gram | Expert B: short transition surprise | Not implemented |
-| Isolation Forest | Expert C: quantitative behavior | Not implemented |
-| LSTM | Strong neural baseline | Not implemented |
-| SeqLogAD-T | Expert A: long-range context/localization | Not implemented |
+| Unseen event / length / count vector | MUST order-insensitive controls | Not implemented |
+| Markov/N-gram | MUST minimal sequential comparator | Not implemented |
+| Isolation Forest | SHOULD order-insensitive comparator | Not implemented |
+| SeqLogAD-T | CONDITIONAL after sequence-signal gate | Not implemented |
+| LSTM | REMOVED_FROM_CORE historical placeholder | Not implemented |
 
-Inputs are leakage-safe `EventSequence` artifacts. Outputs must conform to the future `ExpertEvidence` schema. Training/checkpoint selection is human-owned; no model/checkpoint exists.
+Inputs must be leakage-safe `EventSequence` artifacts. Human owns empirical execution/selection; no estimator, checkpoint, prediction, or metric exists.
 
-PyTorch/scikit-learn dependencies are not added by the V3 documentation task.
+Future dependencies are added only by the owning approved method task.

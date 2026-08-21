@@ -1,3 +1,3 @@
 # Docker
 
-P1 deployment skeleton. Docker runtime wiring is deferred to OPS-001. Elasticsearch is optional and must not block the local MVP.
+Environment-only skeleton using canonical Python 3.12. Dependency installation, services, Elasticsearch, and scientific runtime wiring are not implemented. Container work must not block the local sequence-value study.

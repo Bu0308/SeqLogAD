@@ -6,7 +6,7 @@ protocol:
   approved_on: "2026-08-20"
   empirical_status: NOT_RUN
   execution_ready: false
-  human_readable_contract: docs/research-protocol.md
+  human_readable_contract: docs/research-protocol-v1.0.md
   citation_note: docs/references/PROTOCOL-001-citations.md
 
 framing:
@@ -219,4 +219,3 @@ change_control:
   decision_log_required: true
   citation_update_required: true
   preserve_old_versions: true
-

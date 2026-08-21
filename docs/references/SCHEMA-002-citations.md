@@ -9,7 +9,7 @@
 
 ### CITE-SCHEMA-002-01 — Frozen SeqLogAD scientific protocol
 
-- **Source:** `docs/research-protocol.md`, `PROTOCOL-001` version 1.0.
+- **Source:** `docs/research-protocol-v1.0.md`, `PROTOCOL-001` version 1.0.
 - **Status:** VERIFIED — HUMAN APPROVED local source of truth.
 - **Consulted for:** `60/10/10/10/10` partitions, HDFS atomic/purge semantics, BGL non-overlapping 100-event parents and residual rule, label-access boundaries, TEST sealing, normal-only synthetic source pools, mutation taxonomy, and token/gap/transition separation.
 - **SeqLogAD use:** Direct internal requirements represented as strict schemas and synthetic-only tests.

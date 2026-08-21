@@ -1,15 +1,16 @@
 # Configuration
 
-Dataset YAML files are active acquisition/integrity contracts. Model, retrieval, agent, and experiment YAML files are non-runnable placeholders until their owning tasks validate schemas and commands.
+`pyproject.toml` is the package/dependency contract. Dataset YAML files are active acquisition/integrity contracts. [`protocols/protocol-v1.1.yaml`](protocols/protocol-v1.1.yaml) is the active machine-readable scientific contract; `protocol-v1.yaml` is historical.
 
-V3 requires explicit five-way split scope, expert identity, calibration/fusion input artifacts, seed, dataset fingerprint, and human-run ownership. `protocols/protocol-v1.yaml` freezes the chronological `60/10/10/10/10` scientific protocol; it is not a runnable experiment config.
+Model/experiment/retrieval/agent YAML files are non-runnable placeholders. Their statuses distinguish `MUST`, `SHOULD`, `CONDITIONAL`, `FUTURE`, and `REMOVED_FROM_CORE`; the presence of a file does not mean implementation exists.
 
 Rules:
 
 - no secrets or private absolute paths;
-- no TEST fitting/tuning;
-- all overrides and selected artifacts are traceable;
-- structural Expert D is P0; dense retrieval is P1;
-- no future dependency is activated merely because a placeholder exists.
+- raw chronological split precedes fitted transforms/windows;
+- no TEST fitting, selection, thresholding, calibration, or architecture/claim choice;
+- every run references exact protocol/config/artifact identities;
+- Transformer/localization/fusion require recorded gates;
+- future downstream placeholders cannot activate dependencies or scope.
 
 See [`../docs/config-convention.md`](../docs/config-convention.md).

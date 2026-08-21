@@ -1,7 +1,7 @@
 # Research documentation
 
-The active questions are RQ1 expert value, RQ2 complementarity, RQ3 fusion, RQ4 reliability/redundancy, and RQ5 downstream value. All are hypotheses to be tested.
+The active questions are RQ1 dataset suitability, RQ2 sequence added value, RQ3 order sensitivity, and conditional RQ4 localization faithfulness. All are hypotheses to be tested.
 
-`LIT-001` must create a prior-art matrix before any novelty claim. Current contribution labels are known component, adaptation, potential contribution, or high prior-art risk; none is `NOVEL`.
+`LIT-001` is `IN_PROGRESS`; its targeted v1.1 matrix does not complete a systematic review. No contribution is labeled `NOVEL`.
 
-See [`../research-questions.md`](../research-questions.md), the frozen [`../research-protocol.md`](../research-protocol.md), and [`../../Plan/02_RESEARCH_PLAN.md`](../../Plan/02_RESEARCH_PLAN.md).
+See [`../research-questions.md`](../research-questions.md), [`../research-protocol-v1.1.md`](../research-protocol-v1.1.md), [`../literature/prior-art-matrix-v1.1.md`](../literature/prior-art-matrix-v1.1.md), and [`../../Plan/02_RESEARCH_PLAN.md`](../../Plan/02_RESEARCH_PLAN.md).

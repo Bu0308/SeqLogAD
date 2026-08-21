@@ -51,8 +51,5 @@ outputs/runs/*
 .idea/
 .vscode/
 
-# Research plans under Plan/ are version-controlled. Keep local scratch notes
-# outside the repository or add an explicit personal exclude rule in
-# .git/info/exclude.
-
-Plan/
+# Research plans under Plan/ are version-controlled. Keep personal scratch
+# notes outside the repository or in .git/info/exclude.

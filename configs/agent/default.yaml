@@ -1,9 +1,7 @@
-# P0 placeholder for AGT-001, AGT-002 and RAG-002/003.
-framework: langgraph
+# Future-only read-only Agent placeholder; outside Research Freeze v1.1 core.
+status: FUTURE_OUTSIDE_V1_1_CORE
 mode: read_only
-max_tool_calls: TODO
-max_rounds: TODO
-tool_timeout_seconds: TODO
 allow_production_writes: false
 allow_shell: false
+hidden_test_label_access: false
 insufficient_evidence_status: insufficient_evidence

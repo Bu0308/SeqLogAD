@@ -2,277 +2,220 @@
 
 # SeqLogAD
 
-### Multi-Model Sequence Anomaly Localization for System Logs
+### Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs
 
-A research project studying heterogeneous sequence-anomaly experts, structured evidence fusion, and evidence-grounded regression-test recommendation for large-scale system logs.
+A research project testing **whether and when event order adds measurable anomaly-detection value beyond strong order-insensitive baselines**.
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Tests](https://img.shields.io/badge/tests-73%20passed-brightgreen)
-![Stage](https://img.shields.io/badge/stage-canonical%20schema-orange)
+![Protocol](https://img.shields.io/badge/protocol-v1.1%20frozen-blue)
+![Results](https://img.shields.io/badge/scientific%20results-NOT__RUN-lightgrey)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
 </div>
 
 > [!IMPORTANT]
-> Dataset integrity/provenance, the reproducible environment, the frozen scientific protocol, and canonical event/template schemas are implemented. Sequence, partition, localization, and mutation schema contracts are implemented and awaiting human audit. No real canonical event or sequence artifact has been generated. Drain3 parsing, split/sequence/mutation generation, models, complementarity analysis, fusion, retrieval, investigation, API, and UI remain planned. No model has been trained and no empirical model result is reported.
+> The data-integrity foundation, reproducible Python environment, and schema contracts are implemented and tested. The scientific pipeline is not complete: no project parser run, split artifact, baseline/model fit, training, tuning, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
 
-## Research direction
+## Current scientific question
 
-SeqLogAD studies:
+The active question is:
 
-> **Multi-Model Sequence Anomaly Localization with Structured Evidence Fusion and Evidence-Grounded Regression-Test Recommendation.**
+> **How much additional anomaly-detection value does sequence order provide beyond strong order-insensitive baselines under a leakage-controlled, chronological, and equal-budget evaluation protocol?**
 
-Central research question:
+This is deliberately falsifiable. SeqLogAD does not assume that:
 
-> Do heterogeneous log-anomaly experts provide measurably complementary evidence, and can a scientifically justified fusion mechanism exploit that complementarity without double-counting redundant evidence or becoming less reliable under expert disagreement?
+- HDFS or BGL necessarily contains useful non-trivial sequence signal;
+- a sequence model must beat a count-based baseline;
+- a Transformer is needed;
+- localization or fusion will be scientifically justified.
 
-The four-expert design is provisional. An expert remains in the final fusion only if complementarity analysis demonstrates measurable incremental value.
+Negative or null findings are valid outcomes.
 
-Novelty status: **UNVERIFIED / PRIOR-ART VALIDATION REQUIRED**. “Structured Evidence Consensus Fusion” is a working name, not a novelty claim.
+## Why test sequence information explicitly?
 
-## Why sequence anomalies matter
-
-Operational failures can occur even when every individual event is common and no `ERROR` line appears:
-
-```text
-Expected: LOGIN_REQUEST → TOKEN_VALIDATE → USER_LOOKUP → SESSION_CREATE → LOGIN_SUCCESS
-Observed: LOGIN_REQUEST →                  USER_LOOKUP → SESSION_CREATE → LOGIN_SUCCESS
-```
-
-The missing validation step is a behavioral sequence anomaly. SeqLogAD targets missing, extra, reordered, repeated, unexpected-transition, timing, and contextual anomalies.
-
-Localization uses separate coordinate systems:
-
-- **Token positions:** extra, replacement, or repeated observed events.
-- **Gap positions:** missing events; for `E1 E2 E3`, the gaps are `G0 E1 G1 E2 G2 E3 G3`.
-- **Transition positions:** unexpected transitions and reorder-related evidence.
-
-## Product positioning
-
-SeqLogAD is a **sequence-aware AI investigation and QA layer on top of observability infrastructure**.
-
-It is not an ELK, Elasticsearch, or Kibana replacement; it is not a generic RAG chatbot or generic multi-agent platform. Elasticsearch may later provide P1/P2 storage and search adapters, but it is not the research contribution.
-
-The LLM/agent is not an anomaly detector. It is a downstream, read-only consumer of frozen expert/fusion outputs and evidence IDs.
-
-## Research architecture
+A true behavioral anomaly may be invisible to per-event frequency:
 
 ```text
-Raw System Logs
-      ↓
-Dataset Integrity / Provenance                 [IMPLEMENTED]
-      ↓
-Minimal Metadata + Group-Key Extraction        [PLANNED]
-      ↓
-Raw Chronological Pre-Partition                [PLANNED]
-BASE_TRAIN / FUSION_TRAIN / VAL_EXPERT
-VAL_FUSION / sealed TEST
-      ↓
-Label Isolation + Normal-Pool Filtering        [CONTRACT IMPLEMENTED; PIPELINE PLANNED]
-      ↓
-Fit Drain3 on Normal BASE_TRAIN, Then Freeze   [PLANNED]
-      ↓
-Transform Every Partition Read-Only            [PLANNED]
-      ↓
-Canonical Event/Template Artifacts             [SCHEMA IMPLEMENTED; GENERATION PLANNED]
-      ↓
-Build Sequences Inside Each Partition          [SCHEMA IMPLEMENTED; BUILDER PLANNED]
-      ↓
-Synthetic Mutation + Localization Targets      [SCHEMA IMPLEMENTED; GENERATOR PLANNED]
-      ↓
-┌──────────────────────────────────────────────────────────┐
-│ HETEROGENEOUS EXPERTS                          [PLANNED] │
-│ A — SeqLogAD-T lightweight causal Transformer           │
-│ B — Markov / N-gram transition expert                   │
-│ C — Isolation Forest quantitative expert                │
-│ D — normal-reference structural retrieval expert        │
-└───────────────────────────┬──────────────────────────────┘
-                            ↓
-Freeze Experts + Generate Versioned Evidence    [PLANNED]
-                            ↓
-Calibration + Complementarity Analysis          [PLANNED]
-                            ↓
-KEEP / DEMOTE / REMOVE Gate                     [PLANNED]
-                            ↓
-Fusion Baselines F0–F7 + Proposed F8            [PLANNED]
-                            ↓
-Anomaly + Token/Gap/Transition Localization
-+ Reliability / Optional Abstention             [PLANNED]
-                            ↓
-Locked Final TEST Evaluation                    [PLANNED; HUMAN ONLY]
-                            ↓
-Evidence-Grounded Investigation                 [PLANNED; DOWNSTREAM]
-                            ↓
-Regression-Test Recommendation                  [PLANNED; DOWNSTREAM]
+Expected: LOGIN_REQUEST → TOKEN_VALIDATE → USER_LOOKUP → SESSION_CREATE
+Observed: LOGIN_REQUEST →                  USER_LOOKUP → SESSION_CREATE
 ```
 
-## Expert overview
+However, a benchmark label may also be predictable from unseen event types, sequence length, or event counts. SeqLogAD therefore tests cheap order-insensitive explanations before attributing performance to sequence order.
 
-| Expert | Primary inductive bias | Expected evidence | Status |
-|---|---|---|---|
-| A — SeqLogAD-T | Long-range context and order | Missing/reordered/contextually inconsistent events | Planned |
-| B — Markov/N-gram | Short local transition probability | Rare or unexpected transitions | Planned |
-| C — Isolation Forest | Quantitative/statistical behavior | Length, frequency, repetition, entropy, rarity | Planned |
-| D — Normal-reference retrieval | Deviation from historical normal execution | Nearest-normal IDs and structural differences | Planned |
+## Research Freeze v1.1
 
-Dense semantic retrieval is P1. Expert D starts with edit distance, LCS, event n-gram overlap, and transition overlap.
+The approved direction is `HYBRID_B_PLUS_C`:
 
-## Complementarity and fusion gates
+- **Core (Option B):** keep the exact verified HDFS/BGL datasets and measure sequence added value over strong order-insensitive controls.
+- **Conditional (Option C):** study localization faithfulness only if sequence signal and localization sanity gates pass.
+- **Fallback (Option A):** consider a different/expanded dataset only after the current datasets fail pre-registered suitability gates and literature supports a candidate.
 
-Before proposed fusion training, the project must measure score correlation, prediction disagreement, error overlap, oracle ensemble gain, anomaly-family conditional performance, localization overlap, and marginal contribution. Redundant experts may be removed or demoted.
+Current novelty status is **UNVERIFIED**. Recent work already covers multi-pattern fusion, mixture-of-experts, localization, and structured synthetic logs; no component is advertised as novel before `LIT-001` is complete.
 
-Required fusion ladder:
+## Minimal gated architecture
 
-| ID | Baseline |
+```text
+Verified immutable HDFS/BGL bytes                    [IMPLEMENTED]
+        ↓
+Metadata/group-key extraction without fitted parser  [PLANNED]
+        ↓
+Raw chronological 60/10/10/10/10 partition           [PLANNED]
+        ↓
+Normal BASE_TRAIN → fit/freeze Drain3                 [PLANNED]
+        ↓
+Read-only transform → canonical events/sequences      [SCHEMAS IMPLEMENTED;
+                                                       GENERATION PLANNED]
+        ↓
+Order-insensitive controls                            [PLANNED / MUST]
+  unseen-event · length · count/count-vector
+  Isolation Forest                                   [PLANNED / SHOULD]
+        ↓
+Markov/N-gram sequential baseline                     [PLANNED / MUST]
+        ↓
+Sequence-destruction negative control                 [PLANNED / MUST]
+  preserve multiset · counts · length · label
+        ↓
+Human scientific gate
+        ├── insufficient sequence value → report/reframe; stop complexity
+        └── meaningful sequence value
+              ├── lightweight Transformer             [CONDITIONAL]
+              ├── localization faithfulness           [CONDITIONAL]
+              └── simple/complementarity fusion       [CONDITIONAL]
+        ↓
+One human-executed locked final TEST                   [PLANNED]
+
+RAG / Agent / API / UI / Elasticsearch                [FUTURE, NOT CORE]
+```
+
+The old fixed four-expert and F0–F8 fusion architecture is preserved as historical V3 planning, not active scope.
+
+## Pre-registered killer experiments
+
+| ID | Question | Status |
+|---|---|---|
+| KT-1 | Do unseen-event, length, count/count-vector, or Isolation Forest already reach the practical ceiling? | `NOT_RUN` |
+| KT-2 | How much of HDFS label behavior is explainable without event order? | `NOT_RUN` |
+| KT-3 | Does destroying order while preserving counts and length reduce sequential performance? | `NOT_RUN` |
+| KT-4 | Does localization beat randomized-position controls? | `NOT_RUN / CONDITIONAL` |
+| KT-5 | Do counterfactual repair/deletion tests support localization faithfulness? | `NOT_RUN / CONDITIONAL` |
+| KT-6 | Does conditional fusion ignore random/corrupted expert evidence? | `NOT_RUN / CONDITIONAL` |
+
+Kill criteria are frozen before experiments. The minimum practical effect is intentionally `TO_BE_FROZEN_BEFORE_RUN`; no arbitrary value was invented in documentation.
+
+## Scope
+
+| Class | Included work |
 |---|---|
-| F0 | Strongest single expert |
-| F1 | Normalized mean |
-| F2 | Validation-weighted average |
-| F3 | Voting/rank voting |
-| F4 | Logistic stacking |
-| F5 | MLP stacking |
-| F6 | Standard gating/MoE |
-| F7 | Evidential/Dempster-Shafer, if technically applicable |
-| F8 | Proposed structured fusion |
-
-The minimal fusion-loss candidate is detection loss plus fused-localization loss. A redundancy term is only potential work pending prior-art and ablation evidence. Conflict is currently an input, verifier signal, abstention signal, and evaluation variable—not the rejected `confidence × conflict` core penalty.
+| **MUST** | Data/split provenance, TEST guard, frozen normal-only Drain3, canonical events/sequences, unseen-event/length/count baselines, Markov/N-gram, KT-1–KT-3, leakage audit, reproducible evaluation |
+| **SHOULD** | Isolation Forest order-insensitive comparator, count-label dependence diagnostics, paired uncertainty analysis |
+| **CONDITIONAL** | Transformer, localization + KT-4/KT-5, strongest-single/simple fusion + KT-6 after complementarity |
+| **FUTURE** | Dataset expansion, retrieval/RAG/Agent, test recommendation, Elasticsearch adapter, FastAPI, Streamlit/dashboard |
+| **REMOVED FROM CORE** | LSTM, fixed four-expert design, normal-reference expert, F2–F8 trainable fusion ladder, multi-agent platform |
 
 ## Current implementation status
 
-| Capability | Status | Evidence today |
-|---|---|---|
-| Dataset contracts | Implemented | Strict HDFS/BGL Pydantic/YAML contracts |
-| Safe acquisition | Implemented | Canonical source, `.part`, timeout, checksum, non-overwrite policy |
-| Checksums | Implemented | Streaming source MD5 and local SHA-256 |
-| Manifests/fingerprints | Implemented | Deterministic version-controlled JSON manifests |
-| Manifest verification | Implemented | Independent file-size/hash/fingerprint checks |
-| Reproducible Python environment | Implemented | Python 3.12, editable `seqlogad` package, tested dependency lock |
-| Scientific protocol | Frozen | Human-approved `PROTOCOL-001` plus machine-readable regression guard |
-| Canonical event/template schemas | Implemented and approved | Frozen immutable `SCHEMA-001` contract; no real event artifact generated |
-| Sequence/localization/mutation schemas | Implemented; awaiting audit | Strict `SCHEMA-002` contracts; no real sequence or mutation artifact generated |
-| Raw pre-partition/split manifest | Planned | Must occur before parser fitting and window generation |
-| Drain3 fit/freeze and canonical-event generation | Planned | No logs parsed by the project pipeline |
-| Sequence/mutation generators | Planned | No processed sequence or mutation artifacts |
-| Experts A–D | Planned | No model implementation, fit, training, or checkpoints |
-| Complementarity/calibration/fusion | Planned | No experiment has run |
-| Retrieval/RAG/agent/API/UI | Planned downstream | Placeholder modules only |
+| Capability | Status |
+|---|---|
+| HDFS/BGL acquisition, checksums, manifests, fingerprints, verification | **Implemented and verified** |
+| Python 3.12 environment, editable `seqlogad` package, dependency lock, CLIs | **Implemented and verified** |
+| Canonical event/template schemas | **Implemented and tested** |
+| Sequence/localization/mutation schema contracts | **Implemented and tested; no real artifact generated** |
+| Research protocol v1.1 and negative-control contract | **Frozen; empirical status `NOT_RUN`** |
+| Raw split manifest and physical TEST guard | **Not implemented** |
+| Drain3 scientific fit/freeze and parsed events | **Not implemented** |
+| Sequence builder and killer-experiment pipeline | **Not implemented** |
+| Baselines/models/localization/fusion | **Not implemented or fitted** |
+| RAG/Agent/API/UI | **Future placeholders only** |
 
 ## Dataset provenance
 
-Raw benchmarks are excluded from Git. The manifests identify the exact extracted bytes accepted locally.
+Raw benchmark files are local and excluded from Git. Version-controlled manifests identify the accepted bytes.
 
-| Dataset | Manifested files | Bytes | Source archive | Manifest | Fingerprint |
-|---|---:|---:|---|---|---|
-| HDFS_v1 | 6 | 1,828,041,800 | Verified | Verified | `0103c63b...4013` |
-| BGL | 1 | 743,185,031 | Verified | Verified | `c9ee7a8d...e861` |
+| Dataset | Source archive | Manifest | Dataset fingerprint | Scientific suitability |
+|---|---|---|---|---|
+| HDFS_v1 | Verified | Verified | `0103c63b...4013` | `TO_BE_TESTED` by KT-1–KT-3 |
+| BGL | Verified | Verified | `c9ee7a8d...e861` | `TO_BE_TESTED` by KT-1–KT-3 |
 
-Full fingerprints and source checksums are recorded in the [HDFS dataset card](docs/datasets/hdfs.md), [BGL dataset card](docs/datasets/bgl.md), and [acquisition documentation](docs/dataset-acquisition.md). Downloadability does not imply unrestricted redistribution; raw data and archives are not distributed in this repository.
+See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), and [acquisition guide](docs/dataset-acquisition.md). Public availability does not imply unrestricted redistribution.
+
+## Frozen data and TEST discipline
+
+- Split raw atomic units chronologically: `BASE_TRAIN/FUSION_TRAIN/VAL_EXPERT/VAL_FUSION/TEST = 60/10/10/10/10`.
+- HDFS uses block/session atomicity and purges boundary-spanning components.
+- BGL uses non-overlapping 100-event parent windows created after partitioning.
+- Labels may filter authorized normal pools and support validation/evaluation, but never enter model inputs or base loss.
+- Drain3 fits normal `BASE_TRAIN` only and then freezes.
+- TEST is contractually sealed now. It becomes physically sealed only when a split manifest, partition hashes, and access guard exist.
+- Final TEST runs once, by the human researcher, after all artifacts and claims are frozen.
+
+The source of truth is [Protocol v1.1](docs/research-protocol-v1.1.md) and its [machine contract](configs/protocols/protocol-v1.1.yaml).
 
 ## Quick start: verify the implemented foundation
 
 ```bash
 git clone https://github.com/Bu0308/SeqLogAD.git
 cd SeqLogAD
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -c requirements.lock -e ".[dev]"
 python -m pip check
 python -m pytest -q
 ```
 
-After acquiring datasets according to [docs/dataset-acquisition.md](docs/dataset-acquisition.md):
+After acquiring raw datasets according to the [acquisition guide](docs/dataset-acquisition.md):
 
 ```bash
 seqlogad-verify-dataset --project-root . --dataset hdfs --json
 seqlogad-verify-dataset --project-root . --dataset bgl --json
 ```
 
-The canonical import namespace is `seqlogad.*`; imports do not require `PYTHONPATH` or execution from the repository root. The repository-local `scripts.*` wrappers remain available for compatibility.
-
-No parser, model-training, fusion-training, or final-test command exists yet.
+No command for parser execution, split generation, baseline experiments, model training, or final TEST is available yet.
 
 ## Research questions
 
-All questions are **HYPOTHESIS — TO BE TESTED**:
+All are **HYPOTHESIS — TO BE TESTED**:
 
-1. **Expert value:** How well do individually optimized heterogeneous experts capture different behavioral anomaly mechanisms?
-2. **Complementarity:** Do heterogeneous experts exhibit measurable complementary error and localization patterns?
-3. **Fusion:** Can structured evidence fusion outperform the strongest individual expert and standard fusion baselines?
-4. **Reliability/redundancy:** Does explicit handling of expert dependency improve reliability and false-positive control without sacrificing detection performance?
-5. **Downstream value:** Does fused structured evidence improve evidence-grounded investigation and regression-test recommendation compared with score-only context?
+1. **Dataset suitability:** Do the exact HDFS/BGL artifacts contain enough non-trivial sequential information for a sequence-based claim?
+2. **Sequence added value:** How much does sequence modeling add over strong order-insensitive baselines?
+3. **Order sensitivity:** Does destroying order materially reduce sequential-detector performance while preserving counts and length?
+4. **Conditional localization faithfulness:** If sequence signal exists, can anomaly-causing positions/transitions be localized beyond sanity controls?
 
-See [research questions](docs/research-questions.md) and [project scope](docs/project-scope.md).
+Fusion and downstream investigation are not primary RQs in v1.1.
 
-## Human and AI research workflow
+## Human and AI ownership
 
-### AI/Codex prepares
-
-- source code, preprocessing, models, losses, fusion, configs;
-- training/evaluation scripts and commands;
-- tests, documentation, and reproducibility checks.
-
-### Human researcher executes and decides
-
-- actual model/fusion training and hyperparameter tuning;
-- checkpoint selection and ablation experiments;
-- locked final-test execution;
-- empirical conclusions and research decisions.
-
-AI must never fabricate metrics or imply that a planned experiment ran.
-
-## Frozen data and training protocol
-
-The preferred terminology is:
-
-> **Normal-only self-supervised sequential anomaly detection with synthetic supervision for localization and fusion.**
-
-The human-approved split is chronological `60/10/10/10/10` across `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, and locked `TEST`. Labels may filter authorized normal pools and support validation, but they never enter model inputs or base self-supervised losses. TEST labels remain sealed until one human-executed final command.
-
-HDFS preserves block/session atomicity and purges boundary-spanning components. BGL uses non-overlapping 100-event parent windows. Drain3 is fitted on normal `BASE_TRAIN` messages and then frozen. The complete source-of-truth contract is [PROTOCOL-001](docs/research-protocol.md); its literature and method provenance are recorded in the [task citation note](docs/references/PROTOCOL-001-citations.md).
-
-Training is staged: freeze data artifacts, fit experts independently, freeze experts, generate fusion-development evidence, calibrate, measure complementarity, train fusion, select thresholds/abstention, and finally execute locked TEST. Human execution is required for all empirical stages.
+AI/Codex prepares implementation, deterministic builders, tests, configs, and commands. The human researcher freezes practical-effect thresholds, executes empirical runs/training/tuning, selects validation-only configurations, opens TEST once, and owns conclusions. AI must never fabricate metrics or mark `NOT_RUN` work complete.
 
 ## Repository map
 
 ```text
-configs/          Version-controlled dataset and future experiment contracts
-data/manifests/   Exact accepted raw-dataset identities
-docs/             Active public scope, research, data, and reproducibility docs
-Plan/             Version-controlled historical and V3 research plans
-scripts/                  Compatibility wrappers for installed CLIs
-src/seqlogad/ingestion/   Implemented dataset integrity/provenance foundation
-src/seqlogad/*            Canonical package namespace and planned module boundaries
-tests/                    73 active foundation/environment/protocol/schema tests plus future placeholders
-outputs/          Ignored experiment artifacts grouped by experiment ID
+configs/          Dataset and protocol contracts; future configs clearly gated
+data/manifests/   Version-controlled identities of accepted raw bytes
+docs/             Active protocol, RQs, dataset cards, literature, citations
+Plan/             Version-controlled active v1.1 and historical plans/ADRs
+src/seqlogad/     Installable package; data foundation/schemas implemented
+tests/            Active foundation/schema/protocol tests plus labeled placeholders
+outputs/          Ignored experiment-specific artifacts
 ```
 
-## Scientific integrity
+## Key documents
 
-- No novelty or superiority claim precedes `LIT-001` and controlled experiments.
-- No training metric is entered as a result without a traceable run artifact.
-- Parser, expert, calibrator, fusion, threshold, and retrieval fit scopes exclude TEST.
-- Raw datasets are immutable and excluded from Git.
-- Configuration, manifests, research decisions, and experiment status are version-controlled.
-- Downstream hypotheses require evidence IDs and may return `INSUFFICIENT_EVIDENCE`.
-
-## Documentation
-
-- [V3 master implementation plan](Plan/master-implementation-plan-v3.md)
+- [Active master plan v1.1](Plan/master-implementation-plan-v1.1.md)
 - [Architecture](Plan/01_ARCHITECTURE.md)
 - [Research plan](Plan/02_RESEARCH_PLAN.md)
 - [Task backlog](Plan/03_TASK_BACKLOG.md)
 - [Test plan](Plan/04_TEST_PLAN.md)
-- [Relative 8-week roadmap](Plan/05_8_WEEK_ROADMAP.md)
+- [Roadmap](Plan/05_8_WEEK_ROADMAP.md)
 - [Decision log](Plan/06_DECISIONS.md)
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
-- [Reproducibility](docs/reproducibility.md)
-- [Frozen scientific protocol](docs/research-protocol.md)
-- [PROTOCOL-001 citations and method provenance](docs/references/PROTOCOL-001-citations.md)
-- [Canonical event/template schema](docs/schemas/canonical-events.md)
-- [SCHEMA-001 citations and method provenance](docs/references/SCHEMA-001-citations.md)
-- [Sequence/localization/mutation schema](docs/schemas/event-sequences-and-localization.md)
-- [SCHEMA-002 citations and method provenance](docs/references/SCHEMA-002-citations.md)
+- [Protocol v1.1](docs/research-protocol-v1.1.md)
+- [Targeted prior-art matrix](docs/literature/prior-art-matrix-v1.1.md)
+- [Research Freeze v1.1 citations](docs/references/RESEARCH-FREEZE-v1.1-citations.md)
 
-## License and data notice
+## Scientific integrity and license
 
-Project source licensing has not yet been declared in this repository. HDFS and BGL come from the canonical [LogPAI Loghub](https://github.com/logpai/loghub) / [Zenodo record 8196385](https://doi.org/10.5281/zenodo.8196385). Review and retain source terms and citations; this repository contains configs, manifests, documentation, source, and synthetic fixtures—not benchmark raw logs.
+- No fabricated metrics, tables, plots, citations, SOTA claims, or novelty claims.
+- No TEST access for fitting, selection, thresholding, calibration, architecture, or claim decisions.
+- No raw benchmark bytes, archives, secrets, checkpoints, or generated bulk outputs in Git.
+- Historical plans are preserved but labeled superseded.
+- **LICENSE DECISION REQUIRED FROM PROJECT OWNER.** No project-source license is implied until the owner selects and adds one.

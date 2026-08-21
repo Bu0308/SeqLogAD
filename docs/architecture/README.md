@@ -1,5 +1,5 @@
 # Architecture documentation
 
-The active V3 component/data/expert/complementarity/fusion/downstream diagrams are maintained in [`../../Plan/01_ARCHITECTURE.md`](../../Plan/01_ARCHITECTURE.md). Only dataset integrity/provenance is implemented today; later layers are explicitly planned.
+The active gated v1.1 architecture is maintained in [`../../Plan/01_ARCHITECTURE.md`](../../Plan/01_ARCHITECTURE.md). Dataset integrity/provenance and schema contracts are implemented; raw split, parser artifacts, sequences, baselines, and experiments are not.
 
-Future detailed interface contracts may live here after their schemas are approved. Elasticsearch remains an optional adapter, not a research contribution.
+Transformer/localization/fusion are conditional. Retrieval/RAG/Agent/API/UI/Elasticsearch are future-only and not the core research contribution.

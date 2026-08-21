@@ -1,5 +1,5 @@
 # Testing documentation
 
-The active foundation suite covers dataset acquisition and integrity. Canonical schema, parser, sequence, leakage, mutation, model, loss, checkpoint, ExpertEvidence, calibration, complementarity, fusion, redundancy, abstention, downstream, security, and performance requirements are planned in [`../../Plan/04_TEST_PLAN.md`](../../Plan/04_TEST_PLAN.md).
+The active suite covers environment/package behavior, dataset acquisition/integrity, protocol contracts, and canonical event/sequence/localization/mutation schemas. Raw split, parser, sequence construction, baselines, Markov, sequence-destruction controls, metrics, and TEST guards are planned in [`../../Plan/04_TEST_PLAN.md`](../../Plan/04_TEST_PLAN.md). Transformer/localization/fusion tests are conditional; downstream tests are future-only.
 
 Placeholder test files are not implemented coverage.

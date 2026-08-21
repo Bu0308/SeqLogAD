@@ -1,15 +1,15 @@
 # Dataset Card v0.1 — HDFS
 
 - **Name:** HDFS Log Dataset v1 (`HDFS_v1`).
-- **Purpose in project:** P0 benchmark for leakage-safe, sequence-aware anomaly detection and retrieval evaluation.
+- **Purpose in project:** Core candidate benchmark for leakage-safe dataset-suitability, order-insensitive baseline, and sequence-added-value evaluation.
 - **Source:** [LogPAI Loghub HDFS](https://github.com/logpai/loghub/tree/master/HDFS); canonical archive record [Zenodo 8196385](https://doi.org/10.5281/zenodo.8196385).
 - **Reference:** Loghub repository/readme and its linked HDFS/Loghub publications; exact literature citations remain part of LIT-001.
 - **Extracted root:** `data/raw/hdfs/HDFS_v1/`.
 - **Required files:** `HDFS.log` and `preprocessed/anomaly_label.csv`, both locally present and non-empty.
 - **Labels:** CSV at block-trace level with header `BlockId,Label`. Distribution analysis and joins are not part of Day 2.5.
-- **Experiment role:** Primary dataset for block/session sequence construction, heterogeneous expert evaluation, complementarity analysis, localization, and fusion. LSTM is a neural baseline; SeqLogAD-T is the primary contextual-expert candidate.
+- **Experiment role:** HDFS block/session construction, KT-1 trivial/strong baselines, KT-2 count-label dependence, Markov/N-gram, and KT-3 order-destruction analysis. Transformer/localization are conditional; fusion/retrieval are not core.
 - **Sequence grouping assumption:** **PRELIMINARY** — group events by HDFS block identifier. A later SEQ task must formalize boundary, ordering and malformed-ID handling.
-- **Known limitations:** Private-cloud benchmark and handcrafted labeling rules; source-specific block IDs may limit generalization. Parser/split leakage remains a later audit concern.
+- **Known limitations:** Prior work raises a material risk that count/event-presence properties explain labels and that dataset variants differ. Applicability to these exact verified bytes and the v1.1 chronological protocol is `TO_BE_TESTED`, not assumed. Source-specific block IDs and labeling rules may limit generalization; parser/split leakage remains a future implementation gate.
 - **License/permission:** `VERIFIED_LOGHUB_TERMS`, custom research/academic usage conditions. Retain source notice/citations; redistribution still requires review.
 - **Acquisition status:** `CANONICAL_ARCHIVE_VERIFIED`; the canonical `HDFS_v1.zip` was obtained from Zenodo and verified without re-extracting or modifying the existing raw tree. The acquisition timestamp remains unknown.
 - **Source archive identity:** 186,645,559 bytes; source-published MD5 `76a24b4d9a6164d543fb275f89773260`; local SHA-256 `04f919f2185821f23f045dca611a7586429bdabc601bd7b43f30005f8e289b01`.

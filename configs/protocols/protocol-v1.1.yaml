@@ -1,0 +1,152 @@
+# Machine-readable research contract. This file is not an executable experiment config.
+protocol:
+  id: PROTOCOL-001
+  version: "1.1"
+  status: FROZEN_HUMAN_APPROVED
+  approved_on: "2026-08-21"
+  direction: HYBRID_B_PLUS_C
+  core_option: B_SEQUENCE_ADDED_VALUE
+  conditional_option: C_LOCALIZATION_FAITHFULNESS
+  empirical_status: NOT_RUN
+  execution_ready: false
+  human_readable_contract: docs/research-protocol-v1.1.md
+  citation_note: docs/references/RESEARCH-FREEZE-v1.1-citations.md
+  supersedes: configs/protocols/protocol-v1.yaml
+
+framing:
+  topic: Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs
+  description: normal-only self-supervised sequential anomaly detection with synthetic supervision for conditional anomaly localization
+  anomaly_labels_as_model_input: false
+  anomaly_labels_in_base_loss: false
+  synthetic_and_real_results_separate: true
+
+pipeline_order:
+  - verified_immutable_raw_logs
+  - metadata_and_group_key_extraction_without_fitted_parser
+  - raw_chronological_partition_assignment
+  - base_train_normal_pool
+  - fit_drain3_on_base_train_normal_only
+  - freeze_parser_and_event_mapping
+  - transform_permitted_partitions_read_only
+  - build_canonical_events_and_sequences_within_boundaries
+  - run_order_insensitive_baselines_and_suitability_diagnostics
+  - run_markov_ngram_baseline
+  - run_sequence_destruction_control
+  - apply_scientific_gates
+
+partitions:
+  strategy: raw_chronological
+  stratified: false
+  order: [BASE_TRAIN, FUSION_TRAIN, VAL_EXPERT, VAL_FUSION, TEST]
+  ratios:
+    BASE_TRAIN: 0.60
+    FUSION_TRAIN: 0.10
+    VAL_EXPERT: 0.10
+    VAL_FUSION: 0.10
+    TEST: 0.10
+  reserved_partitions_are_not_repurposed: true
+  split_before_train_fitted_transform: true
+  split_before_window_generation: true
+  record_target_and_realized_ratios: true
+
+labels:
+  normal_pool_filtering: true
+  validation_selection: true
+  model_input_allowed: false
+  base_loss_allowed: false
+  test_contractually_sealed: true
+  test_physically_sealed: false
+  physical_seal_requires: [split_manifest, partition_hashes, access_guard]
+  test_execution_owner: HUMAN
+  test_execution_count: 1
+
+datasets:
+  hdfs:
+    status: VERIFIED_BYTES_SEQUENCE_VALUE_TO_BE_TESTED
+    grouping_unit: block_session
+    boundary_policy: PURGED_BOUNDARY
+    preprocessed_loghub_artifacts_as_scientific_input: false
+  bgl:
+    status: VERIFIED_BYTES_SEQUENCE_VALUE_TO_BE_TESTED
+    ordering: source_line_chronological
+    parent_window_events: 100
+    overlap: 0
+
+parser:
+  implementation_family: drain3
+  fit_partition: BASE_TRAIN
+  fit_normal_only: true
+  freeze_after_fit: true
+  transform_later_partitions_read_only: true
+  unseen_event_id: EVT_UNSEEN
+
+methods:
+  must:
+    - unseen_event_type
+    - sequence_length
+    - event_count_and_count_vector
+    - markov_or_ngram
+    - sequence_destruction_control
+  should:
+    - isolation_forest_order_insensitive
+  conditional:
+    transformer: SEQUENCE_SIGNAL_GATE
+    localization: SEQUENCE_AND_FAITHFULNESS_GATE
+    fusion_f0_f1: COMPLEMENTARITY_GATE
+  removed_from_core:
+    - lstm
+    - normal_reference_retrieval_expert
+    - trainable_fusion_f2_through_f8
+    - rag_agent
+    - api_ui_elasticsearch
+
+sequence_destruction:
+  preserve: [event_multiset, count_vector, sequence_length, label, partition, parent_identity]
+  mutate_raw_data: false
+  deterministic_provenance_required: true
+  reject_or_record_noop: true
+
+killer_experiments:
+  KT-1: {name: trivial_baseline_ceiling, status: NOT_RUN, required: true}
+  KT-2: {name: hdfs_count_label_dependence, status: NOT_RUN, required: true}
+  KT-3: {name: sequence_destruction, status: NOT_RUN, required: true}
+  KT-4: {name: localization_randomization, status: NOT_RUN, required: CONDITIONAL}
+  KT-5: {name: counterfactual_repair_or_deletion, status: NOT_RUN, required: CONDITIONAL}
+  KT-6: {name: random_or_corrupted_expert, status: NOT_RUN, required: CONDITIONAL}
+
+kill_criteria:
+  minimum_practical_effect:
+    value: TO_BE_FROZEN_BEFORE_RUN
+    owner: HUMAN
+    evidence_required: [LIT-001, validation_only_power_and_feasibility_analysis]
+  KC-1: no_sequence_advantage_if_order_insensitive_within_practical_margin
+  KC-2: hdfs_not_sole_sequence_evidence_if_orderless_features_nearly_determine_labels
+  KC-3: no_order_sensitivity_claim_if_shuffle_drop_not_meaningful
+  KC-4: transformer_removed_from_core_without_residual_long_range_question
+  KC-5: localization_claim_removed_if_sanity_controls_fail
+  KC-6: trainable_fusion_not_built_without_complementarity
+
+complementarity_gate:
+  required_before_any_trainable_fusion: true
+  metrics: [score_correlation, prediction_disagreement, error_overlap, oracle_gain, marginal_contribution]
+  outcomes: [KEEP, DEMOTE, REMOVE]
+
+evaluation:
+  primary_detection_metric: PR_AUC
+  datasets_reported_separately: true
+  stochastic_core_seeds: [42, 43, 44]
+  practical_effect_status: TO_BE_FROZEN_BEFORE_RUN
+  test_used_for_selection: false
+  empirical_results_status: NOT_RUN
+
+downstream:
+  status: FUTURE_ONLY
+  rag_agent_role: frozen_evidence_consumer_only
+  detector_override_allowed: false
+  hidden_test_label_access: false
+
+change_control:
+  behavioral_change_requires_new_version: true
+  preserve_old_versions: true
+  decision_log_required: true
+  citation_update_required: true

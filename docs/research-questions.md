@@ -1,71 +1,57 @@
-# Research Questions — V3
+# Research Questions — Freeze v1.1
 
-All questions and hypotheses below are **HYPOTHESIS — TO BE TESTED**. No experimental conclusion or novelty claim is implied.
+All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has run.
 
-All RQs use the same frozen data-access, split, leakage, fitting, and evaluation contract in [`research-protocol.md`](research-protocol.md). PR-AUC is the primary real-anomaly detection metric; synthetic localization and real-anomaly evaluation remain separate.
+## RQ1 — Dataset suitability
 
-## RQ1 — Expert value
+**Question:** Do the exact verified HDFS/BGL artifacts contain enough non-trivial sequential information under the SeqLogAD protocol to support sequence-based anomaly-detection claims?
 
-**Question:** How well do individually optimized heterogeneous experts capture different behavioral anomaly mechanisms?
+- **Priority:** CORE / MUST
+- **Hypothesis:** Dataset suitability may differ by dataset and exact protocol; no positive outcome is assumed.
+- **Experiment concept:** KT-1 and KT-2 compare trivial/strong order-insensitive controls and quantify count/label dependence before complex models.
+- **Primary metric:** PR-AUC; supplemented by collision/purity/conditional-dependence diagnostics and FPR/latency.
+- **Required components:** Frozen split, parser/events/sequences, unseen-event/length/count/count-vector baselines, optional Isolation Forest.
+- **Falsification:** If order-insensitive behavior reaches the pre-frozen practical ceiling, that dataset cannot support a sequence-advantage claim by itself.
 
-- **Priority:** CORE / P0
-- **Objective:** Establish strong, independently optimized experts with different inductive biases.
-- **Hypothesis:** Transformer, Markov/N-gram, Isolation Forest, and normal-reference retrieval may perform differently across anomaly families; no expert is assumed to dominate globally.
-- **Experiment concept:** Evaluate each expert on identical frozen artifacts, partitions, anomaly families, thresholds, and compute budgets. Include statistical and LSTM baselines.
-- **Primary metrics:** Precision, Recall, F1, PR-AUC, FPR, detection latency, throughput, memory; token/gap/transition localization metrics where supported.
-- **Required components:** Canonical events, sequences, five-way split, mutation labels, experts A–D, evaluator.
-- **Falsification:** If experts produce effectively identical rankings/errors or a simple baseline dominates consistently, the heterogeneous-expert premise is weakened.
+## RQ2 — Sequence added value
 
-## RQ2 — Complementarity
+**Question:** How much additional anomaly-detection value does a minimal sequential model provide beyond strong order-insensitive baselines?
 
-**Question:** Do heterogeneous experts exhibit measurable complementary error and localization patterns?
+- **Priority:** CORE / MUST
+- **Hypothesis:** Markov/N-gram may add value when transition structure carries label-relevant information; it may also add no meaningful value.
+- **Experiment concept:** Compare Markov/N-gram with the strongest legal order-insensitive comparator under the same partitions, selection budget, thresholds, and metrics.
+- **Primary metric:** Paired PR-AUC difference with uncertainty; secondary Precision, Recall, F1, FPR, latency, throughput, memory.
+- **Required components:** RQ1 artifacts plus Markov/N-gram.
+- **Falsification:** If added value is below the pre-frozen practical margin, do not claim sequence advantage.
 
-- **Priority:** CORE / P0
-- **Objective:** Determine whether combining experts is scientifically justified.
-- **Hypothesis:** Different inductive biases may produce lower error overlap and family-specific strengths.
-- **Experiment concept:** Measure score correlation, disagreement, error overlap, oracle gain, anomaly-family conditional performance, localization overlap, and marginal contribution.
-- **Primary metrics:** Pearson/Spearman correlation, disagreement rate, double-fault/error-overlap measures, oracle PR-AUC/F1 gain, family-specific recall, leave-one-expert-out delta.
-- **Required components:** Frozen out-of-sample expert predictions and stable sequence IDs.
-- **Falsification:** An expert is redundant if it adds no meaningful oracle or realized gain and its errors/localizations substantially duplicate another expert.
+## RQ3 — Order sensitivity
 
-## RQ3 — Fusion
+**Question:** Does destroying event order materially reduce sequential-detector performance while preserving event counts and length?
 
-**Question:** Can structured evidence fusion outperform the strongest individual expert and standard fusion baselines?
+- **Priority:** CORE / MUST
+- **Hypothesis:** A genuinely order-sensitive detector should degrade under valid sequence destruction; magnitude is unknown.
+- **Experiment concept:** KT-3 applies deterministic within-sample permutations preserving event multiset, count vector, length, label, partition, and parent linkage.
+- **Primary metric:** Paired PR-AUC/per-sample score change and uncertainty under original versus order-destroyed inputs.
+- **Required components:** Frozen sequence artifacts, Markov/N-gram predictions, deterministic destruction manifest.
+- **Falsification:** No practically meaningful degradation blocks an order-sensitivity claim on that dataset/protocol.
 
-- **Priority:** CORE / P0
-- **Objective:** Test whether claim-level structured evidence adds value beyond score aggregation.
-- **Hypothesis:** Structured fusion may improve detection/localization and reliability when evidence is genuinely complementary.
-- **Experiment concept:** Compare F0 strongest single, F1 normalized mean, F2 validation-weighted average, F3 voting/rank voting, F4 logistic stacking, F5 MLP stacking, F6 gating/MoE, F7 evidential baseline when applicable, and F8 structured fusion.
-- **Primary metrics:** PR-AUC, F1, FPR, token/gap/transition localization, ECE, Brier score, latency, memory.
-- **Required components:** Calibrated ExpertEvidence records, claim alignment, fusion baselines, proposed fusion, locked evaluation protocol.
-- **Falsification:** If F8 does not reliably outperform the strongest appropriate baseline under paired analysis, the structured-fusion hypothesis is unsupported.
+## Conditional RQ4 — Localization faithfulness
 
-## RQ4 — Reliability and redundancy
+**Question:** If meaningful sequence signal exists, can anomaly-causing token/gap/transition positions be localized more faithfully than sanity controls?
 
-**Question:** Does explicit handling of expert dependency/redundancy improve reliability and false-positive control without sacrificing detection performance?
+- **Priority:** CONDITIONAL
+- **Opening gate:** RQ1–RQ3 support sequence signal, synthetic targets are valid, and KT-4/KT-5 are pre-registered.
+- **Hypothesis:** Coordinate-aware localization may identify causal perturbations better than randomized positions; no positive outcome is assumed.
+- **Experiment concept:** Separate token/gap/transition metrics, target-position randomization, and counterfactual repair/deletion.
+- **Primary metrics:** Coordinate-family precision/recall/ranking plus counterfactual score change against matched controls.
+- **Falsification:** Failure against randomization or counterfactual sanity controls removes localization faithfulness from the contribution.
 
-- **Priority:** CORE / P0 after RQ2 gate
-- **Objective:** Avoid double-counting correlated evidence and characterize disagreement safely.
-- **Hypothesis:** Dependency-aware weighting or abstention may improve calibration/risk control, but a redundancy penalty may also suppress useful consensus.
-- **Experiment concept:** Compare no redundancy handling, candidate redundancy-aware variants, and conflict-aware abstention at matched coverage.
-- **Primary metrics:** ECE, Brier score, FPR, PR-AUC, risk-coverage, abstention rate, conditional error under conflict, false-positive reduction.
-- **Required components:** Reliability estimates, dependency matrix computed without TEST, conflict variables, abstention protocol.
-- **Falsification:** Reject a mechanism if it reduces detection materially, collapses confidence, or provides no calibrated reliability gain.
+## Non-primary questions
 
-## RQ5 — Downstream value
+Transformer, complementarity/fusion, RAG/Agent, and regression-test recommendation are not active RQs. They require a later protocol amendment after their gates and cannot substitute for RQ1–RQ3.
 
-**Question:** Does fused structured evidence improve evidence-grounded investigation and regression-test recommendation compared with score-only context?
+## Claim states
 
-- **Priority:** P1 downstream research after frozen fusion artifacts
-- **Objective:** Measure whether localization and structured claims improve QA usefulness rather than merely detector scores.
-- **Hypothesis:** Evidence IDs, expected/observed differences, and reliability/conflict context may reduce unsupported conclusions and improve test relevance.
-- **Experiment concept:** Compare score-only, strongest-expert evidence, and fused structured evidence under the same downstream model/provider and curated cases.
-- **Primary metrics:** Citation correctness, unsupported conclusion rate, evidence precision/recall, investigation completeness, test relevance, step completeness, expected-result correctness, human acceptance.
-- **Required components:** Frozen expert/fusion outputs, evidence schema/verifier, read-only investigation workflow, human rubric.
-- **Falsification:** If structured evidence does not improve grounding or QA acceptance, downstream contribution is unsupported.
+Allowed empirical claim states: `PROPOSED`, `HYPOTHESIS`, `SUPPORTED`, `PARTIALLY_SUPPORTED`, `UNSUPPORTED`, `REJECTED`.
 
-## Claim-state policy
-
-Allowed states are `PROPOSED`, `HYPOTHESIS`, `SUPPORTED`, `PARTIALLY_SUPPORTED`, `UNSUPPORTED`, and `REJECTED`.
-
-Novelty uses a separate literature decision: `UNVERIFIED`, `KNOWN_COMPONENT`, `OUR_ADAPTATION`, `POTENTIAL_CONTRIBUTION`, `HIGH_PRIOR_ART_RISK`, or a later evidence-backed classification. `LIT-001` owns that decision.
+Novelty remains independently `UNVERIFIED` until `LIT-001` is complete. External paper results are prior-work evidence, never SeqLogAD results.

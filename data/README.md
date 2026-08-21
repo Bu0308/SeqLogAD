@@ -35,9 +35,9 @@ python3 -m scripts.verify_dataset --dataset bgl --json
 ## Split and label safety for future work
 
 - Assign chronological/group partitions before overlapping window creation.
-- Fit parser, experts, normal-reference index, calibrators, fusion, and thresholds without TEST.
-- Real HDFS/BGL anomaly labels are evaluation-only unless an approved experiment explicitly states otherwise.
-- Synthetic localization/fusion labels come only from training-derived mutations.
+- Fit parser/baselines and select thresholds without TEST; conditional/future components follow the same rule.
+- Real HDFS/BGL labels may filter authorized normal pools and support validation/final evaluation, but never enter parser/model inputs or base loss.
+- Conditional synthetic localization labels come only from deterministic mutations of authorized training-derived normal parents.
 
 ## Git, licensing, and privacy
 
