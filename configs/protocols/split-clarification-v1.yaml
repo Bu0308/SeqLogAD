@@ -1,0 +1,237 @@
+# Binding split-semantics addendum for PROTOCOL-001 v1.1.
+# This is a contract, not a split generator or an experiment configuration.
+split_clarification:
+  id: PROTOCOL-SPLIT-CLARIFY-001
+  version: "1.0"
+  status: FROZEN_HUMAN_APPROVED
+  approved_on: "2026-08-22"
+  parent_protocol_id: PROTOCOL-001
+  parent_protocol_version: "1.1"
+  empirical_status: NOT_RUN
+  execution_ready: true
+  split_execution_authorized: false
+  real_split_created: false
+  scientific_test_created: false
+  scientific_test_accessed: false
+  parser_fitted: false
+  human_readable_contract: docs/split-clarification-contract.md
+  evidence_matrix: docs/literature/split-protocol-evidence-matrix.md
+  citation_note: docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md
+  next_authorized_task: SPLIT-001
+
+shared:
+  allocation_order: source_chronological
+  label_independent: true
+  anomaly_labels_read_for_assignment: false
+  parser_or_template_state_used_for_assignment: false
+  randomization: false
+  ratio_repair: false
+  partition_order:
+    - BASE_TRAIN
+    - FUSION_TRAIN
+    - VAL_EXPERT
+    - VAL_FUSION
+    - TEST
+  target_ratios:
+    BASE_TRAIN: 0.60
+    FUSION_TRAIN: 0.10
+    VAL_EXPERT: 0.10
+    VAL_FUSION: 0.10
+    TEST: 0.10
+  boundary_algorithm: cumulative_floor
+  boundary_integer_denominator: 100
+  boundary_integer_numerators: [0, 60, 70, 80, 90, 100]
+  cumulative_fractions: [0.00, 0.60, 0.70, 0.80, 0.90, 1.00]
+  boundaries:
+    - "0"
+    - "floor(60*N/100)"
+    - "floor(70*N/100)"
+    - "floor(80*N/100)"
+    - "floor(90*N/100)"
+    - "N"
+  duplicate_structural_identity_policy: REJECT
+  unsupported_protocol_version_policy: REJECT
+  empty_input_policy: VALID_STRUCTURAL_MANIFEST_NOT_EXECUTION_READY
+  zero_denominator_ratio_value: null
+
+hdfs:
+  source_metadata_contract: META-001
+  allocation_unit: eligible_raw_line_rank
+  eligible_line_definition: META-001_assignment_status_ASSIGNED
+  ineligible_line_definition: META-001_assignment_status_UNASSIGNED
+  target_denominator: N_ELIGIBLE_PRE_PURGE
+  component_identity: META-001_connected_component
+  component_atomicity: true
+  assignment_rule:
+    one_nominal_partition: ASSIGN_ENTIRE_COMPONENT
+    two_or_more_nominal_partitions: PURGED_BOUNDARY
+  move_component_to_repair_ratio: false
+  split_component: false
+  structural_exclusion_reasons:
+    - NO_BLOCK_ID
+    - MALFORMED_BLOCK_TOKEN
+    - DECODE_ERROR
+    - PURGED_BOUNDARY
+  structural_line_disposition: STRUCTURAL_EXCLUSION
+  boundary_component_disposition: PURGED_BOUNDARY
+  fake_session_identity_allowed: false
+  target_ratio_denominator: N_ELIGIBLE_PRE_PURGE
+  realized_ratio_denominator: TOTAL_ASSIGNED_ELIGIBLE_AFTER_PURGE
+  purge_ratio_denominator: N_ELIGIBLE_PRE_PURGE
+  all_eligible_purged_policy: VALID_RECONCILED_NOT_EXECUTION_READY
+  zero_eligible_policy: VALID_RECONCILED_NOT_EXECUTION_READY
+  reconciliation:
+    - TOTAL_RAW_LINES = STRUCTURALLY_INELIGIBLE_LINES + ASSIGNED_ELIGIBLE_LINES + PURGED_BOUNDARY_ELIGIBLE_LINES
+    - ASSIGNED_ELIGIBLE_LINES = BASE_TRAIN + FUSION_TRAIN + VAL_EXPERT + VAL_FUSION + TEST
+
+bgl:
+  source_metadata_contract: META-001
+  allocation_unit: raw_source_line_rank
+  target_denominator: TOTAL_RAW_LINES
+  split_before_parent_window: true
+  parent_window_size: 100
+  parent_window_stride: 100
+  parent_windows_overlap: false
+  window_origin: FIRST_RAW_LINE_OF_EACH_PARTITION
+  trailing_residual_per_partition: true
+  trailing_residual_disposition: DROPPED_RESIDUAL_WINDOW
+  residual_range: [1, 99]
+  residual_padding: false
+  residual_cross_partition_borrowing: false
+  residual_backward_merge: false
+  partition_smaller_than_window_policy: ALL_LINES_DROPPED_RESIDUAL_WINDOW
+  reconciliation:
+    - TOTAL_RAW_LINES = COMPLETE_WINDOW_LINES + RESIDUAL_EXCLUDED_LINES
+
+identity:
+  canonical_serialization:
+    format: JSON
+    encoding: UTF-8
+    sort_keys: true
+    separators: [",", ":"]
+    allow_nan: false
+    relative_paths: NORMALIZED_POSIX_ONLY
+  split_payload:
+    schema_version: "1.0"
+    includes:
+      - dataset_fingerprint
+      - protocol_id_and_version
+      - split_contract_id_and_version
+      - partition_semantics_and_target_ratios
+      - ordered_assignments_without_assignment_ids
+      - ordered_exclusions_without_assignment_ids
+    excludes:
+      - generated_timestamp
+      - absolute_paths
+      - git_revision_or_dirty_state
+      - manifest_file_hash
+      - assignment_ids
+      - partition_hashes
+      - split_payload_hash
+    top_level_keys:
+      - schema_version
+      - dataset_fingerprint
+      - protocol
+      - split_contract
+      - partition_order
+      - target_ratios
+      - boundary_contract
+      - dataset_semantics
+      - assignments
+      - exclusions
+    assignment_sort_key:
+      - partition_order_index
+      - chronological_start
+      - structural_unit_id
+    exclusion_sort_key:
+      - chronological_start
+      - unit_kind
+      - structural_unit_id
+    common_decision_fields:
+      - unit_kind
+      - structural_unit_id
+      - chronological_start
+      - chronological_end_exclusive
+      - disposition
+      - partition_or_null
+      - exclusion_reason_or_null
+    hdfs_component_fields:
+      - component_id
+      - block_ids_canonical_order
+      - eligible_ranks_increasing
+      - raw_chronological_indices_increasing
+    hdfs_structural_line_exclusion_fields:
+      - raw_record_id
+      - raw_chronological_index
+      - meta_001_unassigned_reason
+    bgl_range_fields:
+      - raw_rank_start_inclusive
+      - raw_rank_end_exclusive
+      - raw_line_count
+      - parent_ordinal_within_partition_or_null
+  split_payload_hash: SHA256_CANONICAL_SPLIT_PAYLOAD_BYTES
+  digest_encoding: lowercase_hex_64
+  split_manifest_id: SPLIT_PLUS_SPLIT_PAYLOAD_HASH
+  assignment_id:
+    calculated_after_split_payload_hash: true
+    includes:
+      - dataset_fingerprint
+      - protocol_id_and_version
+      - split_contract_id_and_version
+      - split_payload_hash
+      - structural_unit_identity
+      - disposition
+      - assigned_partition_or_null
+      - exclusion_reason_or_null
+    excluded_from_split_payload: true
+  partition_hash:
+    includes:
+      - dataset_fingerprint
+      - protocol_id_and_version
+      - split_contract_id_and_version
+      - split_payload_hash
+      - partition_name
+      - ordered_structural_membership
+    excludes: [assignment_ids, timestamps, filesystem_metadata]
+    membership_sort_key: [chronological_start, structural_unit_id]
+    membership_fields:
+      - structural_unit_id
+      - chronological_start
+      - chronological_end_exclusive
+  manifest_file_hash:
+    definition: SHA256_EXACT_PERSISTED_MANIFEST_BYTES
+    storage: EXTERNAL_SIDECAR_OR_VERIFIER_OUTPUT
+    embedded_in_manifest: false
+    scientific_identity: false
+  volatile_metadata_may_change_scientific_identity: false
+
+future_test_seal:
+  implemented_in_this_task: false
+  opened_in_this_task: false
+  must_bind:
+    - dataset_fingerprint
+    - protocol_id_and_version
+    - split_payload_hash
+    - TEST_partition_hash
+
+evidence_classification:
+  allowed_values:
+    - LITERATURE_SUPPORTED
+    - LITERATURE_INFORMED_SEQLOGAD_DECISION
+    - SEQLOGAD_PROTOCOL_DECISION
+    - INSUFFICIENT_EVIDENCE
+  hdfs_block_session_grouping: LITERATURE_SUPPORTED
+  hdfs_session_atomicity: LITERATURE_SUPPORTED
+  hdfs_chronology_first_label_independent_allocation: LITERATURE_INFORMED_SEQLOGAD_DECISION
+  hdfs_connected_component_boundary_purge: SEQLOGAD_PROTOCOL_DECISION
+  hdfs_explicit_structural_exclusions: SEQLOGAD_PROTOCOL_DECISION
+  bgl_chronological_allocation: LITERATURE_SUPPORTED
+  bgl_raw_split_before_windows: LITERATURE_SUPPORTED
+  bgl_fixed_non_overlapping_windows: LITERATURE_SUPPORTED
+  bgl_window_size_100: LITERATURE_INFORMED_SEQLOGAD_DECISION
+  bgl_per_partition_residual_exclusion: LITERATURE_INFORMED_SEQLOGAD_DECISION
+  five_way_60_10_10_10_10: SEQLOGAD_PROTOCOL_DECISION
+  cumulative_floor_rounding: SEQLOGAD_PROTOCOL_DECISION
+  label_independent_assignment: LITERATURE_INFORMED_SEQLOGAD_DECISION
+  split_and_partition_hashing: SEQLOGAD_PROTOCOL_DECISION
+  physical_test_sealing: SEQLOGAD_PROTOCOL_DECISION

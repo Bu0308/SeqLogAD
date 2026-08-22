@@ -39,12 +39,14 @@ The schema checks record consistency after those future components have produced
 `PartitionIdentity` carried by an `EventSequence` records:
 
 - protocol ID `PROTOCOL-001` and an explicit supported version (`1.0` historical or `1.1` active);
-- `SPLIT-<sha256>` split-manifest identity and exact content hash;
+- `SPLIT-<sha256>` split identity and exact canonical split-payload hash;
 - deterministic raw-unit assignment ID;
 - one of `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, or `TEST`;
 - frozen target ratio `0.60/0.10/0.10/0.10/0.10`.
 
 Target ratio is not realized ratio. A future split manifest must report realized ratios and exclusions after atomicity/purge rules.
+
+PROTOCOL-SPLIT-CLARIFY-001 resolves the legacy field naming: `split_manifest_sha256` stores the deterministic `split_payload_hash`, and `split_manifest_id` is `SPLIT-<split_payload_hash>`. This is scientific split identity, not `manifest_file_hash`, which separately hashes exact serialized manifest bytes. Assignment IDs and partition hashes are derived after the payload hash and cannot recursively participate in it.
 
 `protocol_version` has no implicit default. Historical canonical payloads remain valid only when they explicitly retain `"1.0"`; they are never relabeled. New artifacts must use `build_active_partition_identity(...)`, which derives the split ID and target ratio and pins `"1.1"`. Unsupported or omitted versions are rejected.
 
@@ -68,7 +70,7 @@ The split has no random seed field because Protocol v1.1 assignment is determini
 
 | Dataset unit | Assigned form | Exclusion form |
 |---|---|---|
-| HDFS connected block component | `hdfs_block_component` + partition | `PURGED_BOUNDARY` with reason |
+| HDFS connected block component | `hdfs_block_component` + partition | `PURGED_BOUNDARY` with reason; META-001 unassigned raw lines remain separate explicit exclusion records in the future split manifest |
 | BGL chronological raw range | `bgl_raw_range` + partition | historical `DROPPED_SHORT_WINDOW` for `<20`; active-v1.1 `DROPPED_RESIDUAL_WINDOW` for a trailing `1–99` events |
 
 HDFS components carry sorted, unique block IDs. BGL ranges cannot carry HDFS group IDs. Excluded units have no scientific partition, and assigned units have no exclusion reason.

@@ -13,8 +13,9 @@ The current suite must pass for environment/package imports, dataset contracts/a
 | Protocol identity | v1.1 current factory, explicit v1.0 preservation, unsupported/missing rejection, EFFECT-001 parent/status/pointers consistent | ACTIVE / SCHEMA-COMPAT-001 frozen |
 | Statistical freeze | Approved `0.01 AP` margins plus estimand, candidate family, bootstrap, multiplicity and KT-3 rules remain fixed; no run config may override | ACTIVE contract tests; no statistic executed |
 | Raw metadata | HDFS group extraction, shared-line components, malformed/unassigned IDs, BGL chronology/ties/malformed timestamps, label independence, determinism, artifact non-overwrite | ACTIVE / META-001 |
-| Split | deterministic boundaries, atomic HDFS purge, target/realized ratios, hash stability | MUST / PLANNED |
-| TEST guard | no routine label/count/preview access; explicit human unlock; access log | MUST / PLANNED |
+| Split clarification | exact cumulative-floor, HDFS whole-component purge/reconciliation, BGL per-partition 100-line windows/residuals, layered non-circular identities, evidence classifications | ACTIVE synthetic contract tests; no real split |
+| Split | real deterministic boundaries, atomic HDFS purge, target/realized ratios, universe reconciliation, payload/partition/assignment/file hash stability | MUST / PLANNED |
+| TEST guard | default denial, hash substitution rejection, no ordinary bypass, explicit human unlock, immutable access log | MUST / PLANNED within SPLIT-001 |
 | Parser | normal BASE fit only, freeze/restore, no updates, unseen mapping, label isolation | MUST / PLANNED |
 | Sequence | HDFS grouping, BGL 100-event non-overlap, residual/boundary handling | MUST / PLANNED |
 | Orderless controls | unseen event, length, count-vector, empty/unseen/constant cases | MUST / PLANNED |
@@ -37,6 +38,8 @@ The current suite must pass for environment/package imports, dataset contracts/a
 6. Threshold/model/config selection excludes TEST.
 7. Sequence destruction never changes counts, lengths, labels, parents, or raw bytes.
 8. Reserved fusion partitions are not silently repurposed.
+9. HDFS labels and BGL inline labels cannot alter raw assignment identity.
+10. Assignment/partition derived IDs cannot enter the payload that defines their parent split hash.
 
 ## Negative-control assertions
 

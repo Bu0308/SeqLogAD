@@ -25,7 +25,7 @@ The project is not committed to proving sequence superiority. A null/negative re
 - Parser-independent HDFS block/component and BGL source-chronology metadata
   extraction implemented and tested; no full real metadata or split artifact
   generated.
-- Protocol v1.1 frozen at contract level; no physical split or TEST guard yet.
+- Protocol v1.1, EFFECT-001, and PROTOCOL-SPLIT-CLARIFY-001 are frozen. Exact allocation/purge/residual/hash semantics are contract-tested; no physical split or TEST guard exists yet.
 - No parser run, baseline/model fit, training, tuning, scientific TEST access, or result.
 
 ## 3. Scope classification
@@ -43,6 +43,7 @@ The project is not committed to proving sequence superiority. A null/negative re
 ```text
 LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 → metadata/group extraction
+→ frozen exact split-semantics addendum
 → raw chronological split manifest + physical TEST guard
 → normal BASE_TRAIN Drain3 fit/freeze
 → canonical events and partition-contained sequences
@@ -61,8 +62,9 @@ LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 
 - Keep exact verified HDFS/BGL bytes and fingerprints.
 - Split raw atomic units chronologically `60/10/10/10/10` before fitted transforms and windows.
-- HDFS preserves block/session components and purges boundary-spanning groups.
-- BGL uses non-overlapping 100-event parents after partitioning.
+- Exact boundaries use cumulative floor without labels or ratio repair.
+- HDFS ranks eligible raw lines, preserves connected components, and purges every component occupying multiple nominal partitions.
+- BGL splits source ranks first, then builds non-overlapping 100-event parents independently per partition and records every 1–99-line tail as `DROPPED_RESIDUAL_WINDOW`.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
 - Reserved fusion partitions remain reserved unless an approved future amendment says otherwise.
 - TEST is contractually sealed now and physically sealed only after split hashes/access guard exist.
@@ -98,4 +100,4 @@ The core is complete only when:
 6. Final TEST is opened once by the human after artifact freeze.
 7. Reported metrics come from immutable run outputs with uncertainty and limitations.
 
-Detailed rules are in [`../docs/research-protocol-v1.1.md`](../docs/research-protocol-v1.1.md) and [`../docs/statistical-decision-contract.md`](../docs/statistical-decision-contract.md).
+Detailed rules are in [`../docs/research-protocol-v1.1.md`](../docs/research-protocol-v1.1.md), [`../docs/split-clarification-contract.md`](../docs/split-clarification-contract.md), and [`../docs/statistical-decision-contract.md`](../docs/statistical-decision-contract.md).

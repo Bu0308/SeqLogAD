@@ -15,15 +15,16 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | LIT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FREEZE-v1.1 | DONE | Targeted matrix, reproducible search log, citation note, dataset/baseline matrices, and conservative prior-art states completed; no novelty claim established |
 | EFFECT-001 | MUST | HUMAN | LIT-001 | DONE | `delta_HDFS = delta_BGL = 0.01 AP`, `RESOURCE_FEASIBILITY_MARGIN`, pre-experiment/non-result-informed approval, estimand/comparison/bootstrap/baseline/equal-budget/KT-3 contracts frozen and tested |
 | SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | DONE | Historical v1.0 and active v1.1 identities, current-artifact factory, HDFS/BGL parent provenance, KT-3 control provenance, round-trip, and TEST-label safeguards pass |
+| PROTOCOL-SPLIT-CLARIFY-001 | MUST | AI_PREP/HUMAN_EXECUTE | LIT-001, EFFECT-001, SCHEMA-COMPAT-001, META-001 | DONE | Exact HDFS/BGL allocation, cumulative-floor, purge, residual, reconciliation and non-circular identity semantics are human-frozen, source-classified, and synthetic-contract-tested; no real split/TEST exists |
 
 ## Raw partition, parser, and sequences
 
 | Task ID | Scope | Owner | Dependencies | Status | Definition of Done |
 |---|---|---|---|---|---|
 | META-001 | MUST | AI | SCHEMA-COMPAT-001 | DONE | HDFS block/component and BGL source chronology metadata, deterministic IDs, CLI, non-overwrite artifacts, label-independence invariants, and tests pass without parser/split/TEST |
-| SPLIT-001 | MUST | AI | META-001 | NOT_STARTED | Chronological five-way partition manifest, HDFS purge report, target/realized ratios, and hashes are reproducible |
-| TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | NOT_STARTED | Routine commands cannot reveal TEST supervision/metrics; human unlock contract tested |
-| PARSE-001 | MUST | AI | SPLIT-001, TESTLOCK-001 | NOT_STARTED | Drain3 fits normal `BASE_TRAIN`, freezes/restores deterministically, and transforms later legal partitions read-only |
+| SPLIT-001 | MUST | AI | META-001, PROTOCOL-SPLIT-CLARIFY-001 | NOT_STARTED | Exact real five-way manifests reproduce; HDFS accounting and BGL residual reconciliation pass; partition hashes bind an immediately active physical TEST seal; routine TEST access fails closed |
+| TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | SUPERSEDED | Scope absorbed into SPLIT-001 because real TEST assignment must be sealed immediately rather than left between tasks; future human unlock remains FINAL-TEST-only |
+| PARSE-001 | MUST | AI | SPLIT-001 | NOT_STARTED | Drain3 fits normal `BASE_TRAIN`, freezes/restores deterministically, and transforms later legal partitions read-only |
 | PARSE-002 | MUST | AI | PARSE-001 | NOT_STARTED | HDFS/BGL adapters isolate labels and emit canonical events without using source preprocessed scientific inputs |
 | SEQ-001 | MUST | AI | PARSE-002 | NOT_STARTED | HDFS block sequences and BGL 100-event parents are deterministic and partition-contained |
 | LEAK-001 | MUST | AI | SEQ-001 | NOT_STARTED | Group/time/duplicate/window/parser/normalization/label/TEST leakage audit passes |
@@ -61,7 +62,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 |---|---|---|---|---|---|
 | EVAL-001 | MUST | AI | EFFECT-001, KT contracts | NOT_STARTED | Non-interpolated AP, paired cluster bootstrap, degenerate-resample handling, seed separation, decision regions, provenance, and report schemas pass fixture tests |
 | FINAL-FREEZE-001 | MUST | HUMAN | GATE-SEQ-001, EVAL-001 | NOT_STARTED | Artifacts/configs/thresholds/claims/Git state frozen before TEST |
-| FINAL-TEST-001 | MUST | HUMAN | FINAL-FREEZE-001, TESTLOCK-001 | NOT_STARTED | TEST opened once; immutable result bundle produced |
+| FINAL-TEST-001 | MUST | HUMAN | FINAL-FREEZE-001, SPLIT-001 | NOT_STARTED | TEST opened once through the human-only seal workflow; immutable result bundle produced |
 | REPORT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FINAL-TEST-001 | NOT_STARTED | Claims map to run artifacts; null results and limitations retained |
 | RETR/RAG/AGENT | FUTURE | AI_PREP/HUMAN_EXECUTE | completed scientific core | FUTURE | Requires separate scope/protocol |
 | API/UI/ELK | FUTURE | AI | completed scientific core | FUTURE | Delivery work cannot delay core research |

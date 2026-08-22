@@ -7,7 +7,9 @@ Status legend: `IMPLEMENTED`, `PLANNED`, `CONDITIONAL`, `FUTURE`.
 ```text
 Verified Raw HDFS/BGL + Manifests                     IMPLEMENTED
         ↓
-Minimal Metadata / Group-Key Extraction               PLANNED / MUST
+Minimal Metadata / Group-Key Extraction               IMPLEMENTED
+        ↓
+Exact Split Semantics / Identity Contract             FROZEN / TESTED
         ↓
 Raw Chronological Five-Way Split + TEST Guard         PLANNED / MUST
         ↓
@@ -45,7 +47,8 @@ Retrieval/RAG/Agent/API/UI/Elasticsearch              FUTURE
 | Artifact | Responsibility | Fit/access boundary |
 |---|---|---|
 | Raw manifest | Exact accepted bytes | Implemented; immutable |
-| Raw metadata/group map | Partition key without fitted parser | Must not derive learned templates |
+| Raw metadata/group map | Partition key without fitted parser | Implemented; labels/parser state excluded |
+| Split-semantics addendum | Exact allocation, purge, residual, reconciliation, and identity rules | Frozen/tested on synthetic fixtures; creates no real split |
 | Split manifest | Stable partition/purge/hash identity | Created before parser fit/windows |
 | Parser state | Drain3 templates and frozen event mapping | Normal `BASE_TRAIN` only |
 | Canonical events | Parsed fields with label isolation | Read-only transform per partition |
@@ -82,6 +85,11 @@ dataset config → acquisition/integrity checks → deterministic manifest
 → independent verification
 
 schema fixtures → strict validation → deterministic identity/serialization
+
+raw HDFS/BGL fixtures → label/parser-independent META-001 group/chronology metadata
+
+synthetic structural fixtures → exact split-contract arithmetic/identity tests
 ```
 
-No scientific pipeline path after raw integrity currently executes.
+No real scientific split, TEST partition, parser output, sequence, baseline, or
+model path currently executes.

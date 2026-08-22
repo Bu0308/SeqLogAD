@@ -10,12 +10,15 @@ Active scientific documentation:
 - [`research-questions.md`](research-questions.md): RQ1–RQ3 core and conditional RQ4.
 - [`research-protocol.md`](research-protocol.md): current protocol entry point.
 - [`research-protocol-v1.1.md`](research-protocol-v1.1.md): active frozen protocol.
+- [`split-clarification-contract.md`](split-clarification-contract.md): binding exact HDFS/BGL allocation, purge, residual, reconciliation, and hash semantics; no real split.
+- [`literature/split-protocol-evidence-matrix.md`](literature/split-protocol-evidence-matrix.md): literature-supported versus SeqLogAD-owned split decisions and source conflicts.
 - [`statistical-decision-contract.md`](statistical-decision-contract.md): human-approved EFFECT-001 estimand/bootstrap/comparison contract with `0.01 AP` margins.
 - [`research-protocol-v1.0.md`](research-protocol-v1.0.md): preserved historical protocol.
 - [`literature/prior-art-matrix-v1.1.md`](literature/prior-art-matrix-v1.1.md): completed targeted `LIT-001` matrix and research decisions.
 - [`literature/LIT-001-search-log.md`](literature/LIT-001-search-log.md): reproducible queries, screening rules, duplicate handling, and dispositions.
 - [`references/LIT-001-citations.md`](references/LIT-001-citations.md): verified source and method-provenance note.
 - [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md): statistical-method sources and explicit SeqLogAD design boundaries.
+- [`references/PROTOCOL-SPLIT-CLARIFY-001-citations.md`](references/PROTOCOL-SPLIT-CLARIFY-001-citations.md): targeted 2024–2026 split/grouping sources, search record, compatibility, and limitations.
 - [`references/SCHEMA-COMPAT-001-citations.md`](references/SCHEMA-COMPAT-001-citations.md): internal contract provenance for Protocol-v1.1 schema compatibility.
 - [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md): source and method provenance for the redirect.
 - [`datasets/`](datasets/): immutable dataset identity and suitability caveats.

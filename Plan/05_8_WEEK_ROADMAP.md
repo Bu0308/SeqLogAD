@@ -4,8 +4,8 @@ This is a relative implementation schedule for a 3-credit project under three mo
 
 | Week | Primary work | Human role | Exit criterion |
 |---|---|---|---|
-| 1 | Complete targeted LIT-001 and approved EFFECT-001; resolve protocol/schema identity compatibility | Preserve `0.01 AP` margins without outcomes | Statistical contract is frozen; v1.1 artifact contracts are compatible |
-| 2 | Minimal raw metadata/group extraction, chronological split manifest, HDFS purge report, physical TEST guard | Review boundaries/unlock policy | Split hashes reproduce; routine TEST access is blocked |
+| 1 | Complete targeted LIT-001 and approved EFFECT-001; resolve protocol/schema identity compatibility and freeze exact split semantics | Preserve `0.01 AP` margins and approve split rules without outcomes | Statistical and exact-split contracts are frozen; v1.1 artifact contracts are compatible |
+| 2 | Minimal raw metadata/group extraction, exact chronological split manifest, HDFS purge/reconciliation report, physical TEST guard | Review generated structural summary and unlock policy without TEST labels | Split hashes reproduce; routine TEST access is blocked |
 | 3 | Drain3 normal-BASE fit/freeze, HDFS/BGL adapters, canonical event generation | Approve parser config | Frozen parser restores deterministically; labels/OOV handled without leakage |
 | 4 | HDFS/BGL sequence builders and leakage audit; order-insensitive controls | Review construction statistics from authorized partitions | Partition-contained sequences and baseline fixtures pass |
 | 5 | Prepare/run KT-1 and KT-2 | Execute validation experiments | Immutable ceiling/count-dependence reports exist; no TEST used |

@@ -15,6 +15,8 @@ protocol:
   contract: configs/protocols/protocol-v1.1.yaml
   statistical_addendum: configs/protocols/effect-001.yaml
   statistical_addendum_status: FROZEN_HUMAN_APPROVED
+  split_addendum: configs/protocols/split-clarification-v1.yaml
+  split_addendum_status: FROZEN_HUMAN_APPROVED
   empirical_status: NOT_RUN
   execution_ready: false
 
@@ -31,6 +33,8 @@ sequence:
 
 split:
   strategy: raw_chronological
+  boundary_algorithm: cumulative_floor
+  exact_contract: configs/protocols/split-clarification-v1.yaml
   base_train: 0.60
   fusion_train_reserved: 0.10
   val_expert: 0.10
