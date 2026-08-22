@@ -21,7 +21,7 @@ The project is not committed to proving sequence superiority. A null/negative re
 
 - HDFS/BGL canonical archives, raw-byte manifests, checksums, and fingerprints verified.
 - Python 3.12 project-local environment, editable package, dependency lock, and CLIs verified.
-- Canonical event/template and sequence/localization/mutation schema contracts implemented and tested; no real scientific event/sequence artifact generated.
+- Canonical event/template and sequence/localization/mutation contracts plus Protocol-v1.1/KT-3 provenance compatibility implemented and tested; no real scientific event/sequence/control artifact generated.
 - Protocol v1.1 frozen at contract level; no physical split or TEST guard yet.
 - No parser run, baseline/model fit, training, tuning, scientific TEST access, or result.
 
@@ -38,8 +38,7 @@ The project is not committed to proving sequence superiority. A null/negative re
 ## 4. Critical path
 
 ```text
-LIT-001 + EFFECT-001 human margin approval
-→ protocol/schema identity compatibility check
+LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 → metadata/group extraction
 → raw chronological split manifest + physical TEST guard
 → normal BASE_TRAIN Drain3 fit/freeze
@@ -74,7 +73,7 @@ LIT-001 + EFFECT-001 human margin approval
 5. If justified, open Transformer or conditional localization; otherwise report the negative/limited sequence result.
 6. Open any fusion only after at least two experts demonstrate measurable complementarity.
 
-EFFECT-001 freezes the statistical method family, but no practical-effect number is invented. The human must approve dataset-specific `delta_HDFS` and `delta_BGL` before the first run; validation feasibility may test measurability but cannot define practical importance from outcomes.
+EFFECT-001 freezes the statistical method family and human-approved `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. The values were fixed pre-experiment, are not literature-universal thresholds, and cannot change after outcomes.
 
 ## 7. Ownership
 

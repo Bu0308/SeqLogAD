@@ -4,4 +4,4 @@ This directory will contain human-executed run reports, result tables, paired st
 
 No model experiment has run. Empty metric fields mean `NOT_RUN`, not zero. Final TEST execution is human-owned.
 
-The active statistical specification is [`../statistical-decision-contract.md`](../statistical-decision-contract.md). It is not execution-ready until the human researcher approves `delta_HDFS` and `delta_BGL`; no report in this directory may bypass that gate.
+The active statistical specification is [`../statistical-decision-contract.md`](../statistical-decision-contract.md), now `FROZEN_HUMAN_APPROVED` with both margins at `0.01 AP`. This approval does not make experiment placeholders runnable or bypass their split/parser/TEST-lock dependencies.

@@ -52,7 +52,7 @@ The approved direction is `HYBRID_B_PLUS_C`:
 
 `LIT-001` is complete as a targeted review. It found strong prior art for generic sequence models, multi-pattern fusion, mixture-of-experts, localization, and synthetic log generation. SeqLogAD therefore makes **no component-level algorithmic novelty claim**; its active contribution is a controlled empirical study whose outcome remains `NOT_RUN`. Any future novelty claim requires a new claim-specific systematic search.
 
-`EFFECT-001` has frozen the estimand, comparison family, equal-budget rule, paired bootstrap, 95% interval, seed aggregation, and KT-3 decision logic. It is **not execution-ready** because the human researcher has not yet approved numerical `delta_HDFS` and `delta_BGL`; no baseline, killer experiment, or TEST access may begin while either value is null.
+`EFFECT-001` is **FROZEN — HUMAN APPROVED**. It fixes `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`, together with the estimand, comparison family, equal-budget rule, paired bootstrap, 95% interval, seed aggregation, and KT-3 decision logic. Approval occurred before any scientific baseline, KT, parser-derived experiment, or TEST result. This completes the statistical gate but does not automatically authorize pipeline execution.
 
 ## Minimal gated architecture
 
@@ -102,7 +102,7 @@ The old fixed four-expert and F0–F8 fusion architecture is preserved as histor
 | KT-5 | Do counterfactual repair/deletion tests support localization faithfulness? | `NOT_RUN / CONDITIONAL` |
 | KT-6 | Does conditional fusion ignore random/corrupted expert evidence? | `NOT_RUN / CONDITIONAL` |
 
-The statistical method family is frozen before experiments. Numerical dataset-specific practical margins remain `HUMAN_DECISION_REQUIRED`; no arbitrary value was invented and this blocks execution.
+The statistical method family and practical margins are frozen before experiments. A meaningful gain requires the 95% interval to lie entirely above `+0.01`; equivalence lies entirely inside `[-0.01,+0.01]`; meaningful harm lies entirely below `-0.01`; all other cases are inconclusive.
 
 ## Scope
 
@@ -123,7 +123,7 @@ The statistical method family is frozen before experiments. Numerical dataset-sp
 | Canonical event/template schemas | **Implemented and tested** |
 | Sequence/localization/mutation schema contracts | **Implemented and tested; no real artifact generated** |
 | Research protocol v1.1 and negative-control contract | **Frozen; empirical status `NOT_RUN`** |
-| EFFECT-001 statistical contract | **Method fields frozen; `delta_HDFS`/`delta_BGL` require human approval; execution blocked** |
+| EFFECT-001 statistical contract | **Frozen and human-approved; both margins `0.01 AP`; empirical status `NOT_RUN`** |
 | Raw split manifest and physical TEST guard | **Not implemented** |
 | Drain3 scientific fit/freeze and parsed events | **Not implemented** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
@@ -187,7 +187,7 @@ Fusion and downstream investigation are not primary RQs in v1.1.
 
 ## Human and AI ownership
 
-AI/Codex prepares implementation, deterministic builders, tests, configs, and commands. The human researcher must approve `delta_HDFS`/`delta_BGL`, executes empirical runs/training/tuning, selects validation-only configurations, opens TEST once, and owns conclusions. AI must never fabricate metrics or mark `NOT_RUN` work complete.
+AI/Codex prepares implementation, deterministic builders, tests, configs, and commands. The human researcher approved `delta_HDFS = delta_BGL = 0.01 AP` pre-experiment, executes empirical runs/training/tuning, selects validation-only configurations, opens TEST once, and owns conclusions. AI must never fabricate metrics or mark `NOT_RUN` work complete.
 
 ## Repository map
 

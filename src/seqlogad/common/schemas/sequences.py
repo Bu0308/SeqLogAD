@@ -27,8 +27,12 @@ from seqlogad.common.schemas.events import (
 
 SEQUENCE_SCHEMA_VERSION = "1.0"
 MUTATION_SCHEMA_VERSION = "1.0"
+SEQUENCE_DESTRUCTION_SCHEMA_VERSION = "1.0"
 
+ProtocolVersion: TypeAlias = Literal["1.0", "1.1"]
 Sha256Hex: TypeAlias = str
+
+ACTIVE_PROTOCOL_VERSION: ProtocolVersion = "1.1"
 
 _SHA256_PATTERN = r"^[0-9a-f]{64}$"
 _EVENT_ID_PATTERN = r"^(?:EVT_UNSEEN|EVT-[0-9a-f]{64})$"
@@ -37,6 +41,7 @@ _SPLIT_ID_PATTERN = r"^SPLIT-[0-9a-f]{64}$"
 _PARTITION_ASSIGNMENT_ID_PATTERN = r"^PART-[0-9a-f]{64}$"
 _SEQUENCE_ID_PATTERN = r"^SEQ-[0-9a-f]{64}$"
 _MUTATION_ID_PATTERN = r"^MUT-[0-9a-f]{64}$"
+_SEQUENCE_DESTRUCTION_ID_PATTERN = r"^CTRL-KT3-[0-9a-f]{64}$"
 _PARAMETER_NAME_PATTERN = r"^[a-z][a-z0-9_.-]*$"
 
 _TARGET_PARTITION_RATIOS = {
@@ -61,6 +66,7 @@ class PartitionDisposition(StrEnum):
     ASSIGNED = "assigned"
     PURGED_BOUNDARY = "purged_boundary"
     DROPPED_SHORT_WINDOW = "dropped_short_window"
+    DROPPED_RESIDUAL_WINDOW = "dropped_residual_window"
 
 
 class SequenceStrategy(StrEnum):
@@ -92,6 +98,13 @@ class MutationOperation(StrEnum):
     REPEATED = "repeated"
     REPLACEMENT = "replacement"
     REORDER = "reorder"
+
+
+class SequenceDestructionStatus(StrEnum):
+    """Outcome of one KT-3 order-destruction attempt."""
+
+    APPLIED = "applied"
+    NOOP_UNPERTURBABLE = "noop_unperturbable"
 
 
 def _sha256_text(value: str) -> str:
@@ -130,6 +143,12 @@ def hash_event_ids(event_ids: tuple[str, ...]) -> str:
     if any(not re.fullmatch(_EVENT_ID_PATTERN, item) for item in event_ids):
         raise ValueError("event_ids contain an invalid event identity")
     return _sha256_text("\x00".join(event_ids))
+
+
+def hash_event_multiset(event_ids: tuple[str, ...]) -> str:
+    """Hash an event multiset while deliberately ignoring event order."""
+
+    return hash_event_ids(tuple(sorted(event_ids)))
 
 
 def build_partition_assignment_id(
@@ -202,7 +221,7 @@ class PartitionIdentity(CanonicalSchemaModel):
     """Versioned split and assignment identity carried by a sequence."""
 
     protocol_id: Literal["PROTOCOL-001"] = "PROTOCOL-001"
-    protocol_version: Literal["1.0"] = "1.0"
+    protocol_version: ProtocolVersion
     split_manifest_id: str = Field(pattern=_SPLIT_ID_PATTERN)
     split_manifest_sha256: Sha256Hex = Field(pattern=_SHA256_PATTERN)
     assignment_id: str = Field(pattern=_PARTITION_ASSIGNMENT_ID_PATTERN)
@@ -219,6 +238,24 @@ class PartitionIdentity(CanonicalSchemaModel):
         if abs(self.target_ratio - expected_ratio) > 1e-12:
             raise ValueError("target_ratio does not match PROTOCOL-001")
         return self
+
+
+def build_active_partition_identity(
+    *,
+    split_manifest_sha256: str,
+    assignment_id: str,
+    partition: ScientificPartition,
+) -> PartitionIdentity:
+    """Build a current artifact identity pinned to active Protocol v1.1."""
+
+    return PartitionIdentity(
+        protocol_version=ACTIVE_PROTOCOL_VERSION,
+        split_manifest_id=build_split_manifest_id(split_manifest_sha256),
+        split_manifest_sha256=split_manifest_sha256,
+        assignment_id=assignment_id,
+        partition=partition,
+        target_ratio=_TARGET_PARTITION_RATIOS[partition],
+    )
 
 
 class PartitionAssignment(CanonicalSchemaModel):
@@ -275,8 +312,11 @@ class PartitionAssignment(CanonicalSchemaModel):
         if self.unit_kind is PartitionUnitKind.HDFS_BLOCK_COMPONENT:
             if not self.member_group_ids:
                 raise ValueError("HDFS components require member_group_ids")
-            if self.disposition is PartitionDisposition.DROPPED_SHORT_WINDOW:
-                raise ValueError("HDFS components cannot be dropped as short windows")
+            if self.disposition in {
+                PartitionDisposition.DROPPED_SHORT_WINDOW,
+                PartitionDisposition.DROPPED_RESIDUAL_WINDOW,
+            }:
+                raise ValueError("HDFS components cannot use BGL residual dispositions")
             if (
                 self.disposition is PartitionDisposition.PURGED_BOUNDARY
                 and self.event_count < 1
@@ -291,6 +331,11 @@ class PartitionAssignment(CanonicalSchemaModel):
             if self.disposition is PartitionDisposition.DROPPED_SHORT_WINDOW:
                 if self.event_count >= 20:
                     raise ValueError("dropped BGL residual windows must be shorter than 20")
+            if self.disposition is PartitionDisposition.DROPPED_RESIDUAL_WINDOW:
+                if not 1 <= self.event_count < 100:
+                    raise ValueError(
+                        "Protocol v1.1 dropped BGL residuals must contain 1 to 99 events"
+                    )
 
         expected_id = build_partition_assignment_id(
             dataset_fingerprint=self.dataset_fingerprint,
@@ -516,13 +561,23 @@ class EventSequence(CanonicalSchemaModel):
                 raise ValueError("bgl_fixed_parent_window strategy requires BGL dataset")
             if self.target_window_size != 100:
                 raise ValueError("BGL target_window_size is frozen at 100")
-            if sequence_length > 100:
-                raise ValueError("BGL parent windows cannot exceed 100 events")
-            if self.is_residual_window:
-                if not 20 <= sequence_length < 100:
-                    raise ValueError("BGL residual windows must contain 20 to 99 events")
-            elif sequence_length != 100:
-                raise ValueError("non-residual BGL parent windows must contain 100 events")
+            if self.partition_identity.protocol_version == ACTIVE_PROTOCOL_VERSION:
+                if self.is_residual_window or sequence_length != 100:
+                    raise ValueError(
+                        "Protocol v1.1 BGL parent windows must contain exactly 100 events"
+                    )
+            else:
+                if sequence_length > 100:
+                    raise ValueError("BGL parent windows cannot exceed 100 events")
+                if self.is_residual_window:
+                    if not 20 <= sequence_length < 100:
+                        raise ValueError(
+                            "BGL residual windows must contain 20 to 99 events"
+                        )
+                elif sequence_length != 100:
+                    raise ValueError(
+                        "non-residual BGL parent windows must contain 100 events"
+                    )
             if self.supervision is not None:
                 if (
                     self.supervision.aggregation_rule
@@ -753,7 +808,166 @@ class MutationRecord(CanonicalSchemaModel):
         return self
 
 
+def build_sequence_destruction_id(
+    *,
+    source_sequence_id: str,
+    source_parent_key: str,
+    source_partition_identity: PartitionIdentity,
+    dataset_fingerprint: str,
+    generator_version: str,
+    seed: int,
+    original_event_ids_sha256: str,
+    destroyed_event_ids_sha256: str,
+    original_event_multiset_sha256: str,
+    destroyed_event_multiset_sha256: str,
+    original_length: int,
+    destroyed_length: int,
+    status: SequenceDestructionStatus,
+    no_op_reason: str | None,
+) -> str:
+    """Build deterministic provenance identity for one KT-3 control."""
+
+    if not re.fullmatch(_SEQUENCE_ID_PATTERN, source_sequence_id):
+        raise ValueError("source_sequence_id must be a valid SEQ identity")
+    source_parent_key = _validate_text(source_parent_key, "source_parent_key")
+    generator_version = _validate_text(generator_version, "generator_version")
+    if source_partition_identity.protocol_version != ACTIVE_PROTOCOL_VERSION:
+        raise ValueError("KT-3 controls require active Protocol v1.1 identity")
+    if not re.fullmatch(_SHA256_PATTERN, dataset_fingerprint):
+        raise ValueError("dataset_fingerprint must be a lowercase SHA-256 digest")
+    if seed < 0:
+        raise ValueError("seed must be non-negative")
+    for field_name, value in (
+        ("original_event_ids_sha256", original_event_ids_sha256),
+        ("destroyed_event_ids_sha256", destroyed_event_ids_sha256),
+        ("original_event_multiset_sha256", original_event_multiset_sha256),
+        ("destroyed_event_multiset_sha256", destroyed_event_multiset_sha256),
+    ):
+        if not re.fullmatch(_SHA256_PATTERN, value):
+            raise ValueError(f"{field_name} must be a lowercase SHA-256 digest")
+    if original_length < 1 or destroyed_length < 1:
+        raise ValueError("sequence-destruction lengths must be positive")
+    if no_op_reason is not None:
+        no_op_reason = _validate_text(no_op_reason, "no_op_reason")
+
+    payload = {
+        "dataset_fingerprint": dataset_fingerprint,
+        "destroyed_event_ids_sha256": destroyed_event_ids_sha256,
+        "destroyed_event_multiset_sha256": destroyed_event_multiset_sha256,
+        "destroyed_length": destroyed_length,
+        "generator_version": generator_version,
+        "no_op_reason": no_op_reason,
+        "original_event_ids_sha256": original_event_ids_sha256,
+        "original_event_multiset_sha256": original_event_multiset_sha256,
+        "original_length": original_length,
+        "seed": seed,
+        "source_parent_key": source_parent_key,
+        "source_partition_identity": source_partition_identity.model_dump(mode="json"),
+        "source_sequence_id": source_sequence_id,
+        "status": status.value,
+    }
+    return f"CTRL-KT3-{_sha256_text(_canonical_json(payload))}"
+
+
+class SequenceDestructionRecord(CanonicalSchemaModel):
+    """Provenance for KT-3 order destruction; never a synthetic anomaly label."""
+
+    schema_version: Literal["1.0"] = SEQUENCE_DESTRUCTION_SCHEMA_VERSION
+    control_id: str = Field(pattern=_SEQUENCE_DESTRUCTION_ID_PATTERN)
+    source_sequence_id: str = Field(pattern=_SEQUENCE_ID_PATTERN)
+    source_parent_key: str = Field(min_length=1)
+    source_partition_identity: PartitionIdentity
+    dataset_fingerprint: Sha256Hex = Field(pattern=_SHA256_PATTERN)
+    generator_version: str = Field(min_length=1)
+    seed: int = Field(ge=0)
+    original_event_ids_sha256: Sha256Hex = Field(pattern=_SHA256_PATTERN)
+    destroyed_event_ids_sha256: Sha256Hex = Field(pattern=_SHA256_PATTERN)
+    original_event_multiset_sha256: Sha256Hex = Field(pattern=_SHA256_PATTERN)
+    destroyed_event_multiset_sha256: Sha256Hex = Field(pattern=_SHA256_PATTERN)
+    original_length: int = Field(ge=1)
+    destroyed_length: int = Field(ge=1)
+    status: SequenceDestructionStatus
+    no_op_reason: str | None = None
+    source_label: AnomalyLabel | None = None
+    label_access: LabelAccess | None = None
+    raw_data_mutated: Literal[False] = False
+
+    @field_validator("source_parent_key", "generator_version", "no_op_reason")
+    @classmethod
+    def validate_control_text(
+        cls, value: str | None, info: object
+    ) -> str | None:
+        if value is None:
+            return None
+        field_name = getattr(info, "field_name", "text")
+        return _validate_text(value, field_name)
+
+    @model_validator(mode="after")
+    def validate_sequence_destruction(self) -> "SequenceDestructionRecord":
+        partition = self.source_partition_identity.partition
+        if self.source_partition_identity.protocol_version != ACTIVE_PROTOCOL_VERSION:
+            raise ValueError("KT-3 controls require active Protocol v1.1 identity")
+        if partition not in {
+            ScientificPartition.VAL_EXPERT,
+            ScientificPartition.TEST,
+        }:
+            raise ValueError("KT-3 controls are restricted to VAL_EXPERT or TEST")
+
+        if partition is ScientificPartition.TEST:
+            if self.source_label is not None or self.label_access is not None:
+                raise ValueError("TEST KT-3 records must not expose supervision")
+        elif (
+            self.source_label is None
+            or self.label_access is not LabelAccess.VALIDATION_EVALUATION
+        ):
+            raise ValueError(
+                "VAL_EXPERT KT-3 records require validation-only source supervision"
+            )
+
+        if self.original_length != self.destroyed_length:
+            raise ValueError("KT-3 must preserve sequence length")
+        if (
+            self.original_event_multiset_sha256
+            != self.destroyed_event_multiset_sha256
+        ):
+            raise ValueError("KT-3 must preserve the event multiset")
+
+        is_no_op = (
+            self.original_event_ids_sha256 == self.destroyed_event_ids_sha256
+        )
+        if self.status is SequenceDestructionStatus.APPLIED:
+            if is_no_op or self.no_op_reason is not None:
+                raise ValueError(
+                    "applied KT-3 controls require changed order and no no-op reason"
+                )
+        elif not is_no_op or self.no_op_reason is None:
+            raise ValueError(
+                "noop KT-3 controls require unchanged order and a recorded reason"
+            )
+
+        expected_id = build_sequence_destruction_id(
+            source_sequence_id=self.source_sequence_id,
+            source_parent_key=self.source_parent_key,
+            source_partition_identity=self.source_partition_identity,
+            dataset_fingerprint=self.dataset_fingerprint,
+            generator_version=self.generator_version,
+            seed=self.seed,
+            original_event_ids_sha256=self.original_event_ids_sha256,
+            destroyed_event_ids_sha256=self.destroyed_event_ids_sha256,
+            original_event_multiset_sha256=self.original_event_multiset_sha256,
+            destroyed_event_multiset_sha256=self.destroyed_event_multiset_sha256,
+            original_length=self.original_length,
+            destroyed_length=self.destroyed_length,
+            status=self.status,
+            no_op_reason=self.no_op_reason,
+        )
+        if self.control_id != expected_id:
+            raise ValueError("control_id does not match KT-3 provenance")
+        return self
+
+
 __all__ = [
+    "ACTIVE_PROTOCOL_VERSION",
     "EventSequence",
     "LabelAggregationRule",
     "LocalizationCoordinates",
@@ -762,17 +976,24 @@ __all__ = [
     "MutationOperation",
     "MutationParameter",
     "MutationRecord",
+    "ProtocolVersion",
     "PartitionAssignment",
     "PartitionDisposition",
     "PartitionIdentity",
     "PartitionUnitKind",
     "SEQUENCE_SCHEMA_VERSION",
+    "SEQUENCE_DESTRUCTION_SCHEMA_VERSION",
+    "SequenceDestructionRecord",
+    "SequenceDestructionStatus",
     "SequenceModelInput",
     "SequenceStrategy",
     "SequenceSupervision",
+    "build_active_partition_identity",
     "build_mutation_id",
     "build_partition_assignment_id",
     "build_sequence_id",
+    "build_sequence_destruction_id",
     "build_split_manifest_id",
     "hash_event_ids",
+    "hash_event_multiset",
 ]

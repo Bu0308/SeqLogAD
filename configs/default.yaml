@@ -14,6 +14,7 @@ dataset:
 protocol:
   contract: configs/protocols/protocol-v1.1.yaml
   statistical_addendum: configs/protocols/effect-001.yaml
+  statistical_addendum_status: FROZEN_HUMAN_APPROVED
   empirical_status: NOT_RUN
   execution_ready: false
 
@@ -47,8 +48,9 @@ scoring:
   threshold_strategy: TODO_VALIDATION_ONLY
   primary_metric: average_precision
   practical_effect:
-    hdfs: HUMAN_DECISION_REQUIRED
-    bgl: HUMAN_DECISION_REQUIRED
+    framework: RESOURCE_FEASIBILITY_MARGIN
+    hdfs: 0.01
+    bgl: 0.01
 
 output:
   root: outputs

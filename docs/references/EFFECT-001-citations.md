@@ -44,7 +44,7 @@ The following are pre-registered project choices, not claims attributed to the p
 
 - separate HDFS/BGL estimands;
 - non-interpolated Average Precision as the canonical `PR-AUC` interpretation;
-- symmetric dataset-specific margins pending human approval;
+- human-approved symmetric `0.01 AP` margins for HDFS and BGL under `RESOURCE_FEASIBILITY_MARGIN`;
 - 95% paired cluster-percentile interval;
 - 10,000 valid replicates, seed `42`, and explicit degenerate-resample handling;
 - required orderless candidate set including Isolation Forest;
@@ -58,6 +58,7 @@ The following are pre-registered project choices, not claims attributed to the p
 
 - [x] No invented citation, DOI, or paper result.
 - [x] No numeric practical-effect margin attributed to literature.
+- [x] The `0.01 AP` margins are explicitly researcher-defined, pre-experiment, and not result-informed.
 - [x] No SeqLogAD experiment or bootstrap was run.
 - [x] No TEST data or labels were accessed.
 - [x] External method support is separated from SeqLogAD design decisions.

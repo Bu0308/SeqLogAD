@@ -33,7 +33,7 @@ Future ML, retrieval, agent, API, and UI dependencies are intentionally absent u
 ## Current blocking classification
 
 - **Documentation/Git review:** no toolchain blocker.
-- **Schema contracts:** SCHEMA-001/002 implementation tests exist; protocol-v1.1 identity compatibility must be reviewed before a real split artifact.
+- **Schema contracts:** SCHEMA-001/002 implementation tests and SCHEMA-COMPAT-001 Protocol-v1.1 identity checks exist; no real split artifact has been generated.
 - **Parsing:** Drain3 package availability is verified; parser-state semantics and parsing implementation remain future work.
 - **Scientific experiments:** LIT/effect policy, five-way split/TEST guard, parser/events/sequences, and human-run protocol are required first.
 

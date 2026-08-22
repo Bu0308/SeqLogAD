@@ -12,7 +12,7 @@ Its required statistical addendum is:
 - machine-readable: [`../configs/protocols/effect-001.yaml`](../configs/protocols/effect-001.yaml);
 - method provenance: [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md).
 
-`EFFECT-001` has frozen the estimand, comparison family, bootstrap, confidence level, equal-budget rule, seed aggregation, and KT-3 decision logic. It remains `PARTIALLY_FROZEN — HUMAN DECISION REQUIRED` because `delta_HDFS` and `delta_BGL` are null. No scientific run is authorized until the human researcher supplies and approves both margins without consulting KT/TEST outcomes.
+`EFFECT-001` is `FROZEN_HUMAN_APPROVED`: `delta_HDFS = delta_BGL = 0.01 AP`, framework `RESOURCE_FEASIBILITY_MARGIN`, approval timing `PRE_EXPERIMENT`, and `result_informed = false`. Its estimand, comparison family, bootstrap, confidence level, equal-budget rule, seed aggregation, and KT-3 logic remain unchanged. This completes the statistical prerequisite but does not authorize downstream execution by itself.
 
 Historical protocol v1.0 is preserved at [`research-protocol-v1.0.md`](research-protocol-v1.0.md), with its original machine-readable contract at [`../configs/protocols/protocol-v1.yaml`](../configs/protocols/protocol-v1.yaml).
 

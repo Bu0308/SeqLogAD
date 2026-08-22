@@ -13,8 +13,8 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | PROTOCOL-001-v1.0 | HISTORICAL | AI_PREP/HUMAN_EXECUTE | — | SUPERSEDED | Preserved as approved historical protocol |
 | FREEZE-v1.1 | MUST | AI_PREP/HUMAN_EXECUTE | audit approval | DONE | Protocol/config/ADR/RQs/scope/roadmap/citations are consistent and validated |
 | LIT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FREEZE-v1.1 | DONE | Targeted matrix, reproducible search log, citation note, dataset/baseline matrices, and conservative prior-art states completed; no novelty claim established |
-| EFFECT-001 | MUST | HUMAN | LIT-001 | HUMAN_DECISION_REQUIRED | Estimand/comparison/bootstrap/baseline/equal-budget/KT-3 contracts are frozen; human records defensible non-null `delta_HDFS` and `delta_BGL`, rationale/date, and confirms no outcome/TEST consultation before status becomes DONE |
-| SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | NOT_STARTED | Protocol v1.1 identity is supported by split/sequence contracts without weakening TEST/schema safeguards |
+| EFFECT-001 | MUST | HUMAN | LIT-001 | DONE | `delta_HDFS = delta_BGL = 0.01 AP`, `RESOURCE_FEASIBILITY_MARGIN`, pre-experiment/non-result-informed approval, estimand/comparison/bootstrap/baseline/equal-budget/KT-3 contracts frozen and tested |
+| SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | DONE | Historical v1.0 and active v1.1 identities, current-artifact factory, HDFS/BGL parent provenance, KT-3 control provenance, round-trip, and TEST-label safeguards pass |
 
 ## Raw partition, parser, and sequences
 

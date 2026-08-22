@@ -1,6 +1,6 @@
 # Reproducibility Baseline
 
-Day 1 established the initial conventions. Research Freeze v1.1 adds explicit dataset-suitability tests, sequence-destruction controls, conditional complexity gates, five-way split ownership, and a physical TEST-seal requirement. EFFECT-001 adds a machine-readable statistical contract; its numerical HDFS/BGL margins still require human approval. Most scientific runtime automation remains planned.
+Day 1 established the initial conventions. Research Freeze v1.1 adds explicit dataset-suitability tests, sequence-destruction controls, conditional complexity gates, five-way split ownership, and a physical TEST-seal requirement. EFFECT-001 is human-approved with `delta_HDFS = delta_BGL = 0.01 AP`; most scientific runtime automation remains planned.
 
 ## Python environment contract
 
@@ -109,9 +109,11 @@ Do not write `output.csv`, `result-final-v2.csv` or `latest-model.pt` at reposit
 
 `PROTOCOL-001` v1.1 freezes the chronological split as `BASE_TRAIN` 60%, reserved `FUSION_TRAIN` 10%, `VAL_EXPERT` 10%, reserved `VAL_FUSION` 10%, and `TEST` 10%. HDFS block/session atomicity may cause recorded realized ratios to differ after boundary purging. BGL windows are created only after partitioning and never overlap. Sources of truth are [`research-protocol-v1.1.md`](research-protocol-v1.1.md) and [`../configs/protocols/protocol-v1.1.yaml`](../configs/protocols/protocol-v1.1.yaml).
 
+SCHEMA-COMPAT-001 requires every current split/sequence identity to be created through `build_active_partition_identity(...)`, which pins Protocol `1.1` and derives the frozen target ratio. Explicit historical `1.0` identities remain readable, but a missing, unsupported, or implicitly defaulted protocol version is invalid. KT-3 uses the separate `SequenceDestructionRecord`; it never reuses synthetic-localization mutation semantics.
+
 Default execution stages:
 
-1. Human approves `delta_HDFS` and `delta_BGL` in the prepared EFFECT-001 contract; no run begins while either value is null.
+1. Use the frozen EFFECT-001 contract with `delta_HDFS = delta_BGL = 0.01 AP`; never alter it after observing outcomes.
 2. Freeze raw split identities and physical TEST guard before parser/window generation.
 3. Fit/freeze parser on normal `BASE_TRAIN`; create canonical events/sequences inside partitions.
 4. Human runs KT-1/KT-2 order-insensitive suitability analyses.
@@ -127,7 +129,7 @@ Every future primary comparison snapshots both `configs/protocols/protocol-v1.1.
 
 HDFS resampling units are complete block/sessions; BGL units are complete non-overlapping 100-event parent windows. All methods in a contrast reuse identical resampled unit IDs. Seed variability is reported separately from evaluation-unit bootstrap uncertainty. The final interval is conditional on the validation-selected methods and does not estimate model-selection uncertainty.
 
-`delta_HDFS` and `delta_BGL` are currently null. They cannot be inferred from TEST, KT outcomes, interval width, or whichever value helps the sequential method. Once human-approved, the contract records each value, rationale framework, approver/date, and confirmation that no outcome was consulted. Old contract snapshots are never overwritten in run artifacts.
+`delta_HDFS` and `delta_BGL` are both frozen at `0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. Approval is recorded as human-owned, pre-experiment, and not result-informed. The values cannot be revised from TEST, KT outcomes, interval width, or whichever value helps the sequential method. Old contract snapshots are never overwritten in run artifacts.
 
 ## Human/AI ownership
 

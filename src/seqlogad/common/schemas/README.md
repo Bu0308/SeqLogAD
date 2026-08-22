@@ -13,15 +13,16 @@ Input: versioned parser output plus previously assigned provenance and authorize
 Implemented and tested in `SCHEMA-002`:
 
 - deterministic partition-assignment and split-manifest identities;
-- HDFS block/session and BGL 100-event/residual `EventSequence` contracts;
+- HDFS block/session, active-v1.1 BGL 100-event, and historical-v1.0 BGL residual `EventSequence` contracts;
 - label-free `SequenceModelInput`;
 - separate token, gap and transition coordinates;
 - deterministic normal-source `MutationRecord` contracts for five frozen mutation families.
+- explicit historical Protocol v1.0 and active Protocol v1.1 partition identities, with a v1.1-only construction factory;
+- a separate `SequenceDestructionRecord` provenance contract for future KT-3 applied/no-op controls without TEST-label exposure.
 
 Planned only when required by an approved task:
 
 - split manifest and processed-artifact envelope schemas where required by the implementation task;
-- protocol-v1.1 split identity compatibility before real split generation;
 - future evidence/downstream records only after their scope gate.
 
 No parser, sequence-builder, mutation-generator, detector, fusion, RAG or agent behavior is implemented here. See `docs/schemas/canonical-events.md` and `docs/schemas/event-sequences-and-localization.md`.

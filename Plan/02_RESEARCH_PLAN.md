@@ -39,7 +39,7 @@ The per-dataset primary estimand is `Delta_AP_d = AP_sequence,d - AP_strongest_o
 - Failed randomization/counterfactual controls remove localization faithfulness.
 - No expert complementarity prevents trainable fusion.
 
-`delta_HDFS` and `delta_BGL` remain `HUMAN_DECISION_REQUIRED`. A human-approved operational-utility margin is preferred; a clearly labeled resource/feasibility margin is the fallback. Validation power can test measurability but cannot manufacture practical importance. No run is authorized until both values are recorded without consulting KT/TEST outcomes.
+`delta_HDFS` and `delta_BGL` are human-approved at `0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`, before any scientific outcome. A sequence gain is meaningful only when the 95% interval lies entirely above `+0.01`; equivalence lies inside `[-0.01,+0.01]`; harm lies below `-0.01`; otherwise the result is inconclusive. These values cannot be changed retroactively.
 
 ## Literature status
 

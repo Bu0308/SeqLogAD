@@ -6,13 +6,15 @@
 | Parent protocol | `PROTOCOL-001` v1.1 |
 | Contract version | `1.0` |
 | Prepared | 2026-08-22 |
-| Status | **PARTIALLY FROZEN — HUMAN DECISION REQUIRED** |
+| Approved | 2026-08-22 |
+| Status | **FROZEN — HUMAN APPROVED** |
 | Machine contract | `configs/protocols/effect-001.yaml` |
 | Citation note | `docs/references/EFFECT-001-citations.md` |
 | Empirical status | `NOT_RUN` |
-| Execution ready | **NO** |
+| Statistical contract ready | **YES** |
+| Scientific pipeline authorized by this task | **NO** |
 
-EFFECT-001 is a binding statistical addendum anticipated by Protocol v1.1. It does not rewrite the approved v1.1 data/supervision contract. The estimands, comparison family, baseline-selection rule, equal-budget rule, bootstrap design, confidence level, seed aggregation, decision regions, and negative-result policy are frozen below. The two numerical practical-effect margins remain human-owned and unresolved, so no scientific run is authorized.
+EFFECT-001 is a binding statistical addendum anticipated by Protocol v1.1. It does not rewrite the approved v1.1 data/supervision contract. The estimands, comparison family, baseline-selection rule, equal-budget rule, bootstrap design, confidence level, seed aggregation, decision regions, negative-result policy, and numerical practical-effect margins are frozen below. Human approval completes this statistical gate but does not authorize split/parser/baseline/KT/TEST execution by itself.
 
 ## 1. Freeze status
 
@@ -30,13 +32,16 @@ EFFECT-001 is a binding statistical addendum anticipated by Protocol v1.1. It do
 - negative/null/inconclusive outcomes as valid results;
 - complete prohibition on TEST-informed design decisions.
 
-### Human-owned blocker
+### Human-approved fields
 
-- `delta_HDFS`;
-- `delta_BGL`;
-- rationale and approval record for each value.
+- `delta_HDFS = 0.01` absolute AP;
+- `delta_BGL = 0.01` absolute AP;
+- framework: `RESOURCE_FEASIBILITY_MARGIN`;
+- approval source: `HUMAN_RESEARCHER`;
+- approval timing: `PRE_EXPERIMENT`;
+- result-informed: `false`.
 
-Until both finite values are approved and written into the machine contract, `execution_ready = false` and `EFFECT-001` is not complete.
+The same margin keeps the primary rule simple, while HDFS and BGL estimates and conclusions remain independent. These values cannot be retroactively changed after observing scientific outcomes.
 
 ## 2. Primary estimand and metric
 
@@ -60,14 +65,14 @@ HDFS and BGL produce separate estimates, intervals, decisions, and limitations. 
 
 `VAL_EXPERT` supports method selection and a selection-conditioned development gate only; such an interval cannot be described as the final confirmatory result. The registered final dataset-specific conclusion is computed on the once-opened human TEST after every method/config/claim is frozen.
 
-## 3. Minimum practical effect — human decision record
+## 3. Minimum practical effect — approved human decision
 
-The targeted literature review found no transferable universal numerical AP margin. Therefore no numeric value is inserted by Codex.
+The targeted literature review found no transferable universal numerical AP margin. The values below are supplied and approved by the human researcher, not inferred or selected by Codex.
 
 | Dataset | Required field | Current value | Status |
 |---|---|---:|---|
-| HDFS | `delta_HDFS` in absolute AP points | — | `HUMAN_DECISION_REQUIRED` |
-| BGL | `delta_BGL` in absolute AP points | — | `HUMAN_DECISION_REQUIRED` |
+| HDFS | `delta_HDFS` in absolute AP points | `0.01` | `FROZEN_HUMAN_APPROVED` |
+| BGL | `delta_BGL` in absolute AP points | `0.01` | `FROZEN_HUMAN_APPROVED` |
 
 Each value must be finite and strictly between 0 and 1, chosen before any KT/baseline score is inspected, and accompanied by one of these defensible frameworks:
 
@@ -78,36 +83,36 @@ Each value must be finite and strictly between 0 and 1, chosen before any KT/bas
 | Literature benchmark | Transfer a margin from prior log papers | No verified source provides an equivalent AP margin for these exact bytes/protocol | Arbitrary transfer across prevalence/variants | Arbitrary transfer may erase real effects | **Not currently defensible** |
 | Zero margin / observed-result margin | Treat any positive delta or a post-result value as meaningful | Maximally result-sensitive | Collapses practical into statistical significance | N/A | **Prohibited** |
 
-A validation-only power or interval-width analysis may check whether a human-selected margin is measurable with available units. It may not manufacture practical importance from sample size or be revised after KT results. If no operational utility model exists, the recommended choice is the resource/feasibility framework with explicit supervisor approval and conservative wording.
+A validation-only power or interval-width analysis may check whether the approved margin is measurable with available units. It may not manufacture practical importance from sample size or be used to revise the margin after KT results.
 
 After approval, report sensitivity at `0.5 * delta_d` and `2 * delta_d` as secondary analyses. These do not replace the registered primary margin.
 
-### Approval form
+### Completed approval record
 
 ```text
-delta_HDFS = <human value in absolute AP points>
-rationale_framework = <OPERATIONAL_UTILITY | RESOURCE_FEASIBILITY_MARGIN>
-rationale = <why this is the smallest worthwhile effect>
-
-delta_BGL = <human value in absolute AP points>
-rationale_framework = <OPERATIONAL_UTILITY | RESOURCE_FEASIBILITY_MARGIN>
-rationale = <why this is the smallest worthwhile effect>
-
-approved_by = <human researcher>
-approved_on = <date>
+delta_HDFS = 0.01 AP
+delta_BGL = 0.01 AP
+rationale_framework = RESOURCE_FEASIBILITY_MARGIN
+rationale = an absolute AP gain below 0.01 does not justify additional
+            sequential-model complexity in this constrained 3-credit,
+            under-3-month project
+approved_by = HUMAN_RESEARCHER
+approved_on = 2026-08-22
+approval_timing = PRE_EXPERIMENT
+result_informed = false
 TEST consulted = NO
 KT/baseline outcomes consulted = NO
 ```
 
 ## 4. Statistical decision table
 
-Let `[L_d, U_d]` be the registered 95% uncertainty interval for `Delta_AP_d`.
+Let `[L_d, U_d]` be the registered 95% uncertainty interval for `Delta_AP_d`. For both datasets, `delta_d = 0.01` AP.
 
 | Interval position | Scientific conclusion |
 |---|---|
-| `L_d > +delta_d` | `MEANINGFUL_SEQUENCE_GAIN` |
-| `L_d >= -delta_d` and `U_d <= +delta_d` | `PRACTICAL_EQUIVALENCE` |
-| `U_d < -delta_d` | `MEANINGFUL_HARM` |
+| `L_d > +0.01` | `MEANINGFUL_SEQUENCE_GAIN` |
+| `L_d >= -0.01` and `U_d <= +0.01` | `PRACTICAL_EQUIVALENCE` |
+| `U_d < -0.01` | `MEANINGFUL_HARM` |
 | Any other overlap/crossing | `INCONCLUSIVE` |
 
 Boundary equality belongs to the equivalence interval, not gain/harm. `INCONCLUSIVE` never means “no difference.” The 95% interval is an uncertainty statement conditional on frozen methods/seeds and observed evaluation units; it is not proof of superiority or causal mechanism.
@@ -180,13 +185,13 @@ For each dataset:
 Delta_AP_shuffle,d = AP_original_sequence,d - mean(AP_shuffled_sequence,d)
 ```
 
-The selected sequential comparator is frozen first. Shuffles use deterministic transformation seeds `42`, `43`, and `44`, preserve multiset/count vector/length/label/partition/parent identity, and never mutate raw data. The shuffled AP is averaged across the three registered transformations. The same dataset-specific `delta_d`, 95% paired bootstrap, and four decision regions apply:
+The selected sequential comparator is frozen first. Shuffles use deterministic transformation seeds `42`, `43`, and `44`, preserve multiset/count vector/length/label/partition/parent identity, and never mutate raw data. The shuffled AP is averaged across the three registered transformations. The approved `0.01` AP margin, 95% paired bootstrap, and four decision regions apply to each dataset:
 
 | Interval position | KT-3 conclusion |
 |---|---|
-| Entirely above `+delta_d` | `MEANINGFUL_ORDER_SENSITIVITY` |
-| Entirely inside `[-delta_d, +delta_d]` | `NO_MEANINGFUL_ORDER_SENSITIVITY / PRACTICAL_EQUIVALENCE` |
-| Entirely below `-delta_d` | `SHUFFLED_BETTER_UNEXPECTED` |
+| Entirely above `+0.01` | `MEANINGFUL_ORDER_SENSITIVITY` |
+| Entirely inside `[-0.01, +0.01]` | `NO_MEANINGFUL_ORDER_SENSITIVITY / PRACTICAL_EQUIVALENCE` |
+| Entirely below `-0.01` | `SHUFFLED_BETTER_UNEXPECTED` |
 | Otherwise | `INCONCLUSIVE` |
 
 The generator must attempt a non-noop permutation. Units that cannot change order (for example, too short or all events identical) remain in the primary population with zero perturbation and a recorded reason, preventing favorable post-hoc exclusion. A perturbable-only analysis is secondary/descriptive.
@@ -197,10 +202,10 @@ Every following outcome is valid: an orderless baseline wins, practical equivale
 
 ## 12. TEST and execution gate
 
-Before human approval of both margins, no physical TEST generation/opening, baseline/Markov run, KT-1, KT-2, KT-3, tuning, bootstrap, or scientific metric execution is authorized. TEST cannot select a margin, baseline, hyperparameter, resampling setting, comparison family, or conclusion boundary.
+At approval time, no scientific baseline, KT-1, KT-2, KT-3, parser-derived experiment, or TEST result had been observed. TEST did not select the margin, baseline, hyperparameter, resampling setting, comparison family, or conclusion boundary.
 
-After human approval, the addendum must be updated with the exact values/rationales/date, its status must become `FROZEN_HUMAN_APPROVED`, contract tests must pass, and an ADR must record that TEST and KT outcomes were not consulted. Only then may downstream preparation tasks proceed under their own authorization.
+The addendum is now `FROZEN_HUMAN_APPROVED`, but this is not authorization to execute the scientific pipeline. Split generation, TEST locking, parser fitting, baseline/KT execution, and final TEST remain separate tasks with their own dependencies and human authorization.
 
 ## 13. Provenance boundary
 
-The methodological sources support AP-focused evaluation, uncertainty reporting, pre-specified equivalence bounds, and dependency-aware resampling. They do not prescribe SeqLogAD's numeric margins, 10,000 replicates, 95% level, seed, baseline family, tuning budget, tie order, or decision labels. Those are explicit SeqLogAD design choices and remain empirical-result-free.
+The methodological sources support AP-focused evaluation, uncertainty reporting, pre-specified equivalence bounds, and dependency-aware resampling. They do not prescribe SeqLogAD's `0.01` margins, 10,000 replicates, 95% level, seed, baseline family, tuning budget, tie order, or decision labels. Those are explicit SeqLogAD decisions and remain empirical-result-free.

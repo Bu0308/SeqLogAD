@@ -5,11 +5,13 @@
 | Task | `SCHEMA-002` |
 | Sequence schema version | `1.0` |
 | Mutation schema version | `1.0` |
-| Status | **IMPLEMENTED — AWAITING HUMAN AUDIT** |
+| KT-3 control schema version | `1.0` |
+| Status | **FROZEN — PROTOCOL v1.1 COMPATIBLE** |
 | Implementation date | 2026-08-21 |
+| Compatibility freeze | 2026-08-22 (`SCHEMA-COMPAT-001`) |
 | Source module | `src/seqlogad/common/schemas/sequences.py` |
-| Scientific protocol | `docs/research-protocol.md` |
-| Method provenance | `docs/references/SCHEMA-002-citations.md` |
+| Scientific protocol | `docs/research-protocol-v1.1.md` |
+| Method provenance | `docs/references/SCHEMA-002-citations.md`; `docs/references/SCHEMA-COMPAT-001-citations.md` |
 
 This contract makes sequence provenance, partition ownership, coordinate-aware localization, and deterministic synthetic-mutation provenance machine-checkable. It validates supplied synthetic records only. It does **not** split datasets, parse logs, build real sequences, mutate events, access TEST labels, or run an experiment.
 
@@ -25,6 +27,9 @@ future sequence builder + SCHEMA-001 LogEvents
 
 future mutation generator + normal EventSequence
   → MutationRecord + LocalizationCoordinates
+
+future KT-3 control generator + VAL_EXPERT/authorized TEST EventSequence
+  → SequenceDestructionRecord
 ```
 
 The schema checks record consistency after those future components have produced values. It does not claim that those components already exist.
@@ -33,7 +38,7 @@ The schema checks record consistency after those future components have produced
 
 `PartitionIdentity` carried by an `EventSequence` records:
 
-- protocol ID/version: `PROTOCOL-001` / `1.0`;
+- protocol ID `PROTOCOL-001` and an explicit supported version (`1.0` historical or `1.1` active);
 - `SPLIT-<sha256>` split-manifest identity and exact content hash;
 - deterministic raw-unit assignment ID;
 - one of `BASE_TRAIN`, `FUSION_TRAIN`, `VAL_EXPERT`, `VAL_FUSION`, or `TEST`;
@@ -41,12 +46,30 @@ The schema checks record consistency after those future components have produced
 
 Target ratio is not realized ratio. A future split manifest must report realized ratios and exclusions after atomicity/purge rules.
 
+`protocol_version` has no implicit default. Historical canonical payloads remain valid only when they explicitly retain `"1.0"`; they are never relabeled. New artifacts must use `build_active_partition_identity(...)`, which derives the split ID and target ratio and pins `"1.1"`. Unsupported or omitted versions are rejected.
+
+Event, sequence, mutation, and KT-3 record `schema_version` values remain separate from the scientific `protocol_version`. Their `1.0` values are record-format versions, not stale Protocol-v1.0 claims.
+
+The split has no random seed field because Protocol v1.1 assignment is deterministic and chronological. Transformation/model seeds remain separate provenance; introducing randomized split assignment would require a protocol amendment and split-schema review.
+
+### 2.1 Compatibility matrix
+
+| Contract | Historical v1.0 | Active v1.1 | Final state |
+|---|---|---|---|
+| `EventTemplate` / `LogEvent` | Record-format schema `1.0` | Protocol-independent parser/raw provenance and label isolation | Compatible; unchanged |
+| `PartitionIdentity` | Explicit `"1.0"` parses and round-trips | Active factory pins `"1.1"` | Compatible; no implicit version |
+| Five partitions/ratios | Supported | Same `60/10/10/10/10` contract | Compatible |
+| HDFS parent | Block/component identity | Block/component identity | Compatible |
+| BGL parent | 100 events; explicit historical residual 20–99 supported | Exactly 100 events | Version-aware |
+| `MutationRecord` | Normal-source synthetic anomaly provenance | Linked through its source sequence/split identity | Unchanged; not KT-3 |
+| `SequenceDestructionRecord` | N/A | Active-v1.1 KT-3 provenance | Added |
+
 `PartitionAssignment` represents both included and deliberately excluded raw units:
 
 | Dataset unit | Assigned form | Exclusion form |
 |---|---|---|
 | HDFS connected block component | `hdfs_block_component` + partition | `PURGED_BOUNDARY` with reason |
-| BGL chronological raw range | `bgl_raw_range` + partition | `DROPPED_SHORT_WINDOW` with reason when residual length `<20` |
+| BGL chronological raw range | `bgl_raw_range` + partition | historical `DROPPED_SHORT_WINDOW` for `<20`; active-v1.1 `DROPPED_RESIDUAL_WINDOW` for a trailing `1–99` events |
 
 HDFS components carry sorted, unique block IDs. BGL ranges cannot carry HDFS group IDs. Excluded units have no scientific partition, and assigned units have no exclusion reason.
 
@@ -80,12 +103,12 @@ Its deterministic ID is derived from dataset fingerprint, partition-assignment I
 
 - Strategy: `bgl_fixed_parent_window`.
 - Dataset key must be `bgl`.
-- Normal parent length is exactly 100 events.
-- A final residual sequence is valid only from 20 through 99 events.
+- Active Protocol v1.1 parents contain exactly 100 events and cannot claim a residual window.
+- Explicit historical Protocol v1.0 records may retain the former 20–99 event residual rule.
 - Real supervision uses the separated inline source-alert marker and any-source-alert aggregation.
 - Optional real alert localization is token-only and must stay distinct from synthetic localization.
 
-This schema does not make windows or perform label aggregation; those are future builder responsibilities.
+This schema validates one parent at a time. Non-overlap across the BGL parent collection and partition containment remain future split/sequence-builder responsibilities. A future active-v1.1 manifest can retain trailing-residual provenance with `DROPPED_RESIDUAL_WINDOW`; it cannot emit that residual as an `EventSequence`.
 
 ## 4. Label and TEST boundary
 
@@ -153,7 +176,24 @@ The mutation ID binds the source sequence, generator version, seed, operation, o
 
 `unexpected_transition` is not a separate mutation operation in protocol v1. It remains derived evidence/analysis so the Markov expert does not define the benchmark on which it is evaluated.
 
-## 7. Determinism and serialization
+`MutationRecord` is not reused for KT-3: it defines a synthetic anomaly from a normal source, forbids no-ops, and carries localization targets. Those semantics conflict with EFFECT-001's paired order-destruction control.
+
+## 7. SequenceDestructionRecord
+
+`SequenceDestructionRecord` is the minimal provenance contract for future KT-3 controls. It records:
+
+- original sequence and parent/session linkage;
+- the complete active Protocol-v1.1 partition/split/assignment identity;
+- verified dataset fingerprint, generator version, and shuffle seed;
+- original/destroyed ordered-event hashes;
+- original/destroyed multiset hashes and lengths, which must match pairwise;
+- `applied` or `noop_unperturbable` status, with a mandatory reason for a retained no-op;
+- one controlled validation label/access shared by the original/destroyed pair, while TEST records must omit both and retain their label only in the future sealed evaluator;
+- literal `raw_data_mutated=false`.
+
+The control is restricted to `VAL_EXPERT` and future human-authorized `TEST`. It stores provenance only: no shuffle implementation, score, metric, AP result, or TEST unlock exists in this task.
+
+## 8. Determinism and serialization
 
 All SCHEMA-002 models inherit the SCHEMA-001 strict contract:
 
@@ -163,9 +203,9 @@ All SCHEMA-002 models inherit the SCHEMA-001 strict contract:
 - canonical SHA-256 support;
 - non-finite numbers rejected where scalar mutation parameters are allowed.
 
-Identity helpers use full lowercase SHA-256 digests with type prefixes: `SPLIT-`, `PART-`, `SEQ-`, and `MUT-`. The prefixes are type markers, not security boundaries.
+Identity helpers use full lowercase SHA-256 digests with type prefixes: `SPLIT-`, `PART-`, `SEQ-`, `MUT-`, and `CTRL-KT3-`. The prefixes are type markers, not security boundaries.
 
-## 8. Explicitly not implemented
+## 9. Explicitly not implemented
 
 SCHEMA-002 does not implement or execute:
 
@@ -175,19 +215,22 @@ SCHEMA-002 does not implement or execute:
 - Drain3 parsing or template generation;
 - real sequence artifact generation;
 - synthetic mutation sampling or byte/event modification;
+- KT-3 shuffling, destruction-manifest generation, scoring, or execution;
 - model tensors, padding, models, training, thresholding, or metrics;
 - scientific TEST access;
 - retrieval, RAG, agent, API, or UI behavior.
 
-## 9. Human audit gate
+## 10. Compatibility freeze
 
-Before this contract is marked frozen, the human reviewer should verify:
+SCHEMA-COMPAT-001 verified with synthetic unit fixtures that:
 
-1. partition identities are sufficient for later leakage audits;
-2. token/gap/transition definitions match intended evaluation coordinates;
-3. HDFS and BGL sequence constraints match `PROTOCOL-001`;
-4. TEST records cannot expose supervision or pre-final mutations;
-5. each mutation family has scientifically correct length and localization invariants;
-6. no field implies that real artifacts or experiments already exist.
+1. explicit historical v1.0 identity still parses and round-trips;
+2. active v1.1 identity is created only through the pinned factory;
+3. unsupported/missing protocol versions fail;
+4. all five frozen partitions and ratios are retained;
+5. HDFS component/group and BGL 100-event parent identities are representable;
+6. serialization preserves protocol, split, assignment, dataset, and parent provenance;
+7. KT-3 can record applied and retained no-op controls without weakening TEST label isolation;
+8. no field implies that a real split, sequence, shuffle, experiment, or TEST access exists.
 
 Any accepted change after approval requires a new schema version or an explicit compatibility decision.

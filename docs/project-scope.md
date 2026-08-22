@@ -120,7 +120,7 @@ TEST is contractually sealed but not physically sealed. Physical sealing require
 - Failed localization sanity controls block localization-faithfulness claims.
 - No complementarity blocks trainable fusion.
 
-EFFECT-001 freezes the statistical family, but `delta_HDFS` and `delta_BGL` remain `HUMAN_DECISION_REQUIRED`. No scientific run is authorized until both values and rationales are approved without consulting outcomes.
+EFFECT-001 is human-approved with `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. The margins were fixed before outcomes and cannot be changed retroactively.
 
 ## 14. Research and safety non-goals
 

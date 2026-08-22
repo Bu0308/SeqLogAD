@@ -10,9 +10,9 @@ Every run records experiment ID, owner, status, exact dataset fingerprint, split
 
 | Contract | Frozen fields | Human-owned fields | Status |
 |---|---|---|---|
-| EFFECT-001 | Estimand, AP semantics, orderless family, selection/tie rule, equal budget, 95% paired bootstrap, multiplicity, seeds, KT-3, negative outcomes | `delta_HDFS`, `delta_BGL`, rationale/date/no-peeking confirmation | `HUMAN_DECISION_REQUIRED` |
+| EFFECT-001 | Estimand, AP semantics, orderless family, selection/tie rule, equal budget, 95% paired bootstrap, multiplicity, seeds, KT-3, negative outcomes | `delta_HDFS = delta_BGL = 0.01 AP`; pre-experiment `RESOURCE_FEASIBILITY_MARGIN` | `DONE / FROZEN_HUMAN_APPROVED` |
 
-No empirical row below may leave `NOT_RUN` while this gate is unresolved.
+No empirical row changed during EFFECT-001 approval; every condition below remains `NOT_RUN`.
 
 ## Core order-insensitive and sequential conditions
 

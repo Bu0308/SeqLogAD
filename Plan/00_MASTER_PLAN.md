@@ -22,8 +22,9 @@ Implemented/verified:
 - HDFS/BGL acquisition, checksums, manifests, fingerprints, and verification;
 - Python 3.12 environment/package contract;
 - canonical event/template and sequence/localization/mutation schema contracts;
+- Protocol-v1.1 schema compatibility and KT-3 control-provenance contract;
 - Research Freeze v1.1 documentation/config/tests.
-- EFFECT-001 statistical method contract prepared and tested; numerical HDFS/BGL margins still require human approval.
+- EFFECT-001 frozen and human-approved with `delta_HDFS = delta_BGL = 0.01 AP`; empirical status remains `NOT_RUN`.
 
 Not implemented/run:
 
@@ -35,8 +36,7 @@ Not implemented/run:
 ## Active critical path
 
 ```text
-LIT-001 + EFFECT-001 human margin approval
-→ schema/protocol identity compatibility
+LIT-001 + approved EFFECT-001 + SCHEMA-COMPAT-001
 → raw metadata/group extraction
 → chronological split + TEST guard
 → normal BASE_TRAIN Drain3 fit/freeze

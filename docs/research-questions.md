@@ -21,7 +21,7 @@ All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has 
 - **Hypothesis:** Markov/N-gram may add value when transition structure carries label-relevant information; it may also add no meaningful value.
 - **Experiment concept:** Compare Markov/N-gram with the strongest legal order-insensitive comparator under the same partitions, selection budget, thresholds, and metrics.
 - **Primary estimand:** Per dataset, `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`, using non-interpolated Average Precision and the EFFECT-001 validation-only comparator rule.
-- **Primary inference:** 95% paired dependency-unit bootstrap interval and the four registered outcomes: meaningful gain, practical equivalence, meaningful harm, or inconclusive. Numerical `delta_HDFS`/`delta_BGL` remain human-owned blockers.
+- **Primary inference:** 95% paired dependency-unit bootstrap interval with human-approved `delta_HDFS = delta_BGL = 0.01 AP`; outcomes are meaningful gain, practical equivalence, meaningful harm, or inconclusive.
 - **Secondary metrics:** Precision, Recall, F1, FPR, latency, throughput, memory; these cannot replace the primary contrast.
 - **Required components:** RQ1 artifacts plus Markov/N-gram.
 - **Falsification:** If added value is below the pre-frozen practical margin, do not claim sequence advantage.

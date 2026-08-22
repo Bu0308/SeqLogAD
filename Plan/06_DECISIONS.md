@@ -219,12 +219,23 @@
 ## ADR-026 — EFFECT-001 statistical comparison family
 
 - **Date:** 2026-08-22
-- **Status:** PARTIALLY ACCEPTED — HUMAN DECISION REQUIRED.
+- **Status:** ACCEPTED — HUMAN APPROVED.
 - **Context:** LIT-001 found no transferable universal numerical AP margin. Protocol v1.1 requires the estimand, practical-effect bounds, uncertainty method, comparator selection, multiplicity, and KT-3 rule to be fixed before any baseline/killer experiment or TEST access.
 - **Decision:** Freeze separate HDFS/BGL estimands `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`; non-interpolated Average Precision; one validation-selected primary contrast per dataset; a required orderless family containing unseen-event, length, total-count, count-vector, and Isolation Forest; equal 12-config family budgets; seeds `42/43/44` for stochastic methods; and a 95% paired cluster-percentile bootstrap with 10,000 valid replicates, seed `42`, HDFS block/session units, BGL 100-event parent-window units, deterministic degenerate-redraw rules, and gain/equivalence/harm/inconclusive outcomes. KT-3 reuses the dataset margin and bootstrap.
-- **Human-owned unresolved decision:** `delta_HDFS` and `delta_BGL` remain null. Operational utility is preferred; a labeled resource/feasibility margin is the fallback. Validation power is a feasibility check, not a source of practical importance.
+- **Human approval:** On 2026-08-22, the researcher fixed `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. Approval source is `HUMAN_RESEARCHER`, timing is `PRE_EXPERIMENT`, and `result_informed = false`. The common margin simplifies the rule; dataset conclusions remain independent.
 - **Multiple comparisons:** No correction for one separately interpreted primary contrast per dataset; no pooled/disjunctive claim. Secondary comparisons remain descriptive and require a pre-result amendment before confirmatory use.
 - **Alternatives:** Use zero as the meaningful bound; copy a number from unrelated literature; pool datasets; select the strongest comparator on TEST; event-level IID bootstrap; report only point AP; add baselines after seeing outcomes.
 - **Reason:** The selected family is falsifiable, dependency-aware, equal-budget, and prevents outcome-driven margins/comparators while preserving valid negative and inconclusive results.
-- **Consequence:** `configs/protocols/effect-001.yaml` remains `execution_ready: false`; no split execution, baseline/Markov run, KT-1/2/3, bootstrap, or TEST access is authorized until the human records both margins and no-peeking confirmation. Versioned Protocol v1.1 is preserved; EFFECT-001 is its anticipated statistical addendum.
+- **Consequence:** `configs/protocols/effect-001.yaml` is `FROZEN_HUMAN_APPROVED` and the statistical prerequisite is complete. It does not itself authorize split execution, parser fitting, baseline/Markov runs, KT-1/2/3, bootstrap, or TEST access; those remain separately gated. The `0.01 AP` margins cannot change after outcomes. Versioned Protocol v1.1 is preserved; EFFECT-001 is its anticipated statistical addendum.
 - **Evidence:** `docs/references/EFFECT-001-citations.md`; all empirical statuses remain `NOT_RUN`.
+
+## ADR-027 — Explicit Protocol-v1.1 schema compatibility and separate KT-3 provenance
+
+- **Date:** 2026-08-22
+- **Status:** ACCEPTED.
+- **Context:** SCHEMA-002 constrained `PartitionIdentity.protocol_version` to `1.0` even though Protocol v1.1 governs all future artifacts. Its synthetic `MutationRecord` also could not represent EFFECT-001 KT-3 because it requires a normal source, localization targets, and a non-noop anomaly mutation.
+- **Decision:** Use explicit-version compatibility: valid historical `1.0` and active `1.1` identities parse, the field has no implicit default, and all new artifacts use a factory pinned to `1.1`. Active BGL parents are exactly 100 events; historical explicit-v1.0 residual records remain readable, while active trailing 1–99 event ranges use an exclusion disposition instead of becoming sequences. Add a separate `SequenceDestructionRecord` for KT-3 that binds source/parent/partition/split identity, seed, ordered and multiset hashes, equal lengths, applied/no-op status, and label-access safeguards.
+- **Alternatives:** Globally replace every `1.0`; accept an unrestricted version string; silently default to `1.1`; reuse `MutationRecord`; discard retained no-op controls.
+- **Reason:** The chosen patch preserves historical provenance, prevents new artifacts from silently claiming v1.0, matches Protocol v1.1/EFFECT-001, and avoids conflating synthetic anomaly localization with an order-destruction control.
+- **Consequence:** SCHEMA-COMPAT-001 is complete at contract/test level. No real split, parser output, event sequence, shuffle, TEST lock, scientific TEST access, or metric was generated. META-001 remains the next dependency-correct task.
+- **Evidence:** `docs/references/SCHEMA-COMPAT-001-citations.md`; schema tests use synthetic identities only.

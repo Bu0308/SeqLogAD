@@ -235,7 +235,7 @@ Before any scientific result, future tasks must create and validate:
 6. registered gate decisions and claim states;
 7. immutable final result bundle after human TEST unlock.
 
-The existing sequence schema was implemented against protocol v1.0. Its protocol-identity compatibility must be reviewed before generating a v1.1 split artifact; no real split/sequence artifact currently exists.
+SCHEMA-COMPAT-001 froze explicit historical-v1.0/active-v1.1 partition identity support and KT-3 control provenance. This compatibility result does not create a split, sequence, shuffle, TEST guard, or scientific artifact.
 
 ## 17. Change control
 

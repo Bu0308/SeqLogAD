@@ -5,14 +5,30 @@ effect_contract:
   version: "1.0"
   parent_protocol_id: PROTOCOL-001
   parent_protocol_version: "1.1"
-  status: PARTIALLY_FROZEN_HUMAN_DECISION_REQUIRED
+  status: FROZEN_HUMAN_APPROVED
   prepared_on: "2026-08-22"
+  approved_on: "2026-08-22"
   empirical_status: NOT_RUN
-  execution_ready: false
+  execution_ready: true
+  scientific_pipeline_execution_authorized: false
   scientific_test_accessed: false
   human_readable_contract: docs/statistical-decision-contract.md
   citation_note: docs/references/EFFECT-001-citations.md
-  blocked_by: [delta_hdfs, delta_bgl]
+  blocked_by: []
+  approval:
+    source: HUMAN_RESEARCHER
+    timing: PRE_EXPERIMENT
+    result_informed: false
+    framework: RESOURCE_FEASIBILITY_MARGIN
+    same_margin_for_both_datasets: true
+    dataset_conclusions_remain_independent: true
+    observed_before_approval:
+      scientific_baseline: false
+      KT-1: false
+      KT-2: false
+      KT-3: false
+      parser_derived_experiment: false
+      TEST_result: false
 
 primary_estimand:
   name: delta_average_precision
@@ -35,14 +51,14 @@ practical_effect:
   scale: absolute_average_precision_points
   symmetric_bounds: true
   hdfs:
-    delta_ap: null
-    status: HUMAN_DECISION_REQUIRED
+    delta_ap: 0.01
+    status: FROZEN_HUMAN_APPROVED
   bgl:
-    delta_ap: null
-    status: HUMAN_DECISION_REQUIRED
+    delta_ap: 0.01
+    status: FROZEN_HUMAN_APPROVED
   valid_numeric_contract: finite_and_strictly_between_zero_and_one
-  preferred_framework: OPERATIONAL_UTILITY
-  fallback_framework: RESOURCE_FEASIBILITY_MARGIN
+  selected_framework: RESOURCE_FEASIBILITY_MARGIN
+  rationale: minimum_absolute_AP_gain_worth_additional_sequence_complexity_in_a_constrained_three_credit_under_three_month_project
   validation_power_is_feasibility_check_not_practical_justification: true
   test_derived_margin_allowed: false
   outcome_derived_margin_allowed: false
@@ -197,6 +213,8 @@ negative_result_policy:
 
 test_policy:
   physical_test_generation_or_opening_before_human_margin_approval: false
+  human_margin_approval_completed: true
+  scientific_test_accessed_at_approval: false
   test_used_for_delta: false
   test_used_for_baseline_selection: false
   test_used_for_hyperparameters: false

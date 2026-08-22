@@ -7,7 +7,7 @@
 | Status | **FROZEN — HUMAN APPROVED** |
 | Approval date | 2026-08-21 |
 | Source module | `src/seqlogad/common/schemas/events.py` |
-| Scientific protocol | `docs/research-protocol.md` |
+| Scientific protocol | `docs/research-protocol-v1.1.md` |
 | Method provenance | `docs/references/SCHEMA-001-citations.md` |
 
 This contract defines canonical `EventTemplate` and `LogEvent` records. It does not parse logs, run Drain3, read raw datasets, assign real partitions, build sequences, or open TEST labels.
@@ -43,7 +43,7 @@ LogEvent
 └── to_model_input()      explicit label-free sequence-model view
 ```
 
-`EventSequence`, partition identities, mutation records, and coordinate-aware localization are defined by the awaiting-audit `SCHEMA-002` contract. Generated split manifests, real sequences, batching masks, and mutations belong to later implementation tasks.
+`EventSequence`, partition identities, mutation records, coordinate-aware localization, and KT-3 control provenance are defined by the Protocol-v1.1-compatible `SCHEMA-002` contract. Generated split manifests, real sequences, batching masks, mutations, and shuffles belong to later implementation tasks.
 
 ## 3. EventTemplate
 

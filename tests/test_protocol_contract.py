@@ -4,6 +4,11 @@ from pathlib import Path
 
 import yaml
 
+from seqlogad.common.schemas import (
+    ACTIVE_PROTOCOL_VERSION,
+    ScientificPartition,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ACTIVE_PATH = PROJECT_ROOT / "configs" / "protocols" / "protocol-v1.1.yaml"
@@ -50,6 +55,15 @@ def test_protocol_v1_1_frozen_data_and_test_contract() -> None:
     assert protocol["parser"]["fit_partition"] == "BASE_TRAIN"
     assert protocol["parser"]["fit_normal_only"] is True
     assert protocol["parser"]["freeze_after_fit"] is True
+
+
+def test_active_schema_identity_matches_protocol_v1_1_machine_contract() -> None:
+    protocol = _load(ACTIVE_PATH)
+
+    assert ACTIVE_PROTOCOL_VERSION == protocol["protocol"]["version"]
+    assert {item.value for item in ScientificPartition} == set(
+        protocol["partitions"]["ratios"]
+    )
 
 
 def test_protocol_v1_1_core_and_conditional_scope() -> None:
@@ -111,28 +125,46 @@ def test_historical_protocol_v1_0_is_preserved() -> None:
     assert (PROJECT_ROOT / "docs" / "research-protocol-v1.0.md").is_file()
 
 
-def test_effect_001_blocks_execution_until_human_margins_are_approved() -> None:
+def test_effect_001_records_pre_experiment_human_margin_approval() -> None:
     contract = _load(EFFECT_PATH)
     metadata = contract["effect_contract"]
 
     assert metadata["id"] == "EFFECT-001"
     assert metadata["parent_protocol_id"] == "PROTOCOL-001"
     assert metadata["parent_protocol_version"] == "1.1"
-    assert metadata["status"] == "PARTIALLY_FROZEN_HUMAN_DECISION_REQUIRED"
+    assert metadata["status"] == "FROZEN_HUMAN_APPROVED"
     assert metadata["empirical_status"] == "NOT_RUN"
-    assert metadata["execution_ready"] is False
+    assert metadata["execution_ready"] is True
+    assert metadata["scientific_pipeline_execution_authorized"] is False
     assert metadata["scientific_test_accessed"] is False
-    assert set(metadata["blocked_by"]) == {"delta_hdfs", "delta_bgl"}
+    assert metadata["blocked_by"] == []
+    assert metadata["approval"] == {
+        "source": "HUMAN_RESEARCHER",
+        "timing": "PRE_EXPERIMENT",
+        "result_informed": False,
+        "framework": "RESOURCE_FEASIBILITY_MARGIN",
+        "same_margin_for_both_datasets": True,
+        "dataset_conclusions_remain_independent": True,
+        "observed_before_approval": {
+            "scientific_baseline": False,
+            "KT-1": False,
+            "KT-2": False,
+            "KT-3": False,
+            "parser_derived_experiment": False,
+            "TEST_result": False,
+        },
+    }
 
     practical = contract["practical_effect"]
     assert practical["hdfs"] == {
-        "delta_ap": None,
-        "status": "HUMAN_DECISION_REQUIRED",
+        "delta_ap": 0.01,
+        "status": "FROZEN_HUMAN_APPROVED",
     }
     assert practical["bgl"] == {
-        "delta_ap": None,
-        "status": "HUMAN_DECISION_REQUIRED",
+        "delta_ap": 0.01,
+        "status": "FROZEN_HUMAN_APPROVED",
     }
+    assert practical["selected_framework"] == "RESOURCE_FEASIBILITY_MARGIN"
     assert practical["test_derived_margin_allowed"] is False
     assert practical["outcome_derived_margin_allowed"] is False
 
@@ -222,6 +254,16 @@ def test_effect_001_freezes_decision_multiplicity_seed_and_kt3_rules() -> None:
     assert kt3["no_op_units_retained_in_primary_population"] is True
 
     test_policy = contract["test_policy"]
-    assert not any(test_policy.values())
+    assert test_policy == {
+        "physical_test_generation_or_opening_before_human_margin_approval": False,
+        "human_margin_approval_completed": True,
+        "scientific_test_accessed_at_approval": False,
+        "test_used_for_delta": False,
+        "test_used_for_baseline_selection": False,
+        "test_used_for_hyperparameters": False,
+        "test_used_for_bootstrap_design": False,
+        "test_used_for_comparison_family": False,
+        "test_used_for_decision_boundary": False,
+    }
     assert (PROJECT_ROOT / "docs" / "statistical-decision-contract.md").is_file()
     assert (PROJECT_ROOT / "docs" / "references" / "EFFECT-001-citations.md").is_file()

@@ -23,7 +23,7 @@ Every future run config must resolve:
 4. TEST never participates in fitting, normalization, thresholding, config/model/dataset/claim selection, or novelty decisions.
 5. Secrets/API keys never enter committed YAML.
 6. Overrides and failed runs are traceable and non-overwriting.
-7. EFFECT-001 method fields are frozen, but `delta_HDFS` and `delta_BGL` remain `HUMAN_DECISION_REQUIRED`; null margins force `execution_ready: false`.
+7. EFFECT-001 is `FROZEN_HUMAN_APPROVED` with `delta_HDFS = delta_BGL = 0.01 AP` and `RESOURCE_FEASIBILITY_MARGIN`; run configs may reference but never override these values.
 8. Conditional config cannot be run without a recorded gate decision.
 9. Human execution is required for empirical runs/training/tuning and final TEST.
 10. Future run configs must snapshot both the parent protocol and statistical addendum; overrides cannot change estimands, margins, bootstrap settings, candidate family, or decision regions without a pre-result amendment.

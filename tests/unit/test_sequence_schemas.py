@@ -8,6 +8,7 @@ import pytest
 from pydantic import ValidationError
 
 from seqlogad.common.schemas import (
+    ACTIVE_PROTOCOL_VERSION,
     AnomalyLabel,
     EventSequence,
     LabelAccess,
@@ -18,19 +19,25 @@ from seqlogad.common.schemas import (
     MutationOperation,
     MutationParameter,
     MutationRecord,
+    ProtocolVersion,
     PartitionAssignment,
     PartitionDisposition,
     PartitionIdentity,
     PartitionUnitKind,
     ScientificPartition,
+    SequenceDestructionRecord,
+    SequenceDestructionStatus,
     SequenceModelInput,
     SequenceStrategy,
     SequenceSupervision,
+    build_active_partition_identity,
     build_mutation_id,
     build_partition_assignment_id,
     build_sequence_id,
+    build_sequence_destruction_id,
     build_split_manifest_id,
     hash_event_ids,
+    hash_event_multiset,
 )
 
 
@@ -69,7 +76,11 @@ def make_assignment(
         if hdfs
         else PartitionUnitKind.BGL_RAW_RANGE
     )
-    unit_key = "component:blk_-1" if hdfs else "raw-lines:1-100"
+    unit_key = (
+        "component:blk_-1"
+        if hdfs
+        else f"raw-lines:1-{event_count}"
+    )
     member_group_ids = ("blk_-1",) if hdfs else ()
     reason = None if disposition is PartitionDisposition.ASSIGNED else "protocol exclusion"
     assignment_id = build_partition_assignment_id(
@@ -105,8 +116,17 @@ def make_assignment(
 def make_partition_identity(
     assignment: PartitionAssignment,
     partition: ScientificPartition,
+    *,
+    protocol_version: ProtocolVersion = ACTIVE_PROTOCOL_VERSION,
 ) -> PartitionIdentity:
+    if protocol_version == ACTIVE_PROTOCOL_VERSION:
+        return build_active_partition_identity(
+            split_manifest_sha256=SPLIT_MANIFEST_SHA256,
+            assignment_id=assignment.assignment_id,
+            partition=partition,
+        )
     return PartitionIdentity(
+        protocol_version=protocol_version,
         split_manifest_id=SPLIT_MANIFEST_ID,
         split_manifest_sha256=SPLIT_MANIFEST_SHA256,
         assignment_id=assignment.assignment_id,
@@ -159,6 +179,7 @@ def make_sequence(
     length: int | None = None,
     label: AnomalyLabel = AnomalyLabel.NORMAL,
     supervision: SequenceSupervision | None | object = ...,
+    protocol_version: ProtocolVersion = ACTIVE_PROTOCOL_VERSION,
 ) -> EventSequence:
     resolved_length = length if length is not None else (3 if dataset_key == "hdfs" else 100)
     assignment = make_assignment(
@@ -173,7 +194,11 @@ def make_sequence(
         if dataset_key == "hdfs"
         else SequenceStrategy.BGL_FIXED_PARENT_WINDOW
     )
-    source_key = "hdfs:block:blk_-1" if dataset_key == "hdfs" else "bgl:raw-lines:1-100"
+    source_key = (
+        "hdfs:block:blk_-1"
+        if dataset_key == "hdfs"
+        else f"bgl:raw-lines:1-{resolved_length}"
+    )
     resolved_supervision = (
         make_supervision(
             dataset_key=dataset_key,
@@ -198,7 +223,11 @@ def make_sequence(
         dataset_id="HDFS_v1" if dataset_key == "hdfs" else "BGL",
         dataset_version=f"zenodo-8196385:{'HDFS_v1' if dataset_key == 'hdfs' else 'BGL'}",
         dataset_fingerprint=DATASET_FINGERPRINT,
-        partition_identity=make_partition_identity(assignment, partition),
+        partition_identity=make_partition_identity(
+            assignment,
+            partition,
+            protocol_version=protocol_version,
+        ),
         strategy=strategy,
         source_key=source_key,
         record_ids=records,
@@ -297,11 +326,75 @@ def make_mutation(
     )
 
 
+def make_sequence_destruction(
+    *,
+    partition: ScientificPartition = ScientificPartition.VAL_EXPERT,
+    no_op: bool = False,
+) -> SequenceDestructionRecord:
+    source = make_sequence(
+        partition=partition,
+        length=1 if no_op else None,
+        label=AnomalyLabel.ANOMALY,
+    )
+    original = source.event_ids
+    destroyed = original if no_op else (original[1], original[0], *original[2:])
+    status = (
+        SequenceDestructionStatus.NOOP_UNPERTURBABLE
+        if no_op
+        else SequenceDestructionStatus.APPLIED
+    )
+    no_op_reason = "single-event sequence" if no_op else None
+    original_sha256 = hash_event_ids(original)
+    destroyed_sha256 = hash_event_ids(destroyed)
+    multiset_sha256 = hash_event_multiset(original)
+    control_id = build_sequence_destruction_id(
+        source_sequence_id=source.sequence_id,
+        source_parent_key=source.source_key,
+        source_partition_identity=source.partition_identity,
+        dataset_fingerprint=source.dataset_fingerprint,
+        generator_version="kt3-shuffle-v1",
+        seed=42,
+        original_event_ids_sha256=original_sha256,
+        destroyed_event_ids_sha256=destroyed_sha256,
+        original_event_multiset_sha256=multiset_sha256,
+        destroyed_event_multiset_sha256=hash_event_multiset(destroyed),
+        original_length=len(original),
+        destroyed_length=len(destroyed),
+        status=status,
+        no_op_reason=no_op_reason,
+    )
+    return SequenceDestructionRecord(
+        control_id=control_id,
+        source_sequence_id=source.sequence_id,
+        source_parent_key=source.source_key,
+        source_partition_identity=source.partition_identity,
+        dataset_fingerprint=source.dataset_fingerprint,
+        generator_version="kt3-shuffle-v1",
+        seed=42,
+        original_event_ids_sha256=original_sha256,
+        destroyed_event_ids_sha256=destroyed_sha256,
+        original_event_multiset_sha256=multiset_sha256,
+        destroyed_event_multiset_sha256=hash_event_multiset(destroyed),
+        original_length=len(original),
+        destroyed_length=len(destroyed),
+        status=status,
+        no_op_reason=no_op_reason,
+        source_label=(
+            None if partition is ScientificPartition.TEST else AnomalyLabel.ANOMALY
+        ),
+        label_access=(
+            None
+            if partition is ScientificPartition.TEST
+            else LabelAccess.VALIDATION_EVALUATION
+        ),
+    )
+
+
 def test_split_identity_locks_protocol_id_hash_and_target_ratio() -> None:
     assignment = make_assignment()
     identity = make_partition_identity(assignment, ScientificPartition.BASE_TRAIN)
     assert identity.protocol_id == "PROTOCOL-001"
-    assert identity.protocol_version == "1.0"
+    assert identity.protocol_version == "1.1"
     assert identity.split_manifest_id == f"SPLIT-{SPLIT_MANIFEST_SHA256}"
 
     payload = identity.model_dump()
@@ -310,9 +403,50 @@ def test_split_identity_locks_protocol_id_hash_and_target_ratio() -> None:
         PartitionIdentity.model_validate(payload)
 
 
+def test_partition_identity_preserves_historical_v1_0_explicitly() -> None:
+    assignment = make_assignment()
+    historical = make_partition_identity(
+        assignment,
+        ScientificPartition.BASE_TRAIN,
+        protocol_version="1.0",
+    )
+    restored = PartitionIdentity.model_validate_json(historical.canonical_json())
+    assert restored.protocol_version == "1.0"
+    assert restored == historical
+
+
+def test_partition_identity_rejects_unsupported_or_missing_version() -> None:
+    identity = make_partition_identity(
+        make_assignment(),
+        ScientificPartition.BASE_TRAIN,
+    )
+    payload = identity.model_dump()
+    payload["protocol_version"] = "2.0"
+    with pytest.raises(ValidationError, match="protocol_version"):
+        PartitionIdentity.model_validate(payload)
+
+    del payload["protocol_version"]
+    with pytest.raises(ValidationError, match="Field required"):
+        PartitionIdentity.model_validate(payload)
+
+
+@pytest.mark.parametrize(("partition", "ratio"), TARGET_RATIOS.items())
+def test_active_partition_contract_matches_protocol_v1_1(
+    partition: ScientificPartition,
+    ratio: float,
+) -> None:
+    identity = make_partition_identity(make_assignment(partition=partition), partition)
+    assert identity.protocol_version == ACTIVE_PROTOCOL_VERSION
+    assert identity.partition is partition
+    assert identity.target_ratio == ratio
+
+
 def test_partition_assignment_identity_is_deterministic() -> None:
     assignment = make_assignment()
     assert assignment == make_assignment()
+    assert assignment.unit_kind is PartitionUnitKind.HDFS_BLOCK_COMPONENT
+    assert assignment.member_group_ids == ("blk_-1",)
+    assert assignment.unit_key == "component:blk_-1"
     assert assignment.assignment_id == build_partition_assignment_id(
         dataset_fingerprint=DATASET_FINGERPRINT,
         split_manifest_id=SPLIT_MANIFEST_ID,
@@ -338,16 +472,41 @@ def test_partition_assignment_represents_hdfs_purge_and_bgl_short_drop() -> None
         partition=None,
         event_count=19,
     )
+    active_residual = make_assignment(
+        dataset_key="bgl",
+        disposition=PartitionDisposition.DROPPED_RESIDUAL_WINDOW,
+        partition=None,
+        event_count=99,
+    )
     assert purged.partition is None
     assert dropped.event_count == 19
+    assert active_residual.event_count == 99
+    assert active_residual.partition is None
 
 
 @pytest.mark.parametrize(
     ("dataset_key", "disposition", "event_count", "message"),
     [
-        ("hdfs", PartitionDisposition.DROPPED_SHORT_WINDOW, 3, "HDFS components"),
+        (
+            "hdfs",
+            PartitionDisposition.DROPPED_SHORT_WINDOW,
+            3,
+            "HDFS components",
+        ),
+        (
+            "hdfs",
+            PartitionDisposition.DROPPED_RESIDUAL_WINDOW,
+            3,
+            "HDFS components",
+        ),
         ("bgl", PartitionDisposition.PURGED_BOUNDARY, 3, "BGL raw ranges"),
         ("bgl", PartitionDisposition.DROPPED_SHORT_WINDOW, 20, "shorter than 20"),
+        (
+            "bgl",
+            PartitionDisposition.DROPPED_RESIDUAL_WINDOW,
+            100,
+            "1 to 99",
+        ),
     ],
 )
 def test_partition_assignment_rejects_invalid_exclusion_semantics(
@@ -431,6 +590,12 @@ def test_hdfs_sequence_is_deterministic_and_round_trips() -> None:
     sequence = make_sequence()
     restored = EventSequence.model_validate_json(sequence.canonical_json())
     assert restored == sequence
+    assert restored.partition_identity.protocol_version == "1.1"
+    assert restored.partition_identity.split_manifest_id == SPLIT_MANIFEST_ID
+    assert (
+        restored.partition_identity.assignment_id
+        == sequence.partition_identity.assignment_id
+    )
     assert sequence.sequence_id == build_sequence_id(
         dataset_fingerprint=DATASET_FINGERPRINT,
         partition_assignment_id=sequence.partition_identity.assignment_id,
@@ -453,11 +618,78 @@ def test_sequence_rejects_alignment_content_and_identity_drift() -> None:
             EventSequence.model_validate(payload)
 
 
-def test_bgl_parent_and_residual_window_contract() -> None:
-    assert len(make_sequence(dataset_key="bgl").event_ids) == 100
-    assert make_sequence(dataset_key="bgl", length=20).is_residual_window
+def test_bgl_parent_window_contract_is_version_aware() -> None:
+    assignment = make_assignment(dataset_key="bgl", event_count=100)
+    assert assignment.unit_kind is PartitionUnitKind.BGL_RAW_RANGE
+    assert assignment.unit_key == "raw-lines:1-100"
+    assert assignment.member_group_ids == ()
+    assert assignment.chronological_start == 0
+    assert assignment.chronological_end == 99
+
+    active = make_sequence(dataset_key="bgl")
+    assert len(active.event_ids) == 100
+    assert active.partition_identity.protocol_version == "1.1"
+    assert active.source_key == "bgl:raw-lines:1-100"
+
+    historical_residual = make_sequence(
+        dataset_key="bgl",
+        length=20,
+        protocol_version="1.0",
+    )
+    assert historical_residual.is_residual_window
+
+    with pytest.raises(ValidationError, match="Protocol v1.1"):
+        make_sequence(dataset_key="bgl", length=20)
     with pytest.raises(ValidationError, match="20 to 99"):
-        make_sequence(dataset_key="bgl", length=19)
+        make_sequence(dataset_key="bgl", length=19, protocol_version="1.0")
+
+
+def test_sequence_destruction_record_round_trips_full_kt3_provenance() -> None:
+    control = make_sequence_destruction()
+    restored = SequenceDestructionRecord.model_validate_json(
+        control.canonical_json()
+    )
+
+    assert restored == control
+    assert restored.source_partition_identity.protocol_version == "1.1"
+    assert restored.source_partition_identity.partition is ScientificPartition.VAL_EXPERT
+    assert restored.source_partition_identity.split_manifest_id == SPLIT_MANIFEST_ID
+    assert restored.source_label is AnomalyLabel.ANOMALY
+    assert restored.label_access is LabelAccess.VALIDATION_EVALUATION
+    assert restored.original_length == restored.destroyed_length
+    assert (
+        restored.original_event_multiset_sha256
+        == restored.destroyed_event_multiset_sha256
+    )
+    assert restored.raw_data_mutated is False
+
+
+def test_sequence_destruction_record_supports_registered_noop_and_rejects_drift() -> None:
+    no_op = make_sequence_destruction(no_op=True)
+    assert no_op.status is SequenceDestructionStatus.NOOP_UNPERTURBABLE
+    assert no_op.no_op_reason == "single-event sequence"
+
+    payload = no_op.model_dump()
+    payload["destroyed_event_multiset_sha256"] = "9" * 64
+    with pytest.raises(ValidationError, match="event multiset"):
+        SequenceDestructionRecord.model_validate(payload)
+
+    payload = no_op.model_dump()
+    payload["status"] = SequenceDestructionStatus.APPLIED
+    payload["no_op_reason"] = None
+    with pytest.raises(ValidationError, match="changed order"):
+        SequenceDestructionRecord.model_validate(payload)
+
+
+def test_sequence_destruction_record_preserves_test_seal() -> None:
+    sealed = make_sequence_destruction(partition=ScientificPartition.TEST)
+    assert sealed.source_label is None
+    assert sealed.label_access is None
+
+    payload = sealed.model_dump()
+    payload["source_label"] = AnomalyLabel.ANOMALY
+    with pytest.raises(ValidationError, match="must not expose supervision"):
+        SequenceDestructionRecord.model_validate(payload)
 
 
 def test_test_sequence_cannot_expose_supervision() -> None:

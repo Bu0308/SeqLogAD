@@ -9,9 +9,11 @@ order_insensitive_methods:
 sequential_method: markov_ngram
 split_artifact: TODO_FIVE_WAY_SPLIT
 statistical_contract: configs/protocols/effect-001.yaml
+statistical_contract_status: FROZEN_HUMAN_APPROVED
 practical_effect:
-  hdfs: HUMAN_DECISION_REQUIRED
-  bgl: HUMAN_DECISION_REQUIRED
+  framework: RESOURCE_FEASIBILITY_MARGIN
+  hdfs: 0.01
+  bgl: 0.01
 execution_ready: false
 seeds: [42, 43, 44]
 primary_metric: average_precision
