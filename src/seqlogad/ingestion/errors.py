@@ -21,5 +21,9 @@ class ManifestValidationError(DatasetError):
     """Raised when a manifest cannot be parsed or validated."""
 
 
+class MetadataExtractionError(DatasetError):
+    """Raised when raw metadata cannot be extracted without ambiguity."""
+
+
 class ChecksumMismatchError(DatasetError):
     """Raised when downloaded or local content fails checksum validation."""

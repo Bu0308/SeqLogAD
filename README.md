@@ -14,7 +14,7 @@ A research project testing **whether and when event order adds measurable anomal
 </div>
 
 > [!IMPORTANT]
-> The data-integrity foundation, reproducible Python environment, and schema contracts are implemented and tested. The scientific pipeline is not complete: no project parser run, split artifact, baseline/model fit, training, tuning, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
+> The data-integrity foundation, reproducible Python environment, schema contracts, and parser-independent raw metadata extractor are implemented and tested. The scientific pipeline is not complete: no split artifact, project parser run, baseline/model fit, training, tuning, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
 
 ## Current scientific question
 
@@ -59,7 +59,7 @@ The approved direction is `HYBRID_B_PLUS_C`:
 ```text
 Verified immutable HDFS/BGL bytes                    [IMPLEMENTED]
         ↓
-Metadata/group-key extraction without fitted parser  [PLANNED]
+Metadata/group-key extraction without fitted parser  [IMPLEMENTED]
         ↓
 Raw chronological 60/10/10/10/10 partition           [PLANNED]
         ↓
@@ -122,6 +122,7 @@ The statistical method family and practical margins are frozen before experiment
 | Python 3.12 environment, editable `seqlogad` package, dependency lock, CLIs | **Implemented and verified** |
 | Canonical event/template schemas | **Implemented and tested** |
 | Sequence/localization/mutation schema contracts | **Implemented and tested; no real artifact generated** |
+| HDFS group/BGL chronology metadata extraction | **Implemented and tested; no full real metadata artifact generated** |
 | Research protocol v1.1 and negative-control contract | **Frozen; empirical status `NOT_RUN`** |
 | EFFECT-001 statistical contract | **Frozen and human-approved; both margins `0.01 AP`; empirical status `NOT_RUN`** |
 | Raw split manifest and physical TEST guard | **Not implemented** |
@@ -170,9 +171,13 @@ After acquiring raw datasets according to the [acquisition guide](docs/dataset-a
 ```bash
 seqlogad-verify-dataset --project-root . --dataset hdfs --json
 seqlogad-verify-dataset --project-root . --dataset bgl --json
+seqlogad-extract-raw-metadata --project-root . --dataset hdfs --dry-run --max-lines 1000 --json
+seqlogad-extract-raw-metadata --project-root . --dataset bgl --dry-run --max-lines 1000 --json
 ```
 
-No command for parser execution, split generation, baseline experiments, model training, or final TEST is available yet.
+The metadata commands are bounded, label-independent dry-runs. No command for
+parser execution, split generation, baseline experiments, model training, or
+final TEST is available yet.
 
 ## Research questions
 

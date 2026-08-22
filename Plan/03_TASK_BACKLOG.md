@@ -20,7 +20,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 
 | Task ID | Scope | Owner | Dependencies | Status | Definition of Done |
 |---|---|---|---|---|---|
-| META-001 | MUST | AI | SCHEMA-COMPAT-001 | NOT_STARTED | Minimal HDFS group/BGL chronology metadata extracted deterministically without fitted parser or label leakage |
+| META-001 | MUST | AI | SCHEMA-COMPAT-001 | DONE | HDFS block/component and BGL source chronology metadata, deterministic IDs, CLI, non-overwrite artifacts, label-independence invariants, and tests pass without parser/split/TEST |
 | SPLIT-001 | MUST | AI | META-001 | NOT_STARTED | Chronological five-way partition manifest, HDFS purge report, target/realized ratios, and hashes are reproducible |
 | TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | NOT_STARTED | Routine commands cannot reveal TEST supervision/metrics; human unlock contract tested |
 | PARSE-001 | MUST | AI | SPLIT-001, TESTLOCK-001 | NOT_STARTED | Drain3 fits normal `BASE_TRAIN`, freezes/restores deterministically, and transforms later legal partitions read-only |

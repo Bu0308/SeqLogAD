@@ -10,7 +10,10 @@
 - **Required file:** `BGL.log`, locally present and non-empty.
 - **Labels:** Inline first field; Loghub documents `-` as non-alert and other values as alert categories. No distribution analysis is part of Day 2.5.
 - **Experiment role:** KT-1 trivial/strong baselines, Markov/N-gram, and KT-3 order-destruction analysis on non-overlapping chronological parent windows. It is not assumed to share HDFS grouping semantics; Transformer/localization are conditional and fusion is not core.
-- **Sequence grouping assumption:** **PRELIMINARY** — future time/sliding windows, potentially constrained by node/component fields. The SEQ task must validate this.
+- **Raw chronology contract:** **IMPLEMENTED** — META-001 preserves zero-based
+  source-line rank, parses the detailed timestamp for structural audit, keeps
+  malformed/regressing observations explicit, and ignores the inline label
+  value. Scientific partitions and 100-event parent windows remain ungenerated.
 - **Known limitations:** Line-level alerts are not automatically behavioral sequence anomalies and sequence boundaries are not explicit. Prior work raises trivial/unseen-event ceiling risk, but the exact outcome under these verified bytes and the v1.1 chronological 100-event protocol is `TO_BE_TESTED`.
 - **License/permission:** `VERIFIED_LOGHUB_TERMS`, custom research/academic usage conditions. Retain source notice/citations; redistribution still requires review.
 - **Acquisition status:** `ARCHIVE_AND_EXTRACTION_VERIFIED`; acquisition timestamp remains unknown because filesystem time is not treated as acquisition truth.

@@ -22,6 +22,9 @@ The project is not committed to proving sequence superiority. A null/negative re
 - HDFS/BGL canonical archives, raw-byte manifests, checksums, and fingerprints verified.
 - Python 3.12 project-local environment, editable package, dependency lock, and CLIs verified.
 - Canonical event/template and sequence/localization/mutation contracts plus Protocol-v1.1/KT-3 provenance compatibility implemented and tested; no real scientific event/sequence/control artifact generated.
+- Parser-independent HDFS block/component and BGL source-chronology metadata
+  extraction implemented and tested; no full real metadata or split artifact
+  generated.
 - Protocol v1.1 frozen at contract level; no physical split or TEST guard yet.
 - No parser run, baseline/model fit, training, tuning, scientific TEST access, or result.
 

@@ -12,7 +12,7 @@ The current suite must pass for environment/package imports, dataset contracts/a
 |---|---|---|
 | Protocol identity | v1.1 current factory, explicit v1.0 preservation, unsupported/missing rejection, EFFECT-001 parent/status/pointers consistent | ACTIVE / SCHEMA-COMPAT-001 frozen |
 | Statistical freeze | Approved `0.01 AP` margins plus estimand, candidate family, bootstrap, multiplicity and KT-3 rules remain fixed; no run config may override | ACTIVE contract tests; no statistic executed |
-| Raw metadata | HDFS group extraction, shared-line components, malformed/unassigned IDs, BGL line chronology | MUST / PLANNED |
+| Raw metadata | HDFS group extraction, shared-line components, malformed/unassigned IDs, BGL chronology/ties/malformed timestamps, label independence, determinism, artifact non-overwrite | ACTIVE / META-001 |
 | Split | deterministic boundaries, atomic HDFS purge, target/realized ratios, hash stability | MUST / PLANNED |
 | TEST guard | no routine label/count/preview access; explicit human unlock; access log | MUST / PLANNED |
 | Parser | normal BASE fit only, freeze/restore, no updates, unseen mapping, label isolation | MUST / PLANNED |

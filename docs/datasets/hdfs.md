@@ -8,7 +8,10 @@
 - **Required files:** `HDFS.log` and `preprocessed/anomaly_label.csv`, both locally present and non-empty.
 - **Labels:** CSV at block-trace level with header `BlockId,Label`. Distribution analysis and joins are not part of Day 2.5.
 - **Experiment role:** HDFS block/session construction, KT-1 trivial/strong baselines, KT-2 count-label dependence, Markov/N-gram, and KT-3 order-destruction analysis. Transformer/localization are conditional; fusion/retrieval are not core.
-- **Sequence grouping assumption:** **PRELIMINARY** — group events by HDFS block identifier. A later SEQ task must formalize boundary, ordering and malformed-ID handling.
+- **Raw metadata grouping contract:** **IMPLEMENTED** — META-001 extracts
+  normalized block IDs, duplicate/malformed conditions, earliest source-line
+  chronology, and transitive connected components without labels or Drain3.
+  Scientific partition and block-sequence artifacts remain ungenerated.
 - **Known limitations:** Prior work raises a material risk that count/event-presence properties explain labels and that dataset variants differ. Applicability to these exact verified bytes and the v1.1 chronological protocol is `TO_BE_TESTED`, not assumed. Source-specific block IDs and labeling rules may limit generalization; parser/split leakage remains a future implementation gate.
 - **License/permission:** `VERIFIED_LOGHUB_TERMS`, custom research/academic usage conditions. Retain source notice/citations; redistribution still requires review.
 - **Acquisition status:** `CANONICAL_ARCHIVE_VERIFIED`; the canonical `HDFS_v1.zip` was obtained from Zenodo and verified without re-extracting or modifying the existing raw tree. The acquisition timestamp remains unknown.

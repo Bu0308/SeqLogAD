@@ -15,6 +15,10 @@ This directory separates immutable source bytes from every derived artifact. HDF
 
 ## Raw-data immutability
 
+META-001 reserves data/processed/metadata/<dataset>/ for deterministic JSONL
+raw metadata. Generated contents stay ignored; source, contracts, and tests
+remain version-controlled. No full real metadata artifact has been generated.
+
 Accepted raw files are read-only scientific inputs. Parsing must write to `parsed/`; sequence, split, mutation, and feature pipelines must write to `processed/` or experiment-specific outputs. Never normalize, rewrite, rename, or corrupt the accepted raw tree.
 
 ## Integrity and identity

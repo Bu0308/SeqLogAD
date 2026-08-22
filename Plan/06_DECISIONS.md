@@ -239,3 +239,14 @@
 - **Reason:** The chosen patch preserves historical provenance, prevents new artifacts from silently claiming v1.0, matches Protocol v1.1/EFFECT-001, and avoids conflating synthetic anomaly localization with an order-destruction control.
 - **Consequence:** SCHEMA-COMPAT-001 is complete at contract/test level. No real split, parser output, event sequence, shuffle, TEST lock, scientific TEST access, or metric was generated. META-001 remains the next dependency-correct task.
 - **Evidence:** `docs/references/SCHEMA-COMPAT-001-citations.md`; schema tests use synthetic identities only.
+
+## ADR-028 — Parser-independent raw metadata and chronology contract
+
+- **Date:** 2026-08-22
+- **Status:** ACCEPTED.
+- **Context:** Protocol v1.1 requires HDFS atomic block/component identity and BGL raw chronology before any fitted parser, scientific partition, or window. Raw labels must not influence those identities.
+- **Decision:** Implement META-001 as a separate ingestion-layer contract. HDFS uses normalized block tokens, two-pass union-find for transitive co-occurrence, earliest source-line chronology, and explicit unassigned reasons. BGL preserves source-line rank as authoritative chronology, parses the detailed timestamp for audit/tie evidence, and does not retain the first-field label. BGL 100-event parents remain outside META-001.
+- **Alternatives:** Fit Drain3 before grouping; use source labels for ordering/grouping; choose only the first HDFS ID on a shared line; reorder BGL from label/status; create scientific partitions/windows in the metadata task.
+- **Reason:** This is the smallest dependency-correct contract that preserves raw atomicity, prevents parser/label leakage, handles malformed observations without silent deletion, and remains scalable.
+- **Consequence:** Deterministic metadata source, raw-line, component, and chronology IDs plus a bounded CLI and ignored non-overwrite artifact format now exist. No full real metadata artifact, split, TEST assignment, parser/template, event, sequence, metric, or result was generated. SPLIT-001 is the next task and requires separate approval.
+- **Evidence:** `docs/metadata-extraction-contract.md` and `docs/references/META-001-citations.md`.

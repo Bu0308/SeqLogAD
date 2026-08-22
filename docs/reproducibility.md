@@ -107,6 +107,15 @@ Do not write `output.csv`, `result-final-v2.csv` or `latest-model.pt` at reposit
 
 ## Frozen split and gated-experiment convention
 
+META-001 now provides deterministic pre-split metadata identities. HDFS uses a
+two-pass union-find over normalized block co-occurrence and full SHA-256
+component IDs; BGL preserves source-line rank and records parsed detailed
+timestamps without using the inline label. Generated JSONL belongs under
+data/processed/metadata and is ignored/regenerable. The extractor records exact
+manifest source identity, canonical serialization hashes, and literal false
+flags for label use, parser use, split creation, and TEST assignment. See
+metadata-extraction-contract.md and references/META-001-citations.md.
+
 `PROTOCOL-001` v1.1 freezes the chronological split as `BASE_TRAIN` 60%, reserved `FUSION_TRAIN` 10%, `VAL_EXPERT` 10%, reserved `VAL_FUSION` 10%, and `TEST` 10%. HDFS block/session atomicity may cause recorded realized ratios to differ after boundary purging. BGL windows are created only after partitioning and never overlap. Sources of truth are [`research-protocol-v1.1.md`](research-protocol-v1.1.md) and [`../configs/protocols/protocol-v1.1.yaml`](../configs/protocols/protocol-v1.1.yaml).
 
 SCHEMA-COMPAT-001 requires every current split/sequence identity to be created through `build_active_partition_identity(...)`, which pins Protocol `1.1` and derives the frozen target ratio. Explicit historical `1.0` identities remain readable, but a missing, unsupported, or implicitly defaulted protocol version is invalid. KT-3 uses the separate `SequenceDestructionRecord`; it never reuses synthetic-localization mutation semantics.

@@ -2,6 +2,10 @@
 
 Active scientific documentation:
 
+- [metadata-extraction-contract.md](metadata-extraction-contract.md): implemented
+  parser/label-free HDFS grouping and BGL chronology contract; no split exists.
+- [references/META-001-citations.md](references/META-001-citations.md): sources,
+  implementation provenance, and scientific boundary for META-001.
 - [`project-scope.md`](project-scope.md): v1.1 core, conditional, future, and removed scope.
 - [`research-questions.md`](research-questions.md): RQ1–RQ3 core and conditional RQ4.
 - [`research-protocol.md`](research-protocol.md): current protocol entry point.
