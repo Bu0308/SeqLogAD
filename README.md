@@ -52,6 +52,8 @@ The approved direction is `HYBRID_B_PLUS_C`:
 
 `LIT-001` is complete as a targeted review. It found strong prior art for generic sequence models, multi-pattern fusion, mixture-of-experts, localization, and synthetic log generation. SeqLogAD therefore makes **no component-level algorithmic novelty claim**; its active contribution is a controlled empirical study whose outcome remains `NOT_RUN`. Any future novelty claim requires a new claim-specific systematic search.
 
+`EFFECT-001` has frozen the estimand, comparison family, equal-budget rule, paired bootstrap, 95% interval, seed aggregation, and KT-3 decision logic. It is **not execution-ready** because the human researcher has not yet approved numerical `delta_HDFS` and `delta_BGL`; no baseline, killer experiment, or TEST access may begin while either value is null.
+
 ## Minimal gated architecture
 
 ```text
@@ -68,7 +70,7 @@ Read-only transform → canonical events/sequences      [SCHEMAS IMPLEMENTED;
         ↓
 Order-insensitive controls                            [PLANNED / MUST]
   unseen-event · length · count/count-vector
-  Isolation Forest                                   [PLANNED / SHOULD]
+  Isolation Forest                                   [PLANNED / MUST]
         ↓
 Markov/N-gram sequential baseline                     [PLANNED / MUST]
         ↓
@@ -100,14 +102,14 @@ The old fixed four-expert and F0–F8 fusion architecture is preserved as histor
 | KT-5 | Do counterfactual repair/deletion tests support localization faithfulness? | `NOT_RUN / CONDITIONAL` |
 | KT-6 | Does conditional fusion ignore random/corrupted expert evidence? | `NOT_RUN / CONDITIONAL` |
 
-Kill criteria are frozen before experiments. The minimum practical effect is intentionally `TO_BE_FROZEN_BEFORE_RUN`; no arbitrary value was invented in documentation.
+The statistical method family is frozen before experiments. Numerical dataset-specific practical margins remain `HUMAN_DECISION_REQUIRED`; no arbitrary value was invented and this blocks execution.
 
 ## Scope
 
 | Class | Included work |
 |---|---|
-| **MUST** | Data/split provenance, TEST guard, frozen normal-only Drain3, canonical events/sequences, unseen-event/length/count baselines, Markov/N-gram, KT-1–KT-3, leakage audit, reproducible evaluation |
-| **SHOULD** | Isolation Forest order-insensitive comparator, count-label dependence diagnostics, paired uncertainty analysis |
+| **MUST** | Data/split provenance, TEST guard, frozen normal-only Drain3, canonical events/sequences, unseen-event/length/count/Isolation Forest baselines, Markov/N-gram, KT-1–KT-3, leakage audit, reproducible paired evaluation |
+| **SHOULD** | Count-label dependence diagnostics and additional robustness summaries |
 | **CONDITIONAL** | Transformer, localization + KT-4/KT-5, strongest-single/simple fusion + KT-6 after complementarity |
 | **FUTURE** | Dataset expansion, retrieval/RAG/Agent, test recommendation, Elasticsearch adapter, FastAPI, Streamlit/dashboard |
 | **REMOVED FROM CORE** | LSTM, fixed four-expert design, normal-reference expert, F2–F8 trainable fusion ladder, multi-agent platform |
@@ -121,6 +123,7 @@ Kill criteria are frozen before experiments. The minimum practical effect is int
 | Canonical event/template schemas | **Implemented and tested** |
 | Sequence/localization/mutation schema contracts | **Implemented and tested; no real artifact generated** |
 | Research protocol v1.1 and negative-control contract | **Frozen; empirical status `NOT_RUN`** |
+| EFFECT-001 statistical contract | **Method fields frozen; `delta_HDFS`/`delta_BGL` require human approval; execution blocked** |
 | Raw split manifest and physical TEST guard | **Not implemented** |
 | Drain3 scientific fit/freeze and parsed events | **Not implemented** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
@@ -148,7 +151,7 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
 - TEST is contractually sealed now. It becomes physically sealed only when a split manifest, partition hashes, and access guard exist.
 - Final TEST runs once, by the human researcher, after all artifacts and claims are frozen.
 
-The source of truth is [Protocol v1.1](docs/research-protocol-v1.1.md) and its [machine contract](configs/protocols/protocol-v1.1.yaml).
+The source of truth is [Protocol v1.1](docs/research-protocol-v1.1.md), its [machine contract](configs/protocols/protocol-v1.1.yaml), and the [EFFECT-001 statistical addendum](docs/statistical-decision-contract.md).
 
 ## Quick start: verify the implemented foundation
 
@@ -184,7 +187,7 @@ Fusion and downstream investigation are not primary RQs in v1.1.
 
 ## Human and AI ownership
 
-AI/Codex prepares implementation, deterministic builders, tests, configs, and commands. The human researcher freezes practical-effect thresholds, executes empirical runs/training/tuning, selects validation-only configurations, opens TEST once, and owns conclusions. AI must never fabricate metrics or mark `NOT_RUN` work complete.
+AI/Codex prepares implementation, deterministic builders, tests, configs, and commands. The human researcher must approve `delta_HDFS`/`delta_BGL`, executes empirical runs/training/tuning, selects validation-only configurations, opens TEST once, and owns conclusions. AI must never fabricate metrics or mark `NOT_RUN` work complete.
 
 ## Repository map
 
@@ -209,6 +212,8 @@ outputs/          Ignored experiment-specific artifacts
 - [Decision log](Plan/06_DECISIONS.md)
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
 - [Protocol v1.1](docs/research-protocol-v1.1.md)
+- [EFFECT-001 statistical decision contract](docs/statistical-decision-contract.md)
+- [EFFECT-001 citations and method provenance](docs/references/EFFECT-001-citations.md)
 - [Targeted prior-art matrix](docs/literature/prior-art-matrix-v1.1.md)
 - [LIT-001 reproducible search log](docs/literature/LIT-001-search-log.md)
 - [LIT-001 citations and method provenance](docs/references/LIT-001-citations.md)

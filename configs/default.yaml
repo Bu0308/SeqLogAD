@@ -13,7 +13,9 @@ dataset:
 
 protocol:
   contract: configs/protocols/protocol-v1.1.yaml
+  statistical_addendum: configs/protocols/effect-001.yaml
   empirical_status: NOT_RUN
+  execution_ready: false
 
 parsing:
   parser: drain3
@@ -36,14 +38,17 @@ split:
   physical_test_guard: TODO
 
 methods:
-  must: [unseen_event_type, sequence_length, count_vector, markov_ngram]
-  should: [isolation_forest]
+  must: [unseen_event_type, sequence_length, total_event_count, count_vector, isolation_forest, markov_ngram]
+  should: []
   conditional: [transformer, localization, simple_fusion]
 
 scoring:
   aggregation: TODO
   threshold_strategy: TODO_VALIDATION_ONLY
-  primary_metric: PR_AUC
+  primary_metric: average_precision
+  practical_effect:
+    hdfs: HUMAN_DECISION_REQUIRED
+    bgl: HUMAN_DECISION_REQUIRED
 
 output:
   root: outputs

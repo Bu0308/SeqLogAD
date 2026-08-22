@@ -10,7 +10,7 @@ All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has 
 - **Hypothesis:** Dataset suitability may differ by dataset and exact protocol; no positive outcome is assumed.
 - **Experiment concept:** KT-1 and KT-2 compare trivial/strong order-insensitive controls and quantify count/label dependence before complex models.
 - **Primary metric:** PR-AUC; supplemented by collision/purity/conditional-dependence diagnostics and FPR/latency.
-- **Required components:** Frozen split, parser/events/sequences, unseen-event/length/count/count-vector baselines, optional Isolation Forest.
+- **Required components:** Frozen split, parser/events/sequences, unseen-event/length/total-count/count-vector baselines, and Isolation Forest as the EFFECT-001 required primary orderless candidate.
 - **Falsification:** If order-insensitive behavior reaches the pre-frozen practical ceiling, that dataset cannot support a sequence-advantage claim by itself.
 
 ## RQ2 — Sequence added value
@@ -20,7 +20,9 @@ All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has 
 - **Priority:** CORE / MUST
 - **Hypothesis:** Markov/N-gram may add value when transition structure carries label-relevant information; it may also add no meaningful value.
 - **Experiment concept:** Compare Markov/N-gram with the strongest legal order-insensitive comparator under the same partitions, selection budget, thresholds, and metrics.
-- **Primary metric:** Paired PR-AUC difference with uncertainty; secondary Precision, Recall, F1, FPR, latency, throughput, memory.
+- **Primary estimand:** Per dataset, `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`, using non-interpolated Average Precision and the EFFECT-001 validation-only comparator rule.
+- **Primary inference:** 95% paired dependency-unit bootstrap interval and the four registered outcomes: meaningful gain, practical equivalence, meaningful harm, or inconclusive. Numerical `delta_HDFS`/`delta_BGL` remain human-owned blockers.
+- **Secondary metrics:** Precision, Recall, F1, FPR, latency, throughput, memory; these cannot replace the primary contrast.
 - **Required components:** RQ1 artifacts plus Markov/N-gram.
 - **Falsification:** If added value is below the pre-frozen practical margin, do not claim sequence advantage.
 
@@ -31,7 +33,8 @@ All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has 
 - **Priority:** CORE / MUST
 - **Hypothesis:** A genuinely order-sensitive detector should degrade under valid sequence destruction; magnitude is unknown.
 - **Experiment concept:** KT-3 applies deterministic within-sample permutations preserving event multiset, count vector, length, label, partition, and parent linkage.
-- **Primary metric:** Paired PR-AUC/per-sample score change and uncertainty under original versus order-destroyed inputs.
+- **Primary estimand:** `Delta_AP_shuffle,d = AP_original,d - mean(AP_shuffled,d)` using three registered shuffle seeds, the same dataset-specific margin, and the same paired bootstrap contract as RQ2.
+- **Secondary metric:** Per-sample score change and perturbable-only diagnostics, reported descriptively.
 - **Required components:** Frozen sequence artifacts, Markov/N-gram predictions, deterministic destruction manifest.
 - **Falsification:** No practically meaningful degradation blocks an order-sensitivity claim on that dataset/protocol.
 

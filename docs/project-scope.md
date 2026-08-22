@@ -37,12 +37,13 @@ SeqLogAD is a research prototype for sequence-aware log anomaly analysis. It is 
 ## 5. MUST — frozen core
 
 - Preserve verified HDFS/BGL identity and immutable raw bytes.
-- Complete targeted `LIT-001` and freeze practical-effect policy before runs.
+- Complete targeted `LIT-001`; freeze EFFECT-001 methods and obtain human approval for both dataset-specific margins before runs.
 - Create raw chronological `60/10/10/10/10` split manifest and physical TEST guard.
 - Preserve HDFS block/session atomicity and BGL non-overlapping 100-event parents.
 - Fit Drain3 on normal `BASE_TRAIN` only, freeze it, and transform later partitions read-only.
 - Generate deterministic canonical events and partition-contained sequences.
 - Implement unseen-event, sequence-length, total-count, and count-vector controls.
+- Implement Isolation Forest as a required primary order-insensitive candidate under EFFECT-001.
 - Implement Markov/N-gram as the minimal sequential comparator.
 - Run KT-1, KT-2, and KT-3 under equal legal data/selection budgets.
 - Use PR-AUC as primary detection metric; report secondary error/efficiency metrics.
@@ -52,9 +53,7 @@ SeqLogAD is a research prototype for sequence-aware log anomaly analysis. It is 
 
 ## 6. SHOULD
 
-- Isolation Forest over order-insensitive count/summary features.
 - HDFS count-vector collision, purity/conditional-dependence, and out-of-sample analyses.
-- Paired uncertainty/effect analysis at the correct evaluation unit.
 - Lightweight reproducibility/CI checks that do not expand scientific scope.
 
 ## 7. CONDITIONAL
@@ -121,7 +120,7 @@ TEST is contractually sealed but not physically sealed. Physical sealing require
 - Failed localization sanity controls block localization-faithfulness claims.
 - No complementarity blocks trainable fusion.
 
-The minimum practical effect remains `TO_BE_FROZEN_BEFORE_RUN` and cannot be selected after outcomes are seen.
+EFFECT-001 freezes the statistical family, but `delta_HDFS` and `delta_BGL` remain `HUMAN_DECISION_REQUIRED`. No scientific run is authorized until both values and rationales are approved without consulting outcomes.
 
 ## 14. Research and safety non-goals
 
@@ -142,7 +141,7 @@ The minimum practical effect remains `TO_BE_FROZEN_BEFORE_RUN` and cannot be sel
 
 The core is complete only when:
 
-1. LIT-001 and practical-effect policy are frozen.
+1. LIT-001 is complete and EFFECT-001, including both human-approved numerical margins, is frozen.
 2. Raw split/TEST guard, parser, events, and sequences are deterministic and leakage-audited.
 3. KT-1–KT-3 have traceable human-executed artifacts.
 4. Gate/kill decisions follow the pre-registered protocol.
@@ -150,4 +149,4 @@ The core is complete only when:
 6. Final TEST is opened once after artifact freeze.
 7. Claims and limitations map to pipeline-generated evidence.
 
-See [`research-protocol-v1.1.md`](research-protocol-v1.1.md).
+See [`research-protocol-v1.1.md`](research-protocol-v1.1.md) and [`statistical-decision-contract.md`](statistical-decision-contract.md).

@@ -1,0 +1,205 @@
+# Machine-readable statistical addendum to PROTOCOL-001 v1.1.
+# This is a contract, not executable analysis code. No empirical run has occurred.
+effect_contract:
+  id: EFFECT-001
+  version: "1.0"
+  parent_protocol_id: PROTOCOL-001
+  parent_protocol_version: "1.1"
+  status: PARTIALLY_FROZEN_HUMAN_DECISION_REQUIRED
+  prepared_on: "2026-08-22"
+  empirical_status: NOT_RUN
+  execution_ready: false
+  scientific_test_accessed: false
+  human_readable_contract: docs/statistical-decision-contract.md
+  citation_note: docs/references/EFFECT-001-citations.md
+  blocked_by: [delta_hdfs, delta_bgl]
+
+primary_estimand:
+  name: delta_average_precision
+  formula: AP_sequence_d_minus_AP_strongest_orderless_d
+  metric:
+    canonical_name: average_precision
+    display_alias: PR_AUC
+    computation: non_interpolated_average_precision
+    positive_class: anomaly
+    threshold_free: true
+  report_by_dataset: true
+  pooled_hdfs_bgl_claim_allowed: false
+  datasets: [hdfs, bgl]
+  development_gate_partition: VAL_EXPERT
+  development_gate_interpretation: selection_conditioned_development_evidence_not_final_claim
+  final_confirmatory_partition: TEST
+  final_confirmatory_execution_owner: HUMAN
+
+practical_effect:
+  scale: absolute_average_precision_points
+  symmetric_bounds: true
+  hdfs:
+    delta_ap: null
+    status: HUMAN_DECISION_REQUIRED
+  bgl:
+    delta_ap: null
+    status: HUMAN_DECISION_REQUIRED
+  valid_numeric_contract: finite_and_strictly_between_zero_and_one
+  preferred_framework: OPERATIONAL_UTILITY
+  fallback_framework: RESOURCE_FEASIBILITY_MARGIN
+  validation_power_is_feasibility_check_not_practical_justification: true
+  test_derived_margin_allowed: false
+  outcome_derived_margin_allowed: false
+  universal_cross_dataset_margin_assumed: false
+  sensitivity_multipliers_after_approval: [0.5, 2.0]
+
+decision_regions:
+  meaningful_sequence_gain: interval_lower_strictly_greater_than_positive_delta
+  practical_equivalence: interval_fully_inside_closed_negative_delta_positive_delta
+  meaningful_harm: interval_upper_strictly_less_than_negative_delta
+  inconclusive: all_other_interval_positions
+  inconclusive_is_no_difference: false
+
+uncertainty:
+  method: paired_cluster_percentile_bootstrap
+  confidence_level: 0.95
+  interval_quantiles: [0.025, 0.975]
+  valid_replicates: 10000
+  resampling_seed: 42
+  same_resample_indices_for_all_paired_methods_within_dataset: true
+  sample_with_replacement: true
+  sample_size_equals_observed_unit_count: true
+  hdfs:
+    resampling_unit: block_session
+    event_level_iid_resampling_allowed: false
+  bgl:
+    resampling_unit: non_overlapping_100_event_parent_window
+    event_level_iid_resampling_allowed: false
+    residual_adjacent_window_dependence_modeled: false
+    limitation_must_be_reported: true
+  original_evaluation_set_requires_both_classes: true
+  original_evaluation_set_requires_unique_unit_ids: true
+  nonfinite_or_missing_score_invalidates_run: true
+  degenerate_replicate:
+    definition: resampled_labels_contain_fewer_than_two_classes
+    action: reject_and_redraw
+    maximum_total_attempts: 100000
+    failure_status: INCONCLUSIVE_RESAMPLING_FAILURE
+    rejection_count_must_be_reported: true
+  interpretation: evaluation_unit_sampling_uncertainty_conditional_on_frozen_methods_and_seeds
+
+orderless_baseline_selection:
+  selection_partition: VAL_EXPERT
+  test_selection_allowed: false
+  selection_metric: average_precision
+  selection_direction: maximize
+  selection_is_per_dataset: true
+  required_primary_candidates:
+    - unseen_event_type
+    - sequence_length
+    - total_event_count
+    - event_count_vector
+    - isolation_forest_order_insensitive
+  isolation_forest_role: REQUIRED_PRIMARY_CANDIDATE
+  candidate_eligibility:
+    fit_on_normal_base_train_only: true
+    order_derived_features_allowed: false
+    labels_as_input_or_fit_target_allowed: false
+    frozen_config_and_source_before_validation_scoring: true
+    complete_finite_score_per_evaluation_unit: true
+    active_contract_tests_required: true
+  missing_required_candidate_action: BLOCK_PRIMARY_COMPARISON_AND_AMEND_PROTOCOL
+  stochastic_candidate_selection_score: mean_ap_across_seeds_42_43_44
+  deterministic_candidate_selection_score: single_ap
+  exact_tie_tolerance: 1.0e-12
+  exact_tie_priority:
+    - unseen_event_type
+    - sequence_length
+    - total_event_count
+    - event_count_vector
+    - isolation_forest_order_insensitive
+  final_comparison_conditions_on_validation_selected_candidate: true
+  selection_uncertainty_in_bootstrap_interval: false
+  selection_uncertainty_limitation_must_be_reported: true
+
+sequential_comparator_selection:
+  family: markov_or_ngram
+  selection_partition: VAL_EXPERT
+  selection_metric: average_precision
+  selection_direction: maximize
+  candidates_and_tie_order_frozen_before_validation_scoring: true
+  test_selection_allowed: false
+
+equal_budget:
+  permitted_fit_partition: BASE_TRAIN
+  permitted_selection_partition: VAL_EXPERT
+  primary_test_access_count: 1
+  primary_test_execution_owner: HUMAN
+  maximum_complete_configurations_per_family_per_dataset: 12
+  budget_families: [orderless, sequential]
+  configuration_ids_and_allocation_frozen_before_any_validation_metric: true
+  adaptive_budget_extension_allowed: false
+  unused_budget_transfer_allowed: false
+  stochastic_seeds: [42, 43, 44]
+  deterministic_fake_seed_repetition_allowed: false
+  same_parser_state: true
+  same_event_vocabulary: true
+  same_sequence_units: true
+  same_metric_implementation: true
+  same_evaluation_unit_ids: true
+  primary_ap_uses_threshold_selection: false
+
+seed_policy:
+  stochastic_core_seeds: [42, 43, 44]
+  model_selection_aggregation: mean_average_precision
+  reported_central_estimate: mean_of_seed_specific_average_precision
+  report_per_seed_values: true
+  report_seed_standard_deviation_and_range: true
+  select_best_seed_allowed: false
+  bootstrap_aggregation: mean_seed_specific_ap_within_each_unit_resample
+  bootstrap_resamples_seeds: false
+  bootstrap_and_seed_variability_reported_separately: true
+
+multiple_comparisons:
+  primary_family:
+    unit: one_preregistered_contrast_per_dataset
+    hdfs_contrasts: 1
+    bgl_contrasts: 1
+    correction: NONE
+    rationale: dataset_specific_claims_with_no_pooled_or_at_least_one_dataset_claim
+  cross_dataset_conclusion: qualitative_synthesis_only
+  disjunctive_at_least_one_dataset_claim_allowed: false
+  secondary_family:
+    status: DESCRIPTIVE_EXPLORATORY
+    confirmatory_claims_allowed: false
+    correction: NONE_BECAUSE_NO_SECONDARY_CONFIRMATORY_INFERENCE
+    promotion_requires_pre_result_protocol_amendment_with_multiplicity_method: true
+
+kt3_sequence_destruction:
+  estimand: AP_original_sequence_minus_mean_AP_shuffled_sequence
+  practical_margin: reuse_dataset_specific_delta
+  transformation_seeds: [42, 43, 44]
+  selected_sequential_comparator_frozen_before_control: true
+  preserve: [event_multiset, count_vector, sequence_length, label, partition, parent_identity]
+  no_op_units_retained_in_primary_population: true
+  no_op_count_and_reason_reported: true
+  perturbable_only_analysis: SECONDARY_DESCRIPTIVE
+  uncertainty_contract: same_paired_bootstrap_as_primary_estimand
+  meaningful_order_sensitivity: interval_lower_strictly_greater_than_positive_delta
+  practical_equivalence_no_meaningful_order_sensitivity: interval_fully_inside_closed_negative_delta_positive_delta
+  shuffled_better_unexpected: interval_upper_strictly_less_than_negative_delta
+  inconclusive: all_other_interval_positions
+
+negative_result_policy:
+  valid_outcomes:
+    - orderless_baseline_better
+    - practical_equivalence
+    - no_meaningful_order_sensitivity
+    - dataset_unsuitable_for_sequence_advantage_claim
+    - inconclusive
+  sequence_win_required: false
+
+test_policy:
+  physical_test_generation_or_opening_before_human_margin_approval: false
+  test_used_for_delta: false
+  test_used_for_baseline_selection: false
+  test_used_for_hyperparameters: false
+  test_used_for_bootstrap_design: false
+  test_used_for_comparison_family: false
+  test_used_for_decision_boundary: false

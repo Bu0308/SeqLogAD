@@ -4,7 +4,15 @@ No scientific experiment has run. Every empirical row is `NOT_RUN`; empty metric
 
 ## Run record contract
 
-Every run records experiment ID, owner, status, exact dataset fingerprint, split/parser/sequence artifact IDs, protocol `1.1`, config snapshot, Git dirty state/commit, method/version, seed, hardware/packages, pipeline-generated metrics, output path, and failure/invalidation reason.
+Every run records experiment ID, owner, status, exact dataset fingerprint, split/parser/sequence artifact IDs, protocol `1.1`, EFFECT-001 version/approval/hash, config snapshot, Git dirty state/commit, method/version, seed, hardware/packages, pipeline-generated metrics, output path, and failure/invalidation reason.
+
+## Statistical execution gate
+
+| Contract | Frozen fields | Human-owned fields | Status |
+|---|---|---|---|
+| EFFECT-001 | Estimand, AP semantics, orderless family, selection/tie rule, equal budget, 95% paired bootstrap, multiplicity, seeds, KT-3, negative outcomes | `delta_HDFS`, `delta_BGL`, rationale/date/no-peeking confirmation | `HUMAN_DECISION_REQUIRED` |
+
+No empirical row below may leave `NOT_RUN` while this gate is unresolved.
 
 ## Core order-insensitive and sequential conditions
 
@@ -12,8 +20,9 @@ Every run records experiment ID, owner, status, exact dataset fingerprint, split
 |---|---|---|---|---|
 | OI-0 | Unseen event-type detector | MUST | NOT_RUN | — |
 | OI-1 | Sequence length only | MUST | NOT_RUN | — |
-| OI-2 | Total/event count-vector baseline | MUST | NOT_RUN | — |
-| OI-3 | Isolation Forest order-insensitive features | SHOULD | NOT_RUN | — |
+| OI-2A | Total event-count baseline | MUST | NOT_RUN | — |
+| OI-2B | Event count-vector baseline | MUST | NOT_RUN | — |
+| OI-3 | Isolation Forest order-insensitive features | MUST | NOT_RUN | — |
 | SQ-0 | Markov/N-gram transition surprise | MUST | NOT_RUN | — |
 
 ## Killer experiments
@@ -54,4 +63,6 @@ LSTM, normal-reference Expert D, and F2–F8 are removed from the v1.1 core. His
 - AI cannot fabricate or manually promote metrics.
 - TEST is never used to choose method, threshold, dataset, architecture, gate, novelty, or claim.
 - Negative/failed runs remain traceable.
-- Practical-effect thresholds are frozen before the first empirical run.
+- Numerical practical-effect margins are human-approved before the first empirical run; all statistical method fields follow EFFECT-001.
+- HDFS and BGL receive separate primary conclusions; no pooled/disjunctive claim is registered.
+- Secondary method/metric comparisons remain descriptive and cannot replace the one primary contrast per dataset.

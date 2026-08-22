@@ -29,8 +29,8 @@ The project is not committed to proving sequence superiority. A null/negative re
 
 | Class | Work |
 |---|---|
-| `MUST` | LIT-001 completion; raw five-way split + TEST guard; normal-only frozen Drain3; canonical events/sequences; unseen-event, length, count/count-vector baselines; Markov/N-gram; KT-1–KT-3; PR-AUC/secondary metrics; human final TEST; reproducibility |
-| `SHOULD` | Isolation Forest as a strong order-insensitive comparator; duplicate/collision and label-dependence diagnostics; paired uncertainty analysis |
+| `MUST` | LIT-001 completion; EFFECT-001 approval; raw five-way split + TEST guard; normal-only frozen Drain3; canonical events/sequences; unseen-event, length, count/count-vector/Isolation Forest baselines; Markov/N-gram; KT-1–KT-3; AP/paired uncertainty/secondary metrics; human final TEST; reproducibility |
+| `SHOULD` | Duplicate/collision and label-dependence diagnostics; additional robustness summaries |
 | `CONDITIONAL` | Transformer; synthetic localization and KT-4/KT-5; F0/F1 and KT-6 after complementarity |
 | `FUTURE` | Dataset expansion, retrieval/RAG/Agent, regression-test recommendation, Elasticsearch, API/UI, dashboard |
 | `REMOVED_FROM_CORE` | LSTM, normal-reference expert, fixed four-expert architecture, F2–F8 trainable fusion ladder, multi-agent and production platform scope |
@@ -38,7 +38,7 @@ The project is not committed to proving sequence superiority. A null/negative re
 ## 4. Critical path
 
 ```text
-LIT-001 + practical-effect freeze
+LIT-001 + EFFECT-001 human margin approval
 → protocol/schema identity compatibility check
 → metadata/group extraction
 → raw chronological split manifest + physical TEST guard
@@ -67,14 +67,14 @@ LIT-001 + practical-effect freeze
 
 ## 6. Experiment ladder
 
-1. `KT-1`: unseen-event, length, count/count-vector, optional Isolation Forest, and Markov under equal legal scope.
+1. `KT-1`: unseen-event, length, total-count, count-vector, required Isolation Forest, and Markov under equal legal scope.
 2. `KT-2`: count-vector collision, purity/conditional dependence, and out-of-sample order-insensitive prediction on HDFS.
 3. `KT-3`: destroy order while preserving multiset/count/length/label and compare paired performance.
 4. Apply KC-1–KC-4.
 5. If justified, open Transformer or conditional localization; otherwise report the negative/limited sequence result.
 6. Open any fusion only after at least two experts demonstrate measurable complementarity.
 
-No practical-effect threshold is invented. It is frozen by the human before the first run using LIT-001 and validation-only feasibility analysis.
+EFFECT-001 freezes the statistical method family, but no practical-effect number is invented. The human must approve dataset-specific `delta_HDFS` and `delta_BGL` before the first run; validation feasibility may test measurability but cannot define practical importance from outcomes.
 
 ## 7. Ownership
 
@@ -82,13 +82,13 @@ AI/Codex prepares implementation, tests, configs, deterministic builders, and co
 
 ## 8. Scope cuts
 
-If schedule pressure appears, cut in this order: conditional fusion, localization, Transformer, Isolation Forest, extra datasets, then all downstream/demo work. Never cut data identity, split/leakage discipline, trivial controls, Markov comparator, KT-3, TEST lock, or reproducibility.
+If schedule pressure appears, cut in this order: conditional fusion, localization, Transformer, extra datasets, then all downstream/demo work. Isolation Forest is required by EFFECT-001 unless a pre-result amendment changes the primary candidate family. Never cut data identity, split/leakage discipline, orderless controls, Markov comparator, KT-3, TEST lock, or reproducibility.
 
 ## 9. Completion criteria
 
 The core is complete only when:
 
-1. LIT-001 and practical-effect policy are frozen.
+1. LIT-001 is complete and EFFECT-001, including both human-approved margins, is frozen.
 2. Split/parser/events/sequences are deterministic, hashed, and leakage-audited.
 3. KT-1–KT-3 are human-executed without TEST tuning.
 4. Sequence claims follow pre-registered kill criteria.
@@ -96,4 +96,4 @@ The core is complete only when:
 6. Final TEST is opened once by the human after artifact freeze.
 7. Reported metrics come from immutable run outputs with uncertainty and limitations.
 
-Detailed rules are in [`../docs/research-protocol-v1.1.md`](../docs/research-protocol-v1.1.md).
+Detailed rules are in [`../docs/research-protocol-v1.1.md`](../docs/research-protocol-v1.1.md) and [`../docs/statistical-decision-contract.md`](../docs/statistical-decision-contract.md).

@@ -4,11 +4,15 @@ status: NOT_RUN
 execution_owner: HUMAN
 datasets: [hdfs, bgl]
 order_insensitive_methods:
-  must: [unseen_event_type, sequence_length, event_count_vector]
-  should: [isolation_forest]
+  must: [unseen_event_type, sequence_length, total_event_count, event_count_vector, isolation_forest]
+  should: []
 sequential_method: markov_ngram
 split_artifact: TODO_FIVE_WAY_SPLIT
-practical_effect: TO_BE_FROZEN_BEFORE_RUN
+statistical_contract: configs/protocols/effect-001.yaml
+practical_effect:
+  hdfs: HUMAN_DECISION_REQUIRED
+  bgl: HUMAN_DECISION_REQUIRED
+execution_ready: false
 seeds: [42, 43, 44]
-primary_metric: PR_AUC
+primary_metric: average_precision
 output_path: outputs/results/killer-experiments/

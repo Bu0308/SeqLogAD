@@ -215,3 +215,16 @@
 - **Rejected alternatives:** Blindly retain V3; switch to BGL-only; replace datasets immediately; implement fusion first; infer dataset unsuitability solely from prior work.
 - **Revisit conditions:** Dataset expansion (Option A) may open only after KT-1–KT-3 demonstrate insufficient sequence evidence on both verified datasets, LIT-001 identifies a defensible candidate, acquisition/provenance is approved, and a protocol amendment precedes access or experiments.
 - **Impact:** Protocol v1.1, active RQs, scope, architecture, backlog, roadmap, and experiment tracker replace V3 as future-work sources of truth. No existing dataset/schema artifact or experimental result is invalidated because no scientific run exists.
+
+## ADR-026 — EFFECT-001 statistical comparison family
+
+- **Date:** 2026-08-22
+- **Status:** PARTIALLY ACCEPTED — HUMAN DECISION REQUIRED.
+- **Context:** LIT-001 found no transferable universal numerical AP margin. Protocol v1.1 requires the estimand, practical-effect bounds, uncertainty method, comparator selection, multiplicity, and KT-3 rule to be fixed before any baseline/killer experiment or TEST access.
+- **Decision:** Freeze separate HDFS/BGL estimands `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`; non-interpolated Average Precision; one validation-selected primary contrast per dataset; a required orderless family containing unseen-event, length, total-count, count-vector, and Isolation Forest; equal 12-config family budgets; seeds `42/43/44` for stochastic methods; and a 95% paired cluster-percentile bootstrap with 10,000 valid replicates, seed `42`, HDFS block/session units, BGL 100-event parent-window units, deterministic degenerate-redraw rules, and gain/equivalence/harm/inconclusive outcomes. KT-3 reuses the dataset margin and bootstrap.
+- **Human-owned unresolved decision:** `delta_HDFS` and `delta_BGL` remain null. Operational utility is preferred; a labeled resource/feasibility margin is the fallback. Validation power is a feasibility check, not a source of practical importance.
+- **Multiple comparisons:** No correction for one separately interpreted primary contrast per dataset; no pooled/disjunctive claim. Secondary comparisons remain descriptive and require a pre-result amendment before confirmatory use.
+- **Alternatives:** Use zero as the meaningful bound; copy a number from unrelated literature; pool datasets; select the strongest comparator on TEST; event-level IID bootstrap; report only point AP; add baselines after seeing outcomes.
+- **Reason:** The selected family is falsifiable, dependency-aware, equal-budget, and prevents outcome-driven margins/comparators while preserving valid negative and inconclusive results.
+- **Consequence:** `configs/protocols/effect-001.yaml` remains `execution_ready: false`; no split execution, baseline/Markov run, KT-1/2/3, bootstrap, or TEST access is authorized until the human records both margins and no-peeking confirmation. Versioned Protocol v1.1 is preserved; EFFECT-001 is its anticipated statistical addendum.
+- **Evidence:** `docs/references/EFFECT-001-citations.md`; all empirical statuses remain `NOT_RUN`.

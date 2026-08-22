@@ -20,7 +20,7 @@ Canonical Events / Partition-Contained Sequences      SCHEMAS IMPLEMENTED;
         ↓
 ┌──────────────── ORDER-INSENSITIVE CONTROLS ────────────────┐
 │ unseen event · length · count/count-vector          MUST  │
-│ Isolation Forest                                  SHOULD  │
+│ Isolation Forest                                   MUST  │
 └──────────────────────────┬──────────────────────────────────┘
                            ↓
                  Markov / N-gram                     MUST
@@ -85,4 +85,3 @@ schema fixtures → strict validation → deterministic identity/serialization
 ```
 
 No scientific pipeline path after raw integrity currently executes.
-

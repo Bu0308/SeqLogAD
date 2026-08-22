@@ -4,7 +4,7 @@ This is a relative implementation schedule for a 3-credit project under three mo
 
 | Week | Primary work | Human role | Exit criterion |
 |---|---|---|---|
-| 1 | Complete targeted LIT-001, freeze practical-effect policy, resolve protocol/schema identity compatibility | Approve literature matrix/effect policy | No novelty ambiguity blocks core; v1.1 artifact contracts are compatible |
+| 1 | Complete targeted LIT-001, prepare EFFECT-001, obtain human margin approval, resolve protocol/schema identity compatibility | Approve `delta_HDFS`/`delta_BGL` without outcomes | Statistical execution gate is closed correctly; v1.1 artifact contracts are compatible |
 | 2 | Minimal raw metadata/group extraction, chronological split manifest, HDFS purge report, physical TEST guard | Review boundaries/unlock policy | Split hashes reproduce; routine TEST access is blocked |
 | 3 | Drain3 normal-BASE fit/freeze, HDFS/BGL adapters, canonical event generation | Approve parser config | Frozen parser restores deterministically; labels/OOV handled without leakage |
 | 4 | HDFS/BGL sequence builders and leakage audit; order-insensitive controls | Review construction statistics from authorized partitions | Partition-contained sequences and baseline fixtures pass |
@@ -15,11 +15,10 @@ This is a relative implementation schedule for a 3-credit project under three mo
 
 ## Schedule protection
 
-Cut first: fusion, localization, Transformer, Isolation Forest, extra datasets, and all downstream/demo work. Never cut split/leakage discipline, order-insensitive controls, Markov, sequence destruction, TEST lock, provenance, or negative-result reporting.
+Cut first: fusion, localization, Transformer, extra datasets, and all downstream/demo work. Under EFFECT-001, Isolation Forest is part of the required primary orderless family and cannot be cut without a pre-result amendment. Never cut split/leakage discipline, order-insensitive controls, Markov, sequence destruction, TEST lock, provenance, or negative-result reporting.
 
 ## Stop gates
 
 - Weeks 5–6 may end the model-expansion path.
 - A failed sequence gate redirects Week 7 to robustness, replication, and defensible negative-result reporting.
 - Fusion does not appear in the eight-week critical path.
-

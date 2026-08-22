@@ -10,18 +10,19 @@ The current suite must pass for environment/package imports, dataset contracts/a
 
 | Area | Required cases | Scope/status |
 |---|---|---|
-| Protocol identity | v1.1 current, v1.0 preserved, active config pointers consistent | ACTIVE/expanded in freeze |
+| Protocol identity | v1.1 current, v1.0 preserved, EFFECT-001 parent/status/pointers consistent | ACTIVE/expanded in freeze |
+| Statistical freeze | Null human margins block execution; estimand, candidate family, bootstrap, multiplicity and KT-3 rules remain fixed | ACTIVE contract tests; no statistic executed |
 | Raw metadata | HDFS group extraction, shared-line components, malformed/unassigned IDs, BGL line chronology | MUST / PLANNED |
 | Split | deterministic boundaries, atomic HDFS purge, target/realized ratios, hash stability | MUST / PLANNED |
 | TEST guard | no routine label/count/preview access; explicit human unlock; access log | MUST / PLANNED |
 | Parser | normal BASE fit only, freeze/restore, no updates, unseen mapping, label isolation | MUST / PLANNED |
 | Sequence | HDFS grouping, BGL 100-event non-overlap, residual/boundary handling | MUST / PLANNED |
 | Orderless controls | unseen event, length, count-vector, empty/unseen/constant cases | MUST / PLANNED |
-| Isolation Forest | deterministic features, no order features, validation-only fit/selection | SHOULD / PLANNED |
+| Isolation Forest | deterministic features, no order features, normal-BASE fit, validation-only selection, required primary eligibility | MUST / PLANNED |
 | Markov/N-gram | count/smoothing/backoff, transition surprise, OOV and short sequence | MUST / PLANNED |
 | Sequence destruction | preserve multiset/count/length/label/partition, deterministic seed/hash, reject/record no-op | MUST / PLANNED |
 | KT-2 | count-vector collisions, purity/entropy equivalent, out-of-sample fixture | MUST / PLANNED |
-| Metrics | PR-AUC fixtures, paired comparison, correct HDFS/BGL unit, no TEST selection | MUST / PLANNED |
+| Metrics | non-interpolated AP fixtures, paired 10,000-replicate cluster bootstrap, degenerate redraw/failure, seed separation, HDFS/BGL units, four decision regions, no TEST selection | MUST / PLANNED |
 | Transformer | causal/mask/shape/checkpoint only after gate | CONDITIONAL |
 | Localization | token/gap/transition, randomization, counterfactual repair/deletion | CONDITIONAL |
 | Fusion | complementarity and corrupted-expert controls before any fusion | CONDITIONAL |
@@ -54,4 +55,3 @@ CI uses canonical Python 3.12, installs with the locked constraint, runs `pip ch
 - No conditional test suite is marked active before its gate/task exists.
 - Dataset verifiers must preserve accepted fingerprints.
 - Final TEST access requires separate human authorization and is never a normal CI test.
-

@@ -24,9 +24,11 @@ Fusion and downstream AI are not primary RQs.
 5. If gates open, pre-register KT-4/KT-5 localization controls.
 6. Only after measured complementarity, consider KT-6 and simple fusion.
 
-## Baseline strength
+## Baseline strength and EFFECT-001
 
-MUST: unseen event, sequence length, total count, count vector, and Markov/N-gram. SHOULD: Isolation Forest over order-insensitive features. All use the same legal partitions, selection budget, evaluation unit, and threshold policy.
+MUST: unseen event, sequence length, total count, count vector, Isolation Forest over order-insensitive features, and Markov/N-gram. EFFECT-001 requires all five orderless candidates so “strongest eligible” cannot be weakened after outcomes. The orderless and sequential families each receive at most 12 pre-registered configurations per dataset and the same legal partitions, parser/vocabulary, validation access, evaluation units, and metric implementation.
+
+The per-dataset primary estimand is `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`. EFFECT-001 freezes a 95% paired cluster-percentile bootstrap with 10,000 valid replicates, seed `42`, HDFS block/session units, BGL non-overlapping 100-event parent windows, separate seed reporting, no pooled HDFS/BGL claim, and four outcomes: meaningful gain, practical equivalence, meaningful harm, or inconclusive.
 
 ## Falsification
 
@@ -37,7 +39,7 @@ MUST: unseen event, sequence length, total count, count vector, and Markov/N-gra
 - Failed randomization/counterfactual controls remove localization faithfulness.
 - No expert complementarity prevents trainable fusion.
 
-`minimum_practical_effect` is frozen by the human before runs after LIT-001 and validation-only feasibility analysis. It is not selected from observed outcomes.
+`delta_HDFS` and `delta_BGL` remain `HUMAN_DECISION_REQUIRED`. A human-approved operational-utility margin is preferred; a clearly labeled resource/feasibility margin is the fallback. Validation power can test measurability but cannot manufacture practical importance. No run is authorized until both values are recorded without consulting KT/TEST outcomes.
 
 ## Literature status
 

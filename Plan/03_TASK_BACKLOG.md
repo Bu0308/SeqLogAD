@@ -1,6 +1,6 @@
 # 03 — Task Backlog v1.1
 
-Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTURE`, `SUPERSEDED`. Owners: `AI`, `HUMAN`, `AI_PREP/HUMAN_EXECUTE`.
+Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTURE`, `SUPERSEDED`. Owners: `AI`, `HUMAN`, `AI_PREP/HUMAN_EXECUTE`.
 
 ## Governance and verified foundation
 
@@ -13,7 +13,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTUR
 | PROTOCOL-001-v1.0 | HISTORICAL | AI_PREP/HUMAN_EXECUTE | — | SUPERSEDED | Preserved as approved historical protocol |
 | FREEZE-v1.1 | MUST | AI_PREP/HUMAN_EXECUTE | audit approval | DONE | Protocol/config/ADR/RQs/scope/roadmap/citations are consistent and validated |
 | LIT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FREEZE-v1.1 | DONE | Targeted matrix, reproducible search log, citation note, dataset/baseline matrices, and conservative prior-art states completed; no novelty claim established |
-| EFFECT-001 | MUST | HUMAN | LIT-001 | NOT_STARTED | Minimum practical effect and statistical comparison family frozen before first run |
+| EFFECT-001 | MUST | HUMAN | LIT-001 | HUMAN_DECISION_REQUIRED | Estimand/comparison/bootstrap/baseline/equal-budget/KT-3 contracts are frozen; human records defensible non-null `delta_HDFS` and `delta_BGL`, rationale/date, and confirms no outcome/TEST consultation before status becomes DONE |
 | SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | NOT_STARTED | Protocol v1.1 identity is supported by split/sequence contracts without weakening TEST/schema safeguards |
 
 ## Raw partition, parser, and sequences
@@ -33,7 +33,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTUR
 | Task ID | Scope | Owner | Dependencies | Status | Definition of Done |
 |---|---|---|---|---|---|
 | BASE-001 | MUST | AI | SEQ-001 | NOT_STARTED | Unseen-event, length, total-count, and count-vector controls have deterministic configs/tests |
-| BASE-002 | SHOULD | AI | BASE-001 | NOT_STARTED | Isolation Forest order-insensitive feature pipeline is deterministic and validation-only |
+| BASE-002 | MUST | AI | BASE-001, EFFECT-001 | NOT_STARTED | Isolation Forest order-insensitive feature pipeline is deterministic, normal-BASE fitted, validation-only selected, and eligible in the required primary comparator family |
 | BASE-003 | MUST | AI | SEQ-001 | NOT_STARTED | Markov/N-gram smoothing/scoring and transition evidence pass tests |
 | KT-1-PREP | MUST | AI | BASE-001, BASE-003, LEAK-001 | NOT_STARTED | Equal-budget ceiling experiment command/config/report schema is frozen without TEST |
 | KT-1-RUN | MUST | HUMAN | KT-1-PREP, EFFECT-001 | NOT_STARTED | Human run produces immutable validation artifacts; no metric entered manually |
@@ -59,7 +59,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTUR
 
 | Task ID | Scope | Owner | Dependencies | Status | Definition of Done |
 |---|---|---|---|---|---|
-| EVAL-001 | MUST | AI | KT contracts | NOT_STARTED | PR-AUC/secondary metrics, paired uncertainty, provenance, and report schemas pass fixture tests |
+| EVAL-001 | MUST | AI | EFFECT-001, KT contracts | NOT_STARTED | Non-interpolated AP, paired cluster bootstrap, degenerate-resample handling, seed separation, decision regions, provenance, and report schemas pass fixture tests |
 | FINAL-FREEZE-001 | MUST | HUMAN | GATE-SEQ-001, EVAL-001 | NOT_STARTED | Artifacts/configs/thresholds/claims/Git state frozen before TEST |
 | FINAL-TEST-001 | MUST | HUMAN | FINAL-FREEZE-001, TESTLOCK-001 | NOT_STARTED | TEST opened once; immutable result bundle produced |
 | REPORT-001 | MUST | AI_PREP/HUMAN_EXECUTE | FINAL-TEST-001 | NOT_STARTED | Claims map to run artifacts; null results and limitations retained |

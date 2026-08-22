@@ -1,6 +1,6 @@
 # Reproducibility Baseline
 
-Day 1 established the initial conventions. Research Freeze v1.1 adds explicit dataset-suitability tests, sequence-destruction controls, conditional complexity gates, five-way split ownership, and a physical TEST-seal requirement. Most scientific runtime automation remains planned.
+Day 1 established the initial conventions. Research Freeze v1.1 adds explicit dataset-suitability tests, sequence-destruction controls, conditional complexity gates, five-way split ownership, and a physical TEST-seal requirement. EFFECT-001 adds a machine-readable statistical contract; its numerical HDFS/BGL margins still require human approval. Most scientific runtime automation remains planned.
 
 ## Python environment contract
 
@@ -111,7 +111,7 @@ Do not write `output.csv`, `result-final-v2.csv` or `latest-model.pt` at reposit
 
 Default execution stages:
 
-1. Use the completed LIT-001 review to freeze the practical-effect and statistical-comparison policy in `EFFECT-001`.
+1. Human approves `delta_HDFS` and `delta_BGL` in the prepared EFFECT-001 contract; no run begins while either value is null.
 2. Freeze raw split identities and physical TEST guard before parser/window generation.
 3. Fit/freeze parser on normal `BASE_TRAIN`; create canonical events/sequences inside partitions.
 4. Human runs KT-1/KT-2 order-insensitive suitability analyses.
@@ -120,6 +120,14 @@ Default execution stages:
 7. Freeze selected artifacts/claims; human executes final TEST once.
 
 Transformer, localization, and fusion are conditional rather than default stages.
+
+## EFFECT-001 statistical reproducibility
+
+Every future primary comparison snapshots both `configs/protocols/protocol-v1.1.yaml` and `configs/protocols/effect-001.yaml`. The latter freezes non-interpolated Average Precision, one contrast per dataset, the required orderless family, validation-only selection, a 12-config family-level budget, three stochastic seeds, a 95% paired cluster-percentile bootstrap with 10,000 valid replicates and resampling seed `42`, explicit degenerate-resample handling, and the four scientific decision regions.
+
+HDFS resampling units are complete block/sessions; BGL units are complete non-overlapping 100-event parent windows. All methods in a contrast reuse identical resampled unit IDs. Seed variability is reported separately from evaluation-unit bootstrap uncertainty. The final interval is conditional on the validation-selected methods and does not estimate model-selection uncertainty.
+
+`delta_HDFS` and `delta_BGL` are currently null. They cannot be inferred from TEST, KT outcomes, interval width, or whichever value helps the sequential method. Once human-approved, the contract records each value, rationale framework, approver/date, and confirmation that no outcome was consulted. Old contract snapshots are never overwritten in run artifacts.
 
 ## Human/AI ownership
 
