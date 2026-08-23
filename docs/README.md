@@ -10,7 +10,8 @@ Active scientific documentation:
 - [`research-questions.md`](research-questions.md): RQ1–RQ3 core and conditional RQ4.
 - [`research-protocol.md`](research-protocol.md): current protocol entry point.
 - [`research-protocol-v1.1.md`](research-protocol-v1.1.md): active frozen protocol.
-- [`split-clarification-contract.md`](split-clarification-contract.md): binding exact HDFS/BGL allocation, purge, residual, reconciliation, and hash semantics; no real split.
+- [`split-clarification-contract.md`](split-clarification-contract.md): binding exact HDFS/BGL allocation, purge, residual, reconciliation, and hash semantics.
+- [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md): verified real structural summaries, identities, artifact policy, and unopened TEST-seal state.
 - [`literature/split-protocol-evidence-matrix.md`](literature/split-protocol-evidence-matrix.md): literature-supported versus SeqLogAD-owned split decisions and source conflicts.
 - [`statistical-decision-contract.md`](statistical-decision-contract.md): human-approved EFFECT-001 estimand/bootstrap/comparison contract with `0.01 AP` margins.
 - [`research-protocol-v1.0.md`](research-protocol-v1.0.md): preserved historical protocol.

@@ -86,7 +86,7 @@ Rules:
 3. BGL windows are generated only after raw partition assignment and never overlap.
 4. Reserved fusion partitions are not silently merged into other partitions after results are observed.
 5. Target and realized ratios, purge records, file hashes, and deterministic partition IDs must be written to a future split manifest.
-6. No split artifact exists yet. Thus TEST is **contractually sealed** now and becomes **physically sealed** only after partition artifacts are hashed and an access guard is implemented.
+6. SPLIT-001 has created deterministic partition artifacts and hash-bound physical TEST guards. Both TEST partitions remain **SEALED / NEVER_OPENED**, with open count and unlock-record count equal to zero.
 
 ## 5. Label and supervision contract
 

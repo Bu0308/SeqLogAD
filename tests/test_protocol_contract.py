@@ -44,7 +44,8 @@ def test_protocol_v1_1_frozen_data_and_test_contract() -> None:
     assert labels["model_input_allowed"] is False
     assert labels["base_loss_allowed"] is False
     assert labels["test_contractually_sealed"] is True
-    assert labels["test_physically_sealed"] is False
+    assert labels["test_physically_sealed"] is True
+    assert labels["test_physical_state"] == "SEALED_NEVER_OPENED"
     assert labels["test_execution_owner"] == "HUMAN"
     assert labels["test_execution_count"] == 1
 

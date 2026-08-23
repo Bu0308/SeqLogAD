@@ -4,7 +4,7 @@
 
 EFFECT-001 is `FROZEN_HUMAN_APPROVED` with `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. The statistical addendum is complete and contract-tested. Experiment placeholders remain non-runnable until their independent split/parser/evaluation dependencies are implemented and authorized.
 
-PROTOCOL-SPLIT-CLARIFY-001 is also `FROZEN_HUMAN_APPROVED`, but it only defines deterministic behavior. It records `real_split_created=false`, `scientific_test_created=false`, and `split_execution_authorized=false`; `SPLIT-001` remains a separate task.
+PROTOCOL-SPLIT-CLARIFY-001 is `FROZEN_HUMAN_APPROVED`. SPLIT-001 instantiated it for both datasets; the config records the real payload/TEST hashes and `SEALED_NEVER_OPENED`. This does not authorize parser fitting or scientific experiments.
 
 Model/experiment/retrieval/agent YAML files are non-runnable placeholders. Their statuses distinguish `MUST`, `SHOULD`, `CONDITIONAL`, `FUTURE`, and `REMOVED_FROM_CORE`; the presence of a file does not mean implementation exists.
 

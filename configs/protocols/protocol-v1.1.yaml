@@ -55,7 +55,8 @@ labels:
   model_input_allowed: false
   base_loss_allowed: false
   test_contractually_sealed: true
-  test_physically_sealed: false
+  test_physically_sealed: true
+  test_physical_state: SEALED_NEVER_OPENED
   physical_seal_requires: [split_manifest, partition_hashes, access_guard]
   test_execution_owner: HUMAN
   test_execution_count: 1

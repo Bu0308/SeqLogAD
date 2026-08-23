@@ -14,7 +14,7 @@ A research project testing **whether and when event order adds measurable anomal
 </div>
 
 > [!IMPORTANT]
-> The data-integrity foundation, reproducible Python environment, schema contracts, parser-independent raw metadata extractor, and exact split-semantics contract are implemented/frozen and tested. The scientific pipeline is not complete: no real split artifact, project parser run, baseline/model fit, training, tuning, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
+> The data-integrity foundation, reproducible Python environment, schema contracts, parser-independent raw metadata extractor, deterministic real split artifacts, and physical TEST guards are implemented and verified. The scientific pipeline is not complete: no project parser run, baseline/model fit, training, tuning, TEST unlock, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
 
 ## Current scientific question
 
@@ -54,7 +54,7 @@ The approved direction is `HYBRID_B_PLUS_C`:
 
 `EFFECT-001` is **FROZEN — HUMAN APPROVED**. It fixes `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`, together with the estimand, comparison family, equal-budget rule, paired bootstrap, 95% interval, seed aggregation, and KT-3 decision logic. Approval occurred before any scientific baseline, KT, parser-derived experiment, or TEST result. This completes the statistical gate but does not automatically authorize pipeline execution.
 
-`PROTOCOL-SPLIT-CLARIFY-001` is **FROZEN — HUMAN APPROVED**. It resolves the exact HDFS eligible-line/connected-component boundary policy, BGL raw split-before-window/residual policy, reconciliation equations, and layered split identities. Literature-backed principles are separated from SeqLogAD protocol choices. No real split or TEST partition was created by this clarification.
+`PROTOCOL-SPLIT-CLARIFY-001` is **FROZEN — HUMAN APPROVED**. It resolves the exact HDFS eligible-line/connected-component boundary policy, BGL raw split-before-window/residual policy, reconciliation equations, and layered split identities. SPLIT-001 has now instantiated that frozen contract: both real manifests reproduce, and both TEST partitions remain `SEALED / NEVER_OPENED`.
 
 ## Minimal gated architecture
 
@@ -63,7 +63,7 @@ Verified immutable HDFS/BGL bytes                    [IMPLEMENTED]
         ↓
 Metadata/group-key extraction without fitted parser  [IMPLEMENTED]
         ↓
-Raw chronological 60/10/10/10/10 partition           [PLANNED]
+Raw chronological 60/10/10/10/10 partition           [IMPLEMENTED / VERIFIED]
         ↓
 Normal BASE_TRAIN → fit/freeze Drain3                 [PLANNED]
         ↓
@@ -127,8 +127,8 @@ The statistical method family and practical margins are frozen before experiment
 | HDFS group/BGL chronology metadata extraction | **Implemented and tested; no full real metadata artifact generated** |
 | Research protocol v1.1 and negative-control contract | **Frozen; empirical status `NOT_RUN`** |
 | EFFECT-001 statistical contract | **Frozen and human-approved; both margins `0.01 AP`; empirical status `NOT_RUN`** |
-| Exact split-semantics addendum | **Frozen and contract-tested; real split `NOT_CREATED`; TEST `NEVER_CREATED / NEVER_OPENED`** |
-| Raw split manifest and physical TEST guard | **Not implemented** |
+| Exact split-semantics addendum | **Frozen and contract-tested** |
+| Raw split manifests and physical TEST guards | **Implemented and verified; TEST `SEALED / NEVER_OPENED`; open count `0`** |
 | Drain3 scientific fit/freeze and parsed events | **Not implemented** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
@@ -152,7 +152,7 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
 - BGL uses non-overlapping 100-event parent windows created after partitioning.
 - Labels may filter authorized normal pools and support validation/evaluation, but never enter model inputs or base loss.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
-- TEST is contractually sealed now. It becomes physically sealed only when a split manifest, partition hashes, and access guard exist.
+- TEST is physically sealed for both datasets. Ordinary loaders fail before reading TEST records; future access requires a dedicated human-only, hash-bound, audited workflow.
 - Final TEST runs once, by the human researcher, after all artifacts and claims are frozen.
 
 The source of truth is [Protocol v1.1](docs/research-protocol-v1.1.md), its [machine contract](configs/protocols/protocol-v1.1.yaml), the [exact split addendum](docs/split-clarification-contract.md), and the [EFFECT-001 statistical addendum](docs/statistical-decision-contract.md).
@@ -176,11 +176,18 @@ seqlogad-verify-dataset --project-root . --dataset hdfs --json
 seqlogad-verify-dataset --project-root . --dataset bgl --json
 seqlogad-extract-raw-metadata --project-root . --dataset hdfs --dry-run --max-lines 1000 --json
 seqlogad-extract-raw-metadata --project-root . --dataset bgl --dry-run --max-lines 1000 --json
+seqlogad-split-dataset --project-root . generate --dataset hdfs --json
+seqlogad-split-dataset --project-root . generate --dataset bgl --json
+seqlogad-split-dataset --project-root . validate --dataset hdfs --json
+seqlogad-split-dataset --project-root . validate --dataset bgl --json
+seqlogad-split-dataset --project-root . status --dataset hdfs --json
+seqlogad-split-dataset --project-root . status --dataset bgl --json
 ```
 
-The metadata commands are bounded, label-independent dry-runs. No command for
-parser execution, split generation, baseline experiments, model training, or
-final TEST is available yet.
+The metadata commands are bounded, label-independent dry-runs. Split generation
+is structural and non-overwriting; generated bulk artifacts remain ignored by
+Git. No parser, baseline experiment, model-training, or final-TEST execution
+command is run by this quick start.
 
 ## Research questions
 
@@ -223,6 +230,8 @@ outputs/          Ignored experiment-specific artifacts
 - [Exact split-semantics addendum](docs/split-clarification-contract.md)
 - [Split literature evidence matrix](docs/literature/split-protocol-evidence-matrix.md)
 - [Split citations and search record](docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md)
+- [Real split artifacts and TEST seal](docs/split-artifacts-and-test-seal.md)
+- [SPLIT-001 citations and method provenance](docs/references/SPLIT-001-citations.md)
 - [EFFECT-001 statistical decision contract](docs/statistical-decision-contract.md)
 - [EFFECT-001 citations and method provenance](docs/references/EFFECT-001-citations.md)
 - [Targeted prior-art matrix](docs/literature/prior-art-matrix-v1.1.md)

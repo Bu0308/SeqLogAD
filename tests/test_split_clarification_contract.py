@@ -116,9 +116,11 @@ def test_clarification_is_frozen_without_creating_scientific_artifacts() -> None
         "parent_protocol_version": "1.1",
         "empirical_status": "NOT_RUN",
         "execution_ready": True,
-        "split_execution_authorized": False,
-        "real_split_created": False,
-        "scientific_test_created": False,
+        "split_execution_authorized": True,
+        "authorization_source": "HUMAN_RESEARCHER",
+        "authorized_on": "2026-08-23",
+        "real_split_created": True,
+        "scientific_test_created": True,
         "scientific_test_accessed": False,
         "parser_fitted": False,
         "human_readable_contract": "docs/split-clarification-contract.md",
@@ -126,7 +128,21 @@ def test_clarification_is_frozen_without_creating_scientific_artifacts() -> None
         "citation_note": (
             "docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md"
         ),
-        "next_authorized_task": "SPLIT-001",
+        "implementation_status": "COMPLETE",
+        "test_state": "SEALED_NEVER_OPENED",
+        "next_authorized_task": "PARSE-001",
+        "real_artifacts": {
+            "hdfs": {
+                "path": "data/processed/splits/hdfs",
+                "split_payload_hash": "21ec061a7717cd03e7648e3d89200d486bce81eb7dd1bf4114272dd90fc4295c",
+                "test_partition_hash": "fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d",
+            },
+            "bgl": {
+                "path": "data/processed/splits/bgl",
+                "split_payload_hash": "0c1bb1b9b755aa2aa50238771cf5bf34649e1ca33c7964e061766b659aeebd05",
+                "test_partition_hash": "7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d",
+            },
+        },
     }
     assert (PROJECT_ROOT / metadata["human_readable_contract"]).is_file()
     assert (PROJECT_ROOT / metadata["evidence_matrix"]).is_file()
@@ -386,8 +402,13 @@ def test_identity_and_future_test_seal_contract_are_non_circular_and_closed() ->
     assert identity["manifest_file_hash"]["scientific_identity"] is False
 
     seal = contract["future_test_seal"]
-    assert seal["implemented_in_this_task"] is False
+    assert seal["implemented_in_this_task"] is True
     assert seal["opened_in_this_task"] is False
+    assert seal["default_access"] == "DENIED"
+    assert seal["status"] == "SEALED"
+    assert seal["never_opened"] is True
+    assert seal["open_count"] == 0
+    assert seal["unlock_records"] == 0
     assert seal["must_bind"] == [
         "dataset_fingerprint",
         "protocol_id_and_version",

@@ -19,6 +19,7 @@ protocol:
   split_addendum_status: FROZEN_HUMAN_APPROVED
   empirical_status: NOT_RUN
   execution_ready: false
+  split_status: COMPLETE
 
 parsing:
   parser: drain3
@@ -40,7 +41,8 @@ split:
   val_expert: 0.10
   val_fusion_reserved: 0.10
   test: 0.10
-  physical_test_guard: TODO
+  physical_test_guard: data/processed/splits/<dataset>/test-seal.json
+  physical_test_state: SEALED_NEVER_OPENED
 
 methods:
   must: [unseen_event_type, sequence_length, total_event_count, count_vector, isolation_forest, markov_ngram]

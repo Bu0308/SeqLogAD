@@ -261,3 +261,16 @@
 - **Alternatives:** Split HDFS by component counts; move boundary components to nearest partitions; stratify by labels; form BGL windows before splitting; borrow/pad residuals; let timestamps or derived IDs participate in scientific identity; generate the real split while ambiguity remained.
 - **Reason:** The selected contract is deterministic, label-independent, reconciles every raw line, prevents group/window boundary leakage, avoids circular identities, and leaves target-versus-realized deviations visible. Classification distinguishes literature-supported principles from SeqLogAD-specific choices.
 - **Consequence:** The ambiguity blocker is removed, but no real split, TEST membership, physical seal, parser state, or experiment was created. TESTLOCK-001 is absorbed into SPLIT-001 so real TEST assignment is sealed immediately. The next separately authorized task is SPLIT-001.
+
+## ADR-030 — Deterministic real split artifacts and fail-closed TEST sealing
+
+- **Date:** 2026-08-23
+- **Status:** ACCEPTED / IMPLEMENTED.
+- **Context:** PROTOCOL-SPLIT-CLARIFY-001 was frozen and SPLIT-001 was explicitly human-authorized. Accepted raw fingerprints and the META-001 contract passed the pre-generation gate; no parser, label input, metric, or scientific TEST result existed.
+- **Decision:** Generate HDFS/BGL structural assignments under the frozen cumulative-floor rules; persist canonical payload, derived assignment IDs, structural partition hashes, exact-file hashes, explicit exclusions, and separated partition membership. Place TEST membership under `sealed/`, bind a deny-by-default seal to dataset fingerprint + Protocol v1.1 + split payload hash + TEST partition hash, and require a separate phrase/reason/hash-bound HUMAN authorization workflow for future access.
+- **Observed structural consequence:** HDFS connected-component atomicity purged 133,184 components / 2,541,053 eligible lines (22.737449498368278%); this deviation is retained rather than repaired. BGL retained 47,475 complete 100-line parents and explicitly excluded 463 residual lines. These are structural allocation facts, not anomaly results.
+- **Identity:** HDFS split payload `21ec061a7717cd03e7648e3d89200d486bce81eb7dd1bf4114272dd90fc4295c`; BGL split payload `0c1bb1b9b755aa2aa50238771cf5bf34649e1ca33c7964e061766b659aeebd05`. Independent regeneration reproduced both payload hashes, partition hashes, and deterministic content.
+- **Alternatives:** Leave TEST contract-only; expose TEST in ordinary partition files; repair HDFS ratios by moving components; merge/pad BGL tails; use manifest byte hash as scientific identity; commit 600 MiB of derived artifacts.
+- **Reason:** The selected implementation enforces pre-parser chronology, component/window atomicity, exact reconciliation, non-circular identity, non-overwrite generation, and fail-closed TEST access while keeping bulk artifacts regenerable and ignored.
+- **Consequence:** SPLIT-001 is complete. Both TEST states are `SEALED / NEVER_OPENED`, `open_count=0`, and `unlock_records=0`. Global scientific execution remains gated; PARSE-001 requires separate authorization.
+- **Evidence:** `docs/split-artifacts-and-test-seal.md` and `docs/references/SPLIT-001-citations.md`.

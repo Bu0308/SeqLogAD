@@ -11,7 +11,7 @@ Minimal Metadata / Group-Key Extraction               IMPLEMENTED
         ↓
 Exact Split Semantics / Identity Contract             FROZEN / TESTED
         ↓
-Raw Chronological Five-Way Split + TEST Guard         PLANNED / MUST
+Raw Chronological Five-Way Split + TEST Guard         IMPLEMENTED / VERIFIED
         ↓
 Normal BASE_TRAIN Pool                                PLANNED / MUST
         ↓
@@ -48,8 +48,8 @@ Retrieval/RAG/Agent/API/UI/Elasticsearch              FUTURE
 |---|---|---|
 | Raw manifest | Exact accepted bytes | Implemented; immutable |
 | Raw metadata/group map | Partition key without fitted parser | Implemented; labels/parser state excluded |
-| Split-semantics addendum | Exact allocation, purge, residual, reconciliation, and identity rules | Frozen/tested on synthetic fixtures; creates no real split |
-| Split manifest | Stable partition/purge/hash identity | Created before parser fit/windows |
+| Split-semantics addendum | Exact allocation, purge, residual, reconciliation, and identity rules | Frozen/tested; instantiated by SPLIT-001 |
+| Split manifest | Stable partition/purge/hash identity | Implemented/verified before parser fit; derived bulk files ignored by Git |
 | Parser state | Drain3 templates and frozen event mapping | Normal `BASE_TRAIN` only |
 | Canonical events | Parsed fields with label isolation | Read-only transform per partition |
 | Event sequences | HDFS blocks/BGL parents | Never cross partition boundary |
@@ -89,7 +89,10 @@ schema fixtures → strict validation → deterministic identity/serialization
 raw HDFS/BGL fixtures → label/parser-independent META-001 group/chronology metadata
 
 synthetic structural fixtures → exact split-contract arithmetic/identity tests
+
+verified raw bytes + META-001 → deterministic real split artifacts
+→ hash-bound TEST seals (`SEALED / NEVER_OPENED`)
 ```
 
-No real scientific split, TEST partition, parser output, sequence, baseline, or
-model path currently executes.
+No parser output, scientific event sequence, baseline, model, metric, TEST
+unlock, or final TEST path currently executes.

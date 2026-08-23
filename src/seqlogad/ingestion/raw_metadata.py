@@ -405,6 +405,24 @@ class HdfsComponentIndex:
     complete: bool
 
 
+@dataclass(frozen=True, slots=True)
+class HdfsStructuralReference:
+    """Minimal META-001 projection consumed by the raw splitter.
+
+    Assigned records deliberately omit their raw-record identity because the
+    frozen split payload identifies their connected component plus raw and
+    eligible chronology.  Structurally unassigned records retain ``record_id``
+    so exclusions remain fully attributable.  No message, label, parser, or
+    partition value is exposed.
+    """
+
+    chronological_index: int
+    component_id: str | None
+    record_id: str | None
+    assignment_status: HdfsAssignmentStatus
+    unassigned_reason: HdfsUnassignedReason | None
+
+
 @dataclass(frozen=True)
 class _DecodedLine:
     sha256: str
@@ -684,6 +702,64 @@ def iter_hdfs_metadata(
 
     for line_number, raw_line in _iter_lines(Path(log_path), max_lines):
         yield _hdfs_line(raw_line, line_number, source, component_index)
+
+
+def iter_hdfs_structural_references(
+    log_path: str | Path,
+    source: MetadataSource,
+    component_index: HdfsComponentIndex,
+    *,
+    max_lines: int | None = None,
+) -> Iterator[HdfsStructuralReference]:
+    """Stream the exact label-free META-001 fields required by SPLIT-001.
+
+    This avoids constructing millions of full Pydantic metadata records while
+    retaining the same token normalization, component map, source chronology,
+    and explicit unassigned reasons as :func:`iter_hdfs_metadata`.
+    """
+
+    if source.dataset_key != "hdfs":
+        raise MetadataExtractionError("HDFS references require an HDFS source")
+    for line_number, raw_line in _iter_lines(Path(log_path), max_lines):
+        decoded = _decode_line(raw_line)
+        tokens = _hdfs_tokens(decoded.text)
+        if tokens.normalized:
+            component_ids = {
+                component_index.block_to_component.get(block_id)
+                for block_id in tokens.normalized
+            }
+            if None in component_ids or len(component_ids) != 1:
+                raise MetadataExtractionError(
+                    f"inconsistent HDFS component index at line {line_number}"
+                )
+            yield HdfsStructuralReference(
+                chronological_index=line_number - 1,
+                component_id=next(iter(component_ids)),
+                record_id=None,
+                assignment_status=HdfsAssignmentStatus.ASSIGNED,
+                unassigned_reason=None,
+            )
+            continue
+
+        if decoded.status is DecodeStatus.DECODE_ERROR:
+            reason = HdfsUnassignedReason.DECODE_ERROR
+        elif tokens.malformed:
+            reason = HdfsUnassignedReason.MALFORMED_BLOCK_TOKEN
+        else:
+            reason = HdfsUnassignedReason.NO_BLOCK_ID
+        record_id = build_record_id(
+            dataset_fingerprint=source.dataset_fingerprint,
+            source_file=source.source_file,
+            source_line_number=line_number,
+            source_line_sha256=decoded.sha256,
+        )
+        yield HdfsStructuralReference(
+            chronological_index=line_number - 1,
+            component_id=None,
+            record_id=record_id,
+            assignment_status=HdfsAssignmentStatus.UNASSIGNED,
+            unassigned_reason=reason,
+        )
 
 
 def _parse_bgl_timestamp(
@@ -1007,6 +1083,7 @@ __all__ = [
     "HdfsComponentMetadata",
     "HdfsIssue",
     "HdfsLineMetadata",
+    "HdfsStructuralReference",
     "HdfsUnassignedReason",
     "LineEnding",
     "METADATA_CONTRACT_ID",
@@ -1020,6 +1097,7 @@ __all__ = [
     "extract_bgl_line_metadata",
     "iter_bgl_metadata",
     "iter_hdfs_metadata",
+    "iter_hdfs_structural_references",
     "resolve_metadata_source",
     "scan_hdfs_components",
     "summarize_bgl_metadata",

@@ -109,7 +109,7 @@ Preferred framing:
 
 ## 12. TEST boundary
 
-TEST is contractually sealed but not physically sealed. Physical sealing requires a split manifest, partition hashes, and access guard. TEST cannot support fitting, tuning, thresholding, calibration, architecture/dataset/claim selection, or novelty decisions. The human opens it once after freeze.
+TEST is physically sealed by a dataset-fingerprint, split-payload, and partition-hash binding. Ordinary loaders reject it before record access. TEST cannot support fitting, tuning, thresholding, calibration, architecture/dataset/claim selection, or novelty decisions. A separate human-only audited workflow may open it once after the final freeze.
 
 ## 13. Falsification and kill policy
 

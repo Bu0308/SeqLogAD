@@ -23,9 +23,8 @@ The project is not committed to proving sequence superiority. A null/negative re
 - Python 3.12 project-local environment, editable package, dependency lock, and CLIs verified.
 - Canonical event/template and sequence/localization/mutation contracts plus Protocol-v1.1/KT-3 provenance compatibility implemented and tested; no real scientific event/sequence/control artifact generated.
 - Parser-independent HDFS block/component and BGL source-chronology metadata
-  extraction implemented and tested; no full real metadata or split artifact
-  generated.
-- Protocol v1.1, EFFECT-001, and PROTOCOL-SPLIT-CLARIFY-001 are frozen. Exact allocation/purge/residual/hash semantics are contract-tested; no physical split or TEST guard exists yet.
+  extraction implemented and tested.
+- Protocol v1.1, EFFECT-001, and PROTOCOL-SPLIT-CLARIFY-001 are frozen. Exact allocation/purge/residual/hash semantics are implemented as deterministic real HDFS/BGL split artifacts; both physical TEST guards are `SEALED / NEVER_OPENED`.
 - No parser run, baseline/model fit, training, tuning, scientific TEST access, or result.
 
 ## 3. Scope classification
@@ -67,7 +66,7 @@ LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 - BGL splits source ranks first, then builds non-overlapping 100-event parents independently per partition and records every 1–99-line tail as `DROPPED_RESIDUAL_WINDOW`.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
 - Reserved fusion partitions remain reserved unless an approved future amendment says otherwise.
-- TEST is contractually sealed now and physically sealed only after split hashes/access guard exist.
+- TEST is physically sealed by dataset, split-payload, and partition hashes; future access requires the separate human-only audited workflow.
 
 ## 6. Experiment ladder
 

@@ -8,8 +8,8 @@
 | Status | **FROZEN_HUMAN_APPROVED** |
 | Approval date | 2026-08-22 |
 | Empirical status | `NOT_RUN` |
-| Real split | `NOT_CREATED` |
-| Scientific TEST | `NEVER_CREATED / NEVER_OPENED` |
+| Real split | `CREATED / VERIFIED / DETERMINISTIC` |
+| Scientific TEST | `SEALED / NEVER_OPENED` |
 | Machine contract | `configs/protocols/split-clarification-v1.yaml` |
 | Evidence matrix | `docs/literature/split-protocol-evidence-matrix.md` |
 | Citation record | `docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md` |
@@ -346,16 +346,17 @@ but must not change `split_payload_hash`, assignment IDs, or partition hashes.
 
 All hashing choices in this section are `SEQLOGAD_PROTOCOL_DECISION`.
 
-### 5.5 Future TEST seal binding
+### 5.5 TEST seal binding
 
-SPLIT-001's future physical seal must bind at least:
+SPLIT-001's physical seal binds:
 
 - dataset fingerprint;
 - protocol ID/version;
 - `split_payload_hash`;
 - TEST `partition_hash`.
 
-This addendum defines that binding but neither generates nor opens TEST.
+The addendum defined that binding before generation. SPLIT-001 implemented it
+without opening TEST.
 
 ## 6. Synthetic proof fixtures
 
@@ -461,8 +462,10 @@ optimality.
 
 ## 9. Completion and next gate
 
-This addendum is frozen before split generation, parser fitting, any killer
-experiment, or TEST creation/access. `SPLIT-001` may now implement this exact
-contract under separate authorization. It must first prove the same invariants
-on synthetic fixtures, then verify accepted dataset fingerprints, generate the
-real structural manifests, and immediately install the physical TEST guard.
+This addendum was frozen before split generation, parser fitting, any killer
+experiment, or TEST creation/access. SPLIT-001 subsequently proved the
+invariants on synthetic fixtures, verified accepted fingerprints, generated
+both real structural manifests twice, and installed hash-bound physical TEST
+guards. The outcome and identities are recorded in
+[`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md). No parser,
+metric, anomaly-label inspection, TEST unlock, or scientific experiment ran.

@@ -138,5 +138,7 @@ experiment option in this CLI.
 
 ## 7. Next boundary
 
-The next dependency-correct task is SPLIT-001: deterministic raw partition
-manifest plus physical TEST sealing. It requires separate authorization.
+SPLIT-001 has consumed this contract to create deterministic raw partition
+artifacts and unopened physical TEST seals. See
+[`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md). The next
+separately authorized task is PARSE-001; META-001 itself remains unchanged.
