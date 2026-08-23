@@ -3,7 +3,8 @@
 Active scientific documentation:
 
 - [metadata-extraction-contract.md](metadata-extraction-contract.md): implemented
-  parser/label-free HDFS grouping and BGL chronology contract; no split exists.
+  parser/label-free HDFS grouping and BGL chronology contract used by the
+  verified real split.
 - [references/META-001-citations.md](references/META-001-citations.md): sources,
   implementation provenance, and scientific boundary for META-001.
 - [`project-scope.md`](project-scope.md): v1.1 core, conditional, future, and removed scope.
@@ -12,6 +13,7 @@ Active scientific documentation:
 - [`research-protocol-v1.1.md`](research-protocol-v1.1.md): active frozen protocol.
 - [`split-clarification-contract.md`](split-clarification-contract.md): binding exact HDFS/BGL allocation, purge, residual, reconciliation, and hash semantics.
 - [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md): verified real structural summaries, identities, artifact policy, and unopened TEST-seal state.
+- [`parser-fit-and-freeze.md`](parser-fit-and-freeze.md): real normal-pool and frozen Drain3 identities, immutable transform contract, and derived-artifact policy.
 - [`literature/split-protocol-evidence-matrix.md`](literature/split-protocol-evidence-matrix.md): literature-supported versus SeqLogAD-owned split decisions and source conflicts.
 - [`statistical-decision-contract.md`](statistical-decision-contract.md): human-approved EFFECT-001 estimand/bootstrap/comparison contract with `0.01 AP` margins.
 - [`research-protocol-v1.0.md`](research-protocol-v1.0.md): preserved historical protocol.
@@ -19,6 +21,7 @@ Active scientific documentation:
 - [`literature/LIT-001-search-log.md`](literature/LIT-001-search-log.md): reproducible queries, screening rules, duplicate handling, and dispositions.
 - [`references/LIT-001-citations.md`](references/LIT-001-citations.md): verified source and method-provenance note.
 - [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md): statistical-method sources and explicit SeqLogAD design boundaries.
+- [`references/PARSE-001-citations.md`](references/PARSE-001-citations.md): Drain/Drain3 semantics, recent parsing/granularity evidence, source freshness, and explicit project-owned decisions.
 - [`references/PROTOCOL-SPLIT-CLARIFY-001-citations.md`](references/PROTOCOL-SPLIT-CLARIFY-001-citations.md): targeted 2024–2026 split/grouping sources, search record, compatibility, and limitations.
 - [`references/SCHEMA-COMPAT-001-citations.md`](references/SCHEMA-COMPAT-001-citations.md): internal contract provenance for Protocol-v1.1 schema compatibility.
 - [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md): source and method provenance for the redirect.

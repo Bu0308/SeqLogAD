@@ -126,13 +126,41 @@ Default execution stages:
 
 1. Use the frozen EFFECT-001 contract with `delta_HDFS = delta_BGL = 0.01 AP`; never alter it after observing outcomes.
 2. Verify the generated raw split identities and physical TEST guards before parser/window generation; regenerate only from accepted raw fingerprints when local derived artifacts are absent.
-3. Fit/freeze parser on normal `BASE_TRAIN`; create canonical events/sequences inside partitions.
+3. Verify the accepted PARSE-001 states fitted on normal `BASE_TRAIN`; create canonical events/sequences inside partitions only in separately authorized tasks.
 4. Human runs KT-1/KT-2 order-insensitive suitability analyses.
 5. Human runs Markov/N-gram and KT-3 sequence destruction.
 6. Human records kill/gate decisions before any conditional method.
 7. Freeze selected artifacts/claims; human executes final TEST once.
 
 Transformer, localization, and fusion are conditional rather than default stages.
+
+## PARSE-001 parser reproducibility
+
+The parser contract is version-controlled at
+[`../configs/parsing/drain3-v1.yaml`](../configs/parsing/drain3-v1.yaml). It was
+frozen before the first successful real fit and binds Drain3 0.9.11, message
+normalization, masks, normal-selection granularity, read-only match semantics,
+`EVT_UNSEEN`, identity algorithms, and non-overwrite persistence.
+
+Each accepted local parser directory contains exact-file hashes plus separate
+identities for the normal pool, parser config, canonical scientific cluster
+state, serialized state, and template registry. Generation timestamps are
+audit metadata and do not enter scientific state identity. Independent restore
+and a second full fit into a temporary empty directory reproduced HDFS and BGL
+identities. See [`parser-fit-and-freeze.md`](parser-fit-and-freeze.md).
+
+Safe non-mutating checks are:
+
+```bash
+seqlogad-fit-parser --project-root . gate --dataset hdfs --json
+seqlogad-fit-parser --project-root . gate --dataset bgl --json
+seqlogad-fit-parser --project-root . validate --dataset hdfs --json
+seqlogad-fit-parser --project-root . validate --dataset bgl --json
+```
+
+The `fit` operation refuses an existing destination. Reproduction uses a new
+empty ignored directory, then compares identities; accepted artifacts are not
+overwritten. PARSE-001 did not generate canonical events or scientific metrics.
 
 ## EFFECT-001 statistical reproducibility
 

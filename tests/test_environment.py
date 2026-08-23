@@ -45,7 +45,8 @@ def test_import_contract_is_independent_of_repository_cwd(tmp_path: Path) -> Non
                 "import seqlogad; "
                 "import seqlogad.common.checksum; "
                 "import seqlogad.ingestion.dataset_manifest; "
-                "import seqlogad.cli.verify_dataset"
+                "import seqlogad.cli.verify_dataset; "
+                "import seqlogad.cli.fit_parser"
             ),
         ],
         cwd=tmp_path,
@@ -72,3 +73,14 @@ def test_installed_cli_help_runs_outside_repository(tmp_path: Path) -> None:
     )
     assert result.returncode == 0, result.stderr
     assert "--project-root" in result.stdout
+
+    parser_result = subprocess.run(
+        [sys.executable, "-m", "seqlogad.cli.fit_parser", "--help"],
+        cwd=tmp_path,
+        env=environment,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert parser_result.returncode == 0, parser_result.stderr
+    assert "--project-root" in parser_result.stdout

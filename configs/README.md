@@ -4,7 +4,9 @@
 
 EFFECT-001 is `FROZEN_HUMAN_APPROVED` with `delta_HDFS = delta_BGL = 0.01 AP` under `RESOURCE_FEASIBILITY_MARGIN`. The statistical addendum is complete and contract-tested. Experiment placeholders remain non-runnable until their independent split/parser/evaluation dependencies are implemented and authorized.
 
-PROTOCOL-SPLIT-CLARIFY-001 is `FROZEN_HUMAN_APPROVED`. SPLIT-001 instantiated it for both datasets; the config records the real payload/TEST hashes and `SEALED_NEVER_OPENED`. This does not authorize parser fitting or scientific experiments.
+PROTOCOL-SPLIT-CLARIFY-001 is `FROZEN_HUMAN_APPROVED`. SPLIT-001 instantiated it for both datasets; the config records the real payload/TEST hashes and `SEALED_NEVER_OPENED`.
+
+[`parsing/drain3-v1.yaml`](parsing/drain3-v1.yaml) is the pre-fit PARSE-001 contract. It freezes Drain3 0.9.11 parameters, masks, message normalization, normal-selection granularity, frozen-match behavior, `EVT_UNSEEN`, identities, and non-overwrite persistence. The real HDFS/BGL states were fitted under this contract; it does not authorize canonical-event generation or scientific experiments.
 
 Model/experiment/retrieval/agent YAML files are non-runnable placeholders. Their statuses distinguish `MUST`, `SHOULD`, `CONDITIONAL`, `FUTURE`, and `REMOVED_FROM_CORE`; the presence of a file does not mean implementation exists.
 

@@ -274,3 +274,16 @@
 - **Reason:** The selected implementation enforces pre-parser chronology, component/window atomicity, exact reconciliation, non-circular identity, non-overwrite generation, and fail-closed TEST access while keeping bulk artifacts regenerable and ignored.
 - **Consequence:** SPLIT-001 is complete. Both TEST states are `SEALED / NEVER_OPENED`, `open_count=0`, and `unlock_records=0`. Global scientific execution remains gated; PARSE-001 requires separate authorization.
 - **Evidence:** `docs/split-artifacts-and-test-seal.md` and `docs/references/SPLIT-001-citations.md`.
+
+## ADR-031 — Normal-only BASE parser fit and immutable Drain3 inference
+
+- **Date:** 2026-08-23
+- **Status:** ACCEPTED / IMPLEMENTED.
+- **Context:** SPLIT-001 produced verified ordinary `BASE_TRAIN` membership and physically sealed TEST partitions. Protocol v1.1 authorizes labels only to select a normal parser-fit pool. Drain3's training API is online and mutating, so using it during later transforms would change scientific representation state.
+- **Decision:** Freeze `configs/parsing/drain3-v1.yaml` before real fit; select HDFS whole connected components only when every member block/session is `Normal`; select normal BGL events only inside complete BASE parent windows; fit one Drain3 0.9.11 state per dataset using `add_log_message`; persist and independently restore the state; expose only a `match(..., fallback)` frozen transform; verify cluster-state identity before and after every transform; map no match to `EVT_UNSEEN`; fail before Drain3 on TEST.
+- **Observed structural consequence:** HDFS selected 5,606,995 of 5,782,072 candidate BASE records and produced 18 clusters/templates. BGL selected 2,616,821 of 2,848,700 candidate BASE events and produced 477 clusters/templates. These counts are parser provenance, not anomaly prevalence, parser quality, or model-performance results.
+- **Identity:** Shared parser config SHA-256 is `c5bb4fd25ecc98667700cbb3095fb561ba4b6651b2815400adc91e5efba0d65c`; HDFS/BGL normal-pool and parser-state identities are recorded in `docs/parser-fit-and-freeze.md` and local ignored manifests.
+- **Alternatives:** Fit on all partitions; fit on all BASE records without normal filtering; update templates during validation; tune thresholds using anomaly outcomes; silently add unknown clusters; overwrite parser artifacts.
+- **Reason:** The chosen contract preserves the frozen supervision boundary, avoids parser-state leakage, makes the exact representation reproducible, and provides one stable unknown policy without claiming the defaults or masks are optimal.
+- **Consequence:** PARSE-001 is complete and both scientific TEST seals remain unopened. Canonical events are still ungenerated; PARSE-002 requires separate authorization.
+- **Evidence:** `docs/parser-fit-and-freeze.md` and `docs/references/PARSE-001-citations.md`.

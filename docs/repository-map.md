@@ -8,7 +8,7 @@
 | `data/raw/` | Immutable local HDFS/BGL bytes | Present locally; ignored by Git |
 | `data/manifests/` | Accepted raw-file hashes and dataset fingerprints | Implemented, verified, version-controlled |
 | `data/parsed/` | Future parser/canonical-event artifacts | Empty/generated contents ignored |
-| `data/processed/` | Derived split/sequence/control artifacts | Real local split artifacts present and verified; generated contents ignored |
+| `data/processed/` | Derived split/parser/sequence/control artifacts | Real local split and frozen parser artifacts present and verified; generated contents ignored |
 | `docs/` | Active scope, protocol, RQs, dataset cards, literature, citations | v1.1 active; v1.0 preserved |
 | `Plan/` | Active v1.1 plan plus historical V1/V2/V3 plans and ADRs | Intended to be version-controlled |
 | `src/seqlogad/` | Canonical installable Python package | Ingestion and schemas implemented; scientific pipeline placeholders |
@@ -24,7 +24,7 @@
 |---|---|---|
 | `seqlogad.ingestion` | Dataset config, acquisition, checksums, manifests, verification | Implemented |
 | `seqlogad.common.schemas` | Canonical event/template and sequence/localization/mutation contracts | Implemented/tested; no real artifact generated |
-| `seqlogad.parsing` | Future normal-BASE Drain3 fit/freeze/read-only transform | MUST / not implemented |
+| `seqlogad.parsing` | Scoped normal-BASE selection, Drain3 fit/freeze/restore, immutable match, unknown-event policy | PARSE-001 implemented/tested; canonical event adapters remain PARSE-002 |
 | `seqlogad.sequences` | HDFS/BGL construction and sequence-destruction provenance | MUST / not implemented |
 | `seqlogad.models` | Order-insensitive controls and Markov/N-gram | MUST/SHOULD / not implemented; neural models conditional/non-core |
 | `seqlogad.evaluation` | Raw split, TEST guard, leakage audit, KT-1–KT-3 metrics | Split/TEST guard implemented; later evaluation planned |
@@ -44,13 +44,16 @@ synthetic schema fixture → strict validation → deterministic serialization/i
 
 verified raw bytes → META-001 structural identity → deterministic five-way split
 → exact reconciliation/hashes → physical TEST seal
+
+ordinary BASE membership → scoped normal-label selection → normal-pool identity
+→ Drain3 fit/freeze → independent restore → immutable frozen match
 ```
 
 Not implemented today:
 
 ```text
-parser fit/freeze → canonical artifacts → sequences
-→ baselines → Markov → sequence destruction → scientific gate → TEST
+canonical event artifacts → sequences → baselines → Markov
+→ sequence destruction → scientific gate → TEST
 ```
 
 ## Boundaries

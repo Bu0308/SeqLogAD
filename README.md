@@ -14,7 +14,7 @@ A research project testing **whether and when event order adds measurable anomal
 </div>
 
 > [!IMPORTANT]
-> The data-integrity foundation, reproducible Python environment, schema contracts, parser-independent raw metadata extractor, deterministic real split artifacts, and physical TEST guards are implemented and verified. The scientific pipeline is not complete: no project parser run, baseline/model fit, training, tuning, TEST unlock, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
+> The data-integrity foundation, reproducible Python environment, schema contracts, parser-independent raw metadata extractor, deterministic real split artifacts, physical TEST guards, and normal-only `BASE_TRAIN` Drain3 fit/freeze are implemented and verified. The scientific pipeline is not complete: no canonical event corpus, sequence corpus, baseline/model fit, training, tuning, TEST unlock, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
 
 ## Current scientific question
 
@@ -65,7 +65,7 @@ Metadata/group-key extraction without fitted parser  [IMPLEMENTED]
         ↓
 Raw chronological 60/10/10/10/10 partition           [IMPLEMENTED / VERIFIED]
         ↓
-Normal BASE_TRAIN → fit/freeze Drain3                 [PLANNED]
+Normal BASE_TRAIN → fit/freeze Drain3                 [IMPLEMENTED / VERIFIED]
         ↓
 Read-only transform → canonical events/sequences      [SCHEMAS IMPLEMENTED;
                                                        GENERATION PLANNED]
@@ -129,7 +129,8 @@ The statistical method family and practical margins are frozen before experiment
 | EFFECT-001 statistical contract | **Frozen and human-approved; both margins `0.01 AP`; empirical status `NOT_RUN`** |
 | Exact split-semantics addendum | **Frozen and contract-tested** |
 | Raw split manifests and physical TEST guards | **Implemented and verified; TEST `SEALED / NEVER_OPENED`; open count `0`** |
-| Drain3 scientific fit/freeze and parsed events | **Not implemented** |
+| Drain3 normal-only fit/freeze, persistence, restore, and unknown policy | **Implemented and verified; no canonical event corpus generated** |
+| Canonical parsed event corpus | **Not generated** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
 | RAG/Agent/API/UI | **Future placeholders only** |
@@ -182,12 +183,17 @@ seqlogad-split-dataset --project-root . validate --dataset hdfs --json
 seqlogad-split-dataset --project-root . validate --dataset bgl --json
 seqlogad-split-dataset --project-root . status --dataset hdfs --json
 seqlogad-split-dataset --project-root . status --dataset bgl --json
+seqlogad-fit-parser --project-root . gate --dataset hdfs --json
+seqlogad-fit-parser --project-root . gate --dataset bgl --json
+seqlogad-fit-parser --project-root . validate --dataset hdfs --json
+seqlogad-fit-parser --project-root . validate --dataset bgl --json
 ```
 
 The metadata commands are bounded, label-independent dry-runs. Split generation
 is structural and non-overwriting; generated bulk artifacts remain ignored by
-Git. No parser, baseline experiment, model-training, or final-TEST execution
-command is run by this quick start.
+Git. Parser commands above only gate or validate existing frozen states. No
+canonical-event generation, baseline experiment, model training, or final-TEST
+execution command is run by this quick start.
 
 ## Research questions
 
@@ -228,6 +234,8 @@ outputs/          Ignored experiment-specific artifacts
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
 - [Protocol v1.1](docs/research-protocol-v1.1.md)
 - [Exact split-semantics addendum](docs/split-clarification-contract.md)
+- [PARSE-001 fit/freeze provenance](docs/parser-fit-and-freeze.md)
+- [PARSE-001 literature and citation record](docs/references/PARSE-001-citations.md)
 - [Split literature evidence matrix](docs/literature/split-protocol-evidence-matrix.md)
 - [Split citations and search record](docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md)
 - [Real split artifacts and TEST seal](docs/split-artifacts-and-test-seal.md)

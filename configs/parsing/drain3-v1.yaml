@@ -1,0 +1,110 @@
+# PARSE-001 pre-registered parser/normal-pool contract.
+# This file freezes representation choices before the first real parser fit.
+parser_contract:
+  id: PARSE-001
+  version: "1.0"
+  status: FROZEN_BEFORE_REAL_FIT
+  protocol_id: PROTOCOL-001
+  protocol_version: "1.1"
+  split_contract_id: PROTOCOL-SPLIT-CLARIFY-001
+  split_contract_version: "1.0"
+  fit_partition: BASE_TRAIN
+  fit_normal_only: true
+  later_partition_mode: FROZEN_READ_ONLY
+  unknown_event_id: EVT_UNSEEN
+  scientific_metrics_allowed: false
+
+software:
+  package: drain3
+  version: 0.9.11
+
+drain:
+  similarity_threshold: 0.4
+  similarity_threshold_classification: OFFICIAL_DEFAULT
+  depth: 4
+  depth_classification: OFFICIAL_DEFAULT
+  max_children: 100
+  max_children_classification: OFFICIAL_DEFAULT
+  max_clusters: null
+  max_clusters_classification: OFFICIAL_DEFAULT
+  extra_delimiters: []
+  extra_delimiters_classification: OFFICIAL_DEFAULT
+  parametrize_numeric_tokens: true
+  parametrize_numeric_tokens_classification: OFFICIAL_DEFAULT
+  frozen_match_full_search_strategy: fallback
+  frozen_match_full_search_strategy_classification: SEQLOGAD_PROTOCOL_DECISION
+  parameter_extraction_cache_capacity: 3000
+  parameter_extraction_cache_capacity_classification: OFFICIAL_DEFAULT
+  profiling_enabled: false
+  profiling_enabled_classification: OFFICIAL_DEFAULT
+  snapshot_compress_state: false
+  snapshot_compress_state_classification: SEQLOGAD_PROTOCOL_DECISION
+
+masking:
+  mask_prefix: "<"
+  mask_suffix: ">"
+  rules:
+    - name: HDFS_BLOCK
+      regex_pattern: '(?<![A-Za-z0-9])blk_-?\d+(?![A-Za-z0-9])'
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    - name: IPV4_ENDPOINT
+      regex_pattern: '(?<![A-Za-z0-9])(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?(?![A-Za-z0-9])'
+      classification: LITERATURE_INFORMED_SEQLOGAD_DECISION
+    - name: HEX_LITERAL
+      regex_pattern: '(?<![A-Za-z0-9])0x[0-9A-Fa-f]+(?![A-Za-z0-9])'
+      classification: LITERATURE_INFORMED_SEQLOGAD_DECISION
+  intentionally_not_masked:
+    - severity
+    - component
+    - generic_paths
+    - arbitrary_integers
+
+normalization:
+  version: seqlogad-message-v1
+  encoding: utf-8
+  decode_errors: strict
+  line_terminator_policy: STRIP_CRLF_ONLY
+  inner_whitespace_policy: PRESERVE
+  hdfs:
+    log_format: '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+    parser_input: Content
+  bgl:
+    log_format: '<Label> <Timestamp> <Date> <Node> <Time> <NodeRepeated> <Type> <Component> <Level> <Content>'
+    parser_input: Content
+    normal_label_marker: '-'
+    empty_content_policy: MAP_TO_LITERAL_SENTINEL
+    empty_content_sentinel: SEQLOGAD_EMPTY_CONTENT
+    empty_content_policy_classification: SEQLOGAD_PROTOCOL_DECISION
+
+normal_selection:
+  hdfs:
+    label_granularity: block_session
+    split_membership_unit: connected_component
+    component_policy: ALL_MEMBER_BLOCK_SESSIONS_MUST_BE_NORMAL
+    normal_label: Normal
+    anomalous_label: Anomaly
+    missing_or_conflicting_label_policy: FAIL_CLOSED
+    label_file_scope: FILTER_TO_BASE_TRAIN_BLOCK_IDS_ONLY
+  bgl:
+    label_granularity: event
+    split_membership_unit: retained_parent_window_line
+    selection_policy: RETAIN_NORMAL_EVENTS_INSIDE_COMPLETE_BASE_TRAIN_WINDOWS
+    normal_label_marker: '-'
+    malformed_record_policy: FAIL_CLOSED
+
+identity:
+  canonical_serialization: SORTED_COMPACT_UTF8_JSON
+  digest: SHA-256
+  normal_pool_membership: DATASET_AND_SOURCE_HASH_PLUS_ORDERED_SOURCE_LINE_INDICES
+  parser_state: CONFIG_AND_POOL_PLUS_CANONICAL_DRAIN_CLUSTER_STATE
+  serialized_artifact: SHA256_EXACT_BYTES
+
+persistence:
+  mechanism: DRAIN3_MEMORY_BUFFER_FINAL_SNAPSHOT_TO_IMMUTABLE_FILE
+  mechanism_classification: SEQLOGAD_PROTOCOL_DECISION
+  state_file: drain3-state.bin
+  template_registry_file: template-registry.json
+  normal_pool_summary_file: normal-pool-summary.json
+  parser_manifest_file: parser-manifest.json
+  parser_manifest_hash_sidecar: parser-manifest.json.sha256
+  overwrite_existing: false

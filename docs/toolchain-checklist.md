@@ -13,7 +13,7 @@ Last verified: **2026-08-20**. No private hostnames, usernames, serial numbers, 
 | Build backend | AVAILABLE | setuptools 80.9.0 in isolated builds | Exact version pinned in `pyproject.toml` |
 | pytest | AVAILABLE | 9.1.1; current suite must pass in `.venv` | Foundation/environment/protocol/schema suite operational |
 | PyArrow | AVAILABLE | 19.0.1 | Satisfies declared `>=17,<20` contract |
-| Drain3 | AVAILABLE | 0.9.11 | Import verified; no parser logic implemented |
+| Drain3 | AVAILABLE | 0.9.11 | Pinned; real normal-only HDFS/BGL fit, persistence, restore, and immutable match verified |
 | Polars | AVAILABLE | 1.43.2 | Satisfies declared `>=1,<2` contract |
 | Pydantic | AVAILABLE | 2.13.4 | Satisfies declared `>=2,<3` contract |
 | Docker | AVAILABLE at Day 1 check | Dockerfile now declares canonical Python 3.12; image build not run in v1.1 freeze | Non-blocking |
@@ -34,7 +34,7 @@ Future ML, retrieval, agent, API, and UI dependencies are intentionally absent u
 
 - **Documentation/Git review:** no toolchain blocker.
 - **Schema/split contracts:** SCHEMA-001/002 and SCHEMA-COMPAT-001 tests pass; SPLIT-001 real HDFS/BGL artifacts validate and both TEST seals remain unopened.
-- **Parsing:** Drain3 package availability is verified; parser-state semantics and parsing implementation remain future work.
+- **Parsing:** PARSE-001 normal-pool selection and Drain3 fit/freeze are verified; PARSE-002 canonical event generation remains separate future work.
 - **Scientific experiments:** LIT/effect policy, five-way split/TEST guard, parser/events/sequences, and human-run protocol are required first.
 
 ## Verified commands
@@ -46,4 +46,4 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q
 ```
 
-Installed CLI entrypoints are `seqlogad-download-data`, `seqlogad-build-dataset-manifest`, and `seqlogad-verify-dataset`. Dataset paths are resolved from the explicit `--project-root` argument when commands run outside the repository.
+Installed CLI entrypoints include `seqlogad-download-data`, `seqlogad-build-dataset-manifest`, `seqlogad-verify-dataset`, `seqlogad-extract-raw-metadata`, `seqlogad-split-dataset`, `seqlogad-final-test-access`, and `seqlogad-fit-parser`. Dataset paths are resolved from the explicit `--project-root` argument when commands run outside the repository.

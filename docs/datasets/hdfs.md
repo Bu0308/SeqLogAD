@@ -11,8 +11,9 @@
 - **Raw metadata grouping contract:** **IMPLEMENTED** — META-001 extracts
   normalized block IDs, duplicate/malformed conditions, earliest source-line
   chronology, and transitive connected components without labels or Drain3.
-  Scientific partition and block-sequence artifacts remain ungenerated.
-- **Known limitations:** Prior work raises a material risk that count/event-presence properties explain labels and that dataset variants differ. Applicability to these exact verified bytes and the v1.1 chronological protocol is `TO_BE_TESTED`, not assumed. Source-specific block IDs and labeling rules may limit generalization; parser/split leakage remains a future implementation gate.
+  The real structural split is generated and verified; block-sequence artifacts remain ungenerated.
+- **Parser status:** PARSE-001 selected whole all-normal BASE components and froze a separate Drain3 state over 5,606,995 permitted source records. State identity and provenance are in [`../parser-fit-and-freeze.md`](../parser-fit-and-freeze.md); no canonical event corpus or anomaly metric exists.
+- **Known limitations:** Prior work raises a material risk that count/event-presence properties explain labels and that dataset variants differ. Applicability to these exact verified bytes and the v1.1 chronological protocol is `TO_BE_TESTED`, not assumed. Source-specific block IDs and labeling rules may limit generalization; downstream canonical-event and sequence leakage checks remain future gates.
 - **License/permission:** `VERIFIED_LOGHUB_TERMS`, custom research/academic usage conditions. Retain source notice/citations; redistribution still requires review.
 - **Acquisition status:** `CANONICAL_ARCHIVE_VERIFIED`; the canonical `HDFS_v1.zip` was obtained from Zenodo and verified without re-extracting or modifying the existing raw tree. The acquisition timestamp remains unknown.
 - **Source archive identity:** 186,645,559 bytes; source-published MD5 `76a24b4d9a6164d543fb275f89773260`; local SHA-256 `04f919f2185821f23f045dca611a7586429bdabc601bd7b43f30005f8e289b01`.
@@ -21,4 +22,4 @@
 - **Local integrity:** Six source-delivered scientific files, 1,828,041,800 bytes, SHA-256 recorded in `data/manifests/hdfs_manifest.json`.
 - **Dataset fingerprint:** `0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013`; deterministic rebuild and two manifest verifications passed.
 - **Encoding/basic sanity:** `HDFS.log` and CSV files are ASCII/UTF-8 compatible; `HDFS.log` has 11,175,629 newline-terminated records. `HDFS.npz` is binary and correctly classified non-text.
-- **Acceptance status:** `VERIFIED`; source archive integrity, archive safety, extracted-member equivalence, deterministic manifest rebuilding and repeated manifest verification all passed. This does not imply parser, sequence, split, or model readiness.
+- **Acceptance status:** dataset identity, real split/TEST seal, and PARSE-001 fit/freeze are `VERIFIED`. This does not imply canonical events, sequences, baselines, models, or scientific results exist.

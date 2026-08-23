@@ -21,4 +21,14 @@ SPLIT-001 structural generation/validation is available through:
 
 Generation is non-overwriting and publishes TEST only with its seal. The
 ordinary split CLI deliberately has no TEST-unlock operation. Training,
-parsing, indexing and experiment scripts remain absent.
+indexing and experiment scripts remain absent.
+
+PARSE-001 parser lifecycle checks are available through:
+
+    python3 -m scripts.fit_parser gate --dataset hdfs --json
+    python3 -m scripts.fit_parser pool --dataset hdfs --json
+    python3 -m scripts.fit_parser validate --dataset hdfs --json
+
+The separate `fit` command is non-overwriting and consumes only the permitted
+normal `BASE_TRAIN` pool. It does not generate canonical events, sequences, or
+scientific metrics, and the ordinary parser CLI cannot open TEST.

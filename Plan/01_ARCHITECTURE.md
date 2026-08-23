@@ -13,9 +13,9 @@ Exact Split Semantics / Identity Contract             FROZEN / TESTED
         ↓
 Raw Chronological Five-Way Split + TEST Guard         IMPLEMENTED / VERIFIED
         ↓
-Normal BASE_TRAIN Pool                                PLANNED / MUST
+Normal BASE_TRAIN Pool                                IMPLEMENTED / VERIFIED
         ↓
-Drain3 Fit → Freeze → Read-Only Transform             PLANNED / MUST
+Drain3 Fit → Freeze → Read-Only Transform             IMPLEMENTED / VERIFIED
         ↓
 Canonical Events / Partition-Contained Sequences      SCHEMAS IMPLEMENTED;
                                                       ARTIFACTS PLANNED
@@ -92,7 +92,13 @@ synthetic structural fixtures → exact split-contract arithmetic/identity tests
 
 verified raw bytes + META-001 → deterministic real split artifacts
 → hash-bound TEST seals (`SEALED / NEVER_OPENED`)
+
+ordinary BASE membership → scoped normal-label selection
+→ deterministic normal-pool identity → Drain3 fit/freeze
+→ independent restore → immutable `match`-only transform
 ```
 
-No parser output, scientific event sequence, baseline, model, metric, TEST
-unlock, or final TEST path currently executes.
+Frozen parser states and template registries now exist as ignored reproducible
+derived artifacts. No canonical event corpus, scientific event sequence,
+baseline, model, anomaly metric, TEST unlock, or final TEST path currently
+executes.

@@ -24,7 +24,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | META-001 | MUST | AI | SCHEMA-COMPAT-001 | DONE | HDFS block/component and BGL source chronology metadata, deterministic IDs, CLI, non-overwrite artifacts, label-independence invariants, and tests pass without parser/split/TEST |
 | SPLIT-001 | MUST | AI | META-001, PROTOCOL-SPLIT-CLARIFY-001 | DONE | Exact real five-way manifests reproduce; HDFS accounting and BGL residual reconciliation pass; partition hashes bind active physical TEST seals; routine TEST access fails closed; TEST remains never opened |
 | TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | SUPERSEDED | Scope absorbed into SPLIT-001 because real TEST assignment must be sealed immediately rather than left between tasks; future human unlock remains FINAL-TEST-only |
-| PARSE-001 | MUST | AI | SPLIT-001 | NOT_STARTED | Drain3 fits normal `BASE_TRAIN`, freezes/restores deterministically, and transforms later legal partitions read-only |
+| PARSE-001 | MUST | AI | SPLIT-001 | DONE | Scoped normal `BASE_TRAIN` pools have deterministic identities; HDFS/BGL Drain3 0.9.11 states fit once, persist, restore, validate, use immutable `match` transforms with `EVT_UNSEEN`, and leave TEST sealed |
 | PARSE-002 | MUST | AI | PARSE-001 | NOT_STARTED | HDFS/BGL adapters isolate labels and emit canonical events without using source preprocessed scientific inputs |
 | SEQ-001 | MUST | AI | PARSE-002 | NOT_STARTED | HDFS block sequences and BGL 100-event parents are deterministic and partition-contained |
 | LEAK-001 | MUST | AI | SEQ-001 | NOT_STARTED | Group/time/duplicate/window/parser/normalization/label/TEST leakage audit passes |

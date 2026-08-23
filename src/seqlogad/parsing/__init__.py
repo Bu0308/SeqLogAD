@@ -1,1 +1,1 @@
-"""Log parsing package; implementation is planned in PARSE-001 and PARSE-002."""
+"""PARSE-001 fit/freeze primitives; canonical event generation is PARSE-002."""

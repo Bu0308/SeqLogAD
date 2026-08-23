@@ -1,3 +1,5 @@
 # Parsed data
 
-Future output of Drain3 and dataset adapters: canonical events, templates, parameters and parser metadata.
+Future PARSE-002 output: partition-scoped canonical events, template IDs, and
+parameters. PARSE-001 frozen parser state/provenance is already implemented but
+lives under `data/processed/parsers/`; no canonical event corpus exists here.
