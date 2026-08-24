@@ -2,6 +2,9 @@
 
 Active scientific documentation:
 
+- [`../configs/active-state.yaml`](../configs/active-state.yaml): synchronized post-PARSE execution status plus portable split/parser identities; not a scientific decision source.
+- [`audits/PROJECT-CONTEXT-POST-PARSE-001.md`](audits/PROJECT-CONTEXT-POST-PARSE-001.md): canonical post-PARSE-001 scientific handoff, frozen identities, scope, claim boundaries, and next dependency-correct task.
+- [`audits/ORIGINAL-EVALUATION-REMEDIATION.md`](audits/ORIGINAL-EVALUATION-REMEDIATION.md): finding-by-finding comparison between the original redirect evaluation and the verified current repository state.
 - [metadata-extraction-contract.md](metadata-extraction-contract.md): implemented
   parser/label-free HDFS grouping and BGL chronology contract used by the
   verified real split.
@@ -22,6 +25,7 @@ Active scientific documentation:
 - [`references/LIT-001-citations.md`](references/LIT-001-citations.md): verified source and method-provenance note.
 - [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md): statistical-method sources and explicit SeqLogAD design boundaries.
 - [`references/PARSE-001-citations.md`](references/PARSE-001-citations.md): Drain/Drain3 semantics, recent parsing/granularity evidence, source freshness, and explicit project-owned decisions.
+- [`references/ALIGN-FIX-001-citations.md`](references/ALIGN-FIX-001-citations.md): records that ALIGN-FIX-001 changed engineering/status state only and required no new external scientific citation.
 - [`references/PROTOCOL-SPLIT-CLARIFY-001-citations.md`](references/PROTOCOL-SPLIT-CLARIFY-001-citations.md): targeted 2024–2026 split/grouping sources, search record, compatibility, and limitations.
 - [`references/SCHEMA-COMPAT-001-citations.md`](references/SCHEMA-COMPAT-001-citations.md): internal contract provenance for Protocol-v1.1 schema compatibility.
 - [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md): source and method provenance for the redirect.

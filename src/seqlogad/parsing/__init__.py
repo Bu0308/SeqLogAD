@@ -1,1 +1,1 @@
-"""PARSE-001 fit/freeze primitives; canonical event generation is PARSE-002."""
+"""PARSE-001 fit/freeze primitives; event generation is CANONICAL-EVENT-001."""

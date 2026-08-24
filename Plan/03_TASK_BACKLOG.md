@@ -16,6 +16,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | EFFECT-001 | MUST | HUMAN | LIT-001 | DONE | `delta_HDFS = delta_BGL = 0.01 AP`, `RESOURCE_FEASIBILITY_MARGIN`, pre-experiment/non-result-informed approval, estimand/comparison/bootstrap/baseline/equal-budget/KT-3 contracts frozen and tested |
 | SCHEMA-COMPAT-001 | MUST | AI | FREEZE-v1.1 | DONE | Historical v1.0 and active v1.1 identities, current-artifact factory, HDFS/BGL parent provenance, KT-3 control provenance, round-trip, and TEST-label safeguards pass |
 | PROTOCOL-SPLIT-CLARIFY-001 | MUST | AI_PREP/HUMAN_EXECUTE | LIT-001, EFFECT-001, SCHEMA-COMPAT-001, META-001 | DONE | Exact HDFS/BGL allocation, cumulative-floor, purge, residual, reconciliation and non-circular identity semantics are human-frozen, source-classified, and contract-tested |
+| ALIGN-FIX-001 | MUST | AI | PROJECT-ALIGNMENT-AUDIT-001, PARSE-001 | DONE | Active post-PARSE docs/config/status, protocol-stack pointers, seed policy, artifact identities, TEST state, HDFS purge risk, and owner-controlled license status are synchronized without scientific execution |
 
 ## Raw partition, parser, and sequences
 
@@ -25,8 +26,8 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | SPLIT-001 | MUST | AI | META-001, PROTOCOL-SPLIT-CLARIFY-001 | DONE | Exact real five-way manifests reproduce; HDFS accounting and BGL residual reconciliation pass; partition hashes bind active physical TEST seals; routine TEST access fails closed; TEST remains never opened |
 | TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | SUPERSEDED | Scope absorbed into SPLIT-001 because real TEST assignment must be sealed immediately rather than left between tasks; future human unlock remains FINAL-TEST-only |
 | PARSE-001 | MUST | AI | SPLIT-001 | DONE | Scoped normal `BASE_TRAIN` pools have deterministic identities; HDFS/BGL Drain3 0.9.11 states fit once, persist, restore, validate, use immutable `match` transforms with `EVT_UNSEEN`, and leave TEST sealed |
-| PARSE-002 | MUST | AI | PARSE-001 | NOT_STARTED | HDFS/BGL adapters isolate labels and emit canonical events without using source preprocessed scientific inputs |
-| SEQ-001 | MUST | AI | PARSE-002 | NOT_STARTED | HDFS block sequences and BGL 100-event parents are deterministic and partition-contained |
+| CANONICAL-EVENT-001 | MUST | AI | PARSE-001, ALIGN-FIX-001 | NOT_STARTED | Frozen HDFS/BGL parsers emit partition-scoped canonical events with strict no-update semantics, stable identities, label isolation, and no TEST access |
+| SEQ-001 | MUST | AI | CANONICAL-EVENT-001 | NOT_STARTED | HDFS block sequences and BGL 100-event parents are deterministic and partition-contained |
 | LEAK-001 | MUST | AI | SEQ-001 | NOT_STARTED | Group/time/duplicate/window/parser/normalization/label/TEST leakage audit passes |
 
 ## Minimal baselines and killer experiments

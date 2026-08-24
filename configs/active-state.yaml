@@ -1,0 +1,77 @@
+# Non-scientific execution-state registry synchronized by ALIGN-FIX-001.
+# Scientific rules remain owned by Protocol v1.1 and its binding addenda.
+active_state:
+  id: ACTIVE-STATE-POST-PARSE-001
+  version: "1.0"
+  status: SYNCHRONIZED
+  synchronized_by: ALIGN-FIX-001
+  scientific_results_status: NOT_RUN
+  canonical_event_corpus: NOT_CREATED
+  next_scientific_task: CANONICAL-EVENT-001
+  historical_task_aliases:
+    PARSE-002: CANONICAL-EVENT-001
+  protocol_stack:
+    base: configs/protocols/protocol-v1.1.yaml
+    binding_addenda:
+      - configs/protocols/effect-001.yaml
+      - configs/protocols/split-clarification-v1.yaml
+  pipeline:
+    SPLIT-001: COMPLETE
+    PARSE-001: COMPLETE_FROZEN
+    CANONICAL-EVENT-001: NOT_STARTED
+    SEQ-001: NOT_STARTED
+    scientific_experiments: NOT_RUN
+  repository_hygiene:
+    license_status: OWNER_DECISION_REQUIRED
+
+datasets:
+  hdfs:
+    dataset_fingerprint: 0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013
+    split:
+      directory: data/processed/splits/hdfs
+      manifest: data/processed/splits/hdfs/split-manifest.json
+      split_payload_hash: 21ec061a7717cd03e7648e3d89200d486bce81eb7dd1bf4114272dd90fc4295c
+      base_train_partition_hash: dbdb671e41f5d03377cd2a0b726f7a199af2a7c0dbf48c1c98320a93e41fd77b
+      test_partition_hash: fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d
+      test_seal: data/processed/splits/hdfs/test-seal.json
+      test_status: SEALED
+      never_opened: true
+      open_count: 0
+      unlock_records: 0
+    parser:
+      manifest: data/processed/parsers/hdfs/parser-manifest.json
+      manifest_sha256: 35400de68ede9907a4f2d3445125bdc27ae434c61dcf2f93c48b825b4000a025
+      state: data/processed/parsers/hdfs/drain3-state.bin
+      parser_state_sha256: 7d9bd8041d00ee3a1ce6c32d8e19efd8764108d8695f559ec91b4381ecda8d91
+      status: FIT_COMPLETED_FROZEN
+  bgl:
+    dataset_fingerprint: c9ee7a8db13d37c88f896e305ed12dc7a66b586cdae4e388db4949f78afbe861
+    split:
+      directory: data/processed/splits/bgl
+      manifest: data/processed/splits/bgl/split-manifest.json
+      split_payload_hash: 0c1bb1b9b755aa2aa50238771cf5bf34649e1ca33c7964e061766b659aeebd05
+      base_train_partition_hash: 08f7830239fb7889cf76ac31921629d34090aba2b471f948422c3869eb845f19
+      test_partition_hash: 7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d
+      test_seal: data/processed/splits/bgl/test-seal.json
+      test_status: SEALED
+      never_opened: true
+      open_count: 0
+      unlock_records: 0
+    parser:
+      manifest: data/processed/parsers/bgl/parser-manifest.json
+      manifest_sha256: bc2fd7df13ee231c0e9e63597e3237cd48ebb1658c4609524f04087cf49cfd66
+      state: data/processed/parsers/bgl/drain3-state.bin
+      parser_state_sha256: e44649d24afbd4bc335e2d38d54cea9338c211c600baef185cd7a0dee6aee4f6
+      status: FIT_COMPLETED_FROZEN
+
+methodological_risks:
+  hdfs_boundary_purge:
+    status: METHODOLOGICAL_RISK_TO_BE_ASSESSED
+    classification: SEQLOGAD_STRUCTURAL_RESULT
+    purged_component_count: 133184
+    purged_eligible_line_count: 2541053
+    purge_ratio: 0.22737449498368278
+    interpretation: REPRESENTATIVENESS_AND_SENSITIVITY_NOT_YET_EVALUATED
+    may_change_split: false
+    anomaly_labels_inspected_for_risk_assessment: false
+

@@ -24,9 +24,9 @@
 |---|---|---|
 | `seqlogad.ingestion` | Dataset config, acquisition, checksums, manifests, verification | Implemented |
 | `seqlogad.common.schemas` | Canonical event/template and sequence/localization/mutation contracts | Implemented/tested; no real artifact generated |
-| `seqlogad.parsing` | Scoped normal-BASE selection, Drain3 fit/freeze/restore, immutable match, unknown-event policy | PARSE-001 implemented/tested; canonical event adapters remain PARSE-002 |
+| `seqlogad.parsing` | Scoped normal-BASE selection, Drain3 fit/freeze/restore, immutable match, unknown-event policy | PARSE-001 implemented/tested; canonical event adapters remain CANONICAL-EVENT-001 |
 | `seqlogad.sequences` | HDFS/BGL construction and sequence-destruction provenance | MUST / not implemented |
-| `seqlogad.models` | Order-insensitive controls and Markov/N-gram | MUST/SHOULD / not implemented; neural models conditional/non-core |
+| `seqlogad.models` | Order-insensitive controls and Markov/N-gram | MUST / not implemented; neural models conditional/non-core |
 | `seqlogad.evaluation` | Raw split, TEST guard, leakage audit, KT-1–KT-3 metrics | Split/TEST guard implemented; later evaluation planned |
 | `seqlogad.scoring` | Validation-only aggregation/threshold contracts | MUST when detector exists |
 | `seqlogad.retrieval`, `rag`, `agent`, `testing` | Former V3/downstream modules | FUTURE / placeholders only |

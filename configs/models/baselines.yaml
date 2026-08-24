@@ -4,11 +4,26 @@ must:
   - sequence_length
   - total_event_count
   - event_count_vector
+  - isolation_forest_order_insensitive
   - markov_ngram
-should:
+should: []
+required_primary_orderless_candidates:
+  - unseen_event_type
+  - sequence_length
+  - total_event_count
+  - event_count_vector
   - isolation_forest_order_insensitive
 removed_from_core:
   - lstm
-seed: TODO
+seed_policy:
+  stochastic_methods:
+    isolation_forest_order_insensitive: [42, 43, 44]
+  deterministic_methods:
+    unseen_event_type: NOT_APPLICABLE_DETERMINISTIC
+    sequence_length: NOT_APPLICABLE_DETERMINISTIC
+    total_event_count: NOT_APPLICABLE_DETERMINISTIC
+    event_count_vector: NOT_APPLICABLE_DETERMINISTIC
+    markov_ngram: NOT_APPLICABLE_DETERMINISTIC
+# Future BASE/EVAL task; no threshold exists before validation-only selection.
 threshold: TODO_VALIDATION_ONLY
 empirical_status: NOT_RUN

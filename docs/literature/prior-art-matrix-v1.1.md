@@ -1,5 +1,10 @@
 # LIT-001 — Targeted Prior-Art and Dataset-Suitability Review
 
+> **Post-LIT binding status:** this matrix preserves the literature-stage
+> `SHOULD/CONDITIONAL` assessment. EFFECT-001 later promoted Isolation Forest to a
+> required primary order-insensitive candidate for SeqLogAD. The promotion is a
+> pre-result project decision, not a changed literature finding.
+
 | Field | Value |
 |---|---|
 | Task | `LIT-001` |

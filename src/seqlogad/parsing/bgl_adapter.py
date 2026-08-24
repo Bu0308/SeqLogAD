@@ -1,1 +1,1 @@
-"""Placeholder for the BGL canonical-schema adapter in PARSE-002."""
+"""Placeholder for the BGL adapter in CANONICAL-EVENT-001."""

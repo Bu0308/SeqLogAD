@@ -135,6 +135,10 @@ The statistical method family and practical margins are frozen before experiment
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
 | RAG/Agent/API/UI | **Future placeholders only** |
 
+Current next scientific task after `ALIGN-FIX-001` is
+`CANONICAL-EVENT-001`: generate partition-scoped canonical events through
+read-only matching with the frozen parsers. It has **not** started.
+
 ## Dataset provenance
 
 Raw benchmark files are local and excluded from Git. Version-controlled manifests identify the accepted bytes.
@@ -150,6 +154,10 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
 
 - Split raw atomic units chronologically: `BASE_TRAIN/FUSION_TRAIN/VAL_EXPERT/VAL_FUSION/TEST = 60/10/10/10/10`.
 - HDFS uses block/session atomicity and purges boundary-spanning components.
+- The HDFS purge removed 2,541,053 eligible lines (22.737449498368278%) under
+  the frozen whole-component rule. This remains
+  `METHODOLOGICAL_RISK_TO_BE_ASSESSED`; no harmlessness claim or split repair is
+  permitted before the registered suitability analysis.
 - BGL uses non-overlapping 100-event parent windows created after partitioning.
 - Labels may filter authorized normal pools and support validation/evaluation, but never enter model inputs or base loss.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
@@ -232,10 +240,14 @@ outputs/          Ignored experiment-specific artifacts
 - [Roadmap](Plan/05_8_WEEK_ROADMAP.md)
 - [Decision log](Plan/06_DECISIONS.md)
 - [Experiment tracker](Plan/07_EXPERIMENT_TRACKER.md)
+- [Active post-PARSE execution state](configs/active-state.yaml)
+- [Canonical post-PARSE context](docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md)
+- [Original evaluation remediation matrix](docs/audits/ORIGINAL-EVALUATION-REMEDIATION.md)
 - [Protocol v1.1](docs/research-protocol-v1.1.md)
 - [Exact split-semantics addendum](docs/split-clarification-contract.md)
 - [PARSE-001 fit/freeze provenance](docs/parser-fit-and-freeze.md)
 - [PARSE-001 literature and citation record](docs/references/PARSE-001-citations.md)
+- [ALIGN-FIX-001 source note](docs/references/ALIGN-FIX-001-citations.md)
 - [Split literature evidence matrix](docs/literature/split-protocol-evidence-matrix.md)
 - [Split citations and search record](docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md)
 - [Real split artifacts and TEST seal](docs/split-artifacts-and-test-seal.md)

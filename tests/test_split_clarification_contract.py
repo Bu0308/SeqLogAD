@@ -103,7 +103,7 @@ def _sha256_canonical(value: object) -> str:
     return hashlib.sha256(_canonical_json(value).encode("utf-8")).hexdigest()
 
 
-def test_clarification_is_frozen_without_creating_scientific_artifacts() -> None:
+def test_clarification_preserves_its_split_stage_snapshot_and_active_pointer() -> None:
     contract = _load_contract()
     metadata = contract["split_clarification"]
 
@@ -115,6 +115,8 @@ def test_clarification_is_frozen_without_creating_scientific_artifacts() -> None
         "parent_protocol_id": "PROTOCOL-001",
         "parent_protocol_version": "1.1",
         "empirical_status": "NOT_RUN",
+        "status_snapshot_scope": "SPLIT_001_AUTHORIZATION_AND_COMPLETION",
+        "current_execution_state": "configs/active-state.yaml",
         "execution_ready": True,
         "split_execution_authorized": True,
         "authorization_source": "HUMAN_RESEARCHER",
@@ -147,6 +149,7 @@ def test_clarification_is_frozen_without_creating_scientific_artifacts() -> None
     assert (PROJECT_ROOT / metadata["human_readable_contract"]).is_file()
     assert (PROJECT_ROOT / metadata["evidence_matrix"]).is_file()
     assert (PROJECT_ROOT / metadata["citation_note"]).is_file()
+    assert (PROJECT_ROOT / metadata["current_execution_state"]).is_file()
 
 
 def test_shared_boundaries_and_label_independence_are_exact() -> None:

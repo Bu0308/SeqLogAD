@@ -1,5 +1,6 @@
 # Future-only retrieval placeholder; outside Research Freeze v1.1 core.
 status: FUTURE_OUTSIDE_V1_1_CORE
 backend: local
+# FUTURE downstream placeholder; retrieval is outside the v1.1 scientific core.
 top_k: TODO
 test_reference_allowed: false

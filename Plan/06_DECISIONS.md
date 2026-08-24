@@ -287,3 +287,14 @@
 - **Reason:** The chosen contract preserves the frozen supervision boundary, avoids parser-state leakage, makes the exact representation reproducible, and provides one stable unknown policy without claiming the defaults or masks are optimal.
 - **Consequence:** PARSE-001 is complete and both scientific TEST seals remain unopened. Canonical events are still ungenerated; PARSE-002 requires separate authorization.
 - **Evidence:** `docs/parser-fit-and-freeze.md` and `docs/references/PARSE-001-citations.md`.
+
+## ADR-032 — Active post-PARSE state registry and owner-controlled license decision
+
+- **Date:** 2026-08-23
+- **Status:** ACCEPTED / IMPLEMENTED.
+- **Context:** PROJECT-ALIGNMENT-AUDIT-001 confirmed that the corrected scientific direction remained intact but found active status/config drift after SPLIT-001 and PARSE-001. The frozen base Protocol v1.1 also relies on later EFFECT-001 and split-clarification addenda, while generated split/parser artifacts are intentionally ignored and lacked one portable active pointer registry. The repository has no owner-selected source license.
+- **Decision:** Add `configs/active-state.yaml` as a non-scientific execution-state and artifact-pointer registry. Preserve Protocol v1.1 and split-authorization history, expose binding addenda explicitly, synchronize Isolation Forest with EFFECT-001, use seeds `42/43/44` only for stochastic methods, and rename the current canonical-event task from historical `PARSE-002` to `CANONICAL-EVENT-001`. Record `LICENSE_STATUS = OWNER_DECISION_REQUIRED`; no license text is selected for the owner.
+- **Alternatives:** Rewrite frozen protocol history; copy artifact identities into every config; silently change the split snapshot from pre-fit to post-fit; leave stale TODO/status pointers; select MIT/Apache/GPL without owner approval.
+- **Reason:** A separate active-state registry keeps operational truth current without changing frozen scientific decisions or embedding private paths/TEST membership. Explicit license deferral preserves owner authority.
+- **Consequence:** ALIGN-FIX-001 is repository-state cleanup only. Dataset bytes, split membership, parser states, EFFECT-001, method budgets, TEST seals, and empirical statuses are unchanged. `CANONICAL-EVENT-001` becomes the next scientific task; LICENSE remains a repository-hygiene blocker but not a canonical-event blocker.
+- **Evidence:** `configs/active-state.yaml`, `docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md`, and `docs/references/ALIGN-FIX-001-citations.md`. No external scientific source was required.

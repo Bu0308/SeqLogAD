@@ -13,6 +13,25 @@ protocol:
   citation_note: docs/references/RESEARCH-FREEZE-v1.1-citations.md
   supersedes: configs/protocols/protocol-v1.yaml
 
+# Protocol v1.1 remains frozen. These pointers define the effective active stack
+# without rewriting the base contract in-place.
+binding_addenda:
+  - id: EFFECT-001
+    path: configs/protocols/effect-001.yaml
+    status: FROZEN_HUMAN_APPROVED
+    precedence: OVERRIDES_BASE_STATISTICAL_AND_PRIMARY_CANDIDATE_STATUS
+  - id: PROTOCOL-SPLIT-CLARIFY-001
+    path: configs/protocols/split-clarification-v1.yaml
+    status: FROZEN_HUMAN_APPROVED
+    precedence: BINDS_EXACT_SPLIT_SEMANTICS
+
+active_resolution:
+  execution_state: configs/active-state.yaml
+  strongest_orderless_candidate_family: configs/protocols/effect-001.yaml
+  practical_effect_and_bootstrap: configs/protocols/effect-001.yaml
+  exact_split_semantics: configs/protocols/split-clarification-v1.yaml
+  base_method_inventory_is_pre_addendum_snapshot: true
+
 framing:
   topic: Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs
   description: normal-only self-supervised sequential anomaly detection with synthetic supervision for conditional anomaly localization
@@ -82,6 +101,8 @@ parser:
   unseen_event_id: EVT_UNSEEN
 
 methods:
+  # Base Protocol-v1.1 snapshot. EFFECT-001 is binding and promotes Isolation
+  # Forest from this original SHOULD position into the required primary family.
   must:
     - unseen_event_type
     - sequence_length
@@ -116,6 +137,8 @@ killer_experiments:
   KT-6: {name: random_or_corrupted_expert, status: NOT_RUN, required: CONDITIONAL}
 
 kill_criteria:
+  # The base snapshot anticipated human freezing. EFFECT-001 now supplies the
+  # binding approved values and is resolved through binding_addenda.
   minimum_practical_effect:
     value: TO_BE_FROZEN_BEFORE_RUN
     owner: HUMAN
@@ -133,6 +156,8 @@ complementarity_gate:
   outcomes: [KEEP, DEMOTE, REMOVE]
 
 evaluation:
+  # EFFECT-001 overrides the base practical-effect status while preserving the
+  # NOT_RUN empirical state.
   primary_detection_metric: PR_AUC
   datasets_reported_separately: true
   stochastic_core_seeds: [42, 43, 44]

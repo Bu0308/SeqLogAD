@@ -7,7 +7,9 @@ order_insensitive_methods:
   must: [unseen_event_type, sequence_length, total_event_count, event_count_vector, isolation_forest]
   should: []
 sequential_method: markov_ngram
-split_artifact: TODO_FIVE_WAY_SPLIT
+split_artifact_registry: configs/active-state.yaml
+split_artifact_registry_key: datasets.<dataset>.split
+required_partition_artifacts: [BASE_TRAIN, VAL_EXPERT]
 statistical_contract: configs/protocols/effect-001.yaml
 statistical_contract_status: FROZEN_HUMAN_APPROVED
 practical_effect:
@@ -15,6 +17,14 @@ practical_effect:
   hdfs: 0.01
   bgl: 0.01
 execution_ready: false
-seeds: [42, 43, 44]
+seed_policy:
+  stochastic_methods:
+    isolation_forest: [42, 43, 44]
+  deterministic_methods:
+    unseen_event_type: NOT_APPLICABLE_DETERMINISTIC
+    sequence_length: NOT_APPLICABLE_DETERMINISTIC
+    total_event_count: NOT_APPLICABLE_DETERMINISTIC
+    event_count_vector: NOT_APPLICABLE_DETERMINISTIC
+    markov_ngram: NOT_APPLICABLE_DETERMINISTIC
 primary_metric: average_precision
 output_path: outputs/results/killer-experiments/

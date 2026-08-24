@@ -4,6 +4,8 @@ project:
   experiment_id: EXP-YYYYMMDD-NNN
   seed: 42
 
+# Intentional per-run placeholders owned by future dataset/run configs. They are
+# not stale foundation status.
 dataset:
   name: TODO
   version: TODO
@@ -13,10 +15,14 @@ dataset:
 
 protocol:
   contract: configs/protocols/protocol-v1.1.yaml
+  binding_addenda:
+    - configs/protocols/effect-001.yaml
+    - configs/protocols/split-clarification-v1.yaml
   statistical_addendum: configs/protocols/effect-001.yaml
   statistical_addendum_status: FROZEN_HUMAN_APPROVED
   split_addendum: configs/protocols/split-clarification-v1.yaml
   split_addendum_status: FROZEN_HUMAN_APPROVED
+  active_state_registry: configs/active-state.yaml
   empirical_status: NOT_RUN
   execution_ready: false
   split_status: COMPLETE
@@ -25,8 +31,12 @@ parsing:
   parser: drain3
   fit_partition: BASE_TRAIN
   fit_normal_only: true
-  state_artifact: TODO
+  contract: configs/parsing/drain3-v1.yaml
+  state_artifact_registry: configs/active-state.yaml
+  state_artifact_registry_key: datasets.<dataset>.parser
+  status: COMPLETE_FROZEN
 
+# Intentional SEQ-001 placeholders; no sequence artifact exists yet.
 sequence:
   strategy: TODO
   window_size: TODO
@@ -43,12 +53,24 @@ split:
   test: 0.10
   physical_test_guard: data/processed/splits/<dataset>/test-seal.json
   physical_test_state: SEALED_NEVER_OPENED
+  artifact_registry: configs/active-state.yaml
+  artifact_registry_key: datasets.<dataset>.split
+
+pipeline:
+  SPLIT-001: COMPLETE
+  PARSE-001: COMPLETE_FROZEN
+  CANONICAL-EVENT-001: NOT_STARTED
+  next_scientific_task: CANONICAL-EVENT-001
+
+repository_hygiene:
+  license_status: OWNER_DECISION_REQUIRED
 
 methods:
   must: [unseen_event_type, sequence_length, total_event_count, count_vector, isolation_forest, markov_ngram]
   should: []
   conditional: [transformer, localization, simple_fusion]
 
+# Intentional future evaluation placeholders; TEST remains sealed.
 scoring:
   aggregation: TODO
   threshold_strategy: TODO_VALIDATION_ONLY

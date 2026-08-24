@@ -23,8 +23,23 @@ Its required exact-split addendum is:
 
 `PROTOCOL-SPLIT-CLARIFY-001` is `FROZEN_HUMAN_APPROVED`. It binds Protocol v1.1 to exact cumulative-floor allocation, HDFS eligible-line/connected-component purge accounting, BGL split-before-window/per-partition residual behavior, and non-circular layered identities. SPLIT-001 has instantiated this exact contract; real identities are recorded in [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md).
 
+The effective machine-readable stack is:
+
+```text
+configs/protocols/protocol-v1.1.yaml
++ configs/protocols/effect-001.yaml
++ configs/protocols/split-clarification-v1.yaml
+```
+
+Current execution status and portable split/parser pointers are kept separately
+in [`../configs/active-state.yaml`](../configs/active-state.yaml), so frozen
+scientific history is not rewritten when pipeline tasks complete.
+
 Historical protocol v1.0 is preserved at [`research-protocol-v1.0.md`](research-protocol-v1.0.md), with its original machine-readable contract at [`../configs/protocols/protocol-v1.yaml`](../configs/protocols/protocol-v1.yaml).
 
 Protocol v1.1 supersedes v1.0 for future scientific work. It preserves the verified datasets, chronological `60/10/10/10/10` partition contract, normal-only parser fit, label isolation, three-seed policy, PR-AUC primary metric, and human-only final TEST. It changes the primary research question, reduces core scope, adds cheap falsification experiments and negative controls, and makes Transformer, localization, and fusion conditional.
 
 No scientific experiment has run. TEST is now physically sealed for HDFS and BGL, has never been opened, and has no unlock record. Versioned Protocol v1.1 remains preserved; EFFECT-001 and PROTOCOL-SPLIT-CLARIFY-001 are binding addenda rather than silent rewrites of the approved file. Global scientific execution remains separately gated.
+
+PARSE-001 is complete. The next separately authorized scientific task is
+`CANONICAL-EVENT-001`; it may only use frozen no-update parser matching.

@@ -136,9 +136,14 @@ Explicit complete metadata generation for a later approved workflow:
 There is deliberately no split, TEST, parser, template, window, baseline, or
 experiment option in this CLI.
 
-## 7. Next boundary
+## 7. Downstream boundary
 
 SPLIT-001 has consumed this contract to create deterministic raw partition
 artifacts and unopened physical TEST seals. See
 [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md). The next
-separately authorized task is PARSE-001; META-001 itself remains unchanged.
+dependency, PARSE-001, subsequently consumed ordinary `BASE_TRAIN` membership and
+is now complete with frozen parser states. META-001 itself remains unchanged.
+
+After ALIGN-FIX-001, the current next scientific task is
+`CANONICAL-EVENT-001`: read-only canonical event generation using those frozen
+states. It must not refit Drain3 or open TEST.

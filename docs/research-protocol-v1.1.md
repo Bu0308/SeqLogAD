@@ -137,7 +137,7 @@ Every row is `NOT_RUN`.
 
 | ID | Purpose | Required design | Decision use |
 |---|---|---|---|
-| `KT-1` | Trivial-baseline ceiling | Compare unseen-event, length, count/count-vector, optional Isolation Forest, and Markov under the same frozen split | Establish room for sequence claims |
+| `KT-1` | Trivial-baseline ceiling | Compare unseen-event, length, count/count-vector, EFFECT-001-required Isolation Forest, and Markov under the same frozen split | Establish room for sequence claims |
 | `KT-2` | HDFS count-label dependence | Count-vector collision analysis, label purity/conditional entropy or justified equivalent, and out-of-sample order-insensitive prediction | Test whether orderless features largely explain labels |
 | `KT-3` | Sequence destruction | Shuffle/destroy order while preserving each sample's event multiset, count vector, length, label, partition, and ID linkage | Directly test order sensitivity |
 | `KT-4` | Localization randomization | Conditional: randomize target positions and compare with registered localization | Sanity-check localization signal |

@@ -25,7 +25,12 @@ The project is not committed to proving sequence superiority. A null/negative re
 - Parser-independent HDFS block/component and BGL source-chronology metadata
   extraction implemented and tested.
 - Protocol v1.1, EFFECT-001, and PROTOCOL-SPLIT-CLARIFY-001 are frozen. Exact allocation/purge/residual/hash semantics are implemented as deterministic real HDFS/BGL split artifacts; both physical TEST guards are `SEALED / NEVER_OPENED`.
-- No parser run, baseline/model fit, training, tuning, scientific TEST access, or result.
+- PARSE-001 is complete: normal-only `BASE_TRAIN` Drain3 0.9.11 states are frozen, persisted, restored, and verified for immutable matching on HDFS/BGL.
+- No canonical event/sequence corpus, baseline/model fit, training, tuning, scientific TEST access, or scientific result exists.
+- Active execution state and portable split/parser pointers are centralized in `configs/active-state.yaml`.
+
+The next scientific task is `CANONICAL-EVENT-001`. It may only perform read-only
+matching with the frozen parser states; it may not update Drain3 or open TEST.
 
 ## 3. Scope classification
 
@@ -41,11 +46,12 @@ The project is not committed to proving sequence superiority. A null/negative re
 
 ```text
 LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
-→ metadata/group extraction
-→ frozen exact split-semantics addendum
-→ raw chronological split manifest + physical TEST guard
-→ normal BASE_TRAIN Drain3 fit/freeze
-→ canonical events and partition-contained sequences
+→ [COMPLETE] metadata/group extraction
+→ [COMPLETE] frozen exact split-semantics addendum
+→ [COMPLETE] raw chronological split manifest + physical TEST guard
+→ [COMPLETE] normal BASE_TRAIN Drain3 fit/freeze
+→ [NEXT] CANONICAL-EVENT-001
+→ partition-contained sequences
 → KT-1 order-insensitive ceiling
 → KT-2 HDFS count-label dependence
 → Markov/N-gram
@@ -63,6 +69,7 @@ LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 - Split raw atomic units chronologically `60/10/10/10/10` before fitted transforms and windows.
 - Exact boundaries use cumulative floor without labels or ratio repair.
 - HDFS ranks eligible raw lines, preserves connected components, and purges every component occupying multiple nominal partitions.
+- The resulting HDFS purge of 2,541,053 eligible lines (22.737449498368278%) is retained as `METHODOLOGICAL_RISK_TO_BE_ASSESSED`; later suitability/sensitivity work must not assume it is harmless or alter the split after outcomes.
 - BGL splits source ranks first, then builds non-overlapping 100-event parents independently per partition and records every 1–99-line tail as `DROPPED_RESIDUAL_WINDOW`.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
 - Reserved fusion partitions remain reserved unless an approved future amendment says otherwise.

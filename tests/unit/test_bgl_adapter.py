@@ -1,1 +1,1 @@
-"""Placeholder for PARSE-002 BGL adapter tests."""
+"""Placeholder for CANONICAL-EVENT-001 BGL adapter tests."""

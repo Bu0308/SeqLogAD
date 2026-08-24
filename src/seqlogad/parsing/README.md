@@ -20,5 +20,5 @@ Output: ignored reproducible parser-state/provenance directories under
 Dependencies: Drain3 0.9.11, PyYAML, ingestion verification, split/TEST guards,
 checksums, and common schemas.
 
-PARSE-002 remains unimplemented: this module does not yet emit the full
+CANONICAL-EVENT-001 remains unimplemented: this module does not yet emit the full
 partition-scoped canonical `LogEvent` corpus or scientific sequences.

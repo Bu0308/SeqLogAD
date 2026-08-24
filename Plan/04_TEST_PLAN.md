@@ -17,6 +17,7 @@ The current suite must pass for environment/package imports, dataset contracts/a
 | Split | deterministic boundaries, atomic HDFS purge, target/realized ratios, universe reconciliation, payload/partition/assignment/file hash stability | ACTIVE / SPLIT-001 |
 | TEST guard | default denial, hash substitution rejection, no ordinary bypass, explicit human unlock, linked access log | ACTIVE on synthetic fixtures; real TEST remains sealed/unopened |
 | Parser | normal BASE fit only, partition/label-scope rejection, config and pool identity, deterministic fit, freeze/restore, corruption rejection, immutable match, `EVT_UNSEEN`, BGL empty-content policy | ACTIVE / PARSE-001; real fit structurally verified, no event corpus/metric |
+| Active state | binding protocol-stack pointers, required Isolation Forest status, stochastic/deterministic seed separation, portable split/parser references, sealed TEST status, current task pointer, owner-controlled license state | ACTIVE / ALIGN-FIX-001 |
 | Sequence | HDFS grouping, BGL 100-event non-overlap, residual/boundary handling | MUST / PLANNED |
 | Orderless controls | unseen event, length, count-vector, empty/unseen/constant cases | MUST / PLANNED |
 | Isolation Forest | deterministic features, no order features, normal-BASE fit, validation-only selection, required primary eligibility | MUST / PLANNED |

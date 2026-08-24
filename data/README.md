@@ -10,7 +10,7 @@ This directory separates immutable source bytes from every derived artifact. HDF
 | `raw/bgl/` | Local BGL source files | Contents ignored | Present and verified locally |
 | `manifests/` | Versioned JSON identity/integrity records | Tracked | HDFS/BGL verified manifests |
 | `parsed/` | Future canonical events/templates | Generated contents ignored | Not generated |
-| `processed/` | Future sequences/splits/features/evidence | Generated contents ignored | Not generated |
+| `processed/` | Derived splits, frozen parser states, and future sequences/features | Generated contents ignored | Real split/parser artifacts present and verified locally |
 | `knowledge_base/` | Future downstream evidence corpus | Generated contents ignored | Not generated |
 
 ## Raw-data immutability
@@ -18,6 +18,17 @@ This directory separates immutable source bytes from every derived artifact. HDF
 META-001 reserves data/processed/metadata/<dataset>/ for deterministic JSONL
 raw metadata. Generated contents stay ignored; source, contracts, and tests
 remain version-controlled. No full real metadata artifact has been generated.
+
+Current derived artifacts:
+
+- `processed/splits/<dataset>/`: deterministic structural split manifests,
+  partition identities, exclusions, and hash-bound TEST seals. TEST membership is
+  not exposed through this documentation.
+- `processed/parsers/<dataset>/`: frozen Drain3 state, normal-pool summary,
+  template registry, parser manifest, and exact manifest hash.
+
+Both trees are reproducible and ignored by Git. Canonical event and sequence
+artifacts have not been generated.
 
 Accepted raw files are read-only scientific inputs. Parsing must write to `parsed/`; sequence, split, mutation, and feature pipelines must write to `processed/` or experiment-specific outputs. Never normalize, rewrite, rename, or corrupt the accepted raw tree.
 
