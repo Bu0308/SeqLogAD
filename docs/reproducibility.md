@@ -118,6 +118,14 @@ metadata-extraction-contract.md and references/META-001-citations.md.
 
 `PROTOCOL-001` v1.1 freezes the chronological split as `BASE_TRAIN` 60%, reserved `FUSION_TRAIN` 10%, `VAL_EXPERT` 10%, reserved `VAL_FUSION` 10%, and `TEST` 10%. [`split-clarification-contract.md`](split-clarification-contract.md) and [`../configs/protocols/split-clarification-v1.yaml`](../configs/protocols/split-clarification-v1.yaml) bind the exact execution: cumulative-floor boundaries; HDFS eligible-line ranks with whole connected-component purge; BGL raw split before independent non-overlapping 100-line parents and explicit per-partition residuals; no ratio repair. HDFS target ratios use eligible lines before purge, while realized ratios use assigned eligible lines after purge. The real artifacts and identities are recorded in [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md).
 
+[`../configs/protocols/purge-decision-v1.yaml`](../configs/protocols/purge-decision-v1.yaml)
+binds the post-audit Option B disposition. The original HDFS split is the sole
+primary analysis. A secondary whole-component purge sensitivity is
+pre-registered but `NOT_RUN`; it reuses frozen primary artifacts only after the
+primary HDFS result bundle is immutable, cannot select/tune/rewrite the primary
+result, and writes to a separate namespace. Its canonical decision payload is
+SHA-256 `5af8505364c793b2fbd42885ebcdea1eba03b75c808415214af7311aa4ecd177`.
+
 Split scientific identity is `split_payload_hash = SHA256(canonical deterministic split payload)`. The payload excludes timestamps, absolute paths, Git state, assignment IDs, partition hashes, and file hashes. Assignment IDs and partition hashes are derived only after the split payload hash. `manifest_file_hash` separately protects exact persisted bytes and may change with volatile audit metadata without changing the scientific identity. The legacy schema field `split_manifest_sha256` carries `split_payload_hash`. A future TEST seal must bind dataset fingerprint, protocol version, split payload hash, and TEST partition hash.
 
 SCHEMA-COMPAT-001 requires every current split/sequence identity to be created through `build_active_partition_identity(...)`, which pins Protocol `1.1` and derives the frozen target ratio. Explicit historical `1.0` identities remain readable, but a missing, unsupported, or implicitly defaulted protocol version is invalid. KT-3 uses the separate `SequenceDestructionRecord`; it never reuses synthetic-localization mutation semantics.
@@ -127,8 +135,8 @@ Default execution stages:
 1. Use the frozen EFFECT-001 contract with `delta_HDFS = delta_BGL = 0.01 AP`; never alter it after observing outcomes.
 2. Verify the generated raw split identities and physical TEST guards before parser/window generation; regenerate only from accepted raw fingerprints when local derived artifacts are absent.
 3. Verify the accepted PARSE-001 states fitted on normal `BASE_TRAIN`; create canonical events/sequences inside partitions only in separately authorized tasks.
-4. Human runs KT-1/KT-2 order-insensitive suitability analyses.
-5. Human runs Markov/N-gram and KT-3 sequence destruction.
+4. Freeze the order-insensitive baseline family, then freeze Markov/N-gram under the same legal scope and budget.
+5. Human runs KT-1, then KT-2, then KT-3 sequence destruction; TEST remains sealed.
 6. Human records kill/gate decisions before any conditional method.
 7. Freeze selected artifacts/claims; human executes final TEST once.
 

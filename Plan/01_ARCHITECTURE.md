@@ -19,10 +19,10 @@ Drain3 Fit → Freeze → Read-Only Transform             IMPLEMENTED / VERIFIED
         ↓
 HDFS Purge Representativeness Audit                   IMPLEMENTED / CONCERN
         ↓
-Human PURGE-DECISION-001 Gate                         REQUIRED / BLOCKING
+PURGE-DECISION-001 — Option B                        FROZEN / HUMAN APPROVED
         ↓
 Canonical Events / Partition-Contained Sequences      SCHEMAS IMPLEMENTED;
-                                                      ARTIFACTS BLOCKED
+                                                      EVENTS AUTHORIZED NEXT
         ↓
 ┌──────────────── ORDER-INSENSITIVE CONTROLS ────────────────┐
 │ unseen event · length · count/count-vector          MUST  │
@@ -55,7 +55,8 @@ Retrieval/RAG/Agent/API/UI/Elasticsearch              FUTURE
 | Split-semantics addendum | Exact allocation, purge, residual, reconciliation, and identity rules | Frozen/tested; instantiated by SPLIT-001 |
 | Split manifest | Stable partition/purge/hash identity | Implemented/verified before parser fit; derived bulk files ignored by Git |
 | Parser state | Drain3 templates and frozen event mapping | Normal `BASE_TRAIN` only |
-| Purge audit | Aggregate `PURGED` versus `RETAINED` data-validity result | Implemented without partition membership; `PLAN_CONFLICT_DETECTED`; human review required |
+| Purge audit | Aggregate `PURGED` versus `RETAINED` data-validity result | Implemented without partition membership; concern retained; stop gate resolved by PURGE-DECISION-001 |
+| Purge decision | Primary/secondary disposition of the HDFS boundary concern | Option B frozen: primary unchanged; secondary sensitivity pre-registered / `NOT_RUN` |
 | Canonical events | Parsed fields with label isolation | Read-only transform per partition |
 | Event sequences | HDFS blocks/BGL parents | Never cross partition boundary |
 | Destruction manifest | Deterministic order permutation | Preserve multiset/count/length/label; no raw mutation |
@@ -104,10 +105,14 @@ ordinary BASE membership → scoped normal-label selection
 
 public purge exclusions + reconstructed META component universe
 → aggregate PURGED/RETAINED audit → human stop gate
+
+human-approved Option B → frozen primary unchanged
+→ secondary purge sensitivity pre-registered / not run
 ```
 
 Frozen parser states and template registries now exist as ignored reproducible
-derived artifacts. PURGE-AUDIT-001 is complete with
-`PURGE_REPRESENTATIVENESS_CONCERN`; `CANONICAL-EVENT-001` is blocked pending a
-human decision. No canonical event corpus, scientific event sequence, baseline,
-model, TEST unlock, or final TEST path currently executes.
+derived artifacts. PURGE-AUDIT-001 remains a recorded concern;
+PURGE-DECISION-001 keeps the primary split unchanged and authorizes
+`CANONICAL-EVENT-001` next. No canonical event corpus, scientific event
+sequence, baseline, model, sensitivity run, TEST unlock, or final TEST path
+currently executes.

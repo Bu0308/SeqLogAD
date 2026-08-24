@@ -58,10 +58,13 @@ component populations. It found anomaly prevalence 0.0267449543 versus
 0.0300445599, respectively: difference −0.0032996056 with Newcombe-Wilson 95%
 CI [−0.0042920586, −0.0022876514] and prevalence ratio 0.8901762724. Together
 with the 22.7374% raw-line removal and deterministic span-based selection, this
-is recorded as `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`.
-No split repair is authorized; human review is required. See
-[`audits/PURGE-AUDIT-001.md`](audits/PURGE-AUDIT-001.md). No partition-specific
-outcome, TEST membership, parser update, or model metric was produced.
+is recorded as `PURGE_REPRESENTATIVENESS_CONCERN`. PURGE-DECISION-001 selected
+human-approved Option B: this split remains the unchanged primary design, and
+one whole-component secondary purge sensitivity is pre-registered as
+robustness-only/non-selection and remains `NOT_RUN`. See
+[`decisions/PURGE-DECISION-001.md`](decisions/PURGE-DECISION-001.md). No
+partition-specific outcome, TEST membership, parser update, or model metric
+was produced.
 
 ## BGL structural result
 

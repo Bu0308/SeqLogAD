@@ -16,7 +16,14 @@ No empirical row changed during EFFECT-001 approval; every condition below remai
 
 PURGE-AUDIT-001 is a dataset/split validity audit, not a scientific method run.
 It produced no AP/F1/model result and did not access partition-specific
-outcomes. Its human stop-gate state is tracked below.
+outcomes. PURGE-DECISION-001 froze Option B before scientific outcomes; it
+also created no empirical result.
+
+## Pre-registered secondary robustness condition
+
+| ID | Purpose | Role | Execution boundary | Status | Metrics |
+|---|---|---|---|---|---|
+| HDFS-PURGE-SENSITIVITY-001 | Assess whether the qualitative HDFS sequence-order conclusion depends on boundary-purge construction | SECONDARY / ROBUSTNESS_ONLY / NON-SELECTION | Human-only after immutable primary HDFS result; reuse frozen artifacts | PRE_REGISTERED_SECONDARY_NOT_RUN | — |
 
 ## Core order-insensitive and sequential conditions
 
@@ -56,7 +63,7 @@ LSTM, normal-reference Expert D, and F2–F8 are removed from the v1.1 core. His
 | ID | Decision | Status |
 |---|---|---|
 | GATE-DATA | Per-dataset suitability/ceiling interpretation | NOT_RUN |
-| GATE-PURGE | Human disposition of HDFS purge representativeness concern before canonical-event work | HUMAN_DECISION_REQUIRED |
+| GATE-PURGE | Keep frozen primary + pre-register secondary purge sensitivity | FROZEN_HUMAN_APPROVED |
 | GATE-SEQ | Sequence/order-sensitivity claim state | NOT_RUN |
 | GATE-TRANSFORMER | Open/remove Transformer | NOT_RUN |
 | GATE-LOCALIZATION | Open/remove localization | NOT_RUN |

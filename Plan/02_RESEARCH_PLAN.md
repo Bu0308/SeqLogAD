@@ -4,12 +4,13 @@
 
 SeqLogAD first asks whether the verified HDFS/BGL protocol contains sequence information that cannot be explained by unseen event types, length, or counts. It adds model complexity only after cheap falsification.
 
-Execution is currently paused before canonical-event generation. The
-pre-model HDFS purge audit returned `PURGE_REPRESENTATIVENESS_CONCERN` because
-the non-random purge removed 22.7374% of eligible lines and aggregate purged
-component prevalence differs from retained prevalence. This is a
-data-validity result, not an answer to any RQ. `PURGE-DECISION-001` human review
-must resolve the stop gate without silently changing the frozen split.
+The pre-model HDFS purge audit returned `PURGE_REPRESENTATIVENESS_CONCERN`
+because the non-random purge removed 22.7374% of eligible lines and aggregate
+purged-component prevalence differs from retained prevalence. This is a
+data-validity result, not an answer to any RQ. PURGE-DECISION-001 is now
+human-approved: the frozen retained population remains primary and one
+separate non-confirmatory sensitivity cohort is pre-registered / `NOT_RUN`.
+Canonical-event work may proceed without changing split, parser, or TEST.
 
 ## Questions
 

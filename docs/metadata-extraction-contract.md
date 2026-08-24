@@ -144,6 +144,8 @@ artifacts and unopened physical TEST seals. See
 dependency, PARSE-001, subsequently consumed ordinary `BASE_TRAIN` membership and
 is now complete with frozen parser states. META-001 itself remains unchanged.
 
-PURGE-AUDIT-001 subsequently returned `PLAN_CONFLICT_DETECTED`. The current
-next task is human-only `PURGE-DECISION-001`; canonical event generation is
-blocked. META-001, Drain3, split membership, and TEST remain unchanged.
+PURGE-AUDIT-001 subsequently returned a representativeness concern.
+PURGE-DECISION-001 resolved it with human-approved Option B: the primary split
+remains unchanged and a separate purge sensitivity is pre-registered but not
+run. `CANONICAL-EVENT-001` is now authorized next. META-001, Drain3, split
+membership, and TEST remain unchanged.

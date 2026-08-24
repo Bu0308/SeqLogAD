@@ -30,6 +30,7 @@ def test_active_protocol_stack_is_explicit_and_resolvable() -> None:
     expected = [
         "configs/protocols/effect-001.yaml",
         "configs/protocols/split-clarification-v1.yaml",
+        "configs/protocols/purge-decision-v1.yaml",
     ]
     assert [item["path"] for item in protocol["binding_addenda"]] == expected
     assert default["protocol"]["binding_addenda"] == expected
@@ -74,13 +75,13 @@ def test_active_status_next_task_test_state_and_license_are_exact() -> None:
         "SPLIT-001": "COMPLETE",
         "PARSE-001": "COMPLETE_FROZEN",
         "PURGE-AUDIT-001": "COMPLETE",
-        "PURGE-DECISION-001": "HUMAN_DECISION_REQUIRED",
-        "CANONICAL-EVENT-001": "NOT_STARTED",
+        "PURGE-DECISION-001": "FROZEN_HUMAN_APPROVED",
+        "CANONICAL-EVENT-001": "AUTHORIZED_NEXT_TASK",
         "SEQ-001": "NOT_STARTED",
         "scientific_experiments": "NOT_RUN",
     }
-    assert state["next_scientific_task"] == "PURGE-DECISION-001"
-    assert default["pipeline"]["next_scientific_task"] == "PURGE-DECISION-001"
+    assert state["next_scientific_task"] == "CANONICAL-EVENT-001"
+    assert default["pipeline"]["next_scientific_task"] == "CANONICAL-EVENT-001"
     assert state["repository_hygiene"]["license_status"] == (
         "OWNER_DECISION_REQUIRED"
     )
@@ -95,14 +96,25 @@ def test_active_status_next_task_test_state_and_license_are_exact() -> None:
         assert split["unlock_records"] == 0
 
 
-def test_purge_audit_status_is_bound_without_authorizing_split_change() -> None:
+def test_purge_decision_resolves_gate_without_authorizing_split_change() -> None:
     active = _load_yaml("configs/active-state.yaml")
     risk = active["methodological_risks"]["hdfs_boundary_purge"]
     assert risk["status"] == "PURGE_REPRESENTATIVENESS_CONCERN"
-    assert risk["interpretation"] == "PLAN_CONFLICT_DETECTED_HUMAN_REVIEW_REQUIRED"
+    assert risk["interpretation"] == (
+        "RESOLVED_BY_OPTION_B_PRIMARY_UNCHANGED_SECONDARY_PREREGISTERED"
+    )
     assert risk["may_change_split"] is False
     assert risk["partition_specific_outcomes_emitted"] is False
     assert risk["test_membership_opened"] is False
+    assert risk["human_disposition"] == (
+        "KEEP_FROZEN_PRIMARY_AND_PREREGISTER_SECONDARY_PURGE_SENSITIVITY"
+    )
+    assert risk["primary_split_status"] == "FROZEN_UNCHANGED"
+    assert risk["sensitivity_status"] == "PRE_REGISTERED_SECONDARY_NOT_RUN"
+    assert risk["canonical_event_authorized"] is True
+    assert risk["decision_payload_sha256"] == (
+        "5af8505364c793b2fbd42885ebcdea1eba03b75c808415214af7311aa4ecd177"
+    )
     assert risk["audit_payload_sha256"] == (
         "274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb"
     )

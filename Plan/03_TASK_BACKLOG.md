@@ -1,6 +1,6 @@
 # 03 — Task Backlog v1.1
 
-Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTURE`, `SUPERSEDED`. Owners: `AI`, `HUMAN`, `AI_PREP/HUMAN_EXECUTE`.
+Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `FROZEN_HUMAN_APPROVED`, `AUTHORIZED_NEXT_TASK`, `BLOCKED`, `DONE`, `CONDITIONAL`, `FUTURE`, `SUPERSEDED`. Owners: `AI`, `HUMAN`, `AI_PREP/HUMAN_EXECUTE`.
 
 ## Governance and verified foundation
 
@@ -18,7 +18,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | PROTOCOL-SPLIT-CLARIFY-001 | MUST | AI_PREP/HUMAN_EXECUTE | LIT-001, EFFECT-001, SCHEMA-COMPAT-001, META-001 | DONE | Exact HDFS/BGL allocation, cumulative-floor, purge, residual, reconciliation and non-circular identity semantics are human-frozen, source-classified, and contract-tested |
 | ALIGN-FIX-001 | MUST | AI | PROJECT-ALIGNMENT-AUDIT-001, PARSE-001 | DONE | Active post-PARSE docs/config/status, protocol-stack pointers, seed policy, artifact identities, TEST state, HDFS purge risk, and owner-controlled license status are synchronized without scientific execution |
 | PURGE-AUDIT-001 | MUST | AI | SPLIT-001, PARSE-001 | DONE | Aggregate HDFS PURGED-vs-RETAINED component mapping, prevalence contrast, Newcombe-Wilson 95% CI, structural diagnostics, leakage boundary, citations, and deterministic payload are verified without partition outcome access |
-| PURGE-DECISION-001 | MUST | HUMAN | PURGE-AUDIT-001 | HUMAN_DECISION_REQUIRED | Human reviews `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED` and records whether/how the frozen HDFS limitation permits the pipeline to continue; no automatic split repair |
+| PURGE-DECISION-001 | MUST | HUMAN | PURGE-AUDIT-001 | FROZEN_HUMAN_APPROVED | Option B is frozen before scientific outcomes: primary split/parser/TEST/EFFECT identities unchanged; secondary whole-component purge sensitivity is pre-registered, non-selection, and `NOT_RUN`; canonical events are authorized next |
 
 ## Raw partition, parser, and sequences
 
@@ -28,7 +28,7 @@ Statuses: `NOT_STARTED`, `IN_PROGRESS`, `HUMAN_DECISION_REQUIRED`, `BLOCKED`, `D
 | SPLIT-001 | MUST | AI | META-001, PROTOCOL-SPLIT-CLARIFY-001 | DONE | Exact real five-way manifests reproduce; HDFS accounting and BGL residual reconciliation pass; partition hashes bind active physical TEST seals; routine TEST access fails closed; TEST remains never opened |
 | TESTLOCK-001 | MUST | AI_PREP/HUMAN_EXECUTE | SPLIT-001 | SUPERSEDED | Scope absorbed into SPLIT-001 because real TEST assignment must be sealed immediately rather than left between tasks; future human unlock remains FINAL-TEST-only |
 | PARSE-001 | MUST | AI | SPLIT-001 | DONE | Scoped normal `BASE_TRAIN` pools have deterministic identities; HDFS/BGL Drain3 0.9.11 states fit once, persist, restore, validate, use immutable `match` transforms with `EVT_UNSEEN`, and leave TEST sealed |
-| CANONICAL-EVENT-001 | MUST | AI | PARSE-001, ALIGN-FIX-001, PURGE-DECISION-001 | BLOCKED | Frozen HDFS/BGL parsers emit partition-scoped canonical events with strict no-update semantics, stable identities, label isolation, and no TEST access |
+| CANONICAL-EVENT-001 | MUST | AI | PARSE-001, ALIGN-FIX-001, PURGE-DECISION-001 | AUTHORIZED_NEXT_TASK | Frozen HDFS/BGL parsers emit partition-scoped canonical events with strict no-update semantics, stable identities, label isolation, and no TEST access |
 | SEQ-001 | MUST | AI | CANONICAL-EVENT-001 | NOT_STARTED | HDFS block sequences and BGL 100-event parents are deterministic and partition-contained |
 | LEAK-001 | MUST | AI | SEQ-001 | NOT_STARTED | Group/time/duplicate/window/parser/normalization/label/TEST leakage audit passes |
 

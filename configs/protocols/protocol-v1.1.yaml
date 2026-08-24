@@ -24,12 +24,17 @@ binding_addenda:
     path: configs/protocols/split-clarification-v1.yaml
     status: FROZEN_HUMAN_APPROVED
     precedence: BINDS_EXACT_SPLIT_SEMANTICS
+  - id: PURGE-DECISION-001
+    path: configs/protocols/purge-decision-v1.yaml
+    status: FROZEN_HUMAN_APPROVED
+    precedence: BINDS_HDFS_PRIMARY_AND_SECONDARY_PURGE_SENSITIVITY
 
 active_resolution:
   execution_state: configs/active-state.yaml
   strongest_orderless_candidate_family: configs/protocols/effect-001.yaml
   practical_effect_and_bootstrap: configs/protocols/effect-001.yaml
   exact_split_semantics: configs/protocols/split-clarification-v1.yaml
+  hdfs_purge_decision: configs/protocols/purge-decision-v1.yaml
   base_method_inventory_is_pre_addendum_snapshot: true
 
 framing:

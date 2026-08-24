@@ -26,10 +26,11 @@ SeqLogAD is a research prototype for sequence-aware log anomaly analysis. It is 
 - Option C is conditional: evaluate localization faithfulness only after sequence and sanity gates.
 - Option A is fallback: dataset expansion requires evidence and a protocol amendment.
 
-Current execution is paused at `PURGE-DECISION-001`. The completed aggregate
-HDFS purge audit returned `PURGE_REPRESENTATIVENESS_CONCERN` and
-`PLAN_CONFLICT_DETECTED`; this neither changes the approved direction nor
-authorizes split repair. Human review is required before canonical events.
+`PURGE-DECISION-001` is now `FROZEN_HUMAN_APPROVED`. Option B preserves the
+original retained-component HDFS split as the only primary analysis and
+pre-registers one separate robustness-only purge sensitivity that is
+`NOT_RUN`. It neither repairs the split nor changes parser/TEST identities.
+`CANONICAL-EVENT-001` is the authorized next task.
 
 ## 4. Primary users
 
@@ -45,6 +46,7 @@ authorizes split repair. Human review is required before canonical events.
 - Complete targeted `LIT-001`; freeze EFFECT-001 methods and obtain human approval for both dataset-specific margins before runs.
 - Create raw chronological `60/10/10/10/10` split manifest and physical TEST guard.
 - Preserve HDFS block/session atomicity and BGL non-overlapping 100-event parents.
+- Preserve the original HDFS primary population; report the purge limitation and execute the pre-registered secondary purge sensitivity only under its later human-owned non-selection contract.
 - Fit Drain3 on normal `BASE_TRAIN` only, freeze it, and transform later partitions read-only.
 - Generate deterministic canonical events and partition-contained sequences.
 - Implement unseen-event, sequence-length, total-count, and count-vector controls.

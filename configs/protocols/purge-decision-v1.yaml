@@ -1,0 +1,103 @@
+# Machine-readable PURGE-DECISION-001 addendum to Protocol v1.1.
+# This contract records a pre-result methodological decision. It does not
+# authorize a scientific run, open TEST, or modify any split/parser artifact.
+purge_decision:
+  identity_payload:
+    decision_id: PURGE-DECISION-001
+    decision_version: "1.0"
+    decision_status: FROZEN_HUMAN_APPROVED
+    approved_on: "2026-08-24"
+    approval_source: HUMAN_RESEARCHER
+    approval_timing: PRE_SCIENTIFIC_EXPERIMENT
+    result_informed: false
+    scientific_results_status: NOT_RUN
+    parent_protocol:
+      id: PROTOCOL-001
+      version: "1.1"
+    evidence_identity:
+      dataset: hdfs
+      dataset_fingerprint: 0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013
+      purge_audit_payload_sha256: 274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb
+      split_payload_hash: 21ec061a7717cd03e7648e3d89200d486bce81eb7dd1bf4114272dd90fc4295c
+      test_partition_hash: fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d
+      parser_state_sha256: 7d9bd8041d00ee3a1ce6c32d8e19efd8764108d8695f559ec91b4381ecda8d91
+    selected_option:
+      id: OPTION_B
+      name: KEEP_FROZEN_PRIMARY_AND_PREREGISTER_SECONDARY_PURGE_SENSITIVITY
+      rationale: preserve_the_pre_result_primary_protocol_while_quantifying_boundary_purge_robustness_without_selection_or_tuning
+    primary_hdfs_protocol:
+      status: FROZEN_UNCHANGED
+      evaluation_population: retained_components_from_SPLIT_001
+      split_regeneration_allowed: false
+      test_identity_change_allowed: false
+      parser_refit_allowed: false
+      effect_001_change_allowed: false
+      delta_ap: 0.01
+      primary_metric: average_precision
+      confirmatory_claim_source: ORIGINAL_FROZEN_HDFS_SPLIT_ONLY
+    secondary_purge_sensitivity:
+      id: HDFS-PURGE-SENSITIVITY-001
+      status: PRE_REGISTERED_SECONDARY_NOT_RUN
+      role: ROBUSTNESS_ONLY
+      confirmatory: false
+      selection_allowed: false
+      tuning_allowed: false
+      purpose: assess_whether_the_qualitative_sequence_order_conclusion_is_robust_to_the_HDFS_boundary_purge_construction
+      population:
+        identity_source: SPLIT_001_PUBLIC_PURGED_BOUNDARY_EXCLUSIONS
+        membership_rule: all_and_only_whole_META_001_components_marked_PURGED_BOUNDARY
+        component_count: 133184
+        eligible_raw_line_count: 2541053
+        membership_fixed_without_anomaly_labels: true
+      construction:
+        mutate_raw_data: false
+        alter_primary_membership: false
+        alter_test_membership: false
+        component_session_integrity: PRESERVE_WHOLE_COMPONENT
+        within_component_order: ORIGINAL_SOURCE_LINE_CHRONOLOGY
+        parser_policy: REUSE_FROZEN_HDFS_DRAIN3_READ_ONLY
+        parser_unknown_policy: EVT_UNSEEN
+        separate_parser_allowed: false
+      execution:
+        owner: HUMAN_RESEARCHER
+        status: NOT_RUN
+        earliest_execution: AFTER_PRIMARY_HDFS_FINAL_RESULT_BUNDLE_IS_IMMUTABLY_FROZEN
+        dedicated_pre_execution_authorization_required: true
+        use_for_model_or_threshold_selection: false
+        use_for_transformer_or_fusion_gate: false
+        use_to_rewrite_primary_result: false
+        scientific_test_membership_access_allowed: false
+        labels_as_model_input_or_fit_target: false
+      estimand_and_inference:
+        reuse_primary_estimand: delta_average_precision
+        reuse_primary_comparators_and_frozen_artifacts: true
+        reuse_effect_001_paired_cluster_bootstrap: true
+        reuse_effect_001_margin_as_secondary_interpretive_framework: 0.01
+        changes_effect_001: false
+      interpretation:
+        robust: primary_and_sensitivity_have_the_same_non_inconclusive_EFFECT_001_decision_region
+        sensitive: primary_and_sensitivity_have_incompatible_non_inconclusive_EFFECT_001_decision_regions
+        sensitive_report_label: HDFS_RESULT_SENSITIVE_TO_SPLIT_CONSTRUCTION
+        limitation_required: sensitivity_is_inconclusive_unclassifiable_or_disagrees_with_primary
+        primary_result_remains_controlling: true
+      artifact_policy:
+        namespace: "outputs/runs/<experiment_id>/sensitivity/hdfs_purged_boundary"
+        separate_from_primary_outputs: true
+        artifacts_created_by_this_task: false
+    test_integrity:
+      status: SEALED
+      never_opened: true
+      open_count: 0
+      unlock_records: 0
+    parser_integrity:
+      status: FROZEN_UNCHANGED
+      implementation: Drain3
+      version: 0.9.11
+    next_authorized_task: CANONICAL-EVENT-001
+  decision_identity:
+    algorithm: SHA256
+    canonicalization: UTF8_CANONICAL_JSON_SORTED_KEYS_COMPACT_NO_NAN
+    hash_scope: purge_decision.identity_payload
+    payload_sha256: 5af8505364c793b2fbd42885ebcdea1eba03b75c808415214af7311aa4ecd177
+  human_readable_record: docs/decisions/PURGE-DECISION-001.md
+  citation_note: docs/references/PURGE-DECISION-001-citations.md

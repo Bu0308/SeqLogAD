@@ -1,13 +1,13 @@
-# Non-scientific execution-state registry synchronized by PURGE-AUDIT-001.
+# Non-scientific execution-state registry synchronized by PURGE-DECISION-001.
 # Scientific rules remain owned by Protocol v1.1 and its binding addenda.
 active_state:
-  id: ACTIVE-STATE-POST-PURGE-AUDIT-001
+  id: ACTIVE-STATE-POST-PURGE-DECISION-001
   version: "1.1"
   status: SYNCHRONIZED
-  synchronized_by: PURGE-AUDIT-001
+  synchronized_by: PURGE-DECISION-001
   scientific_results_status: NOT_RUN
   canonical_event_corpus: NOT_CREATED
-  next_scientific_task: PURGE-DECISION-001
+  next_scientific_task: CANONICAL-EVENT-001
   historical_task_aliases:
     PARSE-002: CANONICAL-EVENT-001
   protocol_stack:
@@ -15,12 +15,13 @@ active_state:
     binding_addenda:
       - configs/protocols/effect-001.yaml
       - configs/protocols/split-clarification-v1.yaml
+      - configs/protocols/purge-decision-v1.yaml
   pipeline:
     SPLIT-001: COMPLETE
     PARSE-001: COMPLETE_FROZEN
     PURGE-AUDIT-001: COMPLETE
-    PURGE-DECISION-001: HUMAN_DECISION_REQUIRED
-    CANONICAL-EVENT-001: NOT_STARTED
+    PURGE-DECISION-001: FROZEN_HUMAN_APPROVED
+    CANONICAL-EVENT-001: AUTHORIZED_NEXT_TASK
     SEQ-001: NOT_STARTED
     scientific_experiments: NOT_RUN
   repository_hygiene:
@@ -75,9 +76,15 @@ methodological_risks:
     purge_ratio: 0.22737449498368278
     audit_artifact: docs/audits/PURGE-AUDIT-001.json
     audit_payload_sha256: 274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb
-    interpretation: PLAN_CONFLICT_DETECTED_HUMAN_REVIEW_REQUIRED
+    interpretation: RESOLVED_BY_OPTION_B_PRIMARY_UNCHANGED_SECONDARY_PREREGISTERED
     may_change_split: false
     anomaly_labels_inspected_for_risk_assessment: true
     label_use_scope: AGGREGATE_PURGED_VS_RETAINED_AUDIT_ONLY
     partition_specific_outcomes_emitted: false
     test_membership_opened: false
+    human_disposition: KEEP_FROZEN_PRIMARY_AND_PREREGISTER_SECONDARY_PURGE_SENSITIVITY
+    decision_contract: configs/protocols/purge-decision-v1.yaml
+    decision_payload_sha256: 5af8505364c793b2fbd42885ebcdea1eba03b75c808415214af7311aa4ecd177
+    primary_split_status: FROZEN_UNCHANGED
+    sensitivity_status: PRE_REGISTERED_SECONDARY_NOT_RUN
+    canonical_event_authorized: true

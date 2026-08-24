@@ -18,13 +18,17 @@ protocol:
   binding_addenda:
     - configs/protocols/effect-001.yaml
     - configs/protocols/split-clarification-v1.yaml
+    - configs/protocols/purge-decision-v1.yaml
   statistical_addendum: configs/protocols/effect-001.yaml
   statistical_addendum_status: FROZEN_HUMAN_APPROVED
   split_addendum: configs/protocols/split-clarification-v1.yaml
   split_addendum_status: FROZEN_HUMAN_APPROVED
+  purge_decision_addendum: configs/protocols/purge-decision-v1.yaml
+  purge_decision_status: FROZEN_HUMAN_APPROVED
   active_state_registry: configs/active-state.yaml
   empirical_status: NOT_RUN
   execution_ready: false
+  canonical_event_task_authorized: true
   split_status: COMPLETE
 
 parsing:
@@ -60,9 +64,11 @@ pipeline:
   SPLIT-001: COMPLETE
   PARSE-001: COMPLETE_FROZEN
   PURGE-AUDIT-001: COMPLETE
-  PURGE-DECISION-001: HUMAN_DECISION_REQUIRED
-  CANONICAL-EVENT-001: NOT_STARTED
-  next_scientific_task: PURGE-DECISION-001
+  PURGE-DECISION-001: FROZEN_HUMAN_APPROVED
+  CANONICAL-EVENT-001: AUTHORIZED_NEXT_TASK
+  HDFS_PRIMARY_SPLIT: FROZEN_UNCHANGED
+  HDFS_PURGE_SENSITIVITY: PRE_REGISTERED_SECONDARY_NOT_RUN
+  next_scientific_task: CANONICAL-EVENT-001
 
 repository_hygiene:
   license_status: OWNER_DECISION_REQUIRED

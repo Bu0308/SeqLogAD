@@ -7,6 +7,7 @@
 - [Scientific protocol v1.1](../docs/research-protocol-v1.1.md)
 - [Exact split-semantics addendum](../docs/split-clarification-contract.md)
 - [EFFECT-001 statistical decision contract](../docs/statistical-decision-contract.md)
+- [PURGE-DECISION-001 frozen decision](../docs/decisions/PURGE-DECISION-001.md)
 - [Active post-PARSE execution state](../configs/active-state.yaml)
 - [Post-PARSE canonical context](../docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md)
 
@@ -32,6 +33,7 @@ Implemented/verified:
 - physical HDFS/BGL TEST seals, both `SEALED / NEVER_OPENED`;
 - PARSE-001 normal-only `BASE_TRAIN` Drain3 fit/freeze, persistence, restore, and immutable matching;
 - PURGE-AUDIT-001 aggregate HDFS representativeness audit with deterministic payload and TEST-safe label boundary; result `PURGE_REPRESENTATIVENESS_CONCERN`;
+- PURGE-DECISION-001 human-approved Option B: primary HDFS split unchanged and secondary purge sensitivity pre-registered / `NOT_RUN`;
 - EFFECT-001 frozen and human-approved with `delta_HDFS = delta_BGL = 0.01 AP`; empirical status remains `NOT_RUN`.
 
 Not implemented/run:
@@ -40,11 +42,9 @@ Not implemented/run:
 - real sequences and sequence-destruction artifacts;
 - baselines, models, training, tuning, killer experiments, or final TEST.
 
-Current next task:
-
-`PURGE-DECISION-001` — human review of `PLAN_CONFLICT_DETECTED`. Canonical-event
-work is blocked until the human records how the HDFS purge concern affects the
-frozen plan; no automatic split repair is authorized.
+Current next task: `CANONICAL-EVENT-001`. The purge concern is retained as a
+limitation, but the human-approved decision closes the stop gate without split
+repair, parser refit, scientific execution, or TEST access.
 
 ## Active critical path
 
@@ -54,11 +54,15 @@ frozen plan; no automatic split repair is authorized.
 → [COMPLETE] chronological split + physical TEST guard
 → [COMPLETE] normal BASE_TRAIN Drain3 fit/freeze
 → [COMPLETE] PURGE-AUDIT-001
-→ [NEXT / HUMAN] PURGE-DECISION-001
-→ [BLOCKED] CANONICAL-EVENT-001
+→ [COMPLETE / HUMAN APPROVED] PURGE-DECISION-001
+→ [AUTHORIZED NEXT] CANONICAL-EVENT-001
 → partition-contained sequences
-→ KT-1 + KT-2
-→ Markov/N-gram + KT-3
+→ post-sequence leakage/integrity audit
+→ order-insensitive baselines
+→ Markov/N-gram
+→ KT-1
+→ KT-2
+→ KT-3
 → human gate decision
 → conditional branch only if justified
 → one human final TEST

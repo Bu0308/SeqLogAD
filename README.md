@@ -130,16 +130,18 @@ The statistical method family and practical margins are frozen before experiment
 | Exact split-semantics addendum | **Frozen and contract-tested** |
 | Raw split manifests and physical TEST guards | **Implemented and verified; TEST `SEALED / NEVER_OPENED`; open count `0`** |
 | Drain3 normal-only fit/freeze, persistence, restore, and unknown policy | **Implemented and verified; no canonical event corpus generated** |
-| HDFS purge representativeness audit | **Completed; `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`; human review required** |
+| HDFS purge representativeness audit | **Completed; `PURGE_REPRESENTATIVENESS_CONCERN` retained as a limitation** |
+| HDFS purge methodological decision | **Option B frozen and human-approved; primary unchanged; secondary sensitivity pre-registered / `NOT_RUN`** |
 | Canonical parsed event corpus | **Not generated** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
 | RAG/Agent/API/UI | **Future placeholders only** |
 
-The next task is the human-only `PURGE-DECISION-001`. The aggregate HDFS purge
-audit must be reviewed before scientific execution resumes. Consequently,
-`CANONICAL-EVENT-001` remains **not started and blocked**, and no split repair
-is authorized.
+`PURGE-DECISION-001` is **FROZEN — HUMAN APPROVED**. The original HDFS split
+remains primary, while a separate non-confirmatory purge-sensitivity analysis
+is pre-registered and `NOT_RUN`. `CANONICAL-EVENT-001` is now the one
+authorized next task; no split repair, parser refit, scientific experiment, or
+TEST access is authorized by this decision.
 
 ## Dataset provenance
 
@@ -161,8 +163,10 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
   prevalence 2.6745% in purged versus 3.0045% in retained components
   (difference −0.32996 percentage points; Newcombe-Wilson 95% CI −0.42921 to
   −0.22877; prevalence ratio 0.8902). This is
-  `PURGE_REPRESENTATIVENESS_CONCERN`, not a causal or model-performance result;
-  human review is required and no split repair is permitted.
+  `PURGE_REPRESENTATIVENESS_CONCERN`, not a causal or model-performance result.
+  Option B keeps the frozen primary split and pre-registers a separate
+  robustness-only sensitivity cohort from whole `PURGED_BOUNDARY` components;
+  it cannot tune/select methods or replace the primary result.
 - BGL uses non-overlapping 100-event parent windows created after partitioning.
 - Labels may filter authorized normal pools and support validation/evaluation, but never enter model inputs or base loss.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
