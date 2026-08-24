@@ -18,6 +18,7 @@ The current suite must pass for environment/package imports, dataset contracts/a
 | TEST guard | default denial, hash substitution rejection, no ordinary bypass, explicit human unlock, linked access log | ACTIVE on synthetic fixtures; real TEST remains sealed/unopened |
 | Parser | normal BASE fit only, partition/label-scope rejection, config and pool identity, deterministic fit, freeze/restore, corruption rejection, immutable match, `EVT_UNSEEN`, BGL empty-content policy | ACTIVE / PARSE-001; real fit structurally verified, no event corpus/metric |
 | Active state | binding protocol-stack pointers, required Isolation Forest status, stochastic/deterministic seed separation, portable split/parser references, sealed TEST status, current task pointer, owner-controlled license state | ACTIVE / ALIGN-FIX-001 |
+| Purge representativeness | frozen identity rejection, deterministic PURGED/RETAINED complement, label normalization/coverage/conflict hard-stop, component-level CI, ratio-zero handling, payload hash, no split/parser/model/TEST dependency | ACTIVE / PURGE-AUDIT-001; human decision pending |
 | Sequence | HDFS grouping, BGL 100-event non-overlap, residual/boundary handling | MUST / PLANNED |
 | Orderless controls | unseen event, length, count-vector, empty/unseen/constant cases | MUST / PLANNED |
 | Isolation Forest | deterministic features, no order features, normal-BASE fit, validation-only selection, required primary eligibility | MUST / PLANNED |
@@ -41,6 +42,7 @@ The current suite must pass for environment/package imports, dataset contracts/a
 8. Reserved fusion partitions are not silently repurposed.
 9. HDFS labels and BGL inline labels cannot alter raw assignment identity.
 10. Assignment/partition derived IDs cannot enter the payload that defines their parent split hash.
+11. `purge_representativeness` fixes structural populations before label access; labels cannot flow into split, parser, event/sequence generation, models, KT construction, or TEST membership.
 
 ## Negative-control assertions
 

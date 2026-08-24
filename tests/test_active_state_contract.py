@@ -73,12 +73,14 @@ def test_active_status_next_task_test_state_and_license_are_exact() -> None:
     assert state["pipeline"] == {
         "SPLIT-001": "COMPLETE",
         "PARSE-001": "COMPLETE_FROZEN",
+        "PURGE-AUDIT-001": "COMPLETE",
+        "PURGE-DECISION-001": "HUMAN_DECISION_REQUIRED",
         "CANONICAL-EVENT-001": "NOT_STARTED",
         "SEQ-001": "NOT_STARTED",
         "scientific_experiments": "NOT_RUN",
     }
-    assert state["next_scientific_task"] == "CANONICAL-EVENT-001"
-    assert default["pipeline"]["next_scientific_task"] == "CANONICAL-EVENT-001"
+    assert state["next_scientific_task"] == "PURGE-DECISION-001"
+    assert default["pipeline"]["next_scientific_task"] == "PURGE-DECISION-001"
     assert state["repository_hygiene"]["license_status"] == (
         "OWNER_DECISION_REQUIRED"
     )
@@ -91,6 +93,23 @@ def test_active_status_next_task_test_state_and_license_are_exact() -> None:
         assert split["never_opened"] is True
         assert split["open_count"] == 0
         assert split["unlock_records"] == 0
+
+
+def test_purge_audit_status_is_bound_without_authorizing_split_change() -> None:
+    active = _load_yaml("configs/active-state.yaml")
+    risk = active["methodological_risks"]["hdfs_boundary_purge"]
+    assert risk["status"] == "PURGE_REPRESENTATIVENESS_CONCERN"
+    assert risk["interpretation"] == "PLAN_CONFLICT_DETECTED_HUMAN_REVIEW_REQUIRED"
+    assert risk["may_change_split"] is False
+    assert risk["partition_specific_outcomes_emitted"] is False
+    assert risk["test_membership_opened"] is False
+    assert risk["audit_payload_sha256"] == (
+        "274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb"
+    )
+    artifact_path = PROJECT_ROOT / risk["audit_artifact"]
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    assert artifact["audit_payload_sha256"] == risk["audit_payload_sha256"]
+    assert artifact["scientific_payload"]["final_classification"] == risk["status"]
 
 
 def test_split_snapshot_is_explicitly_historical_after_parse_completion() -> None:
@@ -182,4 +201,3 @@ def test_active_configs_have_no_private_paths_or_stale_execution_todos() -> None
         "Isolation Forest | SHOULD",
     ):
         assert stale not in active_text
-

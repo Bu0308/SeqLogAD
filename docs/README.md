@@ -2,7 +2,9 @@
 
 Active scientific documentation:
 
-- [`../configs/active-state.yaml`](../configs/active-state.yaml): synchronized post-PARSE execution status plus portable split/parser identities; not a scientific decision source.
+- [`../configs/active-state.yaml`](../configs/active-state.yaml): synchronized post-PURGE-AUDIT execution status plus portable split/parser identities; not a scientific decision source.
+- [`audits/PURGE-AUDIT-001.md`](audits/PURGE-AUDIT-001.md): aggregate HDFS purged-versus-retained result, human stop gate, TEST boundary, and deterministic payload identity.
+- [`references/PURGE-AUDIT-001-citations.md`](references/PURGE-AUDIT-001-citations.md): verified recent/foundational evidence and exact method classification for the purge audit.
 - [`audits/PROJECT-CONTEXT-POST-PARSE-001.md`](audits/PROJECT-CONTEXT-POST-PARSE-001.md): canonical post-PARSE-001 scientific handoff, frozen identities, scope, claim boundaries, and next dependency-correct task.
 - [`audits/ORIGINAL-EVALUATION-REMEDIATION.md`](audits/ORIGINAL-EVALUATION-REMEDIATION.md): finding-by-finding comparison between the original redirect evaluation and the verified current repository state.
 - [metadata-extraction-contract.md](metadata-extraction-contract.md): implemented

@@ -87,6 +87,7 @@ Rules:
 4. Reserved fusion partitions are not silently merged into other partitions after results are observed.
 5. Target and realized ratios, purge records, file hashes, and deterministic partition IDs must be written to a future split manifest.
 6. SPLIT-001 has created deterministic partition artifacts and hash-bound physical TEST guards. Both TEST partitions remain **SEALED / NEVER_OPENED**, with open count and unlock-record count equal to zero.
+7. `PURGE-AUDIT-001` is a post-split data-validity audit only. It fixes aggregate `PURGED`/`RETAINED` component identities before label lookup, emits no partition-specific outcome statistic, and cannot change membership. Its result is `PURGE_REPRESENTATIVENESS_CONCERN`; `PLAN_CONFLICT_DETECTED` requires human review before canonical-event work resumes.
 
 ## 5. Label and supervision contract
 

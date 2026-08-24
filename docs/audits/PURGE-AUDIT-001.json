@@ -1,0 +1,330 @@
+{
+  "artifact_schema_version": "1.0",
+  "artifact_type": "PURGE_REPRESENTATIVENESS_AUDIT",
+  "audit_payload_sha256": "274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb",
+  "generation": {
+    "generated_at_utc": "2026-08-24T06:57:18Z",
+    "git": {
+      "dirty": true,
+      "revision": "9965c3275662ce627bff63e7830d2a4afb7952b2"
+    },
+    "volatile_fields_excluded_from_scientific_identity": [
+      "generation"
+    ]
+  },
+  "scientific_payload": {
+    "acceptance_threshold_available": false,
+    "active_protocol_stack": [
+      "PROTOCOL-001-v1.1",
+      "EFFECT-001",
+      "PROTOCOL-SPLIT-CLARIFY-001-v1.0"
+    ],
+    "audit_id": "PURGE-AUDIT-001",
+    "audit_version": "1.0",
+    "evidence_classification": [
+      {
+        "claim": "connected component/session is the primary inferential unit",
+        "classification": "LITERATURE_INFORMED_SEQLOGAD_DECISION"
+      },
+      {
+        "claim": "Newcombe hybrid Wilson interval is used instead of naive Wald",
+        "classification": "LITERATURE_SUPPORTED"
+      },
+      {
+        "claim": "PURGED and RETAINED follow the frozen structural split",
+        "classification": "SEQLOGAD_PROTOCOL_DECISION"
+      },
+      {
+        "claim": "RETAINED is reconstructed as a complement without membership files",
+        "classification": "ENGINEERING_DECISION"
+      }
+    ],
+    "final_classification": "PURGE_REPRESENTATIVENESS_CONCERN",
+    "frozen_identity": {
+      "dataset_fingerprint": "0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013",
+      "exclusions_file": "exclusions.jsonl",
+      "exclusions_sha256": "c5dbebd65f94e3d0cafa45a1bf2458324c4854eed8747409567e52bec9eaffd4",
+      "partition_hashes": {
+        "BASE_TRAIN": "dbdb671e41f5d03377cd2a0b726f7a199af2a7c0dbf48c1c98320a93e41fd77b",
+        "FUSION_TRAIN": "fda089c568ac4673d97eb65228a09132f05d0bc41502939b2b40a958986d5e02",
+        "TEST": "fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d",
+        "VAL_EXPERT": "d0c151c945710f331145c342791052cc8022ff7d1fa48297e8e004a7ca4bbbc7",
+        "VAL_FUSION": "d908ba8191bdcdeeeb3e8215fb4eaa05734ce68c1c921b22028393020b786c31"
+      },
+      "split_manifest_file_sha256": "bcd394c9736dfb147b6dba28a8c5c56a3c77e654ab3b602d80fc47b31537be83",
+      "split_payload_hash": "21ec061a7717cd03e7648e3d89200d486bce81eb7dd1bf4114272dd90fc4295c",
+      "test_never_opened": true,
+      "test_open_count": 0,
+      "test_status": "SEALED",
+      "test_unlock_records": 0
+    },
+    "implementation_provenance": {
+      "audit_module": "src/seqlogad/evaluation/purge_audit.py",
+      "audit_module_sha256": "8e6782a17f04ae1cd4d253bc41e9173152bce1c5697b258cea19537d2e1b8154",
+      "effect_001_sha256": "2ba2fb40ae1fb6c8224bbf196e3ace7d67b16b5196c256370f1b7b58411dddfe",
+      "hdfs_dataset_config_sha256": "ef2ff159dfb8154a6da2e8c445b48e3797a10659d4a6c270efc27de72828e158",
+      "meta_normalization_module": "src/seqlogad/ingestion/raw_metadata.py",
+      "meta_normalization_module_sha256": "11e840507d88524ebe2c53e82b04293f93f21f27bd1ee9c27ce647d4fb8b14b2",
+      "protocol_v1_1_sha256": "0d98c003acb7a96067221315071c770241975cce912ca7a4079f8fa1dc2060fd",
+      "split_clarification_sha256": "76ff46b8d76f22dcd651b9fe0653fc342fbc013731912446a9629b2021dac964"
+    },
+    "label_mapping": {
+      "conflicting_components": 0,
+      "duplicate_label_rows": 0,
+      "label_file": "data/raw/hdfs/HDFS_v1/preprocessed/anomaly_label.csv",
+      "label_file_sha256": "1c711ed6c8848fc3243fb4d092f172f31d128c8a6ec7f26ebba72ab931885ed8",
+      "label_rows": 575061,
+      "missing_block_ids": 0,
+      "multi_block_components": 0,
+      "status": "COMPLETE_UNAMBIGUOUS",
+      "unique_labeled_blocks": 575061,
+      "unknown_block_ids": 0
+    },
+    "leakage_boundary": {
+      "audit_item": "purge_representativeness",
+      "canonical_events_or_sequences_generated": false,
+      "label_used_for_split_assignment": false,
+      "models_or_scientific_metrics_run": false,
+      "parser_read_or_modified": false,
+      "partition_membership_read_by_audit": false,
+      "population_identity_frozen_before_label_read": true,
+      "sealed_test_membership_read_by_audit": false,
+      "status": "PASS",
+      "test_unlock_created": false
+    },
+    "limitations": [
+      "no human-approved prevalence-equivalence margin exists",
+      "the interval assumes independence across connected components",
+      "the audit assesses aggregate PURGED versus RETAINED only and cannot establish causality",
+      "the audit does not answer whether sequence order improves anomaly detection"
+    ],
+    "plan_conflict_status": "PLAN_CONFLICT_DETECTED",
+    "population_definitions": {
+      "PURGED": "META-001 connected components recorded as PURGED_BOUNDARY by frozen SPLIT-001",
+      "RETAINED": "META-001 connected-component universe minus the public PURGED_BOUNDARY set",
+      "retained_derivation_reads_partition_membership": false
+    },
+    "populations": {
+      "PURGED": {
+        "anomalous_component_count": 3562,
+        "anomaly_prevalence": 0.026744954348870736,
+        "component_count": 133184,
+        "normal_component_count": 129622,
+        "raw_line_count": 2541053,
+        "structural_diagnostics": {
+          "block_ids_per_component": {
+            "count": 133184,
+            "iqr": 0.0,
+            "max": 1,
+            "median": 1.0,
+            "min": 1,
+            "q05": 1.0,
+            "q25": 1.0,
+            "q75": 1.0,
+            "q95": 1.0,
+            "q99": 1.0
+          },
+          "nominal_boundaries_crossed": {
+            "count": 133184,
+            "iqr": 0.0,
+            "max": 4,
+            "median": 1.0,
+            "min": 1,
+            "q05": 1.0,
+            "q25": 1.0,
+            "q75": 1.0,
+            "q95": 1.0,
+            "q99": 2.0
+          },
+          "nominal_partitions_touched": {
+            "count": 133184,
+            "iqr": 0.0,
+            "max": 5,
+            "median": 2.0,
+            "min": 2,
+            "q05": 2.0,
+            "q25": 2.0,
+            "q75": 2.0,
+            "q95": 2.0,
+            "q99": 3.0
+          },
+          "raw_lines_per_component": {
+            "count": 133184,
+            "iqr": 0.0,
+            "max": 277,
+            "median": 19.0,
+            "min": 13,
+            "q05": 19.0,
+            "q25": 19.0,
+            "q75": 19.0,
+            "q95": 20.0,
+            "q99": 27.0
+          },
+          "source_line_end_1_based": {
+            "count": 133184,
+            "iqr": 1931324.25,
+            "max": 11175629,
+            "median": 7526618.0,
+            "min": 6705430,
+            "q05": 7308838.15,
+            "q25": 7404007.0,
+            "q75": 9335331.25,
+            "q95": 10026225.85,
+            "q99": 10481683.4
+          },
+          "source_line_span_inclusive": {
+            "count": 133184,
+            "iqr": 610006.25,
+            "max": 6971707,
+            "median": 1467452.5,
+            "min": 2139,
+            "q05": 924516.0,
+            "q25": 1162624.0,
+            "q75": 1772630.25,
+            "q95": 2070643.0,
+            "q99": 3304161.5000000033
+          },
+          "source_line_start_1_based": {
+            "count": 133184,
+            "iqr": 2062064.75,
+            "max": 10058048,
+            "median": 6505603.5,
+            "min": 4202637,
+            "q05": 5390350.2,
+            "q25": 5751966.75,
+            "q75": 7814031.5,
+            "q95": 8883469.25,
+            "q99": 9565723.080000004
+          }
+        },
+        "unique_block_id_count": 133184
+      },
+      "RETAINED": {
+        "anomalous_component_count": 13276,
+        "anomaly_prevalence": 0.030044559911468576,
+        "component_count": 441877,
+        "normal_component_count": 428601,
+        "raw_line_count": 8634576,
+        "structural_diagnostics": {
+          "block_ids_per_component": {
+            "count": 441877,
+            "iqr": 0.0,
+            "max": 1,
+            "median": 1.0,
+            "min": 1,
+            "q05": 1.0,
+            "q25": 1.0,
+            "q75": 1.0,
+            "q95": 1.0,
+            "q99": 1.0
+          },
+          "nominal_boundaries_crossed": {
+            "count": 441877,
+            "iqr": 0.0,
+            "max": 0,
+            "median": 0.0,
+            "min": 0,
+            "q05": 0.0,
+            "q25": 0.0,
+            "q75": 0.0,
+            "q95": 0.0,
+            "q99": 0.0
+          },
+          "nominal_partitions_touched": {
+            "count": 441877,
+            "iqr": 0.0,
+            "max": 1,
+            "median": 1.0,
+            "min": 1,
+            "q05": 1.0,
+            "q25": 1.0,
+            "q75": 1.0,
+            "q95": 1.0,
+            "q99": 1.0
+          },
+          "raw_lines_per_component": {
+            "count": 441877,
+            "iqr": 3.0,
+            "max": 298,
+            "median": 19.0,
+            "min": 2,
+            "q05": 13.0,
+            "q25": 19.0,
+            "q75": 22.0,
+            "q95": 29.0,
+            "q99": 35.0
+          },
+          "source_line_end_1_based": {
+            "count": 441877,
+            "iqr": 5896766.0,
+            "max": 11175624,
+            "median": 6003325.0,
+            "min": 18447,
+            "q05": 2357141.8,
+            "q25": 3513011.0,
+            "q75": 9409777.0,
+            "q95": 11135852.2,
+            "q99": 11170271.24
+          },
+          "source_line_span_inclusive": {
+            "count": 441877,
+            "iqr": 1609397.0,
+            "max": 3061953,
+            "median": 597001.0,
+            "min": 4,
+            "q05": 3736.0,
+            "q25": 46271.0,
+            "q75": 1655668.0,
+            "q95": 2724301.1999999993,
+            "q99": 2957075.48
+          },
+          "source_line_start_1_based": {
+            "count": 441877,
+            "iqr": 6484494.0,
+            "max": 10960872,
+            "median": 4709026.0,
+            "min": 1,
+            "q05": 283835.80000000005,
+            "q25": 2558565.0,
+            "q75": 9043059.0,
+            "q95": 10671308.799999999,
+            "q99": 10899716.32
+          }
+        },
+        "unique_block_id_count": 441877
+      }
+    },
+    "primary_contrast": {
+      "assumptions": [
+        "binary component labels are mapped without conflict",
+        "connected components are treated as independent inferential units",
+        "interval is a superpopulation-style uncertainty summary; observed dataset contrast is exact"
+      ],
+      "confidence_interval": [
+        -0.004292058561408988,
+        -0.0022876513578987626
+      ],
+      "confidence_level": 0.95,
+      "difference": -0.0032996055625978404,
+      "estimand": "anomaly_prevalence_PURGED_minus_RETAINED",
+      "inferential_unit": "connected_component_session",
+      "interval_method": "NEWCOMBE_HYBRID_SCORE_WILSON_METHOD_10",
+      "p_value_reported": false,
+      "practical_equivalence_threshold": null,
+      "prevalence_ratio_PURGED_over_RETAINED": {
+        "status": "DEFINED",
+        "value": 0.890176272432657
+      }
+    },
+    "primary_unit_of_analysis": "HDFS_META_001_CONNECTED_COMPONENT_SESSION",
+    "raw_lines_role": "STRUCTURAL_DESCRIPTIVE_QUANTITY_ONLY",
+    "source_provenance": {
+      "label_file": "data/raw/hdfs/HDFS_v1/preprocessed/anomaly_label.csv",
+      "label_file_sha256": "1c711ed6c8848fc3243fb4d092f172f31d128c8a6ec7f26ebba72ab931885ed8",
+      "public_exclusions": "exclusions.jsonl",
+      "public_exclusions_sha256": "c5dbebd65f94e3d0cafa45a1bf2458324c4854eed8747409567e52bec9eaffd4",
+      "raw_log": "data/raw/hdfs/HDFS_v1/HDFS.log",
+      "raw_log_sha256": "0783096174d7832c618337f9609e06e04abd86ddd7089b3c12b407e63bfebc52"
+    }
+  }
+}

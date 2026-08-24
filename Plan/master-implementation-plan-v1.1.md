@@ -28,9 +28,11 @@ The project is not committed to proving sequence superiority. A null/negative re
 - PARSE-001 is complete: normal-only `BASE_TRAIN` Drain3 0.9.11 states are frozen, persisted, restored, and verified for immutable matching on HDFS/BGL.
 - No canonical event/sequence corpus, baseline/model fit, training, tuning, scientific TEST access, or scientific result exists.
 - Active execution state and portable split/parser pointers are centralized in `configs/active-state.yaml`.
+- PURGE-AUDIT-001 reconstructed aggregate purged/retained populations without opening partition membership and returned `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`.
 
-The next scientific task is `CANONICAL-EVENT-001`. It may only perform read-only
-matching with the frozen parser states; it may not update Drain3 or open TEST.
+The next task is human-only `PURGE-DECISION-001`. `CANONICAL-EVENT-001` is
+blocked until that review is recorded; no task may update Drain3, change the
+split, or open TEST.
 
 ## 3. Scope classification
 
@@ -50,7 +52,9 @@ LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 → [COMPLETE] frozen exact split-semantics addendum
 → [COMPLETE] raw chronological split manifest + physical TEST guard
 → [COMPLETE] normal BASE_TRAIN Drain3 fit/freeze
-→ [NEXT] CANONICAL-EVENT-001
+→ [COMPLETE] PURGE-AUDIT-001
+→ [NEXT / HUMAN] PURGE-DECISION-001
+→ [BLOCKED] CANONICAL-EVENT-001
 → partition-contained sequences
 → KT-1 order-insensitive ceiling
 → KT-2 HDFS count-label dependence
@@ -69,7 +73,7 @@ LIT-001 + approved EFFECT-001 (`0.01 AP` per dataset) + SCHEMA-COMPAT-001
 - Split raw atomic units chronologically `60/10/10/10/10` before fitted transforms and windows.
 - Exact boundaries use cumulative floor without labels or ratio repair.
 - HDFS ranks eligible raw lines, preserves connected components, and purges every component occupying multiple nominal partitions.
-- The resulting HDFS purge of 2,541,053 eligible lines (22.737449498368278%) is retained as `METHODOLOGICAL_RISK_TO_BE_ASSESSED`; later suitability/sensitivity work must not assume it is harmless or alter the split after outcomes.
+- The HDFS purge of 2,541,053 eligible lines (22.737449498368278%) has been audited as `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`. Human review is required; no task may assume harmlessness, alter the split, or continue scientific generation automatically.
 - BGL splits source ranks first, then builds non-overlapping 100-event parents independently per partition and records every 1–99-line tail as `DROPPED_RESIDUAL_WINDOW`.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
 - Reserved fusion partitions remain reserved unless an approved future amendment says otherwise.

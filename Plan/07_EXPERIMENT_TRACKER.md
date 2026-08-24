@@ -14,6 +14,10 @@ Every run records experiment ID, owner, status, exact dataset fingerprint, split
 
 No empirical row changed during EFFECT-001 approval; every condition below remains `NOT_RUN`.
 
+PURGE-AUDIT-001 is a dataset/split validity audit, not a scientific method run.
+It produced no AP/F1/model result and did not access partition-specific
+outcomes. Its human stop-gate state is tracked below.
+
 ## Core order-insensitive and sequential conditions
 
 | ID | Method/question | Scope | Status | Metrics |
@@ -52,6 +56,7 @@ LSTM, normal-reference Expert D, and F2–F8 are removed from the v1.1 core. His
 | ID | Decision | Status |
 |---|---|---|
 | GATE-DATA | Per-dataset suitability/ceiling interpretation | NOT_RUN |
+| GATE-PURGE | Human disposition of HDFS purge representativeness concern before canonical-event work | HUMAN_DECISION_REQUIRED |
 | GATE-SEQ | Sequence/order-sensitivity claim state | NOT_RUN |
 | GATE-TRANSFORMER | Open/remove Transformer | NOT_RUN |
 | GATE-LOCALIZATION | Open/remove localization | NOT_RUN |

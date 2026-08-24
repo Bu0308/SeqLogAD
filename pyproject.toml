@@ -23,6 +23,7 @@ seqlogad-extract-raw-metadata = "seqlogad.cli.extract_raw_metadata:main"
 seqlogad-split-dataset = "seqlogad.cli.split_dataset:main"
 seqlogad-final-test-access = "seqlogad.cli.final_test_access:main"
 seqlogad-fit-parser = "seqlogad.cli.fit_parser:main"
+seqlogad-purge-audit = "seqlogad.cli.purge_audit:main"
 
 [project.optional-dependencies]
 dev = [

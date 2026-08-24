@@ -144,6 +144,6 @@ artifacts and unopened physical TEST seals. See
 dependency, PARSE-001, subsequently consumed ordinary `BASE_TRAIN` membership and
 is now complete with frozen parser states. META-001 itself remains unchanged.
 
-After ALIGN-FIX-001, the current next scientific task is
-`CANONICAL-EVENT-001`: read-only canonical event generation using those frozen
-states. It must not refit Drain3 or open TEST.
+PURGE-AUDIT-001 subsequently returned `PLAN_CONFLICT_DETECTED`. The current
+next task is human-only `PURGE-DECISION-001`; canonical event generation is
+blocked. META-001, Drain3, split membership, and TEST remain unchanged.

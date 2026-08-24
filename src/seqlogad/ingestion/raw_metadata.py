@@ -72,6 +72,15 @@ def _block_sort_key(block_id: str) -> tuple[int, str]:
     return int(block_id.removeprefix("blk_")), block_id
 
 
+def normalize_hdfs_block_id(value: str) -> str:
+    """Return the canonical META-001 spelling of one HDFS block identifier."""
+
+    candidate = value.strip()
+    if _BLOCK_TOKEN.fullmatch(candidate) is None:
+        raise ValueError(f"invalid HDFS block ID: {value!r}")
+    return f"blk_{int(candidate.removeprefix('blk_'))}"
+
+
 class MetadataModel(BaseModel):
     """Strict immutable metadata record with canonical JSON support."""
 
@@ -543,9 +552,7 @@ def _hdfs_tokens(text: str | None) -> _HdfsTokens:
     candidates = tuple(match.group(0) for match in _BLOCK_CANDIDATE.finditer(text))
     raw = tuple(item for item in candidates if _BLOCK_TOKEN.fullmatch(item))
     malformed = tuple(item for item in candidates if not _BLOCK_TOKEN.fullmatch(item))
-    occurrences = tuple(
-        f"blk_{int(item.removeprefix('blk_'))}" for item in raw
-    )
+    occurrences = tuple(normalize_hdfs_block_id(item) for item in raw)
     counts: dict[str, int] = {}
     for item in occurrences:
         counts[item] = counts.get(item, 0) + 1
@@ -1098,6 +1105,7 @@ __all__ = [
     "iter_bgl_metadata",
     "iter_hdfs_metadata",
     "iter_hdfs_structural_references",
+    "normalize_hdfs_block_id",
     "resolve_metadata_source",
     "scan_hdfs_components",
     "summarize_bgl_metadata",

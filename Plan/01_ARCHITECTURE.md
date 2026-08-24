@@ -17,8 +17,12 @@ Normal BASE_TRAIN Pool                                IMPLEMENTED / VERIFIED
         ↓
 Drain3 Fit → Freeze → Read-Only Transform             IMPLEMENTED / VERIFIED
         ↓
+HDFS Purge Representativeness Audit                   IMPLEMENTED / CONCERN
+        ↓
+Human PURGE-DECISION-001 Gate                         REQUIRED / BLOCKING
+        ↓
 Canonical Events / Partition-Contained Sequences      SCHEMAS IMPLEMENTED;
-                                                      ARTIFACTS PLANNED
+                                                      ARTIFACTS BLOCKED
         ↓
 ┌──────────────── ORDER-INSENSITIVE CONTROLS ────────────────┐
 │ unseen event · length · count/count-vector          MUST  │
@@ -51,6 +55,7 @@ Retrieval/RAG/Agent/API/UI/Elasticsearch              FUTURE
 | Split-semantics addendum | Exact allocation, purge, residual, reconciliation, and identity rules | Frozen/tested; instantiated by SPLIT-001 |
 | Split manifest | Stable partition/purge/hash identity | Implemented/verified before parser fit; derived bulk files ignored by Git |
 | Parser state | Drain3 templates and frozen event mapping | Normal `BASE_TRAIN` only |
+| Purge audit | Aggregate `PURGED` versus `RETAINED` data-validity result | Implemented without partition membership; `PLAN_CONFLICT_DETECTED`; human review required |
 | Canonical events | Parsed fields with label isolation | Read-only transform per partition |
 | Event sequences | HDFS blocks/BGL parents | Never cross partition boundary |
 | Destruction manifest | Deterministic order permutation | Preserve multiset/count/length/label; no raw mutation |
@@ -96,9 +101,13 @@ verified raw bytes + META-001 → deterministic real split artifacts
 ordinary BASE membership → scoped normal-label selection
 → deterministic normal-pool identity → Drain3 fit/freeze
 → independent restore → immutable `match`-only transform
+
+public purge exclusions + reconstructed META component universe
+→ aggregate PURGED/RETAINED audit → human stop gate
 ```
 
 Frozen parser states and template registries now exist as ignored reproducible
-derived artifacts. No canonical event corpus, scientific event sequence,
-baseline, model, anomaly metric, TEST unlock, or final TEST path currently
-executes.
+derived artifacts. PURGE-AUDIT-001 is complete with
+`PURGE_REPRESENTATIVENESS_CONCERN`; `CANONICAL-EVENT-001` is blocked pending a
+human decision. No canonical event corpus, scientific event sequence, baseline,
+model, TEST unlock, or final TEST path currently executes.

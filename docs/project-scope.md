@@ -26,6 +26,11 @@ SeqLogAD is a research prototype for sequence-aware log anomaly analysis. It is 
 - Option C is conditional: evaluate localization faithfulness only after sequence and sanity gates.
 - Option A is fallback: dataset expansion requires evidence and a protocol amendment.
 
+Current execution is paused at `PURGE-DECISION-001`. The completed aggregate
+HDFS purge audit returned `PURGE_REPRESENTATIVENESS_CONCERN` and
+`PLAN_CONFLICT_DETECTED`; this neither changes the approved direction nor
+authorizes split repair. Human review is required before canonical events.
+
 ## 4. Primary users
 
 | User | Current use |

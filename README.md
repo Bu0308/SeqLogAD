@@ -130,14 +130,16 @@ The statistical method family and practical margins are frozen before experiment
 | Exact split-semantics addendum | **Frozen and contract-tested** |
 | Raw split manifests and physical TEST guards | **Implemented and verified; TEST `SEALED / NEVER_OPENED`; open count `0`** |
 | Drain3 normal-only fit/freeze, persistence, restore, and unknown policy | **Implemented and verified; no canonical event corpus generated** |
+| HDFS purge representativeness audit | **Completed; `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`; human review required** |
 | Canonical parsed event corpus | **Not generated** |
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
 | RAG/Agent/API/UI | **Future placeholders only** |
 
-Current next scientific task after `ALIGN-FIX-001` is
-`CANONICAL-EVENT-001`: generate partition-scoped canonical events through
-read-only matching with the frozen parsers. It has **not** started.
+The next task is the human-only `PURGE-DECISION-001`. The aggregate HDFS purge
+audit must be reviewed before scientific execution resumes. Consequently,
+`CANONICAL-EVENT-001` remains **not started and blocked**, and no split repair
+is authorized.
 
 ## Dataset provenance
 
@@ -155,9 +157,12 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
 - Split raw atomic units chronologically: `BASE_TRAIN/FUSION_TRAIN/VAL_EXPERT/VAL_FUSION/TEST = 60/10/10/10/10`.
 - HDFS uses block/session atomicity and purges boundary-spanning components.
 - The HDFS purge removed 2,541,053 eligible lines (22.737449498368278%) under
-  the frozen whole-component rule. This remains
-  `METHODOLOGICAL_RISK_TO_BE_ASSESSED`; no harmlessness claim or split repair is
-  permitted before the registered suitability analysis.
+  the frozen whole-component rule. PURGE-AUDIT-001 found aggregate anomaly
+  prevalence 2.6745% in purged versus 3.0045% in retained components
+  (difference −0.32996 percentage points; Newcombe-Wilson 95% CI −0.42921 to
+  −0.22877; prevalence ratio 0.8902). This is
+  `PURGE_REPRESENTATIVENESS_CONCERN`, not a causal or model-performance result;
+  human review is required and no split repair is permitted.
 - BGL uses non-overlapping 100-event parent windows created after partitioning.
 - Labels may filter authorized normal pools and support validation/evaluation, but never enter model inputs or base loss.
 - Drain3 fits normal `BASE_TRAIN` only and then freezes.
@@ -248,6 +253,8 @@ outputs/          Ignored experiment-specific artifacts
 - [PARSE-001 fit/freeze provenance](docs/parser-fit-and-freeze.md)
 - [PARSE-001 literature and citation record](docs/references/PARSE-001-citations.md)
 - [ALIGN-FIX-001 source note](docs/references/ALIGN-FIX-001-citations.md)
+- [PURGE-AUDIT-001 report](docs/audits/PURGE-AUDIT-001.md)
+- [PURGE-AUDIT-001 citations and method provenance](docs/references/PURGE-AUDIT-001-citations.md)
 - [Split literature evidence matrix](docs/literature/split-protocol-evidence-matrix.md)
 - [Split citations and search record](docs/references/PROTOCOL-SPLIT-CLARIFY-001-citations.md)
 - [Real split artifacts and TEST seal](docs/split-artifacts-and-test-seal.md)

@@ -162,6 +162,28 @@ The `fit` operation refuses an existing destination. Reproduction uses a new
 empty ignored directory, then compares identities; accepted artifacts are not
 overwritten. PARSE-001 did not generate canonical events or scientific metrics.
 
+## PURGE-AUDIT-001 reproducibility
+
+The HDFS aggregate purge audit reconstructs META-001 components from immutable
+raw bytes, reads only the public split exclusions, derives `RETAINED` as the
+component-universe complement, and opens the label file only after both
+population identities are fixed. It never reads scientific partition
+membership. The tracked artifact is
+[`audits/PURGE-AUDIT-001.json`](audits/PURGE-AUDIT-001.json); two independent
+full runs produced scientific payload SHA-256
+`274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb`.
+Timestamp and Git dirty metadata are excluded from this identity.
+
+Safe commands:
+
+```bash
+seqlogad-purge-audit validate --artifact docs/audits/PURGE-AUDIT-001.json --json
+seqlogad-purge-audit compare --first docs/audits/PURGE-AUDIT-001.json --second <independent-artifact.json> --json
+```
+
+`generate` is intentionally non-overwriting and requires an explicit recorded
+classification. It does not authorize changing the split.
+
 ## EFFECT-001 statistical reproducibility
 
 Every future primary comparison snapshots both `configs/protocols/protocol-v1.1.yaml` and `configs/protocols/effect-001.yaml`. The latter freezes non-interpolated Average Precision, one contrast per dataset, the required orderless family, validation-only selection, a 12-config family-level budget, three stochastic seeds, a 95% paired cluster-percentile bootstrap with 10,000 valid replicates and resampling seed `42`, explicit degenerate-resample handling, and the four scientific decision regions.

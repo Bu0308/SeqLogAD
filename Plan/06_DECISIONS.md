@@ -298,3 +298,15 @@
 - **Reason:** A separate active-state registry keeps operational truth current without changing frozen scientific decisions or embedding private paths/TEST membership. Explicit license deferral preserves owner authority.
 - **Consequence:** ALIGN-FIX-001 is repository-state cleanup only. Dataset bytes, split membership, parser states, EFFECT-001, method budgets, TEST seals, and empirical statuses are unchanged. `CANONICAL-EVENT-001` becomes the next scientific task; LICENSE remains a repository-hygiene blocker but not a canonical-event blocker.
 - **Evidence:** `configs/active-state.yaml`, `docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md`, and `docs/references/ALIGN-FIX-001-citations.md`. No external scientific source was required.
+
+## ADR-033 — HDFS purge representativeness concern and human stop gate
+
+- **Date:** 2026-08-24
+- **Status:** `PLAN_CONFLICT_DETECTED / HUMAN_DECISION_REQUIRED`.
+- **Context:** The frozen HDFS rule purged 133,184 boundary-spanning components and 2,541,053 eligible lines. This is a non-random 22.7374495% removal, so PURGE-AUDIT-001 was required before canonical-event generation.
+- **Decision:** Keep the frozen split and parser unchanged. Fix `PURGED` from public `PURGED_BOUNDARY` exclusions, derive `RETAINED` as the complement of the reconstructed META-001 component universe without opening partition membership, then map block labels only for the aggregate audit. Use connected components as inferential units and Newcombe hybrid-score Wilson 95% CI for the prevalence difference. Record `PURGE_REPRESENTATIVENESS_CONCERN`, block CANONICAL-EVENT-001, and require `PURGE-DECISION-001` human review.
+- **Observed audit fact:** Purged prevalence is 0.0267449543 (3,562/133,184); retained prevalence is 0.0300445599 (13,276/441,877); difference is −0.0032996056 with 95% CI [−0.0042920586, −0.0022876514], and prevalence ratio is 0.8901762724. These are aggregate data-validity outcomes, not model metrics or TEST-partition statistics.
+- **Alternatives rejected:** Declare the purge harmless without an acceptance margin; reuse EFFECT-001's `0.01 AP`; stratify or repair membership from labels; open sealed TEST membership; treat raw lines as independent Bernoulli observations; continue automatically to canonical events.
+- **Reason:** The mechanism selects long-spanning components and the aggregate label distribution differs detectably. No human-approved prevalence-equivalence margin exists, so `ACCEPTABLE` cannot be issued; the result warrants human review without proving causality or HDFS invalidity.
+- **Consequence:** Scientific plan, dataset, split, partition hashes, parser states, and TEST seals remain frozen. No canonical event, sequence, baseline, KT, model, or scientific TEST result was generated. The audit payload reproduced at SHA-256 `274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb`.
+- **Evidence:** `docs/audits/PURGE-AUDIT-001.md`, `docs/audits/PURGE-AUDIT-001.json`, and `docs/references/PURGE-AUDIT-001-citations.md`.

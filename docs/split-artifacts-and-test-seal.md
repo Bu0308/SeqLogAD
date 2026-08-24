@@ -51,6 +51,18 @@ The large realized-ratio deviation is retained rather than repaired because
 the frozen rule purges every connected component that touches two or more
 nominal partitions. This is a protocol consequence, not an anomaly result.
 
+### Post-split representativeness audit
+
+`PURGE-AUDIT-001` subsequently compared only the aggregate purged and retained
+component populations. It found anomaly prevalence 0.0267449543 versus
+0.0300445599, respectively: difference −0.0032996056 with Newcombe-Wilson 95%
+CI [−0.0042920586, −0.0022876514] and prevalence ratio 0.8901762724. Together
+with the 22.7374% raw-line removal and deterministic span-based selection, this
+is recorded as `PURGE_REPRESENTATIVENESS_CONCERN` / `PLAN_CONFLICT_DETECTED`.
+No split repair is authorized; human review is required. See
+[`audits/PURGE-AUDIT-001.md`](audits/PURGE-AUDIT-001.md). No partition-specific
+outcome, TEST membership, parser update, or model metric was produced.
+
 ## BGL structural result
 
 | Partition | Raw lines | Complete 100-line parents | Residual lines | Retained lines |

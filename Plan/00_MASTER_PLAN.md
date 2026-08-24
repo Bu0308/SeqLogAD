@@ -31,6 +31,7 @@ Implemented/verified:
 - exact split allocation/purge/residual/hash contract and real deterministic split artifacts;
 - physical HDFS/BGL TEST seals, both `SEALED / NEVER_OPENED`;
 - PARSE-001 normal-only `BASE_TRAIN` Drain3 fit/freeze, persistence, restore, and immutable matching;
+- PURGE-AUDIT-001 aggregate HDFS representativeness audit with deterministic payload and TEST-safe label boundary; result `PURGE_REPRESENTATIVENESS_CONCERN`;
 - EFFECT-001 frozen and human-approved with `delta_HDFS = delta_BGL = 0.01 AP`; empirical status remains `NOT_RUN`.
 
 Not implemented/run:
@@ -39,10 +40,11 @@ Not implemented/run:
 - real sequences and sequence-destruction artifacts;
 - baselines, models, training, tuning, killer experiments, or final TEST.
 
-Current next scientific task after `ALIGN-FIX-001`:
+Current next task:
 
-`CANONICAL-EVENT-001` — generate partition-scoped canonical event artifacts by
-read-only matching against the frozen HDFS/BGL Drain3 states.
+`PURGE-DECISION-001` — human review of `PLAN_CONFLICT_DETECTED`. Canonical-event
+work is blocked until the human records how the HDFS purge concern affects the
+frozen plan; no automatic split repair is authorized.
 
 ## Active critical path
 
@@ -51,7 +53,9 @@ read-only matching against the frozen HDFS/BGL Drain3 states.
 → [COMPLETE] raw metadata + exact split clarification
 → [COMPLETE] chronological split + physical TEST guard
 → [COMPLETE] normal BASE_TRAIN Drain3 fit/freeze
-→ [NEXT] CANONICAL-EVENT-001
+→ [COMPLETE] PURGE-AUDIT-001
+→ [NEXT / HUMAN] PURGE-DECISION-001
+→ [BLOCKED] CANONICAL-EVENT-001
 → partition-contained sequences
 → KT-1 + KT-2
 → Markov/N-gram + KT-3

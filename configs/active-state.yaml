@@ -1,13 +1,13 @@
-# Non-scientific execution-state registry synchronized by ALIGN-FIX-001.
+# Non-scientific execution-state registry synchronized by PURGE-AUDIT-001.
 # Scientific rules remain owned by Protocol v1.1 and its binding addenda.
 active_state:
-  id: ACTIVE-STATE-POST-PARSE-001
-  version: "1.0"
+  id: ACTIVE-STATE-POST-PURGE-AUDIT-001
+  version: "1.1"
   status: SYNCHRONIZED
-  synchronized_by: ALIGN-FIX-001
+  synchronized_by: PURGE-AUDIT-001
   scientific_results_status: NOT_RUN
   canonical_event_corpus: NOT_CREATED
-  next_scientific_task: CANONICAL-EVENT-001
+  next_scientific_task: PURGE-DECISION-001
   historical_task_aliases:
     PARSE-002: CANONICAL-EVENT-001
   protocol_stack:
@@ -18,6 +18,8 @@ active_state:
   pipeline:
     SPLIT-001: COMPLETE
     PARSE-001: COMPLETE_FROZEN
+    PURGE-AUDIT-001: COMPLETE
+    PURGE-DECISION-001: HUMAN_DECISION_REQUIRED
     CANONICAL-EVENT-001: NOT_STARTED
     SEQ-001: NOT_STARTED
     scientific_experiments: NOT_RUN
@@ -66,12 +68,16 @@ datasets:
 
 methodological_risks:
   hdfs_boundary_purge:
-    status: METHODOLOGICAL_RISK_TO_BE_ASSESSED
-    classification: SEQLOGAD_STRUCTURAL_RESULT
+    status: PURGE_REPRESENTATIVENESS_CONCERN
+    classification: SEQLOGAD_DATA_VALIDITY_AUDIT_RESULT
     purged_component_count: 133184
     purged_eligible_line_count: 2541053
     purge_ratio: 0.22737449498368278
-    interpretation: REPRESENTATIVENESS_AND_SENSITIVITY_NOT_YET_EVALUATED
+    audit_artifact: docs/audits/PURGE-AUDIT-001.json
+    audit_payload_sha256: 274b62f3a7a6b072aec9e142b3e7e97c1548c08984ebe5240f4dc753ed27eabb
+    interpretation: PLAN_CONFLICT_DETECTED_HUMAN_REVIEW_REQUIRED
     may_change_split: false
-    anomaly_labels_inspected_for_risk_assessment: false
-
+    anomaly_labels_inspected_for_risk_assessment: true
+    label_use_scope: AGGREGATE_PURGED_VS_RETAINED_AUDIT_ONLY
+    partition_specific_outcomes_emitted: false
+    test_membership_opened: false

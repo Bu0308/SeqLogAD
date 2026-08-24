@@ -34,7 +34,7 @@ Future ML, retrieval, agent, API, and UI dependencies are intentionally absent u
 
 - **Documentation/Git review:** no toolchain blocker.
 - **Schema/split contracts:** SCHEMA-001/002 and SCHEMA-COMPAT-001 tests pass; SPLIT-001 real HDFS/BGL artifacts validate and both TEST seals remain unopened.
-- **Parsing:** PARSE-001 normal-pool selection and Drain3 fit/freeze are verified; CANONICAL-EVENT-001 remains the separate, not-started next scientific task.
+- **Parsing:** PARSE-001 normal-pool selection and Drain3 fit/freeze are verified. `CANONICAL-EVENT-001` remains not started and is blocked pending human `PURGE-DECISION-001` review.
 - **Scientific experiments:** the LIT/effect policy, five-way split/TEST guard,
   and frozen parser prerequisites are complete; canonical events, sequences, and
   the human-run protocol gates remain required before any scientific run.
