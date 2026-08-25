@@ -24,6 +24,7 @@ seqlogad-split-dataset = "seqlogad.cli.split_dataset:main"
 seqlogad-final-test-access = "seqlogad.cli.final_test_access:main"
 seqlogad-fit-parser = "seqlogad.cli.fit_parser:main"
 seqlogad-purge-audit = "seqlogad.cli.purge_audit:main"
+seqlogad-canonical-events = "seqlogad.cli.canonical_events:main"
 
 [project.optional-dependencies]
 dev = [

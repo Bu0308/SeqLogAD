@@ -19,7 +19,7 @@ import shutil
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
-from typing import Callable, Mapping
+from typing import Callable, Iterable, Mapping
 
 import yaml
 from drain3 import TemplateMiner
@@ -341,6 +341,13 @@ class FrozenDrainParser:
         if not isinstance(message, str) or not message or "\x00" in message:
             raise ParserContractError("parser input must be non-empty NUL-free text")
         self._assert_unchanged()
+        result = self._match_one(message)
+        self._assert_unchanged()
+        return result
+
+    def _match_one(self, message: str) -> FrozenTransformResult:
+        """Match one already-validated message without a state assertion cycle."""
+
         strategy = str(self.__contract["drain"]["frozen_match_full_search_strategy"])
         cluster = self.__miner.match(message, full_search_strategy=strategy)
         if cluster is None:
@@ -365,8 +372,34 @@ class FrozenDrainParser:
                 parameters=parameters,
                 matched=True,
             )
-        self._assert_unchanged()
         return result
+
+    def transform_batch(
+        self,
+        messages: Iterable[str],
+        *,
+        partition: ScientificPartition,
+    ) -> tuple[FrozenTransformResult, ...]:
+        """Match a bounded batch with one immutable-state check on each side.
+
+        This is the high-throughput CANONICAL-EVENT-001 inference path. It is
+        semantically identical to repeated :meth:`transform` calls, but avoids
+        recomputing the complete frozen-cluster digest for every source line.
+        Drain3's mutating ``add_log_message`` path remains inaccessible.
+        """
+
+        if partition is ScientificPartition.TEST:
+            raise ParserContractError("scientific TEST is unavailable to PARSE-001")
+        batch = tuple(messages)
+        if any(
+            not isinstance(message, str) or not message or "\x00" in message
+            for message in batch
+        ):
+            raise ParserContractError("parser input must be non-empty NUL-free text")
+        self._assert_unchanged()
+        results = tuple(self._match_one(message) for message in batch)
+        self._assert_unchanged()
+        return results
 
 
 @dataclass(slots=True)

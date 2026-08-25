@@ -126,6 +126,25 @@ def test_fit_is_deterministic_and_restore_is_immutable(tmp_path: Path) -> None:
             partition=ScientificPartition.TEST,
         )
 
+    batch = parser.transform_batch(
+        [
+            "Received block blk_999 from 10.1.2.3:1234",
+            "one two three four five six seven eight nine ten eleven twelve",
+        ],
+        partition=ScientificPartition.VAL_EXPERT,
+    )
+    assert batch == (known_one, unknown)
+    with pytest.raises(ParserContractError, match="TEST"):
+        parser.transform_batch(
+            ["Received block blk_7 from 10.0.0.7:1234"],
+            partition=ScientificPartition.TEST,
+        )
+    with pytest.raises(ParserContractError, match="NUL-free"):
+        parser.transform_batch(
+            ["message containing a source NUL \x00 byte"],
+            partition=ScientificPartition.VAL_FUSION,
+        )
+
 
 def test_fit_refuses_nonbase_pool_and_output_overwrite(tmp_path: Path) -> None:
     pool = _pool(tmp_path)
