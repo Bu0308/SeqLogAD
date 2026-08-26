@@ -51,5 +51,12 @@ outputs/runs/*
 .idea/
 .vscode/
 
-# Research plans under Plan/ are version-controlled. Keep personal scratch
-# notes outside the repository or in .git/info/exclude.
+# AI-agent metadata and planning files
+.ai/
+Plan/
+*_agent_ops/
+*agent_*op/
+**/agent.md
+**/AGENTS.md
+_agent_workspace_pack/
+Question.md
