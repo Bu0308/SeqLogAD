@@ -1,6 +1,0 @@
-# Future downstream placeholder. No model/API call is made.
-status: FUTURE_OUTSIDE_V1_1_CORE
-role: frozen_evidence_consumer_only
-execution_owner: HUMAN
-reactivation_requires: COMPLETED_CORE_AND_NEW_SCOPE_DECISION
-empirical_status: NOT_RUN

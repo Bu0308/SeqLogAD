@@ -1,7 +1,0 @@
-# Future-only read-only Agent placeholder; outside Research Freeze v1.1 core.
-status: FUTURE_OUTSIDE_V1_1_CORE
-mode: read_only
-allow_production_writes: false
-allow_shell: false
-hidden_test_label_access: false
-insufficient_evidence_status: insufficient_evidence

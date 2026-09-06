@@ -1,6 +1,6 @@
 # Parsing
 
-PARSE-001 implements only the leakage-scoped parser lifecycle:
+The preserved PARSE-001 implementation provides the leakage-scoped parser lifecycle:
 
 - `normal_pool.py`: selects and hashes permitted normal `BASE_TRAIN` source
   membership without persisting labels/messages;
@@ -20,5 +20,6 @@ Output: ignored reproducible parser-state/provenance directories under
 Dependencies: Drain3 0.9.11, PyYAML, ingestion verification, split/TEST guards,
 checksums, and common schemas.
 
-CANONICAL-EVENT-001 remains unimplemented: this module does not yet emit the full
-partition-scoped canonical `LogEvent` corpus or scientific sequences.
+The v2 canonical-view task must retain raw-text semantics and treat Drain3 as
+an optional structural field; it must not let parser output replace unseen
+target messages. No v2 target corpus or model artifact exists.

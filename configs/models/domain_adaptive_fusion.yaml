@@ -1,0 +1,21 @@
+# Planned v2 model stack. No weights, checkpoint or empirical result exists.
+status: PLANNED_NOT_RUN
+base_model:
+  name: Llama-3.1-8B
+  revision: TO_BE_FROZEN_AT_P2.1
+  frozen: true
+adapters:
+  semantic:
+    name: LoRA-Semantic
+    checkpoint: INDEPENDENT_CHECKPOINT_REQUIRED
+  sequence:
+    name: LoRA-Sequence
+    checkpoint: INDEPENDENT_CHECKPOINT_REQUIRED
+  share_adapter_weights: false
+structural_time:
+  name: Temporal_Graph_Transformer_GTAT
+  coverage_policy: REPORT_OR_ABSTAIN
+fusion:
+  gate: adaptive_source_episodic_only
+  comparator: equal_weight
+  output: score_confidence_weights_evidence_localisation_abstain

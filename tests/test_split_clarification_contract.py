@@ -189,11 +189,13 @@ def test_current_entry_point_and_default_config_require_the_split_addendum() -> 
 
     assert "split-clarification-contract.md" in entry_point
     assert "split-clarification-v1.yaml" in entry_point
-    assert default["protocol"]["split_addendum"] == (
-        "configs/protocols/split-clarification-v1.yaml"
-    )
-    assert default["protocol"]["split_addendum_status"] == (
-        "FROZEN_HUMAN_APPROVED"
+    # The split addendum is historical under the workbook; the registry, not the
+    # default config, is what still has to resolve it.
+    state = yaml.safe_load(
+        (PROJECT_ROOT / "configs" / "active-state.yaml").read_text(encoding="utf-8")
+    )["active_state"]
+    assert "configs/protocols/split-clarification-v1.yaml" in (
+        state["historical_foundation"]["addenda"]
     )
     assert default["protocol"]["execution_ready"] is False
 

@@ -1,45 +1,38 @@
 # SeqLogAD Scientific Protocol — Current Entry Point
 
-The active scientific contract is:
+> **The authoritative scientific plan is [`../Bang_ke_hoach_SeqLogAD.xlsx`](../Bang_ke_hoach_SeqLogAD.xlsx)**
+> (machine-readable projection: [`../configs/plan/excel-roadmap-v1.yaml`](../configs/plan/excel-roadmap-v1.yaml)).
+> The contract below is the *implementation* contract. It agrees with the workbook
+> and is subordinate to it: on any conflict, the workbook wins. Phase 1 is complete;
+> G0 is `PROTOCOL_READY_PENDING_RESEARCHER_SIGNATURE`. See
+> [`protocol/PHASE-1-RECORD.md`](protocol/PHASE-1-RECORD.md) and
+> [`migration/EXCEL-PLAN-MIGRATION-001.md`](migration/EXCEL-PLAN-MIGRATION-001.md).
 
-- human-readable: [`research-protocol-v1.1.md`](research-protocol-v1.1.md);
-- machine-readable: [`../configs/protocols/protocol-v1.1.yaml`](../configs/protocols/protocol-v1.1.yaml);
-- citation and method provenance: [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md).
+The implementation contract is **DOMAIN-ADAPTIVE-FUSION-001 (v2)**:
 
-Its required statistical addendum is:
+- human-readable: [`research-protocol-v2-domain-adaptive-fusion.md`](research-protocol-v2-domain-adaptive-fusion.md);
+- machine-readable: [`../configs/protocols/protocol-v2-domain-adaptive-fusion.yaml`](../configs/protocols/protocol-v2-domain-adaptive-fusion.yaml);
+- forward plan: [`../Plan/master-implementation-plan-v2-domain-adaptive-fusion.md`](../Plan/master-implementation-plan-v2-domain-adaptive-fusion.md);
+- migration record: [`plan-migration-v1.1-to-v2.md`](plan-migration-v1.1-to-v2.md).
 
-- human-readable: [`statistical-decision-contract.md`](statistical-decision-contract.md);
-- machine-readable: [`../configs/protocols/effect-001.yaml`](../configs/protocols/effect-001.yaml);
-- method provenance: [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md).
+## Scientific boundary
 
-`EFFECT-001` is `FROZEN_HUMAN_APPROVED`: `delta_HDFS = delta_BGL = 0.01 AP`, framework `RESOURCE_FEASIBILITY_MARGIN`, approval timing `PRE_EXPERIMENT`, and `result_informed = false`. Its estimand, comparison family, bootstrap, confidence level, equal-budget rule, seed aggregation, and KT-3 logic remain unchanged. This completes the statistical prerequisite but does not authorize downstream execution by itself.
+SeqLogAD studies whether a fusion system can transfer knowledge across heterogeneous source architectures, adapt to an unseen target from an unlabeled predominantly-normal buffer, and produce calibrated, explainable anomaly evidence. The minimum fold contains three source architectures and one held-out target architecture. Splits are leave-one-architecture-out and chronological; random mixed-system splits are forbidden.
 
-Its required exact-split addendum is:
+Target labels are excluded from adaptation, calibration, gate training and selection. They are visible only at the final evaluation boundary after G4. The target buffer is versioned, hashed, contamination-bounded and must pass readiness checks. Claims are limited to evaluated architectures and conditions; universal generalisation and cold-start detection are not claimed.
 
-- human-readable: [`split-clarification-contract.md`](split-clarification-contract.md);
-- machine-readable: [`../configs/protocols/split-clarification-v1.yaml`](../configs/protocols/split-clarification-v1.yaml);
-- evidence matrix: [`literature/split-protocol-evidence-matrix.md`](literature/split-protocol-evidence-matrix.md);
-- source record: [`references/PROTOCOL-SPLIT-CLARIFY-001-citations.md`](references/PROTOCOL-SPLIT-CLARIFY-001-citations.md).
+The fixed model stack is Llama-3.1-8B + independent LoRA-Semantic and LoRA-Sequence adapters, plus a Temporal Graph Transformer (GTAT). The adapters share a frozen base revision but never adapter weights or checkpoints. Equal-weight fusion is mandatory. Adaptive fusion is allowed only after G0–G2 and is accepted only if G3 shows stable benefit without worse false-alert control.
 
-`PROTOCOL-SPLIT-CLARIFY-001` is `FROZEN_HUMAN_APPROVED`. It binds Protocol v1.1 to exact cumulative-floor allocation, HDFS eligible-line/connected-component purge accounting, BGL split-before-window/per-partition residual behavior, and non-circular layered identities. SPLIT-001 has instantiated this exact contract; real identities are recorded in [`split-artifacts-and-test-seal.md`](split-artifacts-and-test-seal.md).
+## Preserved v1.1 foundation
 
-The effective machine-readable stack is:
+Protocol v1.1 and its binding EFFECT-001, split-clarification and purge-decision addenda remain frozen historical contracts. They preserve the verified HDFS/BGL manifests, deterministic split identities, normal-only Drain3 states and physical TEST seals. They are reusable source-domain provenance, not the v2 research question, and no v2 result may be inferred from them.
 
-```text
-configs/protocols/protocol-v1.1.yaml
-+ configs/protocols/effect-001.yaml
-+ configs/protocols/split-clarification-v1.yaml
-```
+The historical contracts remain available at:
 
-Current execution status and portable split/parser pointers are kept separately
-in [`../configs/active-state.yaml`](../configs/active-state.yaml), so frozen
-scientific history is not rewritten when pipeline tasks complete.
+- [`research-protocol-v1.1.md`](research-protocol-v1.1.md);
+- [`../configs/protocols/protocol-v1.1.yaml`](../configs/protocols/protocol-v1.1.yaml);
+- [`statistical-decision-contract.md`](statistical-decision-contract.md);
+- [`split-clarification-contract.md`](split-clarification-contract.md);
+- [`../configs/protocols/split-clarification-v1.yaml`](../configs/protocols/split-clarification-v1.yaml).
 
-Historical protocol v1.0 is preserved at [`research-protocol-v1.0.md`](research-protocol-v1.0.md), with its original machine-readable contract at [`../configs/protocols/protocol-v1.yaml`](../configs/protocols/protocol-v1.yaml).
-
-Protocol v1.1 supersedes v1.0 for future scientific work. It preserves the verified datasets, chronological `60/10/10/10/10` partition contract, normal-only parser fit, label isolation, three-seed policy, PR-AUC primary metric, and human-only final TEST. It changes the primary research question, reduces core scope, adds cheap falsification experiments and negative controls, and makes Transformer, localization, and fusion conditional.
-
-No scientific experiment has run. TEST is now physically sealed for HDFS and BGL, has never been opened, and has no unlock record. Versioned Protocol v1.1 remains preserved; EFFECT-001 and PROTOCOL-SPLIT-CLARIFY-001 are binding addenda rather than silent rewrites of the approved file. Global scientific execution remains separately gated.
-
-PARSE-001 is complete. The next separately authorized scientific task is
-`CANONICAL-EVENT-001`; it may only use frozen no-update parser matching.
+No scientific experiment, v2 model fit, target adaptation or final TEST run has occurred. Model/experiment configs are planning contracts until their gates and implementation exist.

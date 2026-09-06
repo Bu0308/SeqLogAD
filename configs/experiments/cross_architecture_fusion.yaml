@@ -1,0 +1,12 @@
+# Planned v2 experiment contract. It is intentionally non-runnable.
+status: PLANNED_NOT_RUN
+protocol: configs/protocols/protocol-v2-domain-adaptive-fusion.yaml
+fold_strategy: LEAVE_ONE_ARCHITECTURE_OUT
+minimum_source_architectures: 3
+target_labels_allowed: FINAL_EVALUATION_ONLY
+target_adaptation: UNLABELED_NORMAL_BUFFER_ONLY
+primary_unit: TARGET_ARCHITECTURE_X_FOLD
+mandatory_comparators: [semantic_only, sequence_only, gtat_only, equal_weight_fusion, adaptive_fusion, no_target_adaptation]
+robustness: [cold_start, new_templates, volume_drift, contaminated_burn_in]
+execution_ready: false
+empirical_status: NOT_RUN

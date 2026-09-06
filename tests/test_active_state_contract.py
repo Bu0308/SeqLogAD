@@ -33,9 +33,14 @@ def test_active_protocol_stack_is_explicit_and_resolvable() -> None:
         "configs/protocols/purge-decision-v1.yaml",
     ]
     assert [item["path"] for item in protocol["binding_addenda"]] == expected
-    assert default["protocol"]["binding_addenda"] == expected
-    assert state["protocol_stack"]["binding_addenda"] == expected
-    for path in [state["protocol_stack"]["base"], *expected]:
+    # default.yaml no longer binds the v1.1 addenda: under the workbook they are
+    # historical provenance, and the registry is where that is recorded.
+    assert "binding_addenda" not in default["protocol"]
+    historical = state["historical_foundation"]
+    assert historical["status"] == "SUPERSEDED_HISTORICAL_PROVENANCE"
+    assert historical["may_control_routing"] is False
+    assert historical["addenda"] == expected
+    for path in [historical["protocol"], *expected]:
         assert (PROJECT_ROOT / path).is_file()
 
 
@@ -68,37 +73,49 @@ def test_active_method_and_seed_contract_matches_effect_001() -> None:
 
 
 def test_active_status_next_task_test_state_and_license_are_exact() -> None:
+    """The registry routes the workbook and retires the old pointers, without
+    disturbing the frozen HDFS/BGL identities it still has to keep verifiable."""
+
     state = _load_yaml("configs/active-state.yaml")["active_state"]
     default = _load_yaml("configs/default.yaml")
 
-    assert state["pipeline"] == {
-        "SPLIT-001": "COMPLETE",
-        "PARSE-001": "COMPLETE_FROZEN",
-        "PURGE-AUDIT-001": "COMPLETE",
-        "PURGE-DECISION-001": "FROZEN_HUMAN_APPROVED",
-        "CANONICAL-EVENT-001": "AUTHORIZED_NEXT_TASK",
-        "SEQ-001": "NOT_STARTED",
-        "scientific_experiments": "NOT_RUN",
-    }
-    assert state["next_scientific_task"] == "CANONICAL-EVENT-001"
-    assert default["pipeline"]["next_scientific_task"] == "CANONICAL-EVENT-001"
-    assert state["repository_hygiene"]["license_status"] == (
-        "OWNER_DECISION_REQUIRED"
-    )
-    assert default["repository_hygiene"]["license_status"] == (
-        "OWNER_DECISION_REQUIRED"
-    )
-    for dataset in _load_yaml("configs/active-state.yaml")["datasets"].values():
+    plan = state["authoritative_plan"]
+    assert plan["path"] == "Bang_ke_hoach_SeqLogAD.xlsx"
+    assert plan["conflict_rule"] == "THE_WORKBOOK_WINS_OVER_EVERY_OTHER_DOCUMENT"
+    assert default["plan"]["authoritative"] == "Bang_ke_hoach_SeqLogAD.xlsx"
+
+    assert state["next_authorized_task"] == "P2.1"
+    assert default["protocol"]["next_authorized_task"] == "P2.1"
+    assert default["pipeline"]["next_authorized_task"] == "P2.1"
+    assert state["scientific_results_status"] == "NOT_RUN"
+    assert state["representation_training_status"] == "NOT_STARTED"
+    assert state["target_adaptation_status"] == "NOT_STARTED"
+
+    historical = state["historical_foundation"]
+    assert historical["status"] == "SUPERSEDED_HISTORICAL_PROVENANCE"
+    assert historical["may_control_routing"] is False
+    assert historical["retired_artifacts_retained"] is True
+    for retired in ("SEQ-001", "THEORY-COMPLETE-001", "KT-1", "EFFECT-001"):
+        assert retired in historical["retired_pointers"]
+
+    reused = state["reused_decisions"]["CANONICAL-NUL-DECISION-001"]
+    assert reused["classification"] == "REUSE_WITH_EXISTING_DECISION"
+    assert reused["policy_version"] == "seqlogad-nul-escape-v1"
+
+    assert state["repository_hygiene"]["license_status"] == "OWNER_DECISION_REQUIRED"
+    assert default["repository_hygiene"]["license_status"] == "OWNER_DECISION_REQUIRED"
+
+    # The retired split artifacts are provenance and must stay sealed and untouched.
+    for dataset in _load_yaml("configs/active-state.yaml")["historical_datasets"].values():
         split = dataset["split"]
         assert split["test_status"] == "SEALED"
         assert split["never_opened"] is True
         assert split["open_count"] == 0
         assert split["unlock_records"] == 0
 
-
 def test_purge_decision_resolves_gate_without_authorizing_split_change() -> None:
     active = _load_yaml("configs/active-state.yaml")
-    risk = active["methodological_risks"]["hdfs_boundary_purge"]
+    risk = active["historical_methodological_risks"]["hdfs_boundary_purge"]
     assert risk["status"] == "PURGE_REPRESENTATIVENESS_CONCERN"
     assert risk["interpretation"] == (
         "RESOLVED_BY_OPTION_B_PRIMARY_UNCHANGED_SECONDARY_PREREGISTERED"
@@ -112,6 +129,10 @@ def test_purge_decision_resolves_gate_without_authorizing_split_change() -> None
     assert risk["primary_split_status"] == "FROZEN_UNCHANGED"
     assert risk["sensitivity_status"] == "PRE_REGISTERED_SECONDARY_NOT_RUN"
     assert risk["canonical_event_authorized"] is True
+    assert risk["current_effective_canonical_event_authorization"] is False
+    assert risk["superseding_gate"] == (
+        "CANONICAL-NUL-DECISION-001_PENDING_HUMAN_APPROVAL"
+    )
     assert risk["decision_payload_sha256"] == (
         "5af8505364c793b2fbd42885ebcdea1eba03b75c808415214af7311aa4ecd177"
     )
@@ -137,12 +158,12 @@ def test_split_snapshot_is_explicitly_historical_after_parse_completion() -> Non
     assert clarification["parser_fitted"] is False
     assert clarification["next_authorized_task"] == "PARSE-001"
     assert clarification["current_execution_state"] == "configs/active-state.yaml"
-    assert state["pipeline"]["PARSE-001"] == "COMPLETE_FROZEN"
+    assert state["historical_foundation"]["status"] == "SUPERSEDED_HISTORICAL_PROVENANCE"
 
 
 def test_artifact_pointers_are_portable_and_match_local_artifacts_when_present() -> None:
     active = _load_yaml("configs/active-state.yaml")
-    for dataset_key, dataset in active["datasets"].items():
+    for dataset_key, dataset in active["historical_datasets"].items():
         split = dataset["split"]
         parser = dataset["parser"]
         for key in ("directory", "manifest", "test_seal"):
@@ -194,13 +215,16 @@ def test_active_configs_have_no_private_paths_or_stale_execution_todos() -> None
 
     active_files = [
         "configs/default.yaml",
-        "configs/experiments/detector_baselines.yaml",
-        "configs/models/baselines.yaml",
+        "configs/parsing/normalizer-cs-v1.yaml",
+        "configs/protocols/cross-system-split-v1.yaml",
+        "configs/protocols/target-buffer-v1.yaml",
+        "configs/protocols/leak-cs-001-exceptions.yaml",
+        "configs/plan/excel-roadmap-v1.yaml",
         "Plan/00_MASTER_PLAN.md",
         "Plan/master-implementation-plan-v1.1.md",
         "data/README.md",
         "docs/metadata-extraction-contract.md",
-        "src/seqlogad/models/README.md",
+        "docs/protocol/PHASE-1-RECORD.md",
     ]
     active_text = "\n".join(
         (PROJECT_ROOT / path).read_text(encoding="utf-8") for path in active_files

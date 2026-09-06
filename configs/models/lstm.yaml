@@ -1,8 +1,0 @@
-# Historical V3 placeholder retained for provenance. Not runnable.
-model:
-  name: lstm_next_event
-  status: REMOVED_FROM_V1_1_CORE
-  reactivation_requires: NEW_PROTOCOL_DECISION
-training:
-  owner: HUMAN
-  empirical_status: NOT_RUN

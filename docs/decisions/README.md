@@ -5,3 +5,7 @@ The active decision log is version-controlled at [`../../Plan/06_DECISIONS.md`](
 Task-specific frozen record:
 
 - [`PURGE-DECISION-001.md`](PURGE-DECISION-001.md) — keep the frozen HDFS primary split and pre-register a separate secondary purge-sensitivity analysis.
+
+Pending human decision:
+
+- [`CANONICAL-NUL-DECISION-001.md`](CANONICAL-NUL-DECISION-001.md) — recommends a versioned, collision-safe NUL escape backed by exact raw-message provenance. Status: `FROZEN_HUMAN_REVIEW_READY`; it is not binding and does not authorize corpus generation until explicit human approval.

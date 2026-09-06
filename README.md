@@ -2,36 +2,113 @@
 
 # SeqLogAD
 
-### Sequence-Based Unsupervised Anomaly Detection for Large-Scale Event Logs
+### Domain-Adaptive Fusion for Zero-Label Cross-System Log Anomaly Detection
 
-A research project testing **whether and when event order adds measurable anomaly-detection value beyond strong order-insensitive baselines**.
+A research project testing **whether knowledge transfers across heterogeneous log architectures and adapts to an unseen target using only an unlabeled normal buffer**.
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Protocol](https://img.shields.io/badge/protocol-v1.1%20frozen-blue)
+![Plan](https://img.shields.io/badge/plan-Bang__ke__hoach__SeqLogAD.xlsx-informational)
+![Phase](https://img.shields.io/badge/phase-P1%20complete-success)
+![Gate](https://img.shields.io/badge/G0-PASSED%20%C2%B7%20signed%202026--09--06-success)
 ![Results](https://img.shields.io/badge/scientific%20results-NOT__RUN-lightgrey)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
 
 </div>
 
 > [!IMPORTANT]
-> The data-integrity foundation, reproducible Python environment, schema contracts, parser-independent raw metadata extractor, deterministic real split artifacts, physical TEST guards, and normal-only `BASE_TRAIN` Drain3 fit/freeze are implemented and verified. The scientific pipeline is not complete: no canonical event corpus, sequence corpus, baseline/model fit, training, tuning, TEST unlock, or final TEST evaluation has occurred. SeqLogAD reports no scientific performance result yet.
+> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 (Data & Protocol) is **complete and signed**: gate **G0 = `PROTOCOL_READY`**, 19 of 19 criteria pass, signed by the researcher on 2026-09-06. `NEXT_AUTHORIZED_TASK = P2.1`, authorised and not started. G1–G4 remain closed, and `EXC-003` blocks G1 for the ARCH-HADOOP fold. No model has been trained: SeqLogAD reports **no scientific performance result**.
 
-## Current scientific question
+## The question
 
-The active question is:
+> **Can fusion transfer knowledge across heterogeneous source architectures, adapt to an unseen target using only an unlabelled normal-log buffer, and detect anomalies with calibrated, explainable evidence?**
 
-> **How much additional anomaly-detection value does sequence order provide beyond strong order-insensitive baselines under a leakage-controlled, chronological, and equal-budget evaluation protocol?**
+Deliberately falsifiable and bounded to evaluated architectures. SeqLogAD does not assume that target adaptation works before a sufficient burn-in buffer, that every target has complete service/component topology, that adaptive fusion must beat equal-weight fusion, or that results generalise beyond held-out architectures. Negative or null findings are valid outcomes.
 
-This is deliberately falsifiable. SeqLogAD does not assume that:
+## Plan and authority
 
-- HDFS or BGL necessarily contains useful non-trivial sequence signal;
-- a sequence model must beat a count-based baseline;
-- a Transformer is needed;
-- localization or fusion will be scientifically justified.
+| Layer | Artifact |
+| --- | --- |
+| Authoritative plan | [`Bang_ke_hoach_SeqLogAD.xlsx`](Bang_ke_hoach_SeqLogAD.xlsx) — 4 phases, 32 micro-tasks, 5 gates, 11 verified sources |
+| Machine-readable projection | [`configs/plan/excel-roadmap-v1.yaml`](configs/plan/excel-roadmap-v1.yaml) (`python scripts/extract_excel_roadmap.py`) |
+| Implementation contract | [`DOMAIN-ADAPTIVE-FUSION-001`](docs/research-protocol-v2-domain-adaptive-fusion.md) · [machine contract](configs/protocols/protocol-v2-domain-adaptive-fusion.yaml) |
+| Execution registry | [`configs/active-state.yaml`](configs/active-state.yaml) |
+| Migration record | [`docs/migration/EXCEL-PLAN-MIGRATION-001.md`](docs/migration/EXCEL-PLAN-MIGRATION-001.md) · [relevance audit](docs/migration/EXCEL-RELEVANCE-AUDIT.md) |
 
-Negative or null findings are valid outcomes.
+Where the workbook and any other document disagree, the workbook wins.
+
+## Phase 1 — Data & Protocol (complete)
+
+| Task | Deliverable | Record |
+| --- | --- | --- |
+| P1.1 | Research scope | [`docs/protocol/P1.1-research-scope.md`](docs/protocol/P1.1-research-scope.md) |
+| P1.2 | Dataset registry `DATA-REG-001` | [`data/registry/dataset_registry.csv`](data/registry/dataset_registry.csv) |
+| P1.3 | Canonical schema `LOG-UNIFY-001` | [`src/seqlogad/protocol/schema.py`](src/seqlogad/protocol/schema.py) |
+| P1.4 | Normaliser `NORM-CS-001` | [`docs/protocol/P1.4-normalisation.md`](docs/protocol/P1.4-normalisation.md) |
+| P1.5 | LOAO folds `CS-SPLIT-001` | [`data/processed/protocol/folds/`](data/processed/protocol/folds) |
+| P1.6 | Target buffer `ADAPT-INPUT-001` | [`data/processed/protocol/buffers/`](data/processed/protocol/buffers) |
+| P1.7 | Isolation audit `LEAK-CS-001` | [`data/processed/protocol/audits/`](data/processed/protocol/audits) |
+| P1.8 | G0 receipt | [`data/processed/protocol/G0-receipt.json`](data/processed/protocol/G0-receipt.json) |
+
+All eight tasks are `DONE`. Four researcher signatures were required and supplied;
+they are recorded in [`configs/protocols/g0-signatures.yaml`](configs/protocols/g0-signatures.yaml)
+and re-verified by exact payload match on every build, so the gate fails closed if a
+payload is altered. Accepted exceptions are registered in
+[`configs/protocols/leak-cs-001-exceptions.yaml`](configs/protocols/leak-cs-001-exceptions.yaml)
+— approval acknowledges them, it does not resolve them.
+
+Full numbers: [`docs/protocol/PHASE-1-RECORD.md`](docs/protocol/PHASE-1-RECORD.md).
+
+### Active architectures
+
+Four log-producing systems, 16,525,722 records, all from Loghub
+([Zenodo `10.5281/zenodo.8196385`](https://doi.org/10.5281/zenodo.8196385), CC-BY-4.0):
+
+| Architecture | System | Domain | Records | Role |
+| --- | --- | --- | ---: | --- |
+| `ARCH-HDFS` | HDFS v1 | distributed storage | 11,175,629 | source + target |
+| `ARCH-BGL` | Blue Gene/L | HPC supercomputer | 4,747,963 | source + target |
+| `ARCH-HADOOP` | Hadoop YARN / MapReduce | batch compute | 394,310 | source + target |
+| `ARCH-OPENSTACK` | OpenStack Nova | cloud IaaS control plane | 207,820 | source only |
+
+Three leave-one-architecture-out folds, each with three source architectures.
+OpenStack is source-only because the only label-blind ordering of its three capture
+sessions places every anomaly before both normal captures — the reasoning is in
+[P1.1](docs/protocol/P1.1-research-scope.md).
+
+### Target-label isolation
+
+Target anomaly labels are forbidden in training, adaptation, calibration, routing,
+fusion fitting, model selection, normaliser fitting and parser fitting. This is
+enforced structurally, not by convention:
+
+- the canonical record has **no label field**, and a label-shaped field is rejected;
+- adapters strip inline ground truth (BGL's alert marker) before a record exists;
+- [`labels.py`](src/seqlogad/protocol/labels.py) is the only module that may open
+  ground truth, refuses every forbidden scope, and records each access;
+- no adaptation-path module imports it — audit check `L09` re-derives this from the
+  import graph on every run, and a test asserts it.
+
+## Reproduce
+
+```bash
+python scripts/extract_excel_roadmap.py   # workbook -> machine-readable plan
+python scripts/build_streams.py           # scan raw corpora  (~11 min)
+python scripts/build_protocol.py          # registry, folds, buffers, audits, G0
+python -m pytest -q
+```
+
+---
+
+# Historical context — the retired v1.1 study
+
+> Everything below documents the **superseded** v1.1 sequence-added-value study. It
+> is retained so the frozen HDFS/BGL artifacts, decisions and TEST seals stay
+> explicable and verifiable. **None of it routes work, gates anything, or defines a
+> definition of done under the workbook.** See
+> [`docs/migration/EXCEL-PLAN-MIGRATION-001.md`](docs/migration/EXCEL-PLAN-MIGRATION-001.md).
 
 ## Why test sequence information explicitly?
+
 
 A true behavioral anomaly may be invisible to per-event frequency:
 
@@ -42,9 +119,9 @@ Observed: LOGIN_REQUEST →                  USER_LOOKUP → SESSION_CREATE
 
 However, a benchmark label may also be predictable from unseen event types, sequence length, or event counts. SeqLogAD therefore tests cheap order-insensitive explanations before attributing performance to sequence order.
 
-## Research Freeze v1.1
+## Preserved v1.1 foundation
 
-The approved direction is `HYBRID_B_PLUS_C`:
+The former approved direction was `HYBRID_B_PLUS_C`; it is retained as historical provenance:
 
 - **Core (Option B):** keep the exact verified HDFS/BGL datasets and measure sequence added value over strong order-insensitive controls.
 - **Conditional (Option C):** study localization faithfulness only if sequence signal and localization sanity gates pass.
@@ -56,7 +133,7 @@ The approved direction is `HYBRID_B_PLUS_C`:
 
 `PROTOCOL-SPLIT-CLARIFY-001` is **FROZEN — HUMAN APPROVED**. It resolves the exact HDFS eligible-line/connected-component boundary policy, BGL raw split-before-window/residual policy, reconciliation equations, and layered split identities. SPLIT-001 has now instantiated that frozen contract: both real manifests reproduce, and both TEST partitions remain `SEALED / NEVER_OPENED`.
 
-## Minimal gated architecture
+## Historical v1.1 gated architecture
 
 ```text
 Verified immutable HDFS/BGL bytes                    [IMPLEMENTED]
@@ -116,7 +193,7 @@ The statistical method family and practical margins are frozen before experiment
 | **FUTURE** | Dataset expansion, retrieval/RAG/Agent, test recommendation, Elasticsearch adapter, FastAPI, Streamlit/dashboard |
 | **REMOVED FROM CORE** | LSTM, fixed four-expert design, normal-reference expert, F2–F8 trainable fusion ladder, multi-agent platform |
 
-## Current implementation status
+## Current implementation status and v2 boundary
 
 | Capability | Status |
 |---|---|
@@ -136,6 +213,11 @@ The statistical method family and practical margins are frozen before experiment
 | Sequence builder and killer-experiment pipeline | **Not implemented** |
 | Baselines/models/localization/fusion | **Not implemented or fitted** |
 | RAG/Agent/API/UI | **Future placeholders only** |
+
+The v2 forward model stack and target-adaptation workflow are planned only:
+Llama-3.1-8B with independent LoRA-Semantic/LoRA-Sequence adapters, GTAT,
+unlabeled target-buffer calibration and adaptive fusion. No v2 model,
+checkpoint, target fold or metric exists.
 
 `PURGE-DECISION-001` is **FROZEN — HUMAN APPROVED**. The original HDFS split
 remains primary, while a separate non-confirmatory purge-sensitivity analysis
@@ -173,7 +255,7 @@ See the [HDFS card](docs/datasets/hdfs.md), [BGL card](docs/datasets/bgl.md), an
 - TEST is physically sealed for both datasets. Ordinary loaders fail before reading TEST records; future access requires a dedicated human-only, hash-bound, audited workflow.
 - Final TEST runs once, by the human researcher, after all artifacts and claims are frozen.
 
-The source of truth is [Protocol v1.1](docs/research-protocol-v1.1.md), its [machine contract](configs/protocols/protocol-v1.1.yaml), the [exact split addendum](docs/split-clarification-contract.md), and the [EFFECT-001 statistical addendum](docs/statistical-decision-contract.md).
+The forward source of truth is [Protocol v2](docs/research-protocol-v2-domain-adaptive-fusion.md), its [machine contract](configs/protocols/protocol-v2-domain-adaptive-fusion.yaml), and the [migration record](docs/plan-migration-v1.1-to-v2.md). The v1.1 protocol, exact split addendum and EFFECT-001 remain frozen historical foundation contracts.
 
 ## Quick start: verify the implemented foundation
 
@@ -212,7 +294,7 @@ Git. Parser commands above only gate or validate existing frozen states. No
 canonical-event generation, baseline experiment, model training, or final-TEST
 execution command is run by this quick start.
 
-## Research questions
+## Preserved v1.1 research questions (historical)
 
 All are **HYPOTHESIS — TO BE TESTED**:
 
@@ -221,7 +303,7 @@ All are **HYPOTHESIS — TO BE TESTED**:
 3. **Order sensitivity:** Does destroying order materially reduce sequential-detector performance while preserving counts and length?
 4. **Conditional localization faithfulness:** If sequence signal exists, can anomaly-causing positions/transitions be localized beyond sanity controls?
 
-Fusion and downstream investigation are not primary RQs in v1.1.
+These questions are not the v2 RQs. See [v2 research questions](docs/research-questions.md).
 
 ## Human and AI ownership
 
@@ -233,7 +315,7 @@ AI/Codex prepares implementation, deterministic builders, tests, configs, and co
 configs/          Dataset and protocol contracts; future configs clearly gated
 data/manifests/   Version-controlled identities of accepted raw bytes
 docs/             Active protocol, RQs, dataset cards, literature, citations
-Plan/             Version-controlled active v1.1 and historical plans/ADRs
+Plan/             Version-controlled v2 plan, migration record, and historical v1.1/ADR records
 src/seqlogad/     Installable package; data foundation/schemas implemented
 tests/            Active foundation/schema/protocol tests plus labeled placeholders
 outputs/          Ignored experiment-specific artifacts
@@ -241,7 +323,8 @@ outputs/          Ignored experiment-specific artifacts
 
 ## Key documents
 
-- [Active master plan v1.1](Plan/master-implementation-plan-v1.1.md)
+- [Forward master plan v2](Plan/master-implementation-plan-v2-domain-adaptive-fusion.md)
+- [v1.1 historical master plan](Plan/master-implementation-plan-v1.1.md)
 - [Architecture](Plan/01_ARCHITECTURE.md)
 - [Research plan](Plan/02_RESEARCH_PLAN.md)
 - [Task backlog](Plan/03_TASK_BACKLOG.md)

@@ -1,4 +1,7 @@
-# Research Freeze v1.1 convention skeleton. Not a runnable experiment config.
+# Convention skeleton for the workbook plan. Not a runnable experiment config.
+#
+# Authoritative scientific plan: Bang_ke_hoach_SeqLogAD.xlsx
+# Machine-readable projection:   configs/plan/excel-roadmap-v1.yaml
 project:
   name: seqlogad
   experiment_id: EXP-YYYYMMDD-NNN
@@ -7,86 +10,102 @@ project:
 # Intentional per-run placeholders owned by future dataset/run configs. They are
 # not stale foundation status.
 dataset:
-  name: TODO
-  version: TODO
-  fingerprint: TODO
-  raw_path: TODO
-  processed_path: TODO
+  registry: data/registry/dataset_registry.json
+  architecture_id: TODO
+  fold_id: TODO
+
+plan:
+  authoritative: Bang_ke_hoach_SeqLogAD.xlsx
+  machine_readable: configs/plan/excel-roadmap-v1.yaml
+  migration_record: docs/migration/EXCEL-PLAN-MIGRATION-001.md
+  relevance_audit: docs/migration/EXCEL-RELEVANCE-AUDIT.md
 
 protocol:
-  contract: configs/protocols/protocol-v1.1.yaml
-  binding_addenda:
-    - configs/protocols/effect-001.yaml
-    - configs/protocols/split-clarification-v1.yaml
-    - configs/protocols/purge-decision-v1.yaml
-  statistical_addendum: configs/protocols/effect-001.yaml
-  statistical_addendum_status: FROZEN_HUMAN_APPROVED
-  split_addendum: configs/protocols/split-clarification-v1.yaml
-  split_addendum_status: FROZEN_HUMAN_APPROVED
-  purge_decision_addendum: configs/protocols/purge-decision-v1.yaml
-  purge_decision_status: FROZEN_HUMAN_APPROVED
+  contract: configs/protocols/protocol-v2-domain-adaptive-fusion.yaml
+  contract_id: DOMAIN-ADAPTIVE-FUSION-001
+  contract_status: PLANNED_USER_APPROVED
+  collection_contract: configs/collection/v2.yaml
   active_state_registry: configs/active-state.yaml
   empirical_status: NOT_RUN
   execution_ready: false
-  canonical_event_task_authorized: true
-  split_status: COMPLETE
+  current_phase: P1_DATA_AND_PROTOCOL
+  next_authorized_task: P2.1
 
-parsing:
-  parser: drain3
-  fit_partition: BASE_TRAIN
-  fit_normal_only: true
-  contract: configs/parsing/drain3-v1.yaml
-  state_artifact_registry: configs/active-state.yaml
-  state_artifact_registry_key: datasets.<dataset>.parser
-  status: COMPLETE_FROZEN
+schema:
+  contract: LOG-UNIFY-001
+  version: "1.0"
+  implementation: src/seqlogad/protocol/schema.py
+  raw_message_preserved: true
+  label_fields_present: false
 
-# Intentional SEQ-001 placeholders; no sequence artifact exists yet.
-sequence:
-  strategy: TODO
-  window_size: TODO
-  grouping_key: TODO
+normalisation:
+  contract: NORM-CS-001
+  rule_file: configs/parsing/normalizer-cs-v1.yaml
+  version: seqlogad-normalizer-cs-v1
+  nul_policy: seqlogad-nul-escape-v1
+  deterministic: true
 
 split:
-  strategy: raw_chronological
-  boundary_algorithm: cumulative_floor
-  exact_contract: configs/protocols/split-clarification-v1.yaml
-  base_train: 0.60
-  fusion_train_reserved: 0.10
-  val_expert: 0.10
-  val_fusion_reserved: 0.10
-  test: 0.10
-  physical_test_guard: data/processed/splits/<dataset>/test-seal.json
-  physical_test_state: SEALED_NEVER_OPENED
-  artifact_registry: configs/active-state.yaml
-  artifact_registry_key: datasets.<dataset>.split
+  contract: configs/protocols/cross-system-split-v1.yaml
+  contract_id: CS-SPLIT-001
+  strategy: LEAVE_ONE_ARCHITECTURE_OUT
+  minimum_source_architectures_per_fold: 3
+  segment_fractions: {early_end: 0.50, guard_end: 0.55, mid_end: 0.70}
+  role_partitions:
+    SOURCE: [SOURCE_TRAIN, SOURCE_VALIDATION]
+    TARGET: [TARGET_BURN_IN, TARGET_EVALUATION]
+  artifact_root: data/processed/protocol/folds
+
+target_buffer:
+  contract: configs/protocols/target-buffer-v1.yaml
+  contract_id: ADAPT-INPUT-001
+  acquisition_rule: LABEL_BLIND_CHRONOLOGICAL_PREFIX
+  artifact_root: data/processed/protocol/buffers
+
+isolation:
+  contract_id: LEAK-CS-001
+  artifact_root: data/processed/protocol/audits
+  target_labels_allowed_in: FINAL_EVALUATION_ONLY
+
+# Parsing is auxiliary under the workbook: Drain3 templates are an optional derived
+# field and are not populated in Phase 1.
+parsing:
+  parser: drain3
+  role: OPTIONAL_AUXILIARY_TEMPLATE_FIELD
+  contract: configs/parsing/drain3-v1.yaml
+  populated_in_phase_1: false
 
 pipeline:
-  SPLIT-001: COMPLETE
-  PARSE-001: COMPLETE_FROZEN
-  PURGE-AUDIT-001: COMPLETE
-  PURGE-DECISION-001: FROZEN_HUMAN_APPROVED
-  CANONICAL-EVENT-001: AUTHORIZED_NEXT_TASK
-  HDFS_PRIMARY_SPLIT: FROZEN_UNCHANGED
-  HDFS_PURGE_SENSITIVITY: PRE_REGISTERED_SECONDARY_NOT_RUN
-  next_scientific_task: CANONICAL-EVENT-001
+  P1.1: COMPLETE_PENDING_RESEARCHER_SIGNATURE
+  P1.2: COMPLETE
+  P1.3: COMPLETE
+  P1.4: COMPLETE
+  P1.5: COMPLETE
+  P1.6: COMPLETE_PENDING_RESEARCHER_SIGNATURE
+  P1.7: COMPLETE
+  P1.8: COMPLETE_PENDING_RESEARCHER_SIGNATURE
+  next_authorized_task: P2.1
 
 repository_hygiene:
   license_status: OWNER_DECISION_REQUIRED
 
+# Workbook task classes. `conditional` follows the workbook's own Class column.
 methods:
-  must: [unseen_event_type, sequence_length, total_event_count, count_vector, isolation_forest, markov_ngram]
-  should: []
-  conditional: [transformer, localization, simple_fusion]
+  must: [llama_base, lora_semantic, lora_sequence, gtat, target_adaptation, calibration, drift, uncertainty, fusion_baselines]
+  should: [domain_invariance]
+  conditional: [adaptive_gate]
 
-# Intentional future evaluation placeholders; TEST remains sealed.
+baselines:
+  mandatory: [strongest_single_expert, equal_weight_fusion, transformer_encoder, isolation_forest]
+  learned_target_weights_allowed: false
+
+# Intentional future evaluation placeholders; no empirical run exists.
 scoring:
   aggregation: TODO
-  threshold_strategy: TODO_VALIDATION_ONLY
+  threshold_strategy: TODO_TARGET_NORMAL_BUFFER_ONLY
   primary_metric: average_precision
-  practical_effect:
-    framework: RESOURCE_FEASIBILITY_MARGIN
-    hdfs: 0.01
-    bgl: 0.01
+  metrics: [average_precision, pr_auc, auroc, false_alert_rate, time_to_detect, latency, calibration, abstention_rate]
+  abstention_state: UNKNOWN_REVIEW
 
 output:
   root: outputs

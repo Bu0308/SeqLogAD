@@ -1,33 +1,128 @@
-# Non-scientific execution-state registry synchronized by PURGE-DECISION-001.
-# Scientific rules remain owned by Protocol v1.1 and its binding addenda.
+# Execution-state registry.
+#
+# The authoritative scientific plan is Bang_ke_hoach_SeqLogAD.xlsx. This file is an
+# operational pointer registry, not an amendment mechanism: it may not weaken,
+# reinterpret or override the workbook.
+#
+# The nested `historical_*` sections preserve the frozen v1.1 HDFS/BGL identities so
+# those artifacts stay verifiable. They are provenance only and control nothing.
+#
+# G0 was signed by the researcher on 2026-09-06. Gate status here is a mirror of
+# data/processed/protocol/G0-receipt.json, which re-derives it from the signature
+# ledger on every build; this file may not assert a gate the receipt does not.
 active_state:
-  id: ACTIVE-STATE-POST-PURGE-DECISION-001
-  version: "1.1"
+  id: ACTIVE-STATE-G0-SIGNED-001
+  version: '3.1'
   status: SYNCHRONIZED
-  synchronized_by: PURGE-DECISION-001
+  synchronized_by: G0-SIGNATURES-001
+  authoritative_plan:
+    path: Bang_ke_hoach_SeqLogAD.xlsx
+    sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
+    authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
+    machine_readable_projection: configs/plan/excel-roadmap-v1.yaml
+    regenerate_with: python scripts/extract_excel_roadmap.py
+    conflict_rule: THE_WORKBOOK_WINS_OVER_EVERY_OTHER_DOCUMENT
+    migration_record: docs/migration/EXCEL-PLAN-MIGRATION-001.md
+    relevance_audit: docs/migration/EXCEL-RELEVANCE-AUDIT.md
+  implementation_contract:
+    id: DOMAIN-ADAPTIVE-FUSION-001
+    version: '2.0'
+    protocol: configs/protocols/protocol-v2-domain-adaptive-fusion.yaml
+    human_readable_contract: docs/research-protocol-v2-domain-adaptive-fusion.md
+    relationship_to_plan: AGREES_WITH_WORKBOOK_SUBORDINATE_TO_IT
+  current_phase: P1_COMPLETE
+  phase_1_tasks:
+    P1.1: DONE
+    P1.2: DONE
+    P1.3: DONE
+    P1.4: DONE
+    P1.5: DONE
+    P1.6: DONE
+    P1.7: DONE
+    P1.8: DONE
+  gates:
+    G0: PASSED
+    G1: NOT_PASSED
+    G2: NOT_PASSED
+    G3: NOT_PASSED
+    G4: NOT_PASSED
+  g0_receipt: data/processed/protocol/G0-receipt.json
+  next_authorized_task: P2.1
+  next_authorized_task_name: Freeze Llama-3.1-8B base, tokenizer, licence and GPU budget (LLM-BASE-001)
+  next_authorized_task_blocked_by: null
   scientific_results_status: NOT_RUN
-  canonical_event_corpus: NOT_CREATED
-  next_scientific_task: CANONICAL-EVENT-001
-  historical_task_aliases:
-    PARSE-002: CANONICAL-EVENT-001
-  protocol_stack:
-    base: configs/protocols/protocol-v1.1.yaml
-    binding_addenda:
-      - configs/protocols/effect-001.yaml
-      - configs/protocols/split-clarification-v1.yaml
-      - configs/protocols/purge-decision-v1.yaml
-  pipeline:
-    SPLIT-001: COMPLETE
-    PARSE-001: COMPLETE_FROZEN
-    PURGE-AUDIT-001: COMPLETE
-    PURGE-DECISION-001: FROZEN_HUMAN_APPROVED
-    CANONICAL-EVENT-001: AUTHORIZED_NEXT_TASK
-    SEQ-001: NOT_STARTED
-    scientific_experiments: NOT_RUN
+  representation_training_status: NOT_STARTED
+  target_adaptation_status: NOT_STARTED
+  phase_1_artifacts:
+    dataset_registry: data/registry/dataset_registry.json
+    stream_indices: data/processed/protocol/streams/
+    folds: data/processed/protocol/folds/
+    target_buffers: data/processed/protocol/buffers/
+    isolation_audits: data/processed/protocol/audits/
+    label_access_audit: data/processed/protocol/label-access-audit.jsonl
+  phase_1_contracts:
+    canonical_schema: LOG-UNIFY-001 (src/seqlogad/protocol/schema.py)
+    normalizer: configs/parsing/normalizer-cs-v1.yaml
+    split: configs/protocols/cross-system-split-v1.yaml
+    target_buffer: configs/protocols/target-buffer-v1.yaml
+    nul_policy: configs/protocols/canonical-nul-decision-v1.yaml
+    exception_register: configs/protocols/leak-cs-001-exceptions.yaml
+    signature_ledger: configs/protocols/g0-signatures.yaml
+  reused_decisions:
+    CANONICAL-NUL-DECISION-001:
+      classification: REUSE_WITH_EXISTING_DECISION
+      policy_version: seqlogad-nul-escape-v1
+      note: Option A adopted verbatim as the byte-safety layer of LOG-UNIFY-001. This is a reuse of an
+        existing repository decision, not a new methodological choice. Its v1.1-scoped consequence (CANONICAL-EVENT-001
+        corpus generation) remains unexecuted and belongs to the retired plan.
+  historical_foundation:
+    protocol: configs/protocols/protocol-v1.1.yaml
+    status: SUPERSEDED_HISTORICAL_PROVENANCE
+    may_control_routing: false
+    may_control_gates: false
+    may_control_definitions_of_done: false
+    retired_pointers:
+    - SEQ-001
+    - THEORY-COMPLETE-001
+    - KT-1
+    - KT-2
+    - KT-3
+    - EFFECT-001
+    - CANONICAL-EVENT-001_AS_NEXT_TASK
+    - TRANSFORMER_GATE
+    - LOCALIZATION_GATE
+    - OLD_FUSION_GATE
+    - HDFS_BGL_ONLY_FIVE_PARTITION_SPLIT
+    - SEALED_TEST_FINAL_EVALUATION_WORKFLOW
+    retired_artifacts_retained: true
+    addenda:
+    - configs/protocols/effect-001.yaml
+    - configs/protocols/split-clarification-v1.yaml
+    - configs/protocols/purge-decision-v1.yaml
   repository_hygiene:
     license_status: OWNER_DECISION_REQUIRED
-
-datasets:
+    pending_deletions: docs/migration/EXCEL-RELEVANCE-AUDIT.md#delete--identified-execution-blocked
+  gate_notes:
+    G0: Protocol Ready. Signed by the researcher on 2026-09-06; 19/19 criteria pass.
+    G1: Adaptation Ready. Blocked for the ARCH-HADOOP fold by EXC-003 (buffer REJECTED under BUFFER-REJECT-001).
+      Also depends on P3.2-P3.5.
+  next_authorized_task_status: AUTHORIZED_NOT_STARTED
+  researcher_signatures:
+    ledger: configs/protocols/g0-signatures.yaml
+    signed_on: '2026-09-06'
+    verified:
+    - P1.1
+    - P1.6
+    - P1.7
+    - P1.8/G0
+    verification: EXACT_PAYLOAD_MATCH_RECHECKED_ON_EVERY_BUILD
+  open_items_after_g0:
+    EXC-001: HDFS boundary exclusion removes 19.75% of records; prevalence effect unmeasured.
+    EXC-002: PURGE-AUDIT-001 evidence does not transfer to the new exclusion set (Jaccard 0.4217).
+    EXC-003: ARCH-HADOOP burn-in buffer REJECTED; blocks G1 for that fold only.
+    EXC-004: ARCH-OPENSTACK is source-only; 3 evaluation folds, not 4.
+    EXC-006: Thunderbird absent from the portfolio (storage).
+historical_datasets:
   hdfs:
     dataset_fingerprint: 0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013
     split:
@@ -66,8 +161,7 @@ datasets:
       state: data/processed/parsers/bgl/drain3-state.bin
       parser_state_sha256: e44649d24afbd4bc335e2d38d54cea9338c211c600baef185cd7a0dee6aee4f6
       status: FIT_COMPLETED_FROZEN
-
-methodological_risks:
+historical_methodological_risks:
   hdfs_boundary_purge:
     status: PURGE_REPRESENTATIVENESS_CONCERN
     classification: SEQLOGAD_DATA_VALIDITY_AUDIT_RESULT
@@ -88,3 +182,16 @@ methodological_risks:
     primary_split_status: FROZEN_UNCHANGED
     sensitivity_status: PRE_REGISTERED_SECONDARY_NOT_RUN
     canonical_event_authorized: true
+    current_effective_canonical_event_authorization: false
+    superseding_gate: CANONICAL-NUL-DECISION-001_PENDING_HUMAN_APPROVAL
+  canonical_observation_representation:
+    status: PROPOSAL_READY_NOT_BINDING
+    conflict: FOUR_NON_TEST_BGL_MESSAGES_CONTAIN_NUL
+    recommended_option: OPTION_A_VERSIONED_COLLISION_SAFE_NUL_ESCAPING
+    decision_contract: configs/protocols/canonical-nul-decision-v1.yaml
+    proposal_payload_sha256: 72c1e03ceae625ab719c51fd552706912d55a06daddb5c280c445afe37696192
+    human_approval_required: true
+    corpus_generation_authorized: false
+    parser_refit_authorized: false
+    split_change_authorized: false
+    test_access_authorized: false

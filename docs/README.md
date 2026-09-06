@@ -1,6 +1,28 @@
 # Documentation
 
-Active scientific documentation:
+**Authoritative scientific plan: [`../Bang_ke_hoach_SeqLogAD.xlsx`](../Bang_ke_hoach_SeqLogAD.xlsx).**
+Where any document here disagrees with the workbook, the workbook wins.
+
+## Plan and migration
+
+- [`../configs/plan/excel-roadmap-v1.yaml`](../configs/plan/excel-roadmap-v1.yaml): machine-readable projection of the workbook.
+- [`migration/EXCEL-PLAN-MIGRATION-001.md`](migration/EXCEL-PLAN-MIGRATION-001.md): what moved, what was retired, what was reused.
+- [`migration/EXCEL-RELEVANCE-AUDIT.md`](migration/EXCEL-RELEVANCE-AUDIT.md): keep / adapt / archive / delete decisions with dependency paths.
+- [`references/EXCEL-PLAN-citation-verification.md`](references/EXCEL-PLAN-citation-verification.md): all 11 workbook citations resolved against Crossref/arXiv.
+
+## Phase 1 — Data & Protocol
+
+- [`protocol/P1.1-research-scope.md`](protocol/P1.1-research-scope.md): architecture, unseen target, forbidden fields, fold diagram.
+- [`protocol/P1.4-normalisation.md`](protocol/P1.4-normalisation.md): `NORM-CS-001` rules, golden cases, measured effect.
+- [`protocol/PHASE-1-RECORD.md`](protocol/PHASE-1-RECORD.md): P1.2–P1.8 with every measured number.
+
+## Implementation contract
+
+- [`research-protocol-v2-domain-adaptive-fusion.md`](research-protocol-v2-domain-adaptive-fusion.md): forward protocol and gate boundary.
+- [`research-questions.md`](research-questions.md): cross-architecture RQs.
+- [`plan-migration-v1.1-to-v2.md`](plan-migration-v1.1-to-v2.md): the earlier v1.1→v2 decision map (historical).
+- [`data-collection-gap-matrix.md`](data-collection-gap-matrix.md): guide-to-repo coverage and deferrals.
+- [`data-collection-system.md`](data-collection-system.md): implementation boundary and validator contract.
 
 - [`../configs/active-state.yaml`](../configs/active-state.yaml): synchronized post-PURGE-DECISION execution status plus portable split/parser identities; not a scientific decision source.
 - [`audits/PURGE-AUDIT-001.md`](audits/PURGE-AUDIT-001.md): aggregate HDFS purged-versus-retained result, human stop gate, TEST boundary, and deterministic payload identity.
@@ -14,8 +36,7 @@ Active scientific documentation:
   verified real split.
 - [references/META-001-citations.md](references/META-001-citations.md): sources,
   implementation provenance, and scientific boundary for META-001.
-- [`project-scope.md`](project-scope.md): v1.1 core, conditional, future, and removed scope.
-- [`research-questions.md`](research-questions.md): RQ1–RQ3 core and conditional RQ4.
+- [`project-scope.md`](project-scope.md): v2 scope and preserved foundation.
 - [`research-protocol.md`](research-protocol.md): current protocol entry point.
 - [`research-protocol-v1.1.md`](research-protocol-v1.1.md): active frozen protocol.
 - [`split-clarification-contract.md`](split-clarification-contract.md): binding exact HDFS/BGL allocation, purge, residual, reconciliation, and hash semantics.
@@ -37,6 +58,6 @@ Active scientific documentation:
 - [`schemas/`](schemas/): implemented schema contracts; not evidence that data artifacts exist.
 - [`reproducibility.md`](reproducibility.md): environment/artifact discipline.
 
-Planning, architecture, backlog, roadmap, ADRs, and experiment status live under [`../Plan/`](../Plan/). The active plan is `master-implementation-plan-v1.1.md`; V1/V2/V3 plans are historical and labeled superseded.
+Planning, architecture, backlog, roadmap, ADRs, and experiment status live under [`../Plan/`](../Plan/). The active plan is the v2 domain-adaptive-fusion plan; v1.1/V1/V3 plans are historical and labeled superseded.
 
 No documentation file may turn `NOT_RUN` work into a result or treat a placeholder module as implementation.

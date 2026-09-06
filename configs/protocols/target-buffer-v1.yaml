@@ -1,0 +1,104 @@
+# ADAPT-INPUT-001 — target normal burn-in buffer contract (Excel P1.6).
+#
+# Declared before any target result exists. Every threshold below is label-free:
+# none of them may be computed from, or compared against, ground truth.
+target_buffer:
+  id: ADAPT-INPUT-001
+  version: "1.1"
+  protocol: DOMAIN-ADAPTIVE-FUSION-001
+  plan: Bang_ke_hoach_SeqLogAD.xlsx
+
+  acquisition:
+    rule: LABEL_BLIND_CHRONOLOGICAL_PREFIX
+    definition: >-
+      The burn-in buffer is exactly the EARLY segment of the target architecture's
+      chronological stream, as produced by CS-SPLIT-001 (first 50% of records, with
+      grouping-unit integrity applied). It is selected by time and record order only.
+    forbidden_selection_signals:
+      - ground_truth_anomaly_label
+      - source_provided_normal_abnormal_file_identity
+      - model_score
+      - evaluation_outcome
+    forbidden_operation: SELECT_RECORDS_WHERE_LABEL_EQUALS_NORMAL
+
+  contamination:
+    assumption: PREDOMINANTLY_NORMAL_OPERATIONAL_ASSUMPTION
+    declared_bound_fraction: 0.05
+    bound_basis: OPERATIONAL_ASSUMPTION_NOT_MEASURED_AT_P1
+    verification_boundary: FINAL_EVALUATION
+    note: >-
+      The bound is an assumption the protocol commits to in advance, not a measured
+      quantity. Measuring realised contamination requires target ground truth and is
+      therefore a P4 evaluation-boundary activity (ROB-CONTAM-001), never a P1 check.
+
+  readiness_minima:
+    min_records: 10000
+    min_time_span_seconds: 3600
+    max_relative_time_gap: 0.25      # largest inter-record gap / total span
+    min_parse_ok_ratio: 0.95
+    min_level_coverage: 0.90
+    min_component_coverage: 0.90
+    min_distinct_normalized_messages: 50
+    max_duplicate_ratio: 0.9999      # distinct normalized / total may not collapse
+
+  readiness_states: [READY, NOT_READY, UNKNOWN]
+  unknown_policy: >-
+    A missing or uncomputable diagnostic yields UNKNOWN for that check and never a
+    silent pass. UNKNOWN never becomes READY by default.
+
+  # Required by Excel P1.6: "assumptions, hash, duration và rejection rule có chữ ký
+  # researcher". This states what a rejection *means*; it changes no threshold and
+  # no readiness outcome.
+  rejection_rule:
+    id: BUFFER-REJECT-001
+    trigger: any_readiness_check_in_state_NOT_READY_or_UNKNOWN
+    aggregation: >-
+      A buffer is REJECTED when any check is NOT_READY. It is INDETERMINATE when no
+      check is NOT_READY but at least one is UNKNOWN. Only an all-READY buffer is
+      accepted.
+    consequences_of_rejection:
+      - The buffer must not be used to build target memory (P3.2), to calibrate any
+        expert (P3.3), to fit drift baselines (P3.4), or to set abstention thresholds
+        (P3.5).
+      - G1 (Adaptation Ready) must not be claimed for the affected fold.
+      - >-
+        The affected fold remains protocol-valid for Phase 1. Rejection is a
+        statement about adaptation readiness, not about the split or the schema.
+      - The fold must be listed in the G0 receipt so the rejection is visible at
+        sign-off rather than discovered later.
+    forbidden_remedies:
+      - relaxing any value in readiness_minima to obtain a pass
+      - recomputing a check on a different population than the buffer segment
+      - inspecting target labels to argue the buffer is acceptable
+      - silently downgrading a NOT_READY or UNKNOWN state to READY
+    permitted_remedies_researcher_owned:
+      - accept the rejection and drop the architecture from target-eligible folds
+      - extend or relocate the burn-in window and regenerate the fold, which
+        produces a new contract version and new hashes
+      - improve the adapter so that a currently uncovered field becomes available,
+        then rescan and re-evaluate
+      - record a documented, signed exception in the LEAK-CS-001 exception register
+    authority: RESEARCHER_ONLY
+    ai_may_not: [relax_minima, override_state, claim_G1_for_a_rejected_buffer]
+
+  provenance_required:
+    - architecture_id
+    - buffer_membership_sha256
+    - record_count
+    - first_timestamp_utc
+    - last_timestamp_utc
+    - split_contract_sha256
+    - normalizer_rule_file_sha256
+    - stream_index_sha256
+
+  label_exposure:
+    adaptation_api_exposes_labels: false
+    label_column_in_buffer_records: false
+    label_lookup_reachable_from_buffer: false
+
+  researcher_signature:
+    required: true
+    status: SIGNED
+    signed_on: "2026-09-06"
+    ledger: configs/protocols/g0-signatures.yaml
+    payload: "APPROVE ADAPT-INPUT-001 v1.1 TARGET BURN-IN CONTRACT AND BUFFER-REJECT-001"

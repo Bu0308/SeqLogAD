@@ -76,7 +76,7 @@ def test_secondary_sensitivity_is_preregistered_nonselection_and_not_run() -> No
     assert sensitivity["artifact_policy"]["artifacts_created_by_this_task"] is False
 
 
-def test_test_seals_remain_closed_and_canonical_event_is_next() -> None:
+def test_test_seals_remain_closed_and_later_nul_gate_is_respected() -> None:
     contract = _yaml("configs/protocols/purge-decision-v1.yaml")["purge_decision"]
     payload = contract["identity_payload"]
     active = _yaml("configs/active-state.yaml")
@@ -87,9 +87,16 @@ def test_test_seals_remain_closed_and_canonical_event_is_next() -> None:
         "open_count": 0,
         "unlock_records": 0,
     }
+    # The frozen purge decision records the state at its approval time. A later,
+    # non-binding NUL-representation gate now blocks corpus generation.
+    # The decision payload records the state at its approval time under the retired
+    # plan; the active registry has since moved to the workbook.
     assert payload["next_authorized_task"] == "CANONICAL-EVENT-001"
-    assert active["active_state"]["next_scientific_task"] == "CANONICAL-EVENT-001"
-    for dataset in active["datasets"].values():
+    assert "CANONICAL-EVENT-001_AS_NEXT_TASK" in (
+        active["active_state"]["historical_foundation"]["retired_pointers"]
+    )
+    assert active["active_state"]["next_authorized_task"] == "P2.1"
+    for dataset in active["historical_datasets"].values():
         split = dataset["split"]
         assert split["test_status"] == "SEALED"
         assert split["never_opened"] is True

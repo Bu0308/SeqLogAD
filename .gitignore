@@ -20,6 +20,9 @@ data/raw/**
 !data/raw/bgl/.gitkeep
 data/parsed/**
 data/processed/**
+# The dataset registry is a Phase 1 deliverable and is version-controlled.
+!data/registry/
+!data/registry/**
 data/knowledge_base/**
 !data/parsed/README.md
 !data/processed/README.md
@@ -32,6 +35,12 @@ outputs/traces/*
 outputs/runs/*
 !*/README.md
 !*/.gitkeep
+
+# v2 process-evidence collection (portable schemas are tracked; local/private
+# records and Projmem state are not)
+.pmem/
+research_records/private/
+exports/private/
 
 # Acquisition leftovers and local archives
 *.part
@@ -52,8 +61,6 @@ outputs/runs/*
 .vscode/
 
 # AI-agent metadata and planning files
-.ai/
-Plan/
 *_agent_ops/
 *agent_*op/
 **/agent.md

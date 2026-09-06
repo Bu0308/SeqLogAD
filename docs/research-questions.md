@@ -1,60 +1,31 @@
-# Research Questions — Freeze v1.1
+# Research Questions — v2 Domain-Adaptive Fusion
 
-All questions are **HYPOTHESIS — TO BE TESTED**. No scientific experiment has run.
+All questions are `HYPOTHESIS — TO BE TESTED`; no v2 experiment has run.
 
-## RQ1 — Dataset suitability
+## RQ1 — Cross-architecture representation
 
-**Question:** Do the exact verified HDFS/BGL artifacts contain enough non-trivial sequential information under the SeqLogAD protocol to support sequence-based anomaly-detection claims?
+Can a shared representation and the selected experts generalise across log syntaxes and source architectures when one complete architecture is held out?
 
-- **Priority:** CORE / MUST
-- **Hypothesis:** Dataset suitability may differ by dataset and exact protocol; no positive outcome is assumed.
-- **Experiment concept:** KT-1 and KT-2 compare trivial/strong order-insensitive controls and quantify count/label dependence before complex models.
-- **Primary metric:** PR-AUC; supplemented by collision/purity/conditional-dependence diagnostics and FPR/latency.
-- **Required components:** Frozen split, parser/events/sequences, unseen-event/length/total-count/count-vector baselines, and Isolation Forest as the EFFECT-001 required primary orderless candidate.
-- **Falsification:** If order-insensitive behavior reaches the pre-frozen practical ceiling, that dataset cannot support a sequence-advantage claim by itself.
+Evidence: leave-one-architecture-out folds, source-held-out expert reports, per-target AP/PR-AUC and bootstrap uncertainty. The claim is bounded to the architectures evaluated, not universal generalisation.
 
-## RQ2 — Sequence added value
+## RQ2 — Zero-label target adaptation
 
-**Question:** How much additional anomaly-detection value does a minimal sequential model provide beyond strong order-insensitive baselines?
+Can a target normal buffer calibrate scores and uncertainty for an unseen architecture without target labels?
 
-- **Priority:** CORE / MUST
-- **Hypothesis:** Markov/N-gram may add value when transition structure carries label-relevant information; it may also add no meaningful value.
-- **Experiment concept:** Compare Markov/N-gram with the strongest legal order-insensitive comparator under the same partitions, selection budget, thresholds, and metrics.
-- **Primary estimand:** Per dataset, `Delta_AP_d = AP_sequence,d - AP_strongest_orderless,d`, using non-interpolated Average Precision and the EFFECT-001 validation-only comparator rule.
-- **Primary inference:** 95% paired dependency-unit bootstrap interval with human-approved `delta_HDFS = delta_BGL = 0.01 AP`; outcomes are meaningful gain, practical equivalence, meaningful harm, or inconclusive.
-- **Secondary metrics:** Precision, Recall, F1, FPR, latency, throughput, memory; these cannot replace the primary contrast.
-- **Required components:** RQ1 artifacts plus Markov/N-gram.
-- **Falsification:** If added value is below the pre-frozen practical margin, do not claim sequence advantage.
+Evidence: buffer hash/provenance, readiness and contamination checks, false alert rate, calibration, abstention and degradation from cold start. The buffer must be versioned before evaluation and cannot silently recalibrate after labels are inspected.
 
-## RQ3 — Order sensitivity
+## RQ3 — Adaptive fusion
 
-**Question:** Does destroying event order materially reduce sequential-detector performance while preserving event counts and length?
+Does a gate using calibrated score, uncertainty, coverage, drift and context add stable value over each expert and mandatory equal-weight fusion?
 
-- **Priority:** CORE / MUST
-- **Hypothesis:** A genuinely order-sensitive detector should degrade under valid sequence destruction; magnitude is unknown.
-- **Experiment concept:** KT-3 applies deterministic within-sample permutations preserving event multiset, count vector, length, label, partition, and parent linkage.
-- **Primary estimand:** `Delta_AP_shuffle,d = AP_original,d - mean(AP_shuffled,d)` using three registered shuffle seeds, the same dataset-specific margin, and the same paired bootstrap contract as RQ2.
-- **Secondary metric:** Per-sample score change and perturbable-only diagnostics, reported descriptively.
-- **Required components:** Frozen sequence artifacts, Markov/N-gram predictions, deterministic destruction manifest.
-- **Falsification:** No practically meaningful degradation blocks an order-sensitivity claim on that dataset/protocol.
+Evidence: expert diversity, disagreement/error overlap, held-out architecture results, ablations removing each expert and adaptation, and false-alert control. Fusion is not justified by an arbitrary score sum or by a single target.
 
-## Conditional RQ4 — Localization faithfulness
+## RQ4 — Operating envelope
 
-**Question:** If meaningful sequence signal exists, can anomaly-causing token/gap/transition positions be localized more faithfully than sanity controls?
+How does the system behave under cold start, new templates, log-volume drift, missing topology fields and contaminated target burn-in?
 
-- **Priority:** CONDITIONAL
-- **Opening gate:** RQ1–RQ3 support sequence signal, synthetic targets are valid, and KT-4/KT-5 are pre-registered.
-- **Hypothesis:** Coordinate-aware localization may identify causal perturbations better than randomized positions; no positive outcome is assumed.
-- **Experiment concept:** Separate token/gap/transition metrics, target-position randomization, and counterfactual repair/deletion.
-- **Primary metrics:** Coordinate-family precision/recall/ranking plus counterfactual score change against matched controls.
-- **Falsification:** Failure against randomization or counterfactual sanity controls removes localization faithfulness from the contribution.
+Evidence: predeclared scenario bundles, coverage/abstention records, latency and degradation reports. These scenarios describe limits; they do not change the research question or permit target-label tuning.
 
-## Non-primary questions
+## Preserved historical questions
 
-Transformer, complementarity/fusion, RAG/Agent, and regression-test recommendation are not active RQs. They require a later protocol amendment after their gates and cannot substitute for RQ1–RQ3.
-
-## Claim states
-
-Allowed empirical claim states: `PROPOSED`, `HYPOTHESIS`, `SUPPORTED`, `PARTIALLY_SUPPORTED`, `UNSUPPORTED`, `REJECTED`.
-
-The targeted `LIT-001` review is complete and establishes no algorithmic novelty claim. Any future novelty claim requires a new claim-specific systematic search. External paper results are prior-work evidence, never SeqLogAD results.
+The v1.1 questions about sequence added value, order destruction and conditional localization remain documented in [`research-protocol-v1.1.md`](research-protocol-v1.1.md) and [`../Plan/master-implementation-plan-v1.1.md`](../Plan/master-implementation-plan-v1.1.md). They are not v2 gates. Their HDFS/BGL protocol and EFFECT-001 margins remain frozen provenance.

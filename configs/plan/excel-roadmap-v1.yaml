@@ -1,0 +1,1018 @@
+roadmap:
+  schema_version: '1.0'
+  authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
+  source_workbook: Bang_ke_hoach_SeqLogAD.xlsx
+  source_workbook_sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
+  worksheets:
+  - Executive
+  - Roadmap
+  - Task Register
+  - Gates
+  - Traceability
+  - Research Sources
+  - Task Playbooks
+  generated_by: scripts/extract_excel_roadmap.py
+  note: Generated projection of the workbook. The workbook wins on any discrepancy; regenerate rather
+    than hand-editing this file.
+  phases:
+  - phase: P1 · Data & Protocol
+    timing: W1–W2
+    objective: Create multi-source schema, target-buffer contract and leave-one-architecture-out evaluation.
+    micro_task_count: 8
+    key_outputs: Registry, unified schema, split manifests, leakage audit
+    exit_gate: 'G0: Protocol Ready'
+    owner: AI + Researcher
+  - phase: P2 · Representation & Experts
+    timing: W3–W4
+    objective: Build Llama base with two distinct LoRA adapters and a GTAT expert.
+    micro_task_count: 8
+    key_outputs: LoRA-Semantic, LoRA-Sequence, GTAT, evidence contract
+    exit_gate: 'G2: Expert Diversity Ready'
+    owner: AI + Researcher
+  - phase: P3 · Adaptation & Fusion
+    timing: W5–W6
+    objective: Calibrate target normal buffer; validate MLP 8→32→16→3 gate without target labels.
+    micro_task_count: 8
+    key_outputs: Target memory, drift/uncertainty, fusion gate, explanations
+    exit_gate: 'G3: Fusion Justified'
+    owner: AI + Researcher
+  - phase: P4 · Cross-System Validation
+    timing: W7–W8
+    objective: Evaluate held-out architectures; test ablation, cold start and contamination; report evidence.
+    micro_task_count: 8
+    key_outputs: LOAO results, robustness, reproducibility bundle, report
+    exit_gate: 'G4: Final Evaluation'
+    owner: Researcher + AI
+  gates:
+  - gate: G0
+    decision: Protocol Ready
+    required_evidence: At least 3 source architectures; schema, LODO split and label-isolation audit
+    forbidden_before_pass: Representation or target adaptation training
+    owner: Researcher
+    depends_on:
+    - P1.1–P1.8
+    workbook_status: Not passed
+  - gate: G1
+    decision: Adaptation Ready
+    required_evidence: Normal burn-in assumption, contamination bound, local-memory/calibration tests
+    forbidden_before_pass: Use target labels or silent recalibration
+    owner: Researcher
+    depends_on:
+    - P1.6
+    - P3.2–P3.5
+    workbook_status: Not passed
+  - gate: G2
+    decision: Expert Diversity
+    required_evidence: Held-out source results, disagreement/double-fault and evidence contract
+    forbidden_before_pass: Adaptive learned fusion
+    owner: Researcher
+    depends_on:
+    - P2.1–P2.8
+    workbook_status: Not passed
+  - gate: G3
+    decision: Fusion Justified
+    required_evidence: MLP gate vs single/equal/Transformer/IF baselines; FAR/stability checks
+    forbidden_before_pass: Final claim that fusion is superior
+    owner: Researcher
+    depends_on:
+    - P3.6–P3.8
+    workbook_status: Not passed
+  - gate: G4
+    decision: Final Evaluation
+    required_evidence: Data/model/buffer/gate/threshold freeze and reproducibility receipt
+    forbidden_before_pass: Post-hoc tuning or universal-generalisation claim
+    owner: Researcher
+    depends_on:
+    - P4.1–P4.7
+    workbook_status: Not passed
+  research_questions:
+  - rq: RQ1
+    question: Can a representation generalise across log syntaxes?
+    primary_metric: Per-target AP/PR-AUC + CI
+    unit_of_evaluation: held-out architecture
+    task_ids:
+    - P1–P2
+    required_evidence: LOAO splits + expert runs
+    claim_allowed: Generalises across evaluated targets
+    claim_forbidden: Universal generalisation
+  - rq: RQ2
+    question: Can target normal-only adaptation calibrate unseen systems?
+    primary_metric: FAR, calibration, abstention
+    unit_of_evaluation: target normal buffer + later logs
+    task_ids:
+    - P1.6
+    - P3.2–P3.5
+    required_evidence: buffer hash + calibration run
+    claim_allowed: Adapts without target labels
+    claim_forbidden: Works before sufficient normal buffer
+  - rq: RQ3
+    question: Does adaptive fusion add value?
+    primary_metric: AP/FAR vs Llama/GTAT/single/equal/legacy baselines
+    unit_of_evaluation: architecture × fold
+    task_ids:
+    - P3.6–P3.8
+    - P4.3
+    required_evidence: paired result + ablation
+    claim_allowed: Stable gain on evaluated domains
+    claim_forbidden: Gain from arbitrary score sum
+  - rq: RQ4
+    question: What happens under drift/cold start/contamination?
+    primary_metric: degradation + latency
+    unit_of_evaluation: robustness scenario
+    task_ids:
+    - P4.4–P4.5
+    required_evidence: scenario bundles
+    claim_allowed: Known operating envelope
+    claim_forbidden: Robust to all drift
+  - rq: RQ5
+    question: Are conclusions reproducible?
+    primary_metric: hash/config/seed audit
+    unit_of_evaluation: final bundle
+    task_ids:
+    - P4.6–P4.8
+    required_evidence: repro + claim map
+    claim_allowed: Traceable conclusion
+    claim_forbidden: Unbacked metric/claim
+  research_sources:
+  - key: S1
+    reference: Loghub — Zhu et al. (2020)
+    type: arXiv / Loghub
+    contribution: Dataset inventory, provenance, architecture diversity
+    use_boundary: Dataset availability only; do not infer labels or licences without checking registry
+    url: https://arxiv.org/abs/2008.06448
+    workbook_status: Verified
+  - key: S2
+    reference: Drain — He et al. (2017)
+    type: IEEE ICWS
+    contribution: Optional parser/template field; retain raw logs
+    use_boundary: Parser support only; not an anomaly model
+    url: https://doi.org/10.1109/ICWS.2017.13
+    workbook_status: Verified
+  - key: S3
+    reference: LogDLR — Liu et al. (2025)
+    type: IEEE TDSC
+    contribution: Cross-system, domain-invariant representation, adversarial branch
+    use_boundary: Architecture inspiration; no performance transferred to this project
+    url: https://ieeexplore.ieee.org/abstract/document/10910212/
+    workbook_status: Verified
+  - key: S4
+    reference: ZeroLog — Zhao et al. (2025)
+    type: arXiv preprint
+    contribution: Zero-label target protocol and meta-learning direction
+    use_boundary: Preprint; use as research design reference, not established fact
+    url: https://arxiv.org/abs/2511.05862
+    workbook_status: Verified
+  - key: S5
+    reference: LogLLaMA — Yang & Harris (2025)
+    type: arXiv preprint
+    contribution: LLaMA direction and next-log modeling
+    use_boundary: Uses LLaMA2; does not validate this project’s Llama-3.1 design
+    url: https://arxiv.org/abs/2503.14849
+    workbook_status: Verified
+  - key: S6
+    reference: LogGT — Wang et al. (2024)
+    type: Expert Systems with Applications
+    contribution: Event/component/time graph and GTAT direction
+    use_boundary: Architecture reference; results are not copied into this project
+    url: https://doi.org/10.1016/j.eswa.2024.124082
+    workbook_status: Verified
+  - key: S7
+    reference: LoRA — Hu et al. (2021)
+    type: arXiv
+    contribution: Frozen base + separate low-rank adapters
+    use_boundary: Does not establish task-specific performance
+    url: https://arxiv.org/abs/2106.09685
+    workbook_status: Verified
+  - key: S8
+    reference: DANN — Ganin et al. (2015)
+    type: JMLR / arXiv
+    contribution: Optional adversarial domain adaptation
+    use_boundary: Use only after diagnostic + ablation; not assumed beneficial
+    url: https://arxiv.org/abs/1505.07818
+    workbook_status: Verified
+  - key: S9
+    reference: SelectiveNet — Geifman & El-Yaniv (2019)
+    type: ICML / PMLR
+    contribution: Abstention and risk–coverage framing
+    use_boundary: Does not set an automatic threshold for this project
+    url: https://proceedings.mlr.press/v97/geifman19a.html
+    workbook_status: Verified
+  - key: S10
+    reference: Isolation Forest — Liu et al. (2008)
+    type: IEEE ICDM
+    contribution: Explicit anomaly baseline
+    use_boundary: Baseline only; feature/budget policy must be declared locally
+    url: https://doi.org/10.1109/ICDM.2008.17
+    workbook_status: Verified
+  - key: S11
+    reference: Meta Llama 3.1 (2024)
+    type: Meta official release
+    contribution: Base-model revision, license and tokenizer provenance
+    use_boundary: Official model information; still require project-specific evaluation
+    url: https://ai.meta.com/blog/meta-llama-3-1/
+    workbook_status: Verified
+  tasks:
+  - task_id: P1.1
+    phase: P1 · Data & Protocol
+    workstream: Research scope
+    task_class: Must
+    micro_task: Chốt định nghĩa source architecture, unseen target và zero-label target adaptation
+    output: Scope memo
+    owner: Người nghiên cứu
+    timing: Week 1
+    dependencies: []
+    definition_of_done: Không còn claim chỉ HDFS/BGL; target labels bị cấm trong adaptation.
+    workbook_status: Done
+    playbook:
+      method: '1) Viết scope memo có định nghĩa “architecture” theo hệ thống/nguồn log, không theo EventID.
+
+        2) Vẽ một fold: source architectures → target architecture → target buffer → evaluation.
+
+        3) Liệt kê trường dữ liệu bị cấm ở từng bước (đặc biệt target labels).'
+      required_evidence: Scope memo, sơ đồ fold, danh sách trường bị cấm, người duyệt.
+      verifiable_dod: Memo nêu rõ target chưa thấy; adaptation không đọc target label; sơ đồ và policy
+        được reviewer ký. Không tuyên bố hiệu năng.
+      citations:
+      - S3
+      - S4
+  - task_id: P1.2
+    phase: P1 · Data & Protocol
+    workstream: Dataset portfolio
+    task_class: Must
+    micro_task: Lập inventory ít nhất 3 source architectures và 1 held-out target mỗi fold
+    output: Dataset registry
+    owner: AI + Người nghiên cứu
+    timing: Week 1
+    dependencies:
+    - P1.1
+    definition_of_done: Mỗi dataset có licence, format, chronology và label availability rõ ràng.
+    workbook_status: Not started
+    playbook:
+      method: '1) Chọn tối thiểu 3 architecture khác họ hệ thống khi khả thi.
+
+        2) Với từng bộ dữ liệu, ghi URL/giấy phép, số dòng, timestamp, nhãn, đơn vị session và SHA-256.
+
+        3) Chỉ đưa dữ liệu có provenance vào registry.'
+      required_evidence: dataset_registry.csv + LICENSE/URL + checksum + metadata snapshot.
+      verifiable_dod: Mọi dataset có provenance, khả năng dùng nhãn và phạm vi thời gian; mỗi fold có
+        target held-out xác định trước.
+      citations:
+      - S1
+      - S3
+      - S4
+  - task_id: P1.3
+    phase: P1 · Data & Protocol
+    workstream: Canonical schema
+    task_class: Must
+    micro_task: 'Thiết kế schema chung: timestamp, level, service, component, message, session/trace optional'
+    output: LOG-UNIFY-001
+    owner: AI
+    timing: Week 1
+    dependencies:
+    - P1.2
+    definition_of_done: Missing fields/format variation có handling contract.
+    workbook_status: Not started
+    playbook:
+      method: '1) Lập data dictionary cho timestamp, level, service, component, raw_message, session/trace
+        và missingness.
+
+        2) Chuyển từng nguồn vào schema; giữ source_row_id bất biến.
+
+        3) Viết unit test cho timezone, null, parse failure và type.'
+      required_evidence: LOG-UNIFY-001, mapping per source, test report.
+      verifiable_dod: Schema versioned; 100% trường required/nullable có quy tắc; lỗi parse được đếm và
+        không bị im lặng loại bỏ.
+      citations:
+      - S1
+      - S6
+  - task_id: P1.4
+    phase: P1 · Data & Protocol
+    workstream: Normalisation
+    task_class: Must
+    micro_task: Mask ID/IP/UUID/numbers; giữ raw message và optional Drain3 template
+    output: Normaliser
+    owner: AI
+    timing: Week 1
+    dependencies:
+    - P1.3
+    definition_of_done: Raw semantic text không bị mất; transform deterministic.
+    workbook_status: Not started
+    playbook:
+      method: '1) Giữ raw_message bất biến; tạo normalized_message ở cột mới.
+
+        2) Mask ID/IP/UUID/số bằng rule versioned, có ngoại lệ để không xóa token nghiệp vụ.
+
+        3) Chạy transform hai lần và so hash; Drain3 template chỉ là trường phụ trợ.'
+      required_evidence: Rule file, golden cases, before/after sample, deterministic hash.
+      verifiable_dod: Raw text còn truy xuất được; transform deterministic; tỷ lệ match/rơi log báo cáo;
+        template không thay raw text.
+      citations:
+      - S2
+      - S6
+  - task_id: P1.5
+    phase: P1 · Data & Protocol
+    workstream: Split
+    task_class: Must
+    micro_task: Thiết kế chronological leave-one-architecture-out source/target folds
+    output: CS-SPLIT-001
+    owner: AI
+    timing: Week 1
+    dependencies:
+    - P1.2
+    definition_of_done: Target architecture không xuất hiện trong source train của fold.
+    workbook_status: Not started
+    playbook:
+      method: '1) Chọn target architecture trước khi train và tách toàn bộ target khỏi source.
+
+        2) Trong mỗi architecture, split theo thời gian: train/normal-buffer/eval theo chronology.
+
+        3) Xuất manifest gồm IDs, time boundary, hashes và seed.'
+      required_evidence: CS-SPLIT-001 manifests, overlap scan, fold diagram.
+      verifiable_dod: Không có target architecture trong source train; không có thời điểm evaluation đi
+        vào train/buffer; manifest tái tạo cùng split.
+      citations:
+      - S3
+      - S4
+      - S6
+  - task_id: P1.6
+    phase: P1 · Data & Protocol
+    workstream: Target buffer
+    task_class: Must
+    micro_task: Định nghĩa target normal burn-in, contamination bound và readiness checks
+    output: ADAPT-INPUT-001
+    owner: Người nghiên cứu
+    timing: Week 2
+    dependencies:
+    - P1.3
+    - P1.5
+    definition_of_done: Không dùng target labels; buffer version/hash/provenance đầy đủ.
+    workbook_status: Not started
+    playbook:
+      method: '1) Định nghĩa burn-in duration, sampling rule, contamination assumption/bound và readiness
+        minima trước khi xem kết quả.
+
+        2) Lưu hash và provenance buffer.
+
+        3) Gắn cờ “not ready/unknown” nếu thiếu coverage; không suy từ target labels.'
+      required_evidence: ADAPT-INPUT-001, buffer manifest, readiness checklist.
+      verifiable_dod: Buffer không chứa cột/lookup target label; assumptions, hash, duration và rejection
+        rule có chữ ký researcher.
+      citations:
+      - S4
+      - S9
+  - task_id: P1.7
+    phase: P1 · Data & Protocol
+    workstream: Isolation audit
+    task_class: Must
+    micro_task: Audit chronology, source-target leakage, duplicate và label isolation
+    output: LEAK-CS-001
+    owner: AI
+    timing: Week 2
+    dependencies:
+    - P1.4
+    - P1.5
+    - P1.6
+    definition_of_done: Audit pass trước representation training; labels chỉ ở evaluation boundary.
+    workbook_status: Not started
+    playbook:
+      method: '1) Kiểm tra duplicate bằng hash raw/normalized; kiểm tra session/time overlap.
+
+        2) Quét code/config bảo đảm labels chỉ mở ở evaluation boundary.
+
+        3) Lập danh sách exception có lý do và người phê duyệt.'
+      required_evidence: LEAK-CS-001 with duplicate, overlap and label-access reports.
+      verifiable_dod: Leakage audit pass hoặc exception được resolve; không train/tune/calibrate bằng
+        target label; report tái chạy được từ manifest.
+      citations:
+      - S3
+      - S4
+  - task_id: P1.8
+    phase: P1 · Data & Protocol
+    workstream: Freeze
+    task_class: Must
+    micro_task: Freeze data/schema/fold config và reproducible commands
+    output: G0 receipt
+    owner: AI + Người nghiên cứu
+    timing: Week 2
+    dependencies:
+    - P1.7
+    definition_of_done: G0 Protocol Ready được ký; no empirical claims yet.
+    workbook_status: Not started
+    playbook:
+      method: '1) Khóa schema, normalizer, dataset registry, split manifest và env lockfile.
+
+        2) Ghi command tái tạo từng artifact và SHA-256.
+
+        3) Gate review chỉ xác nhận protocol, không đánh giá model.'
+      required_evidence: G0 receipt, version manifest, reproducible command list.
+      verifiable_dod: G0 được ký; mọi input/config hashable; các task representation/adaptation chưa được
+        chạy trước G0.
+      citations:
+      - S1
+      - S4
+  - task_id: P2.1
+    phase: P2 · Representation & Experts
+    workstream: Shared LLM base
+    task_class: Must
+    micro_task: Freeze Llama-3.1-8B base, tokenizer, licence và GPU budget
+    output: LLM-BASE-001
+    owner: Người nghiên cứu
+    timing: Week 3
+    dependencies:
+    - P1.8
+    definition_of_done: Llama base version/hash fixed trước adapter training.
+    workbook_status: Not started
+    playbook:
+      method: '1) Pin đúng Meta Llama-3.1-8B model revision, tokenizer và license.
+
+        2) Ghi GPU, precision, context length, seed và budget công bằng cho baselines.
+
+        3) Smoke-load model, tokenizer và license check trước train.'
+      required_evidence: LLM-BASE-001, model/tokenizer revision, license receipt, budget sheet.
+      verifiable_dod: Base revision/hash và tokenizer cố định; license được kiểm; smoke test pass; không
+        đổi base giữa adapter experiments.
+      citations:
+      - S11
+      - S7
+  - task_id: P2.2
+    phase: P2 · Representation & Experts
+    workstream: LoRA-Semantic
+    task_class: Must
+    micro_task: Train LoRA-Semantic riêng cho masked/raw-log normal adaptation
+    output: LORA-SEM-001
+    owner: AI
+    timing: Week 3
+    dependencies:
+    - P2.1
+    definition_of_done: Adapter A có checkpoint/hash riêng; không share weight với Adapter B.
+    workbook_status: Not started
+    playbook:
+      method: '1) Tạo LoRA-Semantic checkpoint riêng trên partition được phép.
+
+        2) Chọn objective masked/raw-log semantics; log hyperparameters, seed, train data hashes.
+
+        3) Lưu adapter, adapter config và evaluation-free training log.'
+      required_evidence: LORA-SEM-001 checkpoint, adapter_config.json, training manifest.
+      verifiable_dod: Adapter A có hash riêng; base frozen theo P2.1; không reference/checkpoint-copy
+        Adapter B; provenance đầy đủ.
+      citations:
+      - S7
+      - S5
+      - S11
+  - task_id: P2.3
+    phase: P2 · Representation & Experts
+    workstream: Domain invariance
+    task_class: Should
+    micro_task: Cài contrastive alignment; đánh giá domain-adversarial branch nếu justified
+    output: REP-DG-001
+    owner: AI
+    timing: Week 3
+    dependencies:
+    - P2.2
+    definition_of_done: Representation không dùng target labels; ablation flag sẵn sàng.
+    workbook_status: Not started
+    playbook:
+      method: '1) Bắt đầu bằng contrastive alignment trên source partitions; log pair-construction rule.
+
+        2) Chỉ bật DANN branch nếu predeclared diagnostic cho thấy domain separability và ablation budget
+        đủ.
+
+        3) So sánh nhánh on/off trong held-out source, không đọc target labels.'
+      required_evidence: REP-DG-001, pair manifest, diagnostic and ablation config.
+      verifiable_dod: Không dùng target label; lựa chọn branch có rationale/diagnostic; toggle ablation
+        reproducible và không ghi claim khi chưa có result.
+      citations:
+      - S3
+      - S8
+      - S4
+  - task_id: P2.4
+    phase: P2 · Representation & Experts
+    workstream: Semantic expert
+    task_class: Must
+    micro_task: Generate semantic score/uncertainty/token evidence từ Llama + LoRA-Semantic
+    output: EXP-SEM-001
+    owner: AI
+    timing: Week 3
+    dependencies:
+    - P2.2
+    definition_of_done: Score direction/evidence schema pass; Adapter A provenance complete.
+    workbook_status: Not started
+    playbook:
+      method: '1) Chuẩn hóa semantic inference: input → score direction → uncertainty → token/span evidence.
+
+        2) Test invariant: message giống nhau cho output giống nhau khi seed fixed.
+
+        3) Gắn base/adapter/version vào từng prediction.'
+      required_evidence: EXP-SEM-001 API schema, golden tests, sample evidence artifact.
+      verifiable_dod: Score direction documented; output validates schema; evidence trỏ được raw record;
+        provenance Adapter A xuất hiện ở mọi row.
+      citations:
+      - S5
+      - S7
+  - task_id: P2.5
+    phase: P2 · Representation & Experts
+    workstream: LoRA-Sequence
+    task_class: Must
+    micro_task: Train LoRA-Sequence riêng trên Llama base cho next-log prediction
+    output: LORA-SEQ-001
+    owner: AI
+    timing: Week 4
+    dependencies:
+    - P2.1
+    definition_of_done: Adapter B có checkpoint/hash riêng; không share weight với Adapter A.
+    workbook_status: Not started
+    playbook:
+      method: '1) Tạo LoRA-Sequence checkpoint khác Adapter A; dùng ordered log contexts của partition
+        được phép.
+
+        2) Objective là next-log prediction; window, truncation và boundary architecture/time phải fixed.
+
+        3) Ghi seed, data hash, checkpoint hash.'
+      required_evidence: LORA-SEQ-001 checkpoint, context builder config, training manifest.
+      verifiable_dod: Adapter B có hash/config riêng; không share weights/state với Adapter A; ordered
+        contexts không vượt architecture/time boundary.
+      citations:
+      - S5
+      - S7
+      - S11
+  - task_id: P2.6
+    phase: P2 · Representation & Experts
+    workstream: Sequence expert
+    task_class: Must
+    micro_task: Generate next-log anomaly score/context evidence từ Llama + LoRA-Sequence
+    output: EXP-SEQ-001
+    owner: AI
+    timing: Week 4
+    dependencies:
+    - P2.5
+    definition_of_done: Ordered context partitioned by architecture/time; no target labels.
+    workbook_status: Not started
+    playbook:
+      method: '1) Xây context window theo timestamp và session; reset ở partition boundary.
+
+        2) Tính next-log surprise/score với chiều score nhất quán.
+
+        3) Lưu top predicted candidates và context IDs làm evidence.'
+      required_evidence: EXP-SEQ-001 API schema, boundary tests, context evidence samples.
+      verifiable_dod: Không có target labels; score/evidence deterministically map về record; boundary/unit
+        tests pass.
+      citations:
+      - S5
+      - S4
+  - task_id: P2.7
+    phase: P2 · Representation & Experts
+    workstream: GTAT expert
+    task_class: Must
+    micro_task: Build Temporal Graph Transformer trên event-service-component-time graph
+    output: EXP-GTAT-001
+    owner: AI
+    timing: Week 4
+    dependencies:
+    - P1.3
+    definition_of_done: Graph schema/coverage defined; missing topology yields low coverage, not fake
+      score.
+    workbook_status: Not started
+    playbook:
+      method: '1) Khai báo node event/service/component và edge co-occurrence/temporal trong cửa sổ cố
+        định.
+
+        2) Tính coverage cho metadata/edge; thiếu topology → coverage thấp/abstain, không giả score.
+
+        3) Train/evaluate GTAT trong fold được phép và log graph config.'
+      required_evidence: EXP-GTAT-001 graph schema, coverage report, model config.
+      verifiable_dod: Graph schema versioned; coverage là output bắt buộc; missing fields có fallback
+        rõ; no fabricated structural prediction.
+      citations:
+      - S6
+  - task_id: P2.8
+    phase: P2 · Representation & Experts
+    workstream: Evidence contract
+    task_class: Must
+    micro_task: Chuẩn hoá output score, uncertainty, coverage, localisation cho Llama-A, Llama-B và GTAT
+    output: EVID-CS-001
+    owner: AI
+    timing: Week 4
+    dependencies:
+    - P2.4
+    - P2.6
+    - P2.7
+    definition_of_done: Common ID/version provenance; adapter identity and GTAT coverage pass.
+    workbook_status: Not started
+    playbook:
+      method: '1) Định nghĩa common record: score_raw, score_calibrated, uncertainty, coverage, localisation,
+        evidence, version.
+
+        2) Viết contract tests cho đủ ba expert.
+
+        3) Từ chối row thiếu identity/coverage thay vì fill giá trị mặc định.'
+      required_evidence: EVID-CS-001 JSON schema, contract-test report, sample artifacts.
+      verifiable_dod: 100% expert outputs validate schema; Base/Adapter/GTAT versions traceable; missing
+        coverage không bị biến thành certainty.
+      citations:
+      - S5
+      - S6
+      - S9
+  - task_id: P3.1
+    phase: P3 · Adaptation & Fusion
+    workstream: Held-out check
+    task_class: Must
+    micro_task: Chạy source-held-out architecture smoke evaluation, không tune target labels
+    output: G2 prep
+    owner: Người nghiên cứu
+    timing: Week 5
+    dependencies:
+    - P2.8
+    definition_of_done: Llama-A, Llama-B và GTAT có result artifact/diversity diagnostics.
+    workbook_status: Waiting researcher
+    playbook:
+      method: '1) Chạy smoke evaluation chỉ trên architecture held-out đã freeze.
+
+        2) Lưu prediction artifacts từng expert và diagnostics tương quan/disagreement.
+
+        3) Không thay hyperparameter bằng kết quả target.'
+      required_evidence: G2 prep result bundle, per-expert predictions, diversity diagnostic.
+      verifiable_dod: Ba expert chạy được trên held-out source; artifacts có hashes; báo cáo chỉ là smoke/diagnostic,
+        không claim superiority.
+      citations:
+      - S3
+      - S6
+  - task_id: P3.2
+    phase: P3 · Adaptation & Fusion
+    workstream: Target memory
+    task_class: Must
+    micro_task: Xây normal prototype/memory và graph/sequence statistics từ target burn-in
+    output: ADAPT-MEM-001
+    owner: AI
+    timing: Week 5
+    dependencies:
+    - P1.6
+    - P2.8
+    definition_of_done: Memory only uses approved unlabeled buffer; hash/version recorded.
+    workbook_status: Not started
+    playbook:
+      method: '1) Từ burn-in đã duyệt, xây prototype embedding, transition counts và graph statistics.
+
+        2) Tách memory key theo target/buffer hash.
+
+        3) Đóng băng memory trước chronological evaluation.'
+      required_evidence: ADAPT-MEM-001 memory artifact, source buffer hash, creation log.
+      verifiable_dod: Memory chỉ đọc buffer đã approved; key chứa target+buffer hash; evaluation logs
+        không làm thay đổi memory.
+      citations:
+      - S4
+      - S6
+  - task_id: P3.3
+    phase: P3 · Adaptation & Fusion
+    workstream: Calibration
+    task_class: Must
+    micro_task: Calibrate Llama-A, Llama-B và GTAT score bằng target-normal quantile
+    output: CAL-CS-001
+    owner: AI
+    timing: Week 5
+    dependencies:
+    - P3.2
+    definition_of_done: Score scales comparable without target labels.
+    workbook_status: Not started
+    playbook:
+      method: '1) Tính quantiles trên normal buffer cho từng expert; chọn rule chuyển score trước evaluation.
+
+        2) Lưu quantile values, sample count và buffer hash.
+
+        3) So unit/scale scores sau calibration nhưng không chọn threshold bằng target labels.'
+      required_evidence: CAL-CS-001 calibration table, config, sanity plots.
+      verifiable_dod: Mỗi expert có scale documented; calibration artifact được freeze; không có access
+        target label hay post-hoc threshold change.
+      citations:
+      - S4
+      - S9
+  - task_id: P3.4
+    phase: P3 · Adaptation & Fusion
+    workstream: Drift
+    task_class: Must
+    micro_task: Đo domain drift, buffer coverage và GTAT topology coverage
+    output: DRIFT-CS-001
+    owner: AI
+    timing: Week 5
+    dependencies:
+    - P3.2
+    definition_of_done: Drift metric has baseline and no silent recalibration.
+    workbook_status: Not started
+    playbook:
+      method: '1) Predefine drift statistic giữa source/buffer và online coverage statistic.
+
+        2) Log baseline/ref distribution cùng version.
+
+        3) Khi vượt threshold, emit drift/review state; không tự recalibrate âm thầm.'
+      required_evidence: DRIFT-CS-001 metric spec, baseline stats, threshold config.
+      verifiable_dod: Metric, reference data và threshold versioned; output lý giải được drift/coverage;
+        recalibration phải tạo artifact mới.
+      citations:
+      - S3
+      - S6
+  - task_id: P3.5
+    phase: P3 · Adaptation & Fusion
+    workstream: Uncertainty
+    task_class: Must
+    micro_task: Định nghĩa confidence/uncertainty cho từng expert và abstain criterion
+    output: UNC-CS-001
+    owner: AI
+    timing: Week 5
+    dependencies:
+    - P2.8
+    - P3.3
+    definition_of_done: Unknown/review is first-class output, not forced anomaly label.
+    workbook_status: Not started
+    playbook:
+      method: '1) Chuẩn hóa uncertainty của từng expert và coverage.
+
+        2) Chọn abstain/review rule trước final evaluation.
+
+        3) Báo cáo risk–coverage/abstention rate cùng scores.'
+      required_evidence: UNC-CS-001 uncertainty spec, abstain rule, example outputs.
+      verifiable_dod: Unknown/review là outcome hợp lệ; rule versioned và testable; không ép low-coverage
+        record thành normal/anomaly.
+      citations:
+      - S9
+  - task_id: P3.6
+    phase: P3 · Adaptation & Fusion
+    workstream: Fusion baseline
+    task_class: Must
+    micro_task: Cài strongest-single, Transformer Encoder và Isolation Forest/equal-weight comparator
+    output: FUS-BASE-001
+    owner: AI
+    timing: Week 6
+    dependencies:
+    - P3.3
+    definition_of_done: Không learned target weights; old models remain explicit baselines.
+    workbook_status: Not started
+    playbook:
+      method: '1) Khóa baselines: strongest single, equal-weight, Transformer Encoder và Isolation Forest.
+
+        2) Dùng cùng fold, input access, time/budget policy.
+
+        3) Xuất configs/predictions bằng common evidence schema.'
+      required_evidence: FUS-BASE-001 baseline configs, budget table, predictions.
+      verifiable_dod: Không có learned target weight trong baseline; baseline artifacts có cùng provenance;
+        comparison eligibility được ghi rõ.
+      citations:
+      - S10
+      - S5
+  - task_id: P3.7
+    phase: P3 · Adaptation & Fusion
+    workstream: Adaptive gate
+    task_class: Conditional
+    micro_task: Meta-train MLP 8→32→16→3 Softmax on leave-one-architecture-out episodes
+    output: FUS-GATE-001
+    owner: AI + Người nghiên cứu
+    timing: Week 6
+    dependencies:
+    - P3.4
+    - P3.5
+    - P3.6
+    definition_of_done: Gate uses drift/uncertainty/context; not target labels.
+    workbook_status: Not started
+    playbook:
+      method: '1) Meta-train gate MLP 8→32→16→3 Softmax chỉ trên source LOAO episodes.
+
+        2) Input feature gồm drift/uncertainty/coverage/context đã định nghĩa; target label bị excluded.
+
+        3) Freeze gate before target evaluation; report gate vs equal/single.'
+      required_evidence: FUS-GATE-001 episode manifest, gate config, input feature schema.
+      verifiable_dod: Gate training never reads target labels; feature list/version and weights archived;
+        target inference uses frozen gate.
+      citations:
+      - S4
+      - S6
+      - S9
+  - task_id: P3.8
+    phase: P3 · Adaptation & Fusion
+    workstream: Complementarity + explanation
+    task_class: Must
+    micro_task: Kiểm tra diversity và xuất top expert, weight, evidence, localisation/abstain reason
+    output: G3 evidence + EXPL-CS-001
+    owner: AI
+    timing: Week 6
+    dependencies:
+    - P3.1
+    - P3.6
+    - P3.7
+    definition_of_done: Gate chỉ mở nếu diversity/stability evidence đạt; alert explanation contract pass.
+    workbook_status: Not started
+    playbook:
+      method: '1) Đo complementarity (disagreement, correlation, double-fault) trong held-out source.
+
+        2) Chỉ unlock gate nếu tiêu chí diversity/stability predeclared đạt.
+
+        3) Với mỗi alert, xuất expert weights, evidence, localisation hoặc abstain reason.'
+      required_evidence: G3 evidence, EXPL-CS-001, complementarity tables, alert examples.
+      verifiable_dod: Có bằng chứng expert không trùng lặp vô nghĩa; gate decision có receipt; mọi alert/review
+        có explanation contract pass.
+      citations:
+      - S6
+      - S9
+  - task_id: P4.1
+    phase: P4 · Cross-System Validation
+    workstream: LOAO protocol
+    task_class: Must
+    micro_task: Freeze held-out architecture folds, target buffer và selection policy
+    output: G4 prep
+    owner: Người nghiên cứu
+    timing: Week 7
+    dependencies:
+    - P3.8
+    definition_of_done: No random mixed-domain split; no post-hoc target tuning.
+    workbook_status: Waiting researcher
+    playbook:
+      method: '1) Freeze folds, target buffers, metrics, selection rule và seed trước full run.
+
+        2) Đăng ký thứ tự run/chính sách xử lý failure.
+
+        3) Cấm post-hoc target tuning; mọi thay đổi tạo protocol version mới.'
+      required_evidence: G4 prep, frozen evaluation manifest, run registry.
+      verifiable_dod: Protocol signed; target architecture, buffer và selection policy immutable; no random
+        mixed-domain split.
+      citations:
+      - S3
+      - S4
+      - S6
+  - task_id: P4.2
+    phase: P4 · Cross-System Validation
+    workstream: Core evaluation
+    task_class: Must
+    micro_task: Run chronological target evaluation for every held-out architecture
+    output: EVAL-CS-001
+    owner: Người nghiên cứu
+    timing: Week 7
+    dependencies:
+    - P4.1
+    definition_of_done: Per-target AP/PR-AUC, AUROC, FAR, TTD, latency and CI traceable.
+    workbook_status: Waiting researcher
+    playbook:
+      method: '1) Chạy chronological evaluation cho từng held-out target với model đã freeze.
+
+        2) Tính PR-AUC/AP, AUROC, FAR, time-to-detect, latency; bootstrap CI theo unit predeclared.
+
+        3) Lưu per-target predictions và metric script version.'
+      required_evidence: EVAL-CS-001 predictions, metrics tables, CI config, runtime logs.
+      verifiable_dod: Mỗi metric trace tới prediction IDs; time order được giữ; CI unit/resampling rule
+        stated; không gộp che mất per-target result.
+      citations:
+      - S3
+      - S4
+      - S6
+  - task_id: P4.3
+    phase: P4 · Cross-System Validation
+    workstream: Ablation
+    task_class: Must
+    micro_task: Remove LoRA-A, LoRA-B, GTAT, adaptation and gate one at a time
+    output: ABL-CS-001
+    owner: AI + Người nghiên cứu
+    timing: Week 7
+    dependencies:
+    - P4.2
+    definition_of_done: Contribution claims follow paired/cluster uncertainty.
+    workbook_status: Not started
+    playbook:
+      method: '1) Tháo đúng một thành phần/biến thể mỗi run (LoRA-A, LoRA-B, GTAT, adaptation, gate).
+
+        2) Giữ folds/seeds/budget như full model.
+
+        3) Báo cáo paired per-target deltas và uncertainty, không chỉ best run.'
+      required_evidence: ABL-CS-001 ablation matrix, paired predictions, delta/CI table.
+      verifiable_dod: Mỗi claim thành phần có paired artifact; không đổi nhiều yếu tố cùng lần; negative/null
+        result được giữ.
+      citations:
+      - S5
+      - S6
+      - S7
+  - task_id: P4.4
+    phase: P4 · Cross-System Validation
+    workstream: Cold start
+    task_class: Must
+    micro_task: Stress test short burn-in and previously unseen template/service
+    output: ROB-COLD-001
+    owner: AI + Người nghiên cứu
+    timing: Week 7
+    dependencies:
+    - P4.2
+    definition_of_done: Report readiness threshold and failure modes.
+    workbook_status: Not started
+    playbook:
+      method: '1) Predefine burn-in lengths và unseen service/template scenarios.
+
+        2) Chạy evaluation mà không sửa model sau từng scenario.
+
+        3) Report readiness threshold, coverage và failure mode.'
+      required_evidence: ROB-COLD-001 scenario manifest, curves/tables, failure log.
+      verifiable_dod: Kết quả phân theo buffer length/scenario; threshold không chọn sau khi xem target
+        labels; unknown cases được nêu.
+      citations:
+      - S4
+      - S9
+  - task_id: P4.5
+    phase: P4 · Cross-System Validation
+    workstream: Contamination
+    task_class: Must
+    micro_task: Stress test contaminated normal buffer and controlled drift
+    output: ROB-CONTAM-001
+    owner: AI + Người nghiên cứu
+    timing: Week 8
+    dependencies:
+    - P4.2
+    definition_of_done: Quantify degradation; no hidden target labels.
+    workbook_status: Not started
+    playbook:
+      method: '1) Định nghĩa controlled contamination/drift scenario và tỷ lệ trước run.
+
+        2) Tạo scenario bundle riêng, hashable; không để model đọc label để làm sạch.
+
+        3) Đo degradation so với clean buffer và report all settings.'
+      required_evidence: ROB-CONTAM-001 scenario generator/config, paired results, degradation table.
+      verifiable_dod: Tỷ lệ/seed contamination traceable; không hidden target-label cleanup; degradation
+        và giới hạn được công bố.
+      citations:
+      - S4
+      - S9
+  - task_id: P4.6
+    phase: P4 · Cross-System Validation
+    workstream: Reliability
+    task_class: Must
+    micro_task: Audit dataset/model/gate/buffer hashes, seeds, commands and latency
+    output: REPRO-CS-001
+    owner: AI
+    timing: Week 8
+    dependencies:
+    - P4.2
+    - P4.3
+    - P4.4
+    - P4.5
+    definition_of_done: All reported metrics trace to immutable artifacts.
+    workbook_status: Not started
+    playbook:
+      method: '1) Lập manifest dataset/model/adapter/gate/buffer/threshold hashes, seed và command.
+
+        2) Re-run một fold từ manifest trong clean environment.
+
+        3) So hash/metric tolerance và lưu latency hardware context.'
+      required_evidence: REPRO-CS-001 full manifest, rerun log, comparison receipt.
+      verifiable_dod: Mọi metric có immutable inputs + code revision; rerun receipt pass hoặc discrepancy
+        giải thích; không có result mồ côi.
+      citations:
+      - S1
+      - S7
+      - S11
+  - task_id: P4.7
+    phase: P4 · Cross-System Validation
+    workstream: Claims
+    task_class: Must
+    micro_task: Build claim-to-evidence map and document limits/unknown cases
+    output: CLAIM-CS-001
+    owner: AI + Người nghiên cứu
+    timing: Week 8
+    dependencies:
+    - P4.6
+    definition_of_done: No universal-generalisation claim beyond evaluated domains.
+    workbook_status: Not started
+    playbook:
+      method: '1) Với mỗi claim, link trực tiếp artifact, fold, metric và CI.
+
+        2) Viết giới hạn: evaluated architectures, burn-in assumptions, drift/contamination, abstention.
+
+        3) Xóa/sửa claim không có evidence bundle.'
+      required_evidence: CLAIM-CS-001 claim–evidence map, limitations checklist.
+      verifiable_dod: Không có claim universal/generalisation ngoài phạm vi evaluated; mọi số liệu truy
+        ngược được; limitations có trong report.
+      citations:
+      - S3
+      - S4
+      - S9
+  - task_id: P4.8
+    phase: P4 · Cross-System Validation
+    workstream: Final report
+    task_class: Must
+    micro_task: Write thesis/report and handoff reproducible model package
+    output: REPORT-CS-001
+    owner: AI + Người nghiên cứu
+    timing: Week 8
+    dependencies:
+    - P4.7
+    definition_of_done: Architecture, protocol, results, limitations and source links complete.
+    workbook_status: Not started
+    playbook:
+      method: '1) Viết phương pháp theo protocol frozen; tách rõ planned method và empirical finding.
+
+        2) Đưa tables per-target, ablation, robustness, reproducibility và source links.
+
+        3) Bundle code/config/models theo license và handoff readme.'
+      required_evidence: REPORT-CS-001 report, reproducibility bundle, citations and handoff README.
+      verifiable_dod: Report có architecture, protocol, results/CI, limitations và citations; bundle mở
+        được từ README; không claim kết quả chưa chạy.
+      citations:
+      - S1
+      - S3
+      - S4
+      - S5
+      - S6
+      - S7
+      - S9
+      - S11

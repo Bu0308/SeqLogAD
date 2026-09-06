@@ -1,0 +1,183 @@
+# LEAK-CS-001 exception register.
+#
+# Required by Excel P1.7, method step 3: "Lập danh sách exception có lý do và người
+# phê duyệt" — list every exception with its reason and its approver.
+#
+# An exception is any declared, accepted deviation or residual concern that the
+# automated audit cannot itself resolve. Registering an exception does NOT make it
+# resolved: `approver` stays null until the researcher signs.
+leak_cs_001_exceptions:
+  id: LEAK-CS-001-EXCEPTIONS
+  version: "1.0"
+  audit: LEAK-CS-001
+  plan: Bang_ke_hoach_SeqLogAD.xlsx
+  registry_status: APPROVED_BY_RESEARCHER
+
+  exceptions:
+    - id: EXC-001
+      title: HDFS boundary exclusion removes 19.75% of records
+      scope: ARCH-HDFS
+      affects: [P1.5, P1.7]
+      severity: MATERIAL_SCIENTIFIC_CAVEAT
+      classification: DECLARED_PROTOCOL_COST
+      observation: >-
+        105,042 of 575,061 HDFS blocks (18.27%) and 2,207,427 of 11,175,629 records
+        (19.75%) are excluded from every partition because their block lifetime
+        crosses a segment cut time.
+      reason: >-
+        HDFS block lifetimes overlap continuously; the stream has essentially no idle
+        instant (1 quiet-instant candidate exists in the whole corpus, and 55,554
+        blocks are alive at the first cut), so the cut cannot be snapped. Without the
+        exclusion the chronological invariant fails outright: 1,096,271 burn-in
+        records would carry timestamps at or after the first evaluation record, and
+        TARGET_BURN_IN.last (2008-11-10 22:44:38) would exceed
+        TARGET_EVALUATION.first (2008-11-10 20:39:03). The exclusion is required by
+        Excel P1.5's DoD "không có thời điểm evaluation đi vào train/buffer".
+      known_risk: >-
+        The exclusion is non-random by construction: it selects long-lived blocks.
+        Whether that shifts anomaly prevalence in the retained population is NOT
+        measured for this exclusion set, and must not be assumed from the older
+        PURGE-AUDIT-001 result (see EXC-002).
+      recommended_researcher_action: >-
+        Authorise an aggregate purged-versus-retained prevalence audit of THIS
+        exclusion set under the same evaluation-boundary scope previously approved
+        for PURGE-AUDIT-001, before any P4 claim about HDFS as a target.
+      blocks_g0: false
+      g0_rationale: >-
+        G0's required evidence is "At least 3 source architectures; schema, LODO
+        split and label-isolation audit". Population representativeness is not a G0
+        criterion, and P1.5's and P1.7's DoDs are satisfied.
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+    - id: EXC-002
+      title: PURGE-AUDIT-001 evidence is not transferable to the new exclusion set
+      scope: ARCH-HDFS
+      affects: [P1.5, P1.7]
+      severity: EVIDENCE_BOUNDARY
+      classification: CORRECTION_OF_AN_EARLIER_CLAIM
+      observation: >-
+        The old PURGED_BOUNDARY set (133,184 blocks) and the new excluded set
+        (105,042 blocks) share only 70,659 blocks: 53.05% of the old set and 67.27%
+        of the new set, Jaccard 0.4217. 34,383 blocks are newly excluded that the old
+        split retained, and 62,525 old-purged blocks are now retained.
+      what_is_genuinely_comparable: >-
+        Same corpus (11,175,629 lines, 575,061 blocks); same unit — independently
+        verified here, since zero HDFS lines reference two distinct block ids, so the
+        META-001 connected component equals a single block; same mechanism (units
+        spanning a chronological boundary are removed); comparable magnitude
+        (19.75% vs 22.74%), the difference explained by 3 cuts instead of 4.
+      what_is_NOT_comparable: >-
+        The excluded populations themselves. PURGE-AUDIT-001's measured anomaly
+        prevalence differential (0.026745 purged vs 0.030045 retained, D = -0.0033,
+        about 11% relative) was computed on the OLD set and does not establish
+        anything about the new one. PURGE-DECISION-001's human disposition
+        (KEEP_FROZEN_PRIMARY_AND_PREREGISTER_SECONDARY_PURGE_SENSITIVITY) is a
+        decision about the superseded five-way split and does not authorise or
+        validate the new exclusion.
+      reason: Recorded so that no future write-up cites the old audit as validation.
+      blocks_g0: false
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+    - id: EXC-003
+      title: Hadoop target burn-in buffer is REJECTED under BUFFER-REJECT-001
+      scope: ARCH-HADOOP
+      affects: [P1.6, G1]
+      severity: BLOCKS_G1_FOR_THIS_FOLD
+      classification: DECLARED_READINESS_REJECTION
+      observation: >-
+        BUFFER-ARCH-HADOOP fails 4 of 8 pre-declared readiness checks:
+        max_relative_time_gap 0.677 > 0.25; min_parse_ok_ratio 0.506 < 0.95;
+        min_level_coverage 0.506 < 0.90; min_component_coverage 0.506 < 0.90.
+      reason: >-
+        Hadoop container logs are ~54% header-less continuation lines (stack traces
+        and YARN container diagnostics) that carry no level or component, and the
+        cluster was idle for roughly 18 hours inside the burn-in window. Both are
+        real properties of the corpus, not defects of the adapter: the continuation
+        lines were sampled and confirmed to be genuine wrapped output.
+      remedy_applied: >-
+        None. The minima were declared before measurement and have NOT been relaxed.
+        The rejection is reported.
+      blocks_g0: false
+      g0_rationale: >-
+        Excel P1.6's DoD is "Không dùng target labels; buffer version/hash/provenance
+        đầy đủ", and its method step 3 explicitly instructs "Gắn cờ not ready/unknown
+        nếu thiếu coverage". A NOT_READY flag is a specified output of P1.6, not a
+        failure of it. Burn-in readiness is G1 evidence ("Normal burn-in assumption,
+        contamination bound, local-memory/calibration tests"; G1 depends on P1.6 and
+        P3.2-P3.5), and G1 is not being claimed.
+      blocks_g1: true
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+    - id: EXC-004
+      title: OpenStack is an active source architecture but not target-eligible
+      scope: ARCH-OPENSTACK
+      affects: [P1.1, P1.2, P1.5]
+      severity: SCOPE_LIMITATION
+      classification: DECLARED_PROTOCOL_DECISION
+      observation: >-
+        ARCH-OPENSTACK is used as a source in all three folds and is never a LOAO
+        target, so the portfolio yields 3 evaluation folds from 4 architectures.
+      reason: >-
+        Its raw data ships as three separate capture sessions. The only label-blind
+        ordering of those sessions is wall clock, which places the entire
+        anomaly-bearing capture (2017-05-14) strictly before both normal captures
+        (2017-05-16/17). A label-blind chronological burn-in would consume every
+        anomaly and leave an evaluation window with no positives. Any other ordering
+        uses the source-provided normal/abnormal file identity, which is ground truth.
+      blocks_g0: false
+      g0_rationale: >-
+        G0 requires at least 3 source architectures per fold; every fold has exactly
+        3. Nothing in G0 requires every architecture to be target-eligible.
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+    - id: EXC-005
+      title: L02 and L03 duplicate-overlap checks are INFORMATIONAL, not PASS
+      scope: ALL_FOLDS
+      affects: [P1.7]
+      severity: DECLARED_MEASUREMENT_WITHOUT_THRESHOLD
+      classification: HONEST_VERDICT_LIMITATION
+      observation: >-
+        Cross-architecture raw and normalised duplicate overlap between SOURCE_TRAIN
+        and TARGET_EVALUATION measured 0 on all three folds, but no threshold was
+        declared in advance, so the checks report INFORMATIONAL and are not counted
+        as passes.
+      reason: >-
+        Declaring a threshold after seeing the measurement would be post-hoc. The
+        measured value (zero) is reported so a future cross-system novelty claim can
+        be checked against a real number.
+      blocks_g0: false
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+    - id: EXC-006
+      title: Thunderbird rejected from the portfolio on storage grounds alone
+      scope: PORTFOLIO
+      affects: [P1.2]
+      severity: SCOPE_LIMITATION
+      classification: ENVIRONMENTAL_CONSTRAINT
+      observation: >-
+        Thunderbird is a genuinely distinct HPC architecture and was not included.
+      reason: >-
+        Its Loghub archive is ~2.0 GB compressed and expands to tens of GB; the
+        working volume had 2.2 GB free. An unverifiable dataset may not enter the
+        registry, so it is recorded as REJECTED with this reason rather than listed
+        as available.
+      blocks_g0: false
+      g0_rationale: G0 requires at least 3 source architectures per fold; all folds have 3.
+      approver: "Người nghiên cứu"
+      approved_on: "2026-09-06"
+
+  signature:
+    required: true
+    status: SIGNED
+    signed_on: "2026-09-06"
+    ledger: configs/protocols/g0-signatures.yaml
+    payload: "APPROVE LEAK-CS-001-EXCEPTIONS v1.0 (EXC-001..EXC-006)"
+    scope_note: >-
+      Approval acknowledges each exception with its stated reason. It does not
+      resolve them: EXC-003 still blocks G1 for the ARCH-HADOOP fold, and EXC-001
+      and EXC-002 remain open caveats for any P4 claim about HDFS as a target.

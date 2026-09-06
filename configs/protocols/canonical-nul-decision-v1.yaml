@@ -1,0 +1,271 @@
+# Machine-readable proposal for CANONICAL-NUL-DECISION-001.
+# This file is non-binding until the human researcher approves Option A.
+# It does not authorize corpus generation, parser mutation, or TEST access.
+canonical_nul_decision:
+  identity_payload:
+    decision_id: CANONICAL-NUL-DECISION-001
+    decision_version: "1.0"
+    decision_status: FROZEN_HUMAN_REVIEW_READY
+    prepared_on: "2026-09-06"
+    approval_status: PENDING_HUMAN_APPROVAL
+    approval_source: null
+    approval_timing: PRE_CANONICAL_CORPUS_GENERATION
+    result_informed: false
+    scientific_results_status: NOT_RUN
+    authority_scope:
+      classification: MAINTENANCE_AMENDMENT_TO_FROZEN_V1_1_FOUNDATION
+      parent_protocol_id: PROTOCOL-001
+      parent_protocol_version: "1.1"
+      broad_research_rescope_authorized: false
+      implementation_authorized: false
+      real_corpus_generation_authorized: false
+    conflict:
+      raw_content_preservation_required: true
+      event_observation_requires_nul_free_message: true
+      frozen_parser_requires_nul_free_input: true
+      bgl_parent_size: 100
+      silent_drop_forbidden: true
+    verified_non_test_finding:
+      search_scope: ASSIGNED_NON_TEST_BGL_PARTITIONS_ONLY
+      searched_partitions:
+        - BASE_TRAIN
+        - FUSION_TRAIN
+        - VAL_EXPERT
+        - VAL_FUSION
+      test_membership_loader_used: false
+      affected_partition: VAL_FUSION
+      affected_source_line_numbers:
+        - 4223248
+        - 4223278
+        - 4224013
+        - 4224014
+      affected_parent_count: 3
+      nul_bytes_per_affected_line: 1
+      nul_message_byte_offset_zero_based: 200
+      raw_message_sha256_common: 6f301ecb31188e412b425e639181dd5a9890eecb83bf24c5c85742e53b261b93
+      surrounding_bytes_utf8_compatible: true
+      finding_status: VERIFIED
+      additional_non_nul_control_findings:
+        source_line_numbers:
+          - 3865490
+          - 3865492
+          - 3875813
+          - 3875814
+          - 3884944
+          - 3884945
+          - 3884946
+          - 3884947
+        byte_occurrences:
+          "0x0f": 16
+          "0x10": 2
+        parser_facing_message_affected: false
+        disposition: INFORMATIONAL_OUTSIDE_NUL_AMENDMENT
+      affected_records:
+        - source_line_number: 4223248
+          chronological_index: 4223247
+          partition: VAL_FUSION
+          structural_unit_id: BGL-PARENT-c8aa9c05cc888147e5d97f46ce25973a2894d63bd7ec9f7aa8921b2622d97b1a
+          assignment_id: PART-4e4c34047445ba104556828b4bde528afb12b41a341f0f853fa3254942b4cd32
+          position_within_unit: 77
+          source_line_sha256: e40a4614942300fd6d750d8678fc9a7faec2182008d65d5d2a44a9624a35ba56
+        - source_line_number: 4223278
+          chronological_index: 4223277
+          partition: VAL_FUSION
+          structural_unit_id: BGL-PARENT-8916a6e6e3a39e238742db6e39ca9086e3051465436b2f4d21c08d23d52e13e9
+          assignment_id: PART-5c931554e405ec4ed5617dd44aa9c15618bcbf21d8c9a05251c6f7cdbea8669f
+          position_within_unit: 7
+          source_line_sha256: 9de58b31c6b153aa9f3f990c786b3c985484c6547ecbe934bf9ec4271c152964
+        - source_line_number: 4224013
+          chronological_index: 4224012
+          partition: VAL_FUSION
+          structural_unit_id: BGL-PARENT-37160132a43ece84e2322a339f0086484925bc9f5dd9a9cf1206fbb7dd7e40c7
+          assignment_id: PART-525596d8993fff398240d03895d5417b07c8a2d47803c3bf99604a40b230d4e6
+          position_within_unit: 42
+          source_line_sha256: 9bf7b4a5fc88eaafc7cbd54967037a8f948bef5fb734d9e84e74c52b00af7a3b
+        - source_line_number: 4224014
+          chronological_index: 4224013
+          partition: VAL_FUSION
+          structural_unit_id: BGL-PARENT-37160132a43ece84e2322a339f0086484925bc9f5dd9a9cf1206fbb7dd7e40c7
+          assignment_id: PART-525596d8993fff398240d03895d5417b07c8a2d47803c3bf99604a40b230d4e6
+          position_within_unit: 43
+          source_line_sha256: 68e10db19a9af57e6af24414226f7a9700fb59b731c0b80fc27c06f169e9709d
+    frozen_identities:
+      bgl_dataset_fingerprint: c9ee7a8db13d37c88f896e305ed12dc7a66b586cdae4e388db4949f78afbe861
+      bgl_split_payload_hash: 0c1bb1b9b755aa2aa50238771cf5bf34649e1ca33c7964e061766b659aeebd05
+      bgl_val_fusion_partition_hash: 3f035c038bc8c8acacc475fc69cf811214ec247d8891022495adf5d7636da3f7
+      bgl_test_partition_hash: 7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d
+      bgl_parser_manifest_sha256: bc2fd7df13ee231c0e9e63597e3237cd48ebb1658c4609524f04087cf49cfd66
+      bgl_parser_state_sha256: e44649d24afbd4bc335e2d38d54cea9338c211c600baef185cd7a0dee6aee4f6
+      bgl_template_registry_sha256: bc4ac9e2c6ea51e712ed06c0648372d6ed800f2788d135cd5cc89d7d1047d17f
+      drain3_version: 0.9.11
+    options:
+      option_a:
+        name: VERSIONED_COLLISION_SAFE_NUL_ESCAPING
+        recommendation: RECOMMENDED
+        scientific_population_changed: false
+        one_line_one_event: true
+        lossless_raw_provenance: true
+        drain3_compatible: true
+        parser_refit_required: false
+        schema_change: CANONICAL_ARTIFACT_ENVELOPE_ONLY
+        deterministic: true
+        collision_risk: CONTROLLED_BY_TYPED_STATUS_AND_ESCAPE_GRAMMAR
+        complexity: LOW_TO_MODERATE
+      option_b:
+        name: ALLOW_LITERAL_NUL
+        recommendation: REJECT
+        reason: requires_widening_multiple_frozen_validators_without_an_official_Drain3_NUL_contract
+      option_c:
+        name: DEDICATED_MALFORMED_EVENT
+        recommendation: FALLBACK_ONLY
+        reason: introduces_artificial_event_semantics_or_collapses_into_option_a
+      option_d:
+        name: EXCLUDE_LINES_OR_PARENTS
+        recommendation: REJECT
+        reason: unnecessarily_changes_population_or_breaks_parent_cardinality
+    selected_policy:
+      option_id: OPTION_A
+      policy_id: CANONICAL-NUL-DECISION-001
+      policy_version: seqlogad-nul-escape-v1
+      status_values:
+        - UNCHANGED
+        - NUL_ESCAPED
+      trigger: exact_raw_message_bytes_contain_0x00
+      inputs_allowed:
+        - raw_message_bytes
+      inputs_forbidden:
+        - anomaly_label
+        - partition_id
+        - parent_id
+        - test_outcome
+        - model_result
+      transform:
+        no_nul: strict_utf8_decode_with_no_content_change
+        nul_present:
+          step_1: replace_each_raw_0x5c_with_two_0x5c_bytes
+          step_2: replace_each_raw_0x00_with_bytes_0x5c_0x78_0x30_0x30
+          step_3: strict_utf8_decode_transformed_bytes
+        escape_introducer_hex: "5c"
+        nul_encoding_hex: "5c783030"
+        reversibility: decoder_is_selected_only_when_status_is_NUL_ESCAPED
+        malformed_escape_policy: REJECT
+      canonicalized_message_contract:
+        function: canonicalize_nul_message
+        input_type: bytes
+        output_fields:
+          - canonical_message
+          - normalization_status
+          - raw_message_sha256
+          - policy_version
+        raw_message_definition: exact_Content_field_bytes_after_source_metadata_separation_and_before_UTF8_decode_excluding_line_terminator
+        raw_message_hash: SHA256_EXACT_RAW_MESSAGE_BYTES
+      representation_layers:
+        RAW_BYTES: immutable_full_source_line_bytes
+        CANONICAL_PARSER_INPUT: policy_derived_NUL_free_text
+        CANONICAL_EVENT_MESSAGE: same_text_as_CANONICAL_PARSER_INPUT
+        EVENT_TEMPLATE_ID: existing_frozen_registry_mapping_or_EVT_UNSEEN
+      collision_contract:
+        original_backslash_is_escaped_when_and_only_when_NUL_ESCAPED: true
+        literal_backslash_x00_is_not_equivalent_to_raw_NUL: true
+        identity_components:
+          - policy_version
+          - normalization_status
+          - canonical_message
+          - raw_message_sha256
+      provenance_contract:
+        source_line_sha256: unchanged_SHA256_of_exact_full_raw_line_bytes_including_existing_terminator_semantics
+        message_representation_location: canonical_record_wrapper
+        expose_as_model_attribute: false
+        transformed_record_block:
+          policy_id: CANONICAL-NUL-DECISION-001
+          policy_version: seqlogad-nul-escape-v1
+          status: NUL_ESCAPED
+          raw_message_sha256: required_lowercase_sha256
+        unchanged_record_serialization: omit_message_representation_block
+        omission_semantics: UNCHANGED_under_manifest_bound_policy
+    versioning:
+      protocol_v1_1: UNCHANGED
+      event_template_schema: "1.0"
+      event_template_schema_change: false
+      log_event_schema: "1.0"
+      log_event_schema_change: false
+      parser_normalization_version: seqlogad-message-v1
+      parser_normalization_version_change: false
+      canonical_artifact_envelope_after_approval: "1.1"
+      canonical_implementation_after_approval: seqlogad-canonical-event-001-v2
+      historical_artifact_handling: validate_schema_1_0_separately_and_never_rewrite
+      binding_status_before_human_approval: NON_BINDING_PROPOSAL
+    parser_contract:
+      implementation: Drain3
+      version: 0.9.11
+      mode: RESTORE_ONLY
+      update: FORBIDDEN
+      policy_application_point: after_source_field_and_label_isolation_before_frozen_match
+      input_after_policy_must_be_nul_free: true
+      no_match_fallback: EVT_UNSEEN
+      parser_config_change: false
+      parser_state_change: false
+      template_registry_change: false
+      affected_line_feasibility_result: all_four_return_EVT_UNSEEN_without_mutation
+    population_and_leakage:
+      one_retained_raw_line_one_observation_one_event: true
+      bgl_parent_cardinality: 100
+      chronology_changed: false
+      split_membership_changed: false
+      test_identity_changed: false
+      labels_used: false
+      policy_is_partition_independent: true
+      policy_is_content_only: true
+      raw_data_mutated: false
+    test_integrity:
+      hdfs_status: SEALED
+      bgl_status: SEALED
+      never_opened: true
+      open_count: 0
+      unlock_records: 0
+      test_search_performed: false
+      test_artifact_generated: false
+    required_resume_tests:
+      T1: ordinary_message_unchanged
+      T2: single_NUL_deterministically_escaped
+      T3: multiple_NULs_deterministically_escaped
+      T4: leading_NUL
+      T5: trailing_NUL
+      T6: literal_escape_collision_is_unambiguous
+      T7: Unicode_surrounding_NUL
+      T8: raw_message_hash_uses_exact_original_message_bytes
+      T9: one_retained_raw_line_produces_one_observation_and_event
+      T10: BGL_parent_remains_exactly_100_events
+      T11: frozen_Drain3_state_hash_unchanged
+      T12: template_registry_hash_unchanged
+      T13: EVT_UNSEEN_fallback_deterministic
+      T14: repeated_generation_is_byte_and_hash_identical
+      T15: canonicalization_is_label_independent
+      T16: canonicalization_is_partition_independent
+      T17: TEST_loader_remains_denied
+      T18: no_TEST_artifact_generated
+      T19: validator_rejects_noncanonical_representation
+      T20: historical_schema_and_artifact_compatibility
+    acceptance_test:
+      scope: SYNTHETIC_NON_TEST_100_EVENT_BGL_PARENT
+      path: raw_line_to_canonicalization_to_frozen_match_to_observation_to_serialization_to_parent_reconciliation
+      input_events: 100
+      output_events: 100
+      silent_drop: false
+      parser_mutation: false
+    next_state_if_human_approved:
+      decision_status: FROZEN_HUMAN_APPROVED
+      canonical_event_task: RESUME_AUTHORIZED
+      next_task: CANONICAL-EVENT-001
+    current_stop_state:
+      decision_status: FROZEN_HUMAN_REVIEW_READY
+      canonical_event_task: BLOCKED_PENDING_HUMAN_APPROVAL
+      next_task: HUMAN_APPROVAL_CANONICAL_NUL_DECISION_001
+  decision_identity:
+    algorithm: SHA256
+    canonicalization: UTF8_CANONICAL_JSON_SORTED_KEYS_COMPACT_NO_NAN
+    hash_scope: canonical_nul_decision.identity_payload
+    payload_sha256: 72c1e03ceae625ab719c51fd552706912d55a06daddb5c280c445afe37696192
+  human_readable_record: docs/decisions/CANONICAL-NUL-DECISION-001.md
+  citation_record: docs/references/CANONICAL-NUL-DECISION-001-citations.md
+  human_approval_payload: APPROVE CANONICAL-NUL-DECISION-001 OPTION A — seqlogad-nul-escape-v1

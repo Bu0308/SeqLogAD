@@ -1,5 +1,5 @@
 # Architecture documentation
 
-The active gated v1.1 architecture is maintained in [`../../Plan/01_ARCHITECTURE.md`](../../Plan/01_ARCHITECTURE.md). Dataset integrity/provenance, schema contracts, real raw split/TEST guards, and normal-only Drain3 fit/freeze are implemented. Canonical event/sequence corpora, baselines, and scientific experiments are not.
+The forward v2 architecture is maintained in [`../../Plan/master-implementation-plan-v2-domain-adaptive-fusion.md`](../../Plan/master-implementation-plan-v2-domain-adaptive-fusion.md) and [`../research-protocol-v2-domain-adaptive-fusion.md`](../research-protocol-v2-domain-adaptive-fusion.md). The v1.1 dataset integrity/provenance, schema contracts, real raw split/TEST guards, and normal-only Drain3 fit/freeze remain preserved foundation artifacts.
 
-Transformer/localization/fusion are conditional. Retrieval/RAG/Agent/API/UI/Elasticsearch are future-only and not the core research contribution.
+The v2 fixed stack is two independent LoRA adapters on a frozen Llama-3.1-8B base plus GTAT, with target-normal calibration and adaptive fusion. Retrieval/RAG/Agent/API/UI/Elasticsearch remain outside the detector core.

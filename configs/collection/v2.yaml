@@ -1,0 +1,38 @@
+# Data-collection contract for observing the v2 workflow. Not a model config.
+collection:
+  id: COLLECTION-V2-001
+  version: "1.0"
+  status: IMPLEMENTED_SCHEMA_ONLY
+  protocol: configs/protocols/protocol-v2-domain-adaptive-fusion.yaml
+  source_of_truth: docs/research-protocol-v2-domain-adaptive-fusion.md
+  guide_reference: external_process_capture_guide_v4
+  append_only: true
+  raw_events_included: false
+  target_labels_allowed: FINAL_EVALUATION_ONLY
+  native_evidence_badges: [projmem_native, research_manifest, aletheia_derived]
+  record_root: research_records
+  private_root: research_records/private
+  exports_root: exports
+  files:
+    - architectures.jsonl
+    - variants.jsonl
+    - event_schemas.jsonl
+    - datasets.jsonl
+    - transforms.jsonl
+    - splits.jsonl
+    - run_bridge.jsonl
+    - artifact_manifests.jsonl
+    - incidents.jsonl
+    - lineage_edges.jsonl
+    - protocol_deviations.jsonl
+    - seal_records.jsonl
+    - access_log.jsonl
+    - toolchain.jsonl
+  required_run_fields: [run_alias, projmem_run_id, architecture_id, variant_id, dataset_id, event_schema_id, transform_id, split_id, seed, run_intent, technical_status, scientific_status, config_sha256, git_commit, git_dirty]
+  ground_truth_correctness_tiers: [G3, G4]
+  causal_claim_tiers: [C3, C4]
+  validation:
+    reject_duplicate_ids: true
+    reject_orphan_references: true
+    preserve_missing_denominators: true
+    require_project_relative_paths: true

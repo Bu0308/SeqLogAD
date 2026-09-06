@@ -1,0 +1,87 @@
+# Forward scientific contract for the user-approved v2 direction.
+# This is a planning contract, not a runnable experiment configuration.
+protocol:
+  id: DOMAIN-ADAPTIVE-FUSION-001
+  version: "2.0"
+  status: PLANNED_USER_APPROVED
+  approved_on: "2026-08-28"
+  empirical_status: NOT_RUN
+  execution_ready: false
+  human_readable_contract: docs/research-protocol-v2-domain-adaptive-fusion.md
+  source_plan: Plan/master-implementation-plan-v2-domain-adaptive-fusion.md
+  legacy_foundation: configs/protocols/protocol-v1.1.yaml
+
+objective:
+  question: >-
+    Can fusion transfer knowledge across heterogeneous source architectures,
+    adapt to an unseen target using only an unlabeled normal buffer, and detect
+    anomalies with calibrated, explainable evidence?
+  claim_boundary: >-
+    Claims are limited to the held-out architectures and operating conditions
+    actually evaluated; universal detection and cold-start detection are not claimed.
+
+data_and_folds:
+  minimum_source_architectures: 3
+  target_architecture_per_fold: 1
+  fold_strategy: LEAVE_ONE_ARCHITECTURE_OUT
+  chronology_required: true
+  mixed_system_random_split_allowed: false
+  target_labels_in_adaptation: false
+  target_labels_in_calibration: false
+  target_labels_in_final_evaluation_only: true
+  target_buffer:
+    required: true
+    expected_distribution: PREDOMINANTLY_NORMAL
+    contamination_bound: TO_BE_DEFINED_BEFORE_G1
+    readiness_checks: REQUIRED
+    version_and_hash_required: true
+
+representation:
+  retain_raw_message: true
+  normalized_fields: [timestamp, level, service, component, message]
+  optional_fields: [session, trace, template]
+  self_supervision: [masked_log, next_event, contrastive_alignment]
+  domain_adversarial_branch: CONDITIONAL_DIAGNOSTIC_AND_ABLATION
+
+experts:
+  semantic:
+    model: Llama-3.1-8B
+    adapter: LoRA-Semantic
+    checkpoint_independent: true
+  sequence:
+    model: Llama-3.1-8B
+    adapter: LoRA-Sequence
+    checkpoint_independent: true
+  structural_time:
+    model: Temporal_Graph_Transformer_GTAT
+    required_fields: [event, service, component, timestamp]
+    unavailable_input_policy: REPORT_COVERAGE_AND_ABSTAIN
+  adapter_rule: >-
+    The two LoRA adapters use the same frozen base revision but never share
+    adapter weights or adaptation checkpoints.
+
+fusion:
+  inputs: [calibrated_score, uncertainty, coverage, target_drift, sequence_context]
+  target_calibration: NORMAL_BUFFER_ONLY
+  mandatory_comparator: EQUAL_WEIGHT_FUSION
+  gate_training: SOURCE_EPISODIC_FOLDS_ONLY
+  abstention_state: UNKNOWN_REVIEW
+  gate_opening_requires: [G0, G1, G2]
+
+evaluation:
+  primary_unit: TARGET_ARCHITECTURE_X_FOLD
+  metrics: [average_precision, pr_auc, auroc, false_alert_rate, time_to_detect, latency, calibration, abstention_rate]
+  mandatory_ablations: [remove_semantic, remove_sequence, remove_structural_time, equal_weight, no_target_adaptation]
+  robustness: [cold_start, new_templates, volume_drift, contaminated_burn_in]
+  final_evaluation: ONE_LOCKED_HELD_OUT_RUN_AFTER_G4
+
+gates:
+  G0: PROTOCOL_READY
+  G1: ADAPTATION_READY
+  G2: EXPERT_DIVERSITY
+  G3: FUSION_JUSTIFIED
+  G4: FINAL_EVALUATION
+
+ownership:
+  ai_prepares: [schemas, deterministic_builders, tests, reports]
+  researcher_approves: [dataset_eligibility, buffer_assumptions, model_selection, empirical_runs, conclusions]

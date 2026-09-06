@@ -1,0 +1,52 @@
+# NORM-CS-001 — versioned cross-system normalisation rule table (Excel P1.4).
+#
+# Contract:
+#   * raw_message is never mutated by these rules; normalized_message is a new field.
+#   * Rules are applied in the listed order to the canonical (NUL-safe) message text.
+#   * `preserve` entries are protected before masking and restored afterwards so that
+#     business-meaningful tokens are not destroyed by the numeric rule.
+#   * No rule may read a label, a partition, an architecture role or a model result.
+#   * Changing any byte of this file requires a new `version`, because the file hash is
+#     bound into every fold, buffer and G0 receipt.
+normalizer:
+  id: NORM-CS-001
+  version: seqlogad-normalizer-cs-v1
+  applies_to: canonical_message
+  raw_message_mutated: false
+  label_dependent: false
+  partition_dependent: false
+  architecture_dependent: false
+
+  # Protected first, restored last. Order-independent (disjoint by construction).
+  preserve:
+    - {name: http_version, pattern: 'HTTP/\d\.\d'}
+    - {name: ip_family, pattern: '\bIPv[46]\b'}
+    - {name: digest_name, pattern: '\b(?:SHA-?(?:1|224|256|384|512)|MD5|CRC32)\b'}
+    - {name: cpu_arch, pattern: '\b(?:x86_64|i386|i686|aarch64|ppc64(?:le)?)\b'}
+    - {name: transport, pattern: '\b(?:TCP|UDP|ICMP)\b'}
+
+  # Applied in order. Each replacement is a fixed literal placeholder.
+  rules:
+    - {name: uuid, pattern: '\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b', replacement: '<UUID>'}
+    - {name: iso_timestamp, pattern: '\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?(?:Z|[+-]\d{2}:?\d{2})?', replacement: '<TS>'}
+    - {name: clock_time, pattern: '(?<![\w.])\d{2}:\d{2}:\d{2}(?:[.,]\d+)?(?![\w])', replacement: '<TIME>'}
+    - {name: ipv6, pattern: '(?<![\w:.])(?:[0-9a-fA-F]{1,4}:){2,7}[0-9a-fA-F]{1,4}(?![\w:.])', replacement: '<IPV6>'}
+    - {name: ipv4_port, pattern: '(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}:\d{1,5}(?![\w.])', replacement: '<IP>:<PORT>'}
+    - {name: ipv4, pattern: '(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?![\w.])', replacement: '<IP>'}
+    - {name: mac_address, pattern: '(?<![\w:])(?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}(?![\w:])', replacement: '<MAC>'}
+    - {name: hdfs_block, pattern: '\bblk_-?\d+\b', replacement: '<BLK>'}
+    - {name: yarn_identifier, pattern: '\b(?:application|appattempt|container|job|task|attempt|container_e\d+)_\d+(?:_\d+)*\b', replacement: '<YARNID>'}
+    - {name: bgl_location, pattern: '\bR\d{2}-M\d-N[0-9A-F]-[CIJ]:(?:J\d{2}-U\d{2}|[A-Z0-9-]+)\b', replacement: '<NODE>'}
+    - {name: bgl_node, pattern: '\b(?:R\d{2}-M\d-N[0-9A-F]|c[0-9]+-[0-9]+c[0-9]+s[0-9]+)\b', replacement: '<NODE>'}
+    - {name: url, pattern: '\b(?:https?|ftp)://[^\s"''<>]+', replacement: '<URL>'}
+    - {name: email, pattern: '\b[\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}\b', replacement: '<EMAIL>'}
+    - {name: long_hex, pattern: '(?<![\w-])(?:0x)?[0-9a-fA-F]{8,}(?![\w-])', replacement: '<HEX>'}
+    - {name: control_char, pattern: '[\x01-\x08\x0b\x0c\x0e-\x1f\x7f]', replacement: '<CTRL>'}
+    - {name: number, pattern: '(?<![\w.])[+-]?\d+(?:\.\d+)?(?![\w.])', replacement: '<NUM>'}
+    - {name: residual_number, pattern: '(?<!\w)\d+(?!\w)', replacement: '<NUM>'}
+
+  post:
+    collapse_whitespace: true
+    strip: true
+
+  golden_cases_reference: docs/protocol/P1.4-normalisation.md

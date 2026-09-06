@@ -1,6 +1,6 @@
 # Dataset Policy
 
-This directory separates immutable source bytes from every derived artifact. HDFS and BGL are present locally for the current researcher, verified against version-controlled manifests, and intentionally excluded from Git.
+This directory separates immutable source bytes from every derived artifact. HDFS and BGL are preserved local source-domain assets for v2, verified against version-controlled manifests, and intentionally excluded from Git.
 
 ## Directory layout
 
@@ -47,11 +47,12 @@ python3 -m scripts.verify_dataset --dataset hdfs --json
 python3 -m scripts.verify_dataset --dataset bgl --json
 ```
 
-## Split and label safety for future work
+## Split and label safety for future v2 work
 
-- Assign chronological/group partitions before overlapping window creation.
-- Fit parser/baselines and select thresholds without TEST; conditional/future components follow the same rule.
-- Real HDFS/BGL labels may filter authorized normal pools and support validation/final evaluation, but never enter parser/model inputs or base loss.
+- Assign source/target architectures and chronological folds before fitted transforms.
+- Build a target normal buffer without reading target labels; record its hash, contamination assumption and readiness decision.
+- Real HDFS/BGL labels remain historical evaluation-only inputs and never enter v2 adaptation, calibration or gate training.
+- Preserve the v1.1 split/parser/TEST artifacts; do not mutate them to fit collection or v2 convenience.
 - Conditional synthetic localization labels come only from deterministic mutations of authorized training-derived normal parents.
 
 ## Git, licensing, and privacy

@@ -1,0 +1,72 @@
+# CS-SPLIT-001 — cross-system leave-one-architecture-out split contract (Excel P1.5).
+#
+# Declared BEFORE any ground-truth label position was inspected for the three
+# target-eligible architectures. Changing any value requires a new `version`,
+# because this file's SHA-256 is bound into every fold manifest and the G0 receipt.
+cross_system_split:
+  id: CS-SPLIT-001
+  version: "1.0"
+  protocol: DOMAIN-ADAPTIVE-FUSION-001
+  plan: Bang_ke_hoach_SeqLogAD.xlsx
+  fold_strategy: LEAVE_ONE_ARCHITECTURE_OUT
+  target_architectures_per_fold: 1
+  minimum_source_architectures_per_fold: 3
+  mixed_system_random_split_allowed: false
+  target_labels_in_split_construction: false
+  seed_required: false          # the split is fully deterministic; no RNG is used.
+  determinism: FLOOR_BOUNDARIES_ON_CHRONOLOGICAL_RANK
+
+  # Chronological stream order for every architecture.
+  stream_order: TIMESTAMP_THEN_FILE_RANK_THEN_LINE_NUMBER
+  continuation_timestamp_rule: INHERIT_PREVIOUS_TIMESTAMP_WITHIN_SAME_FILE
+
+  # Segment cut points, as cumulative fractions of an architecture's record count.
+  segment_fractions:
+    early_end: 0.50
+    guard_end: 0.55
+    mid_end: 0.70
+
+  segments:
+    EARLY: "first 50% of the chronological stream"
+    GUARD: "next 5%; never assigned to any partition; temporal buffer"
+    MID:   "next 15%"
+    LATE:  "final 30%"
+
+  # Group integrity: a grouping unit (HDFS block, Hadoop application, OpenStack
+  # instance) is assigned wholly to the segment of its LAST record, so no unit is
+  # split across a boundary. The rule reads chronology and the grouping key only.
+  grouping_integrity_rule: UNIT_ASSIGNED_TO_SEGMENT_OF_ITS_LAST_RECORD
+
+  # Concurrent long-lived units (Hadoop applications overlap heavily) would
+  # otherwise place burn-in records after evaluation records in wall-clock time.
+  # A unit whose lifetime crosses a cut time is therefore removed from every
+  # partition. Exclusions are counted, ratio-reported and hashed -- never silent.
+  # A boundary that no grouping unit straddles can be obtained two ways: keep the
+  # nominal cut and exclude the units alive across it, or snap the boundary to a
+  # quiet instant (a time when no unit is alive) and move records between segments.
+  # Both are label-blind and both cost records. The declared rule is to take the
+  # cheaper one, measured in records displaced from their nominal segment. Streams
+  # with a natural idle gap therefore keep all their data; streams with no idle gap
+  # pay a small exclusion rather than a large distortion. Every choice, its strategy
+  # and its cost are recorded in the stream index.
+  cut_selection_rule: MINIMISE_DISPLACED_RECORDS_OVER_SNAP_OR_EXCLUDE
+  cut_monotonicity_required: true
+  boundary_exclusion_rule: UNIT_LIFETIME_CROSSING_A_CUT_TIME_IS_EXCLUDED_FROM_ALL_PARTITIONS
+  excluded_records_reported: true
+
+  # Role mapping. An architecture is either a source or the target within a fold,
+  # never both, and the underlying segmentation is identical in both roles.
+  role_partitions:
+    SOURCE:
+      SOURCE_TRAIN: [EARLY]
+      SOURCE_VALIDATION: [MID]
+    TARGET:
+      TARGET_BURN_IN: [EARLY]
+      TARGET_EVALUATION: [MID, LATE]
+
+  invariants:
+    - TARGET_ARCHITECTURE_ABSENT_FROM_SOURCE_TRAIN
+    - TARGET_BURN_IN_STRICTLY_PRECEDES_TARGET_EVALUATION
+    - SOURCE_TRAIN_STRICTLY_PRECEDES_SOURCE_VALIDATION
+    - NO_RECORD_IN_TWO_PARTITIONS_OF_A_FOLD
+    - GUARD_SEGMENT_UNUSED_BY_EVERY_PARTITION
