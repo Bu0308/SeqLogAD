@@ -1,0 +1,179 @@
+migration:
+  id: P2-ROADMAP-MIGRATION-001
+  task: P2.0.1
+  date: '2026-09-09'
+  authority: EXPLICIT_USER_REQUEST_P2_0_1
+  status: COMPLETE
+  from_namespace: EXCEL_PRE_P2_ARCH_V1
+  to_namespace: P2_ARCH_V1
+  scope: PHASE2_TASK_NAMESPACE_AND_BASE_PREREQUISITE_WITH_DEPENDENT_ROUTING
+  scientific_plan_changed: true
+  phase1_contracts_changed: false
+  gate_signature_created: false
+  previous_amendment: PLAN-AMEND-001
+  workbook: Bang_ke_hoach_SeqLogAD.xlsx
+  from_sha256: 978a24ffd649e1abfecfc05f2bd7af1793d9875656069e57fb0bd75636be0ba2
+  to_sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
+  previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--pre-P2-ARCH-V1-2026-09-09.xlsx
+  previous_projection: docs/history/excel-roadmap--pre-P2-ARCH-V1-2026-09-09.yaml
+  previous_projection_sha256: 0477ac3214beb00ac1eb806bfe451a1f594fee7b3a81ee5aa56959419f818daa
+  changed_cells:
+  - Executive!B11
+  - Executive!E11
+  - Gates!F7
+  - Roadmap!C6
+  - Roadmap!E6
+  - Task Playbooks!A13
+  - Task Playbooks!A14
+  - Task Playbooks!A15
+  - Task Playbooks!A16
+  - Task Playbooks!A17
+  - Task Playbooks!A18
+  - Task Playbooks!A19
+  - Task Playbooks!A20
+  - Task Playbooks!B13
+  - Task Playbooks!B14
+  - Task Playbooks!B15
+  - Task Playbooks!B16
+  - Task Playbooks!B17
+  - Task Playbooks!B18
+  - Task Playbooks!B19
+  - Task Playbooks!B20
+  - Task Playbooks!B21
+  - Task Playbooks!C13
+  - Task Playbooks!C14
+  - Task Playbooks!C15
+  - Task Playbooks!C16
+  - Task Playbooks!C17
+  - Task Playbooks!C18
+  - Task Playbooks!C19
+  - Task Playbooks!C20
+  - Task Playbooks!C21
+  - Task Playbooks!D13
+  - Task Playbooks!D14
+  - Task Playbooks!D15
+  - Task Playbooks!D16
+  - Task Playbooks!D17
+  - Task Playbooks!D18
+  - Task Playbooks!D19
+  - Task Playbooks!D20
+  - Task Playbooks!D21
+  - Task Playbooks!E14
+  - Task Playbooks!E15
+  - Task Playbooks!E16
+  - Task Playbooks!E17
+  - Task Playbooks!E18
+  - Task Playbooks!E19
+  - Task Playbooks!E20
+  - Task Register!A13
+  - Task Register!A14
+  - Task Register!A15
+  - Task Register!A16
+  - Task Register!A17
+  - Task Register!A18
+  - Task Register!A19
+  - Task Register!A20
+  - Task Register!C13
+  - Task Register!C14
+  - Task Register!C15
+  - Task Register!C16
+  - Task Register!C17
+  - Task Register!C18
+  - Task Register!C19
+  - Task Register!C20
+  - Task Register!D15
+  - Task Register!E13
+  - Task Register!E14
+  - Task Register!E15
+  - Task Register!E16
+  - Task Register!E17
+  - Task Register!E18
+  - Task Register!E19
+  - Task Register!E20
+  - Task Register!E21
+  - Task Register!F14
+  - Task Register!F15
+  - Task Register!F16
+  - Task Register!F17
+  - Task Register!F18
+  - Task Register!F19
+  - Task Register!F20
+  - Task Register!F21
+  - Task Register!G19
+  - Task Register!G20
+  - Task Register!H16
+  - Task Register!I14
+  - Task Register!I15
+  - Task Register!I17
+  - Task Register!I18
+  - Task Register!I19
+  - Task Register!I20
+  - Task Register!I21
+  - Task Register!I22
+  - Task Register!I25
+  - Task Register!J13
+  - Task Register!J14
+  - Task Register!J15
+  - Task Register!J16
+  - Task Register!J17
+  - Task Register!J18
+  - Task Register!J19
+  - Task Register!J20
+  - Task Register!J21
+  recalculated_formula_cache_cells:
+  - Executive!D4
+  serialization_note: Artifact-tool export preserves formulas, visible fills, fonts, borders, alignment,
+    merges, tables and validation. Solid-fill background metadata normalized; no visible fill change.
+    ZIP serialization and formula caches may differ.
+  crosswalk:
+    P2.1:
+    - P2.PRE
+    P2.2:
+    - P2.1
+    P2.3:
+    - P2.1
+    P2.4:
+    - P2.1
+    P2.5:
+    - P2.2
+    P2.6:
+    - P2.2
+    P2.7:
+    - P2.4
+    P2.8:
+    - P2.5
+  crosswalk_notes:
+    P2.1: Old base metadata -> P2.PRE; old runtime smoke-load retained in new P2.1 preflight.
+    P2.3: REP-DG-001 source alignment retained as conditional/diagnostic subdeliverable of Semantic Expert,
+      not deleted.
+    P3.1: Old diversity/scientific diagnostic ownership -> P2.6; P3.1 identity retained for G2/P2.7 evidence
+      handoff, without duplicate evaluation.
+  new_tasks_without_old_phase2_id:
+  - P2.3
+  - P2.6
+  - P2.7
+  execution_order:
+  - P2.PRE
+  - P2.1
+  - P2.2
+  - P2.3
+  - P2.4
+  - P2.5
+  - P2.6
+  - P2.7
+  frozen_history:
+    configs/protocols/g0-signatures.yaml: 5f373819420366834fd05e3f98de0a398c0c10d2c9be8b3d9d9cedd67f9479ff
+    data/processed/protocol/G0-receipt.json: 7bac6930a074a4a490c1e070b41774fe85982a197128f9078b38543362ef5204
+  historical_receipt_bindings:
+    Bang_ke_hoach_SeqLogAD.xlsx: docs/history/Bang_ke_hoach_SeqLogAD--pre-P2-ARCH-V1-2026-09-09.xlsx
+    configs/plan/excel-roadmap-v1.yaml: docs/history/excel-roadmap--pre-P2-ARCH-V1-2026-09-09.yaml
+  preserved_p20_section_sha256:
+    access_profiles: 48c08958a821802509916ebb5f9b280471c5d2a967ec8f9a287345c72287e1f3
+    experts: a46eb1bac0e8e795eb0c626cdd84612090b8422d59d64be5311310dd8ffae12c
+    notebooks: 9bf7087b04b9ca5ee152d28640fe3dd6f5958de13b2d53659fae4cbfc056a487
+    portability: b0a970e77ea7e4ecc61942c6771f3047d9fdfa877464559b9c368a2cc3b48973
+    source_label_scope: 16ea322eb6eb9334176f9c3f21dcc070b455888a2f80edf0723fcf24f96498c4
+  source_label_blocker: UNRESOLVED_DENY
+  base_freeze_status: BLOCKED
+  semantic_execution_authorized: false
+  phase3_enabled: false

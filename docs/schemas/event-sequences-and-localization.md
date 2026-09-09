@@ -11,7 +11,7 @@
 | Compatibility freeze | 2026-08-22 (`SCHEMA-COMPAT-001`) |
 | Source module | `src/seqlogad/common/schemas/sequences.py` |
 | Scientific protocol | `docs/research-protocol-v1.1.md` |
-| Method provenance | `docs/references/SCHEMA-002-citations.md`; `docs/references/SCHEMA-COMPAT-001-citations.md` |
+| Method provenance | `docs/references/SCHEMA-002-citations.md` (historical) |
 
 This contract makes sequence provenance, partition ownership, coordinate-aware localization, and deterministic synthetic-mutation provenance machine-checkable. It validates supplied synthetic records only. It does **not** split datasets, parse logs, build real sequences, mutate events, access TEST labels, or run an experiment.
 

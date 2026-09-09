@@ -1,5 +1,8 @@
 # PROTOCOL-SPLIT-CLARIFY-001 — Literature Evidence Matrix
 
+> **HISTORICAL / SUPERSEDED.** Retired v1.1 literature material, retained for
+> provenance. Active references: [`../references/reference_registry.yaml`](../references/reference_registry.yaml).
+
 **Search date:** 2026-08-22
 
 **Search cutoff:** 2026-08-22

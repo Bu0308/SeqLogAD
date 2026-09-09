@@ -49,6 +49,48 @@ g0_signatures:
       expected_payload_source: src/seqlogad/protocol/freeze.py:RESEARCHER_SIGNATURE_PAYLOAD
       payload_received: "APPROVE G0 PROTOCOL READY — SeqLogAD Phase 1 (Bang_ke_hoach_SeqLogAD.xlsx)"
 
+  # The plan was amended after signing. Recorded so the signature stays auditable:
+  # the researcher signed a set of scientific requirements, and those bytes are
+  # unchanged. Only status and evidence-link cells moved.
+  plan_amendments:
+    - id: PLAN-AMEND-001
+      date: "2026-09-08"
+      reason: >-
+        Bring the workbook's own bookkeeping into line with reality after G0 was
+        signed, and satisfy the Gates sheet's rule that a passed gate must name its
+        evidence.
+      from_sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
+      to_sha256: 978a24ffd649e1abfecfc05f2bd7af1793d9875656069e57fb0bd75636be0ba2
+      signed_workbook_archived_at: docs/history/Bang_ke_hoach_SeqLogAD--G0-signed-2026-09-06.xlsx
+      changed_cells:
+        by_researcher:
+          - {cell: "Executive!H9", from: Planned, to: Finished}
+          - {cell: "Roadmap!I5", from: Planned, to: Finished}
+          - {cell: "Task Register!K6", from: Not started, to: Done}    # P1.2
+          - {cell: "Task Register!K7", from: Not started, to: Done}    # P1.3
+          - {cell: "Task Register!K8", from: Not started, to: Done}    # P1.4
+          - {cell: "Task Register!K9", from: Not started, to: Done}    # P1.5
+          - {cell: "Task Register!K10", from: Not started, to: Done}   # P1.6
+          - {cell: "Task Register!K11", from: Not started, to: Done}   # P1.7
+          - {cell: "Task Register!K12", from: Not started, to: Done}   # P1.8
+          - {cell: "Gates!G5", from: Not passed, to: Passed}           # G0
+        by_ai_on_researcher_instruction:
+          - {cell: "Executive!H4", from: "PLANNED — no empirical result",
+             to: "P1 COMPLETE — no empirical result"}
+          - {cell: "Gates!H5", from: "—",
+             to: "data/processed/protocol/G0-receipt.json"}
+      scope_of_change: STATUS_AND_EVIDENCE_LINK_CELLS_ONLY
+      scientific_content_changed: false
+      verification: >-
+        Every differing cell lies in a status or evidence-link column
+        (Executive!H, Roadmap!I, Task Register!K, Gates!G, Gates!H). No task text,
+        definition of done, dependency, gate requirement, research question or
+        citation changed. Re-derived from the archived signed workbook by
+        tests/test_excel_plan_authority.py, which fails if any other cell differs.
+      signature_validity: >-
+        UNAFFECTED. The four payloads still match the contracts they approve, and
+        the scientific requirements the researcher signed are byte-identical.
+
   # What signing does NOT do.
   scope_limits:
     - Signing G0 confirms the protocol only. It asserts nothing about model quality.

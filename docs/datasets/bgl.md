@@ -3,13 +3,13 @@
 - **Name:** Blue Gene/L System Log (`BGL`).
 - **Purpose in project:** Core candidate benchmark for chronology-aware dataset-suitability, trivial-baseline ceiling, and sequence-added-value evaluation.
 - **Source:** [LogPAI Loghub BGL](https://github.com/logpai/loghub/tree/master/BGL); canonical archive record [Zenodo 8196385](https://doi.org/10.5281/zenodo.8196385).
-- **Reference:** Loghub repository/readme and its linked BGL/Loghub publications; dataset-suitability evidence is mapped in [`../literature/prior-art-matrix-v1.1.md`](../literature/prior-art-matrix-v1.1.md) and [`../references/LIT-001-citations.md`](../references/LIT-001-citations.md).
+- **Reference:** registry entries [`S13`](../references/ACTIVE_REFERENCES.md) (Oliner & Stearley (2007), DSN) for the dataset itself, [`S1`](../references/ACTIVE_REFERENCES.md) for the Loghub collection and [`S16`](../references/ACTIVE_REFERENCES.md) for the Zenodo record, licence and published digests. Authoritative registry: [`../references/reference_registry.yaml`](../references/reference_registry.yaml).
 - **Source archive:** `BGL.zip`, 57,489,019 bytes; canonical MD5 `4452953c470f2d95fcb32d5f6e733f7a` matched exactly; local SHA-256 `d67fd82a711aea0157a9b83175892c6ee60e384a2ddf5bc51f39118453816da8`.
 - **Archive safety:** Valid ZIP with two members, no duplicate names, traversal, absolute paths, symlinks or nested archives; full ZIP CRC test passed.
 - **Extracted root:** `data/raw/bgl/BGL/`. Both extracted members were independently SHA-256 compared with archive members and matched.
 - **Required file:** `BGL.log`, locally present and non-empty.
 - **Labels:** Inline first field; Loghub documents `-` as non-alert and other values as alert categories. No distribution analysis is part of Day 2.5.
-- **Experiment role:** KT-1 trivial/strong baselines, Markov/N-gram, and KT-3 order-destruction analysis on non-overlapping chronological parent windows. It is not assumed to share HDFS grouping semantics; Transformer/localization are conditional and fusion is not core.
+- **Experiment role (workbook):** `ARCH-BGL` is an active source architecture and a target-eligible LOAO fold. It has no session grouping, so records are their own chronological units. The KT-1/KT-3 and Markov roles described previously belong to the retired v1.1 study.
 - **Raw chronology contract:** **IMPLEMENTED** — META-001 preserves zero-based
   source-line rank, parses the detailed timestamp for structural audit, keeps
   malformed/regressing observations explicit, and ignores the inline label

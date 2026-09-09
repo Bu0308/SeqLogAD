@@ -1,5 +1,8 @@
 # LIT-001 — Targeted Prior-Art and Dataset-Suitability Review
 
+> **HISTORICAL / SUPERSEDED.** Retired v1.1 literature material, retained for
+> provenance. Active references: [`../references/reference_registry.yaml`](../references/reference_registry.yaml).
+
 > **Post-LIT binding status:** this matrix preserves the literature-stage
 > `SHOULD/CONDITIONAL` assessment. EFFECT-001 later promoted Isolation Forest to a
 > required primary order-insensitive candidate for SeqLogAD. The promotion is a

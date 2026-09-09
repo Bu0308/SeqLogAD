@@ -1,5 +1,10 @@
 # PURGE-AUDIT-001 — Citations and Method Provenance
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 Searched on **2026-08-24**. This note separates external evidence from
 SeqLogAD's observed audit result. No cited paper is treated as a result for the
 exact frozen SeqLogAD bytes or split.

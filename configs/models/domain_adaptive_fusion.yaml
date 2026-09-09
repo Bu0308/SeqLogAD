@@ -2,8 +2,10 @@
 status: PLANNED_NOT_RUN
 base_model:
   name: Llama-3.1-8B
-  revision: TO_BE_FROZEN_AT_P2.1
-  frozen: true
+  revision: TO_BE_FROZEN_AT_P2.PRE
+  frozen: true  # Training policy: base weights stay frozen; revisions are not yet fixed.
+  metadata_freeze_status: BLOCKED
+  metadata_contract: configs/models/base-freeze-v1.yaml
 adapters:
   semantic:
     name: LoRA-Semantic

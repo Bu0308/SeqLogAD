@@ -1,5 +1,8 @@
 # LIT-001 — Reproducible Search Log
 
+> **HISTORICAL / SUPERSEDED.** Retired v1.1 literature material, retained for
+> provenance. Active references: [`../references/reference_registry.yaml`](../references/reference_registry.yaml).
+
 | Field | Value |
 |---|---|
 | Task | `LIT-001` |

@@ -1,0 +1,68 @@
+base_freeze:
+  id: LLM-BASE-001
+  task_id: P2.PRE
+  status: BLOCKED
+  completion_status: NOT_STARTED
+  execution_scope: METADATA_ONLY
+  execution_authorized: true
+  training_authorized: false
+  download_authorized: false
+  blocks:
+  - P2.1
+  blockers:
+  - REQUIRED_METADATA_NOT_FROZEN
+  expected_model_family: Llama-3.1-8B
+  applies_to:
+  - SEMANTIC_LLAMA
+  - SEQUENCE_LLAMA_REFERENCE
+  required_metadata:
+    base_model_identifier: null
+    model_revision_commit: null
+    tokenizer_identifier: null
+    tokenizer_revision_commit: null
+    quantization_policy: null
+    precision_policy: null
+    peft_lora_library_constraints: null
+    expected_context_length: null
+    license_identifier_and_terms_url: null
+    access_requirements_and_verification: null
+    artifact_checkpoint_naming: null
+    reproducibility_metadata: null
+    gpu_memory_and_fair_comparison_budget: null
+  field_requirements:
+    model_revision_commit: Immutable upstream commit, never main/latest or a fabricated hash. Record official
+      provenance URL.
+    tokenizer_revision_commit: Immutable tokenizer commit; record explicit identity even if equal to model
+      commit.
+    quantization_policy: Explicit none or method, bits, compute/storage dtypes and version constraints.
+    precision_policy: Parameter, compute and optimizer dtypes; hardware assumptions.
+    peft_lora_library_constraints: Pin compatible peft, transformers, torch, accelerate and quantization
+      backend if used; lockfile/hash. LoRA implementation/version recorded; ranks/targets remain task-specific
+      until frozen before run.
+    expected_context_length: Numeric context cap, tokenizer limits, truncation policy and future runtime
+      verification.
+    access_requirements_and_verification: License/access eligibility evidence without credentials or downloading
+      weights.
+    artifact_checkpoint_naming: Versioned run identity with task/expert/fold/seed/revisions and checkpoint
+      hashes; no overwrites.
+    reproducibility_metadata: Seeds, config/lock/provenance hashes, model/tokenizer source URLs and verification
+      date, environment policy, deterministic settings/limitations.
+  pass_criteria:
+  - Every required_metadata value non-null and concrete; no TBD/main/latest placeholders.
+  - Exact immutable revisions verified from official metadata without weight downloads.
+  - Compatible version constraints, licensing/access evidence and context/resource policies reviewed and
+    recorded.
+  - Manifest is hashed and researcher review recorded; update routing explicitly only after verified PASS.
+  review:
+    status: NOT_REVIEWED
+    evidence: null
+  future_runtime_preflight:
+    owner: P2.1
+    required_before_training: true
+    checks:
+    - model/tokenizer smoke-load
+    - revision/hash matches frozen metadata
+    - license/access
+    - CUDA/precision/context support
+    executed: false
+  planned_artifact: reports/phase2/base-freeze/LLM-BASE-001.json

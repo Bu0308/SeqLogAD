@@ -3,11 +3,11 @@
 - **Name:** HDFS Log Dataset v1 (`HDFS_v1`).
 - **Purpose in project:** Core candidate benchmark for leakage-safe dataset-suitability, order-insensitive baseline, and sequence-added-value evaluation.
 - **Source:** [LogPAI Loghub HDFS](https://github.com/logpai/loghub/tree/master/HDFS); canonical archive record [Zenodo 8196385](https://doi.org/10.5281/zenodo.8196385).
-- **Reference:** Loghub repository/readme and its linked HDFS/Loghub publications; dataset-suitability evidence is mapped in [`../literature/prior-art-matrix-v1.1.md`](../literature/prior-art-matrix-v1.1.md) and [`../references/LIT-001-citations.md`](../references/LIT-001-citations.md).
+- **Reference:** registry entries [`S12`](../references/ACTIVE_REFERENCES.md) (Xu et al. (2009), SOSP) for the dataset itself, [`S1`](../references/ACTIVE_REFERENCES.md) for the Loghub collection and [`S16`](../references/ACTIVE_REFERENCES.md) for the Zenodo record, licence and published digests. Authoritative registry: [`../references/reference_registry.yaml`](../references/reference_registry.yaml).
 - **Extracted root:** `data/raw/hdfs/HDFS_v1/`.
 - **Required files:** `HDFS.log` and `preprocessed/anomaly_label.csv`, both locally present and non-empty.
 - **Labels:** CSV at block-trace level with header `BlockId,Label`. Distribution analysis and joins are not part of Day 2.5.
-- **Experiment role:** HDFS block/session construction, KT-1 trivial/strong baselines, KT-2 count-label dependence, Markov/N-gram, and KT-3 order-destruction analysis. Transformer/localization are conditional; fusion/retrieval are not core.
+- **Experiment role (workbook):** `ARCH-HDFS` is an active source architecture and a target-eligible LOAO fold. The KT-1/KT-2/KT-3 and Markov roles described previously belong to the retired v1.1 study.
 - **Raw metadata grouping contract:** **IMPLEMENTED** — META-001 extracts
   normalized block IDs, duplicate/malformed conditions, earliest source-line
   chronology, and transitive connected components without labels or Drain3.

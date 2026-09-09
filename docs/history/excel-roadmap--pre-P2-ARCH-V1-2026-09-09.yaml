@@ -2,7 +2,7 @@ roadmap:
   schema_version: '1.0'
   authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
   source_workbook: Bang_ke_hoach_SeqLogAD.xlsx
-  source_workbook_sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
+  source_workbook_sha256: 978a24ffd649e1abfecfc05f2bd7af1793d9875656069e57fb0bd75636be0ba2
   worksheets:
   - Executive
   - Roadmap
@@ -24,11 +24,9 @@ roadmap:
     owner: AI + Researcher
   - phase: P2 · Representation & Experts
     timing: W3–W4
-    objective: P2.PRE metadata freeze, semantic expert, sequence reference + lighter candidate, GTAT,
-      evidence and diversity freeze.
+    objective: Build Llama base with two distinct LoRA adapters and a GTAT expert.
     micro_task_count: 8
-    key_outputs: LLM-BASE-001, semantic, two sequence candidates, GTAT, common evidence, diversity/freeze
-      package
+    key_outputs: LoRA-Semantic, LoRA-Sequence, GTAT, evidence contract
     exit_gate: 'G2: Expert Diversity Ready'
     owner: AI + Researcher
   - phase: P3 · Adaptation & Fusion
@@ -71,8 +69,7 @@ roadmap:
     forbidden_before_pass: Adaptive learned fusion
     owner: Researcher
     depends_on:
-    - P2.PRE
-    - P2.1–P2.7
+    - P2.1–P2.8
     workbook_status: Not passed
     evidence_link: —
   - gate: G3
@@ -418,230 +415,229 @@ roadmap:
       citations:
       - S1
       - S4
-  - task_id: P2.PRE
+  - task_id: P2.1
     phase: P2 · Representation & Experts
-    workstream: Base Model / Tokenizer / Revision Freeze
+    workstream: Shared LLM base
     task_class: Must
-    micro_task: 'Freeze metadata only: base/tokenizer IDs and exact commits, quantization/precision, context,
-      PEFT/LoRA versions, license/access, GPU/budget, seeds, artifact naming and provenance. No model
-      download; runtime smoke-load belongs to P2.1 preflight.'
+    micro_task: Freeze Llama-3.1-8B base, tokenizer, licence và GPU budget
     output: LLM-BASE-001
     owner: Người nghiên cứu
     timing: Week 3
     dependencies:
     - P1.8
-    definition_of_done: All required metadata resolved and reviewed under configs/models/base-freeze-v1.yaml;
-      immutable revisions, policy/lock hashes and access evidence recorded. No placeholder permits PASS.
+    definition_of_done: Llama base version/hash fixed trước adapter training.
     workbook_status: Not started
     playbook:
-      method: 'Freeze metadata only: base/tokenizer IDs and exact commits, quantization/precision, context,
-        PEFT/LoRA versions, license/access, GPU/budget, seeds, artifact naming and provenance. No model
-        download; runtime smoke-load belongs to P2.1 preflight.'
-      required_evidence: LLM-BASE-001
-      verifiable_dod: All required metadata resolved and reviewed under configs/models/base-freeze-v1.yaml;
-        immutable revisions, policy/lock hashes and access evidence recorded. No placeholder permits PASS.
+      method: '1) Pin đúng Meta Llama-3.1-8B model revision, tokenizer và license.
+
+        2) Ghi GPU, precision, context length, seed và budget công bằng cho baselines.
+
+        3) Smoke-load model, tokenizer và license check trước train.'
+      required_evidence: LLM-BASE-001, model/tokenizer revision, license receipt, budget sheet.
+      verifiable_dod: Base revision/hash và tokenizer cố định; license được kiểm; smoke test pass; không
+        đổi base giữa adapter experiments.
       citations:
       - S11
       - S7
-  - task_id: P2.1
-    phase: P2 · Representation & Experts
-    workstream: Semantic Expert
-    task_class: Must
-    micro_task: Implement semantic self-supervision and scoring with independent LoRA-Semantic. Retain
-      source alignment / domain-adversarial diagnostic as conditional REP-DG-001 with explicit disposition;
-      no target inputs or anomaly labels. Require portable data and training notebook.
-    output: LORA-SEM-001; REP-DG-001 (conditional); EXP-SEM-001
-    owner: AI
-    timing: Week 3
-    dependencies:
-    - P2.PRE
-    definition_of_done: P2.PRE PASS before execution; independent adapter and scoring provenance, label-free
-      source train/validation, semantic notebook and tests; REP-DG-001 conditional disposition recorded.
-    workbook_status: Not started
-    playbook:
-      method: Implement semantic self-supervision and scoring with independent LoRA-Semantic. Retain source
-        alignment / domain-adversarial diagnostic as conditional REP-DG-001 with explicit disposition;
-        no target inputs or anomaly labels. Require portable data and training notebook.
-      required_evidence: LORA-SEM-001; REP-DG-001 (conditional); EXP-SEM-001
-      verifiable_dod: P2.PRE PASS before execution; independent adapter and scoring provenance, label-free
-        source train/validation, semantic notebook and tests; REP-DG-001 conditional disposition recorded.
-      citations:
-      - S7
-      - S5
-      - S11
-      - S3
-      - S8
-      - S4
   - task_id: P2.2
     phase: P2 · Representation & Experts
-    workstream: Sequence Reference Framework
+    workstream: LoRA-Semantic
     task_class: Must
-    micro_task: Retain separate LoRA-Sequence as reference candidate; ordered next-event/log objective,
-      context evidence and boundary tests. No shared adapter weights/state; require portable data and
-      training notebook.
-    output: LORA-SEQ-001; EXP-SEQ-001
+    micro_task: Train LoRA-Semantic riêng cho masked/raw-log normal adaptation
+    output: LORA-SEM-001
     owner: AI
     timing: Week 3
     dependencies:
     - P2.1
-    definition_of_done: Independent reference checkpoint/config; order, session/partition boundaries and
-      six sequence controls testable; notebook and lineage complete.
+    definition_of_done: Adapter A có checkpoint/hash riêng; không share weight với Adapter B.
     workbook_status: Not started
     playbook:
-      method: Retain separate LoRA-Sequence as reference candidate; ordered next-event/log objective,
-        context evidence and boundary tests. No shared adapter weights/state; require portable data and
-        training notebook.
-      required_evidence: LORA-SEQ-001; EXP-SEQ-001
-      verifiable_dod: Independent reference checkpoint/config; order, session/partition boundaries and
-        six sequence controls testable; notebook and lineage complete.
+      method: '1) Tạo LoRA-Semantic checkpoint riêng trên partition được phép.
+
+        2) Chọn objective masked/raw-log semantics; log hyperparameters, seed, train data hashes.
+
+        3) Lưu adapter, adapter config và evaluation-free training log.'
+      required_evidence: LORA-SEM-001 checkpoint, adapter_config.json, training manifest.
+      verifiable_dod: Adapter A có hash riêng; base frozen theo P2.1; không reference/checkpoint-copy
+        Adapter B; provenance đầy đủ.
+      citations:
+      - S7
+      - S5
+      - S11
+  - task_id: P2.3
+    phase: P2 · Representation & Experts
+    workstream: Domain invariance
+    task_class: Should
+    micro_task: Cài contrastive alignment; đánh giá domain-adversarial branch nếu justified
+    output: REP-DG-001
+    owner: AI
+    timing: Week 3
+    dependencies:
+    - P2.2
+    definition_of_done: Representation không dùng target labels; ablation flag sẵn sàng.
+    workbook_status: Not started
+    playbook:
+      method: '1) Bắt đầu bằng contrastive alignment trên source partitions; log pair-construction rule.
+
+        2) Chỉ bật DANN branch nếu predeclared diagnostic cho thấy domain separability và ablation budget
+        đủ.
+
+        3) So sánh nhánh on/off trong held-out source, không đọc target labels.'
+      required_evidence: REP-DG-001, pair manifest, diagnostic and ablation config.
+      verifiable_dod: Không dùng target label; lựa chọn branch có rationale/diagnostic; toggle ablation
+        reproducible và không ghi claim khi chưa có result.
+      citations:
+      - S3
+      - S8
+      - S4
+  - task_id: P2.4
+    phase: P2 · Representation & Experts
+    workstream: Semantic expert
+    task_class: Must
+    micro_task: Generate semantic score/uncertainty/token evidence từ Llama + LoRA-Semantic
+    output: EXP-SEM-001
+    owner: AI
+    timing: Week 3
+    dependencies:
+    - P2.2
+    definition_of_done: Score direction/evidence schema pass; Adapter A provenance complete.
+    workbook_status: Not started
+    playbook:
+      method: '1) Chuẩn hóa semantic inference: input → score direction → uncertainty → token/span evidence.
+
+        2) Test invariant: message giống nhau cho output giống nhau khi seed fixed.
+
+        3) Gắn base/adapter/version vào từng prediction.'
+      required_evidence: EXP-SEM-001 API schema, golden tests, sample evidence artifact.
+      verifiable_dod: Score direction documented; output validates schema; evidence trỏ được raw record;
+        provenance Adapter A xuất hiện ở mọi row.
+      citations:
+      - S5
+      - S7
+  - task_id: P2.5
+    phase: P2 · Representation & Experts
+    workstream: LoRA-Sequence
+    task_class: Must
+    micro_task: Train LoRA-Sequence riêng trên Llama base cho next-log prediction
+    output: LORA-SEQ-001
+    owner: AI
+    timing: Week 4
+    dependencies:
+    - P2.1
+    definition_of_done: Adapter B có checkpoint/hash riêng; không share weight với Adapter A.
+    workbook_status: Not started
+    playbook:
+      method: '1) Tạo LoRA-Sequence checkpoint khác Adapter A; dùng ordered log contexts của partition
+        được phép.
+
+        2) Objective là next-log prediction; window, truncation và boundary architecture/time phải fixed.
+
+        3) Ghi seed, data hash, checkpoint hash.'
+      required_evidence: LORA-SEQ-001 checkpoint, context builder config, training manifest.
+      verifiable_dod: Adapter B có hash/config riêng; không share weights/state với Adapter A; ordered
+        contexts không vượt architecture/time boundary.
       citations:
       - S5
       - S7
       - S11
-      - S4
-  - task_id: P2.3
+  - task_id: P2.6
     phase: P2 · Representation & Experts
-    workstream: Lightweight Sequence Expert
+    workstream: Sequence expert
     task_class: Must
-    micro_task: Compare at least one substantially lighter explicit sequence architecture on the same
-      contexts and budgets. Preregister resource criterion; no winner assumed. Require training notebook;
-      reuse sequence view.
-    output: EXP-SEQ-LIGHT-001
+    micro_task: Generate next-log anomaly score/context evidence từ Llama + LoRA-Sequence
+    output: EXP-SEQ-001
     owner: AI
     timing: Week 4
     dependencies:
-    - P2.2
-    definition_of_done: Required lighter candidate evaluated under frozen resource criterion and shared
-      contexts; all six sequence controls, cost/quality evidence and notebook; no unsupported winner claim.
+    - P2.5
+    definition_of_done: Ordered context partitioned by architecture/time; no target labels.
     workbook_status: Not started
     playbook:
-      method: Compare at least one substantially lighter explicit sequence architecture on the same contexts
-        and budgets. Preregister resource criterion; no winner assumed. Require training notebook; reuse
-        sequence view.
-      required_evidence: EXP-SEQ-LIGHT-001
-      verifiable_dod: Required lighter candidate evaluated under frozen resource criterion and shared
-        contexts; all six sequence controls, cost/quality evidence and notebook; no unsupported winner
-        claim.
+      method: '1) Xây context window theo timestamp và session; reset ở partition boundary.
+
+        2) Tính next-log surprise/score với chiều score nhất quán.
+
+        3) Lưu top predicted candidates và context IDs làm evidence.'
+      required_evidence: EXP-SEQ-001 API schema, boundary tests, context evidence samples.
+      verifiable_dod: Không có target labels; score/evidence deterministically map về record; boundary/unit
+        tests pass.
       citations:
       - S5
       - S4
-  - task_id: P2.4
+  - task_id: P2.7
     phase: P2 · Representation & Experts
-    workstream: GTAT Expert
+    workstream: GTAT expert
     task_class: Must
-    micro_task: Freeze exact GTAT source and graph/temporal specification before training. Report coverage/abstain
-      for missing fields. Structural-temporal role cannot silently replace sequence role; require graph
-      view and training notebook.
+    micro_task: Build Temporal Graph Transformer trên event-service-component-time graph
     output: EXP-GTAT-001
     owner: AI
     timing: Week 4
     dependencies:
-    - P2.3
-    definition_of_done: Exact graph source/spec/objective frozen; coverage and temporal expressiveness
-      tested; missing topology yields unknown; notebook and lineage complete.
+    - P1.3
+    definition_of_done: Graph schema/coverage defined; missing topology yields low coverage, not fake
+      score.
     workbook_status: Not started
     playbook:
-      method: Freeze exact GTAT source and graph/temporal specification before training. Report coverage/abstain
-        for missing fields. Structural-temporal role cannot silently replace sequence role; require graph
-        view and training notebook.
-      required_evidence: EXP-GTAT-001
-      verifiable_dod: Exact graph source/spec/objective frozen; coverage and temporal expressiveness tested;
-        missing topology yields unknown; notebook and lineage complete.
+      method: '1) Khai báo node event/service/component và edge co-occurrence/temporal trong cửa sổ cố
+        định.
+
+        2) Tính coverage cho metadata/edge; thiếu topology → coverage thấp/abstain, không giả score.
+
+        3) Train/evaluate GTAT trong fold được phép và log graph config.'
+      required_evidence: EXP-GTAT-001 graph schema, coverage report, model config.
+      verifiable_dod: Graph schema versioned; coverage là output bắt buộc; missing fields có fallback
+        rõ; no fabricated structural prediction.
       citations:
       - S6
-  - task_id: P2.5
+  - task_id: P2.8
     phase: P2 · Representation & Experts
-    workstream: Common Evidence Contract
+    workstream: Evidence contract
     task_class: Must
-    micro_task: Validate common evidence across all four candidates; raw score, uncertainty/unknown, coverage,
-      record IDs and version lineage. Phase-2 calibrated score remains null; reject missing provenance.
+    micro_task: Chuẩn hoá output score, uncertainty, coverage, localisation cho Llama-A, Llama-B và GTAT
     output: EVID-CS-001
     owner: AI
     timing: Week 4
     dependencies:
     - P2.4
-    definition_of_done: All four candidate outputs validate common contract; unknown is explicit; no calibration,
-      fabricated certainty or missing version/coverage.
+    - P2.6
+    - P2.7
+    definition_of_done: Common ID/version provenance; adapter identity and GTAT coverage pass.
     workbook_status: Not started
     playbook:
-      method: Validate common evidence across all four candidates; raw score, uncertainty/unknown, coverage,
-        record IDs and version lineage. Phase-2 calibrated score remains null; reject missing provenance.
-      required_evidence: EVID-CS-001
-      verifiable_dod: All four candidate outputs validate common contract; unknown is explicit; no calibration,
-        fabricated certainty or missing version/coverage.
+      method: '1) Định nghĩa common record: score_raw, score_calibrated, uncertainty, coverage, localisation,
+        evidence, version.
+
+        2) Viết contract tests cho đủ ba expert.
+
+        3) Từ chối row thiếu identity/coverage thay vì fill giá trị mặc định.'
+      required_evidence: EVID-CS-001 JSON schema, contract-test report, sample artifacts.
+      verifiable_dod: 100% expert outputs validate schema; Base/Adapter/GTAT versions traceable; missing
+        coverage không bị biến thành certainty.
       citations:
       - S5
-      - S6
-      - S9
-  - task_id: P2.6
-    phase: P2 · Representation & Experts
-    workstream: Expert Diversity / Scientific Evaluation
-    task_class: Must
-    micro_task: Own source-held-out diversity diagnostics and sequence controls for all candidates. No
-      target inputs or adaptive fusion. Source-label metrics remain blocked pending explicit evaluation
-      permission; no fabricated metrics.
-    output: P2-DIVERSITY-001 (G2 prep)
-    owner: Người nghiên cứu
-    timing: Week 4
-    dependencies:
-    - P2.5
-    definition_of_done: Versioned source diagnostics, redundancy and resource comparison; report unsupported
-      capability. C2 blocks supervised metrics and completion evidence depending on them; no gate fitting.
-    workbook_status: Not started
-    playbook:
-      method: Own source-held-out diversity diagnostics and sequence controls for all candidates. No target
-        inputs or adaptive fusion. Source-label metrics remain blocked pending explicit evaluation permission;
-        no fabricated metrics.
-      required_evidence: P2-DIVERSITY-001 (G2 prep)
-      verifiable_dod: Versioned source diagnostics, redundancy and resource comparison; report unsupported
-        capability. C2 blocks supervised metrics and completion evidence depending on them; no gate fitting.
-      citations:
-      - S3
-      - S6
-  - task_id: P2.7
-    phase: P2 · Representation & Experts
-    workstream: Final Phase-2 Freeze
-    task_class: Must
-    micro_task: Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility
-      package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.
-    output: P2-FREEZE-001
-    owner: Người nghiên cứu
-    timing: Week 4
-    dependencies:
-    - P2.6
-    definition_of_done: P2.6 complete; source-label/capability issues resolved for required evidence;
-      reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.
-    workbook_status: Not started
-    playbook:
-      method: Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility
-        package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.
-      required_evidence: P2-FREEZE-001
-      verifiable_dod: P2.6 complete; source-label/capability issues resolved for required evidence; reference
-        artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.
-      citations:
-      - S3
       - S6
       - S9
   - task_id: P3.1
     phase: P3 · Adaptation & Fusion
     workstream: Held-out check
     task_class: Must
-    micro_task: Receive P2.6 diversity evidence and P2.7 freeze package; verify G2 before Phase-3 integration,
-      without rerunning or owning Phase-2 evaluation.
-    output: G2 handoff verification
+    micro_task: Chạy source-held-out architecture smoke evaluation, không tune target labels
+    output: G2 prep
     owner: Người nghiên cứu
     timing: Week 5
     dependencies:
-    - P2.7
-    definition_of_done: P2.6 evidence hashes and researcher G2 signature verified; Phase 3 remains disabled
-      before approval.
+    - P2.8
+    definition_of_done: Llama-A, Llama-B và GTAT có result artifact/diversity diagnostics.
     workbook_status: Waiting researcher
     playbook:
-      method: Verify P2.6 diagnostic artifacts and P2.7 package hashes; confirm researcher G2 signature
-        before integration. Do not duplicate source evaluation or use target labels for tuning.
-      required_evidence: P2.6/P2.7 evidence references and G2 handoff verification.
-      verifiable_dod: Existing diversity evidence verified, G2 signed and Phase-3 execution separately
-        authorized; no new evaluation or superiority claim.
+      method: '1) Chạy smoke evaluation chỉ trên architecture held-out đã freeze.
+
+        2) Lưu prediction artifacts từng expert và diagnostics tương quan/disagreement.
+
+        3) Không thay hyperparameter bằng kết quả target.'
+      required_evidence: G2 prep result bundle, per-expert predictions, diversity diagnostic.
+      verifiable_dod: Ba expert chạy được trên held-out source; artifacts có hashes; báo cáo chỉ là smoke/diagnostic,
+        không claim superiority.
       citations:
       - S3
       - S6
@@ -655,7 +651,7 @@ roadmap:
     timing: Week 5
     dependencies:
     - P1.6
-    - P2.7
+    - P2.8
     definition_of_done: Memory only uses approved unlabeled buffer; hash/version recorded.
     workbook_status: Not started
     playbook:
@@ -727,7 +723,7 @@ roadmap:
     owner: AI
     timing: Week 5
     dependencies:
-    - P2.5
+    - P2.8
     - P3.3
     definition_of_done: Unknown/review is first-class output, not forced anomaly label.
     workbook_status: Not started

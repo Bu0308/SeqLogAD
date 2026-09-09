@@ -8,7 +8,7 @@
 [`../../docs/research-protocol-v1.1.md`](../../docs/research-protocol-v1.1.md) Transformer gate and [`../../configs/active-state.yaml`](../../configs/active-state.yaml).
 
 ## READ IF NEEDED
-[`../../configs/models/transformer.yaml`](../../configs/models/transformer.yaml), sequence contracts, EFFECT-001, and an explicit human gate record supplied by Primary.
+`configs/models/transformer.yaml` (deleted with the retired plan), sequence contracts, EFFECT-001, and an explicit human gate record supplied by Primary.
 
 ## AVOID BY DEFAULT
 Implementation/training while the gate is closed, LSTM/fusion scope, TEST data, and historical Transformer requirements.

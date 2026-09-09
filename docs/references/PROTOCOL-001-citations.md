@@ -1,5 +1,10 @@
 # PROTOCOL-001 v1.0 — Historical Citation and Method-Provenance Note
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 > Preserved for [`research-protocol-v1.0.md`](../research-protocol-v1.0.md). Active v1.1 provenance is recorded in [`RESEARCH-FREEZE-v1.1-citations.md`](RESEARCH-FREEZE-v1.1-citations.md).
 
 **Task:** Freeze supervision, raw pre-partition, split, leakage, and evaluation protocol  

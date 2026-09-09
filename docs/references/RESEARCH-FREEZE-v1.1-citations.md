@@ -1,5 +1,10 @@
 # Research Freeze v1.1 — Citation and Method-Provenance Note
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 - **Task:** Scientific redirect, scope reduction, negative-control registration, and repository consistency repair
 - **Date:** 2026-08-21
 - **Protocol:** [`../research-protocol-v1.1.md`](../research-protocol-v1.1.md)

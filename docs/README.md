@@ -8,7 +8,9 @@ Where any document here disagrees with the workbook, the workbook wins.
 - [`../configs/plan/excel-roadmap-v1.yaml`](../configs/plan/excel-roadmap-v1.yaml): machine-readable projection of the workbook.
 - [`migration/EXCEL-PLAN-MIGRATION-001.md`](migration/EXCEL-PLAN-MIGRATION-001.md): what moved, what was retired, what was reused.
 - [`migration/EXCEL-RELEVANCE-AUDIT.md`](migration/EXCEL-RELEVANCE-AUDIT.md): keep / adapt / archive / delete decisions with dependency paths.
-- [`references/EXCEL-PLAN-citation-verification.md`](references/EXCEL-PLAN-citation-verification.md): all 11 workbook citations resolved against Crossref/arXiv.
+- [`references/reference_registry.yaml`](references/reference_registry.yaml): **authoritative reference registry** — every source the active plan uses, verified.
+- [`references/ACTIVE_REFERENCES.md`](references/ACTIVE_REFERENCES.md): human-readable view of the active sources.
+- [`references/README.md`](references/README.md): how to cite, and which citation packs are historical.
 
 ## Phase 1 — Data & Protocol
 
@@ -50,9 +52,7 @@ Where any document here disagrees with the workbook, the workbook wins.
 - [`references/LIT-001-citations.md`](references/LIT-001-citations.md): verified source and method-provenance note.
 - [`references/EFFECT-001-citations.md`](references/EFFECT-001-citations.md): statistical-method sources and explicit SeqLogAD design boundaries.
 - [`references/PARSE-001-citations.md`](references/PARSE-001-citations.md): Drain/Drain3 semantics, recent parsing/granularity evidence, source freshness, and explicit project-owned decisions.
-- [`references/ALIGN-FIX-001-citations.md`](references/ALIGN-FIX-001-citations.md): records that ALIGN-FIX-001 changed engineering/status state only and required no new external scientific citation.
 - [`references/PROTOCOL-SPLIT-CLARIFY-001-citations.md`](references/PROTOCOL-SPLIT-CLARIFY-001-citations.md): targeted 2024–2026 split/grouping sources, search record, compatibility, and limitations.
-- [`references/SCHEMA-COMPAT-001-citations.md`](references/SCHEMA-COMPAT-001-citations.md): internal contract provenance for Protocol-v1.1 schema compatibility.
 - [`references/RESEARCH-FREEZE-v1.1-citations.md`](references/RESEARCH-FREEZE-v1.1-citations.md): source and method provenance for the redirect.
 - [`datasets/`](datasets/): immutable dataset identity and suitability caveats.
 - [`schemas/`](schemas/): implemented schema contracts; not evidence that data artifacts exist.

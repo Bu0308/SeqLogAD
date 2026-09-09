@@ -1,0 +1,607 @@
+reference_registry:
+  id: REFERENCE-REGISTRY-001
+  version: '1.0'
+  status: AUTHORITATIVE
+  plan: Bang_ke_hoach_SeqLogAD.xlsx
+  plan_projection: configs/plan/excel-roadmap-v1.yaml
+  generated_by: scripts/build_reference_registry.py
+  verified_on: '2026-09-07'
+  verification_services:
+  - https://api.crossref.org
+  - http://export.arxiv.org/api/query
+  - https://zenodo.org/api/records
+  - direct HTTP for official pages
+  note: Machine-readable source of truth for every reference the active plan uses. Workbook S# identifiers
+    are preserved and their task mappings are derived from the workbook projection, so they cannot drift.
+    Regenerate rather than hand-editing.
+  classifications:
+  - LITERATURE_SUPPORTED
+  - LITERATURE_INFORMED_SEQLOGAD_DECISION
+  - SEQLOGAD_PROTOCOL_DECISION
+  - ENGINEERING_DECISION
+  reference_support_gaps:
+  - id: RSG-001
+    claim: The temporal graph expert is referred to as 'GTAT' in the workbook (P2.4, EXP-GTAT-001).
+    problem: S6 (LogGT) is a real, verified and relevant cross-system graph paper, but it presents a heterogeneous
+      graph feature with transfer learning. It does not establish the acronym or formulation 'GTAT'.
+    affected_tasks:
+    - P2.4
+    - P2.5
+    - P4.3
+    resolution_required_before: P2.4 write-up (specification required before training)
+    recommended_action: Either cite the specific source of the GTAT formulation, or state plainly that
+      GTAT is a SeqLogAD architectural decision informed by S6.
+    classification_if_unresolved: LITERATURE_INFORMED_SEQLOGAD_DECISION
+    methodology_changed: false
+  sources:
+  - id: S1
+    workbook_label: Loghub — Zhu et al. (2020)
+    title: 'Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics'
+    authors:
+    - Jieming Zhu
+    - Shilin He
+    - Pinjia He
+    - Jinyang Liu
+    - Michael R. Lyu
+    year: 2023
+    venue: IEEE International Symposium on Software Reliability Engineering (ISSRE)
+    doi: 10.1109/ISSRE59848.2023.00071
+    arxiv: '2008.06448'
+    official_url: https://doi.org/10.1109/ISSRE59848.2023.00071
+    preprint_url: https://arxiv.org/abs/2008.06448
+    repo_url: https://github.com/logpai/loghub
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref + arXiv API
+    note: The workbook cites the 2020 arXiv preprint. The peer-reviewed ISSRE 2023 version is the stronger
+      source for the same claim and is recorded as canonical; the preprint URL is retained because the
+      workbook uses it.
+    claims:
+    - claim: Loghub distributes the HDFS, BGL, Hadoop and OpenStack corpora with documented provenance
+        and architecture diversity.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks:
+      - P1.2
+      - P1.3
+      - P1.8
+      - P4.6
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S2
+    workbook_label: Drain — He et al. (2017)
+    title: 'Drain: An Online Log Parsing Approach with Fixed Depth Tree'
+    authors:
+    - Pinjia He
+    - Jieming Zhu
+    - Zibin Zheng
+    - Michael R. Lyu
+    year: 2017
+    venue: IEEE International Conference on Web Services (ICWS)
+    doi: 10.1109/ICWS.2017.13
+    arxiv: null
+    pages: 33-40
+    official_url: https://doi.org/10.1109/ICWS.2017.13
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    claims:
+    - claim: Fixed-depth-tree online log parsing is an established way to derive templates from raw logs.
+      classification: LITERATURE_SUPPORTED
+    - claim: SeqLogAD treats the Drain3 template as an optional auxiliary field and populates none in
+        Phase 1.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    used_by:
+      workbook_tasks:
+      - P1.4
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S3
+    workbook_label: LogDLR — Liu et al. (2025)
+    title: 'LogDLR: Unsupervised Cross-System Log Anomaly Detection Through Domain-Invariant Latent Representation'
+    authors:
+    - Zhou
+    - Ying
+    - Wang
+    - Zhao
+    year: 2025
+    venue: IEEE Transactions on Dependable and Secure Computing
+    doi: 10.1109/TDSC.2025.3548050
+    arxiv: null
+    official_url: https://doi.org/10.1109/TDSC.2025.3548050
+    source_type: journal_article
+    publication_status: PEER_REVIEWED
+    verification: Crossref title search (IEEE Xplore returns HTTP 418 to non-browser clients)
+    correction: The workbook attributes this to 'Liu et al.'. Crossref returns the author family names
+      Zhou, Ying, Wang, Zhao. The workbook's Xplore link resolves to the same article; the DOI is added
+      here for durability.
+    claims:
+    - claim: Cross-system log anomaly detection via a domain-invariant representation is an active, published
+        research direction.
+      classification: LITERATURE_SUPPORTED
+    - claim: SeqLogAD's specific leave-one-architecture-out fold design.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    used_by:
+      workbook_tasks:
+      - P1.1
+      - P1.2
+      - P1.5
+      - P1.7
+      - P2.1
+      - P2.6
+      - P2.7
+      - P3.1
+      - P3.4
+      - P4.1
+      - P4.2
+      - P4.7
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S4
+    workbook_label: ZeroLog — Zhao et al. (2025)
+    title: 'ZeroLog: Zero-Label Generalizable Cross-System Log-based Anomaly Detection'
+    authors:
+    - Xinlong Zhao
+    - Tong Jia
+    - Minghua He
+    - Ying Li
+    - Gang Huang
+    year: 2025
+    venue: arXiv
+    doi: null
+    arxiv: '2511.05862'
+    official_url: https://arxiv.org/abs/2511.05862
+    source_type: preprint
+    publication_status: PREPRINT_NOT_PEER_REVIEWED
+    verification: arXiv API (published 2025-11-08)
+    claims:
+    - claim: A zero-label target protocol is a coherent research design for cross-system log anomaly detection.
+      classification: LITERATURE_INFORMED_SEQLOGAD_DECISION
+    - claim: SeqLogAD's burn-in buffer rule, contamination bound and readiness minima.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    use_boundary: Preprint. Design reference only; it establishes no performance for this project.
+    used_by:
+      workbook_tasks:
+      - P1.1
+      - P1.2
+      - P1.5
+      - P1.6
+      - P1.7
+      - P1.8
+      - P2.1
+      - P2.2
+      - P2.3
+      - P3.2
+      - P3.3
+      - P3.7
+      - P4.1
+      - P4.2
+      - P4.4
+      - P4.5
+      - P4.7
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S5
+    workbook_label: LogLLaMA — Yang & Harris (2025)
+    title: 'LogLLaMA: Transformer-based log anomaly detection with LLaMA'
+    authors:
+    - Zhuoyi Yang
+    - Ian G. Harris
+    year: 2025
+    venue: arXiv
+    doi: null
+    arxiv: '2503.14849'
+    official_url: https://arxiv.org/abs/2503.14849
+    source_type: preprint
+    publication_status: PREPRINT_NOT_PEER_REVIEWED
+    verification: arXiv API (published 2025-03-19)
+    claims:
+    - claim: A LLaMA-family base model can be adapted to next-log modelling for anomaly detection.
+      classification: LITERATURE_INFORMED_SEQLOGAD_DECISION
+    use_boundary: Uses LLaMA-2; it does not validate this project's Llama-3.1-8B choice.
+    used_by:
+      workbook_tasks:
+      - P2.1
+      - P2.2
+      - P2.3
+      - P2.5
+      - P3.6
+      - P4.3
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S6
+    workbook_label: LogGT — Wang et al. (2024)
+    title: 'LogGT: Cross-system log anomaly detection via heterogeneous graph feature and transfer learning'
+    authors:
+    - Peipeng Wang
+    - Xiuguo Zhang
+    - Zhiying Cao
+    - Weigang Xu
+    - Wangwang Li
+    year: 2024
+    venue: Expert Systems with Applications
+    volume: '251'
+    pages: '124082'
+    doi: 10.1016/j.eswa.2024.124082
+    arxiv: null
+    official_url: https://doi.org/10.1016/j.eswa.2024.124082
+    source_type: journal_article
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    claims:
+    - claim: Heterogeneous graph features over log entities support cross-system anomaly detection.
+      classification: LITERATURE_SUPPORTED
+    - claim: The 'GTAT' temporal-graph formulation named in the workbook.
+      classification: LITERATURE_INFORMED_SEQLOGAD_DECISION
+    reference_support_gap: RSG-001
+    used_by:
+      workbook_tasks:
+      - P1.3
+      - P1.4
+      - P1.5
+      - P2.4
+      - P2.5
+      - P2.6
+      - P2.7
+      - P3.1
+      - P3.2
+      - P3.4
+      - P3.7
+      - P3.8
+      - P4.1
+      - P4.2
+      - P4.3
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S7
+    workbook_label: LoRA — Hu et al. (2021)
+    title: 'LoRA: Low-Rank Adaptation of Large Language Models'
+    authors:
+    - Edward J. Hu
+    - Yelong Shen
+    - Phillip Wallis
+    - Zeyuan Allen-Zhu
+    - Yuanzhi Li
+    year: 2021
+    venue: arXiv (later ICLR 2022)
+    doi: null
+    arxiv: '2106.09685'
+    official_url: https://arxiv.org/abs/2106.09685
+    source_type: preprint
+    publication_status: PREPRINT_LATER_PEER_REVIEWED
+    verification: arXiv API (v1 2021-06-17, v2 2021-10-16)
+    claims:
+    - claim: A frozen base model with separate low-rank adapters is an established parameter-efficient
+        adaptation method.
+      classification: LITERATURE_SUPPORTED
+    - claim: SeqLogAD's requirement that the two adapters never share weights or checkpoints.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    used_by:
+      workbook_tasks:
+      - P2.1
+      - P2.2
+      - P2.PRE
+      - P4.3
+      - P4.6
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S8
+    workbook_label: DANN — Ganin et al. (2015)
+    title: Domain-Adversarial Training of Neural Networks
+    authors:
+    - Yaroslav Ganin
+    - Evgeniya Ustinova
+    - Hana Ajakan
+    - Pascal Germain
+    - Hugo Larochelle
+    year: 2016
+    venue: Journal of Machine Learning Research, vol. 17, pp. 1-35
+    doi: null
+    arxiv: '1505.07818'
+    official_url: https://www.jmlr.org/papers/v17/15-239.html
+    preprint_url: https://arxiv.org/abs/1505.07818
+    source_type: journal_article
+    publication_status: PEER_REVIEWED
+    verification: 'arXiv API journal_ref: ''Journal of Machine Learning Research 2016, vol. 17, p. 1-35'''
+    note: The workbook's year 2015 is the preprint; the JMLR version is 2016. Both are recorded.
+    claims:
+    - claim: Adversarial domain adaptation is an established technique for domain shift.
+      classification: LITERATURE_SUPPORTED
+    - claim: SeqLogAD enables the adversarial branch only after a pre-declared diagnostic and ablation.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    used_by:
+      workbook_tasks:
+      - P2.1
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S9
+    workbook_label: SelectiveNet — Geifman & El-Yaniv (2019)
+    title: 'SelectiveNet: A Deep Neural Network with an Integrated Reject Option'
+    authors:
+    - Yonatan Geifman
+    - Ran El-Yaniv
+    year: 2019
+    venue: Proceedings of Machine Learning Research, vol. 97 (ICML)
+    doi: null
+    arxiv: null
+    official_url: https://proceedings.mlr.press/v97/geifman19a.html
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: PMLR URL HTTP 200
+    claims:
+    - claim: Abstention with an explicit reject option and risk-coverage framing is an established formulation.
+      classification: LITERATURE_SUPPORTED
+    - claim: SeqLogAD's specific abstain thresholds and UNKNOWN/REVIEW state.
+      classification: SEQLOGAD_PROTOCOL_DECISION
+    used_by:
+      workbook_tasks:
+      - P1.6
+      - P2.5
+      - P2.7
+      - P3.3
+      - P3.5
+      - P3.7
+      - P3.8
+      - P4.4
+      - P4.5
+      - P4.7
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S10
+    workbook_label: Isolation Forest — Liu et al. (2008)
+    title: Isolation Forest
+    authors:
+    - Fei Tony Liu
+    - Kai Ming Ting
+    - Zhi-Hua Zhou
+    year: 2008
+    venue: IEEE International Conference on Data Mining (ICDM)
+    pages: 413-422
+    doi: 10.1109/ICDM.2008.17
+    arxiv: null
+    official_url: https://doi.org/10.1109/ICDM.2008.17
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    claims:
+    - claim: Isolation Forest is an established unsupervised anomaly-detection baseline.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks:
+      - P3.6
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S11
+    workbook_label: Meta Llama 3.1 (2024)
+    title: 'Introducing Llama 3.1: Our most capable models to date'
+    authors:
+    - Meta AI
+    year: 2024
+    venue: Meta AI official release
+    doi: null
+    arxiv: null
+    official_url: https://ai.meta.com/blog/meta-llama-3-1/
+    source_type: official_vendor_documentation
+    publication_status: VENDOR_DOCUMENTATION
+    verification: HTTP 200
+    claims:
+    - claim: Base-model revision, tokenizer and licence provenance for Llama-3.1-8B.
+      classification: LITERATURE_SUPPORTED
+    use_boundary: Vendor documentation, not peer-reviewed. Correct for licence and revision provenance
+      only.
+    used_by:
+      workbook_tasks:
+      - P2.1
+      - P2.2
+      - P2.PRE
+      - P4.6
+      - P4.8
+      repository: []
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S12
+    title: Detecting large-scale system problems by mining console logs
+    authors:
+    - Wei Xu
+    - Ling Huang
+    - Armando Fox
+    - David Patterson
+    - Michael I. Jordan
+    year: 2009
+    venue: ACM SIGOPS Symposium on Operating Systems Principles (SOSP)
+    doi: 10.1145/1629575.1629587
+    arxiv: null
+    official_url: https://doi.org/10.1145/1629575.1629587
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: Origin and block-trace labelling of the HDFS_v1 corpus.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.2
+      - ARCH-HDFS registry row
+      - docs/datasets/hdfs.md
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S13
+    title: 'What Supercomputers Say: A Study of Five System Logs'
+    authors:
+    - Adam Oliner
+    - Jon Stearley
+    year: 2007
+    venue: IEEE/IFIP International Conference on Dependable Systems and Networks (DSN)
+    doi: 10.1109/DSN.2007.103
+    arxiv: null
+    official_url: https://doi.org/10.1109/DSN.2007.103
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: Origin of the BGL supercomputer log and its inline alert-marker labelling.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.2
+      - ARCH-BGL registry row
+      - docs/datasets/bgl.md
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S14
+    title: Log clustering based problem identification for online service systems
+    authors:
+    - Qingwei Lin
+    - Hongyu Zhang
+    - Jian-Guang Lou
+    - Yu Zhang
+    - Xuewei Chen
+    year: 2016
+    venue: International Conference on Software Engineering Companion (ICSE-C)
+    doi: 10.1145/2889160.2889232
+    arxiv: null
+    pages: 102-111
+    official_url: https://doi.org/10.1145/2889160.2889232
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: Origin of the Hadoop WordCount/PageRank corpus and its injected-failure application labels.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.2
+      - ARCH-HADOOP registry row
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S15
+    title: 'DeepLog: Anomaly Detection and Diagnosis from System Logs through Deep Learning'
+    authors:
+    - Min Du
+    - Feifei Li
+    - Guineng Zheng
+    - Vivek Srikumar
+    year: 2017
+    venue: ACM SIGSAC Conference on Computer and Communications Security (CCS)
+    doi: 10.1145/3133956.3134015
+    arxiv: null
+    official_url: https://doi.org/10.1145/3133956.3134015
+    source_type: conference_paper
+    publication_status: PEER_REVIEWED
+    verification: Crossref
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: Origin of the OpenStack capture and its anomalous-VM-instance labels.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.2
+      - ARCH-OPENSTACK registry row
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S16
+    title: 'Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics (dataset record)'
+    authors:
+    - LOGPAI
+    year: 2023
+    venue: Zenodo
+    doi: 10.5281/zenodo.8196385
+    arxiv: null
+    official_url: https://doi.org/10.5281/zenodo.8196385
+    source_type: dataset_record
+    publication_status: PUBLISHED_DATASET
+    license: CC-BY-4.0
+    access: open
+    publication_date: '2023-07-31'
+    verification: 'Zenodo record API: license cc-by-4.0, access_right open, published 2023-07-31'
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: Download source, CC-BY-4.0 licence and published MD5 digests for all four active corpora.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.2
+      - P1.8
+      - P4.6
+      - configs/datasets/hdfs.yaml
+      - configs/datasets/bgl.yaml
+      - data/registry/dataset_registry.json
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: S17
+    title: Drain3 — official reference implementation
+    authors:
+    - LOGPAI
+    year: null
+    venue: GitHub
+    doi: null
+    arxiv: null
+    official_url: https://github.com/logpai/Drain3
+    repo_url: https://github.com/logpai/Drain3
+    source_type: official_implementation
+    publication_status: SOFTWARE_REPOSITORY
+    pinned_version: 0.9.11
+    verification: HTTP 200
+    added_by: REFERENCE-CONSOLIDATION-001
+    claims:
+    - claim: The frozen parser state and RESTORE_ONLY match semantics used for the auxiliary template
+        field.
+      classification: ENGINEERING_DECISION
+    used_by:
+      workbook_tasks: []
+      repository:
+      - P1.4
+      - configs/parsing/drain3-v1.yaml
+      - src/seqlogad/parsing/drain_parser.py
+    active_status: ACTIVE
+    verified_on: '2026-09-07'
+  - id: H1
+    title: 'Deep learning for anomaly detection in log data: A survey'
+    authors:
+    - Max Landauer
+    - Sebastian Onder
+    - Florian Skopik
+    - Markus Wurzenberger
+    year: 2023
+    venue: Machine Learning with Applications, vol. 12
+    doi: 10.1016/j.mlwa.2023.100470
+    arxiv: '2207.03820'
+    official_url: https://doi.org/10.1016/j.mlwa.2023.100470
+    source_type: journal_article
+    publication_status: PEER_REVIEWED
+    verification: Crossref + arXiv API journal_ref
+    active_status: HISTORICAL
+    claims:
+    - claim: Log anomaly-detection results depend on collection, parsing, grouping and evaluation split,
+        so comparisons need aligned preprocessing and leakage controls.
+      classification: LITERATURE_SUPPORTED
+    used_by:
+      workbook_tasks: []
+      repository:
+      - retired Day-2 reading note (deleted); retained here so the source survives the cleanup
+    verified_on: '2026-09-07'

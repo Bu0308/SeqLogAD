@@ -1,29 +1,26 @@
-# Execution-state registry.
-#
-# The authoritative scientific plan is Bang_ke_hoach_SeqLogAD.xlsx. This file is an
-# operational pointer registry, not an amendment mechanism: it may not weaken,
-# reinterpret or override the workbook.
-#
-# The nested `historical_*` sections preserve the frozen v1.1 HDFS/BGL identities so
-# those artifacts stay verifiable. They are provenance only and control nothing.
-#
-# G0 was signed by the researcher on 2026-09-06. Gate status here is a mirror of
-# data/processed/protocol/G0-receipt.json, which re-derives it from the signature
-# ledger on every build; this file may not assert a gate the receipt does not.
 active_state:
   id: ACTIVE-STATE-G0-SIGNED-001
-  version: '3.1'
+  version: '3.2'
   status: SYNCHRONIZED
-  synchronized_by: G0-SIGNATURES-001
+  synchronized_by: P2-ROADMAP-MIGRATION-001
   authoritative_plan:
     path: Bang_ke_hoach_SeqLogAD.xlsx
-    sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
+    sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
     authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
     machine_readable_projection: configs/plan/excel-roadmap-v1.yaml
     regenerate_with: python scripts/extract_excel_roadmap.py
     conflict_rule: THE_WORKBOOK_WINS_OVER_EVERY_OTHER_DOCUMENT
     migration_record: docs/migration/EXCEL-PLAN-MIGRATION-001.md
     relevance_audit: docs/migration/EXCEL-RELEVANCE-AUDIT.md
+    amendment:
+      id: PLAN-AMEND-001
+      date: '2026-09-08'
+      scope: STATUS_AND_EVIDENCE_LINK_CELLS_ONLY
+      scientific_content_changed: false
+      signed_snapshot: docs/history/Bang_ke_hoach_SeqLogAD--G0-signed-2026-09-06.xlsx
+      signed_sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
+      ledger: configs/protocols/g0-signatures.yaml
+    phase2_migration: configs/protocols/phase2-roadmap-migration-v1.yaml
   implementation_contract:
     id: DOMAIN-ADAPTIVE-FUSION-001
     version: '2.0'
@@ -47,8 +44,8 @@ active_state:
     G3: NOT_PASSED
     G4: NOT_PASSED
   g0_receipt: data/processed/protocol/G0-receipt.json
-  next_authorized_task: P2.1
-  next_authorized_task_name: Freeze Llama-3.1-8B base, tokenizer, licence and GPU budget (LLM-BASE-001)
+  next_authorized_task: P2.PRE
+  next_authorized_task_name: Base Model / Tokenizer / Revision Freeze
   next_authorized_task_blocked_by: null
   scientific_results_status: NOT_RUN
   representation_training_status: NOT_STARTED
@@ -106,7 +103,7 @@ active_state:
     G0: Protocol Ready. Signed by the researcher on 2026-09-06; 19/19 criteria pass.
     G1: Adaptation Ready. Blocked for the ARCH-HADOOP fold by EXC-003 (buffer REJECTED under BUFFER-REJECT-001).
       Also depends on P3.2-P3.5.
-  next_authorized_task_status: AUTHORIZED_NOT_STARTED
+  next_authorized_task_status: AUTHORIZED_NOT_STARTED_METADATA_ONLY
   researcher_signatures:
     ledger: configs/protocols/g0-signatures.yaml
     signed_on: '2026-09-06'
@@ -122,6 +119,13 @@ active_state:
     EXC-003: ARCH-HADOOP burn-in buffer REJECTED; blocks G1 for that fold only.
     EXC-004: ARCH-OPENSTACK is source-only; 3 evaluation folds, not 4.
     EXC-006: Thunderbird absent from the portfolio (storage).
+    C2: Source per-unit evaluation-label permission unresolved; supervised P2.6 metrics and dependent
+      P2.7/G2 evidence blocked.
+  phase2_contract: configs/protocols/phase2-architecture-v1.yaml
+  task_namespace: P2_ARCH_V1
+  phase2_base_freeze_status: BLOCKED
+  semantic_execution_authorized: false
+  phase3_enabled: false
 historical_datasets:
   hdfs:
     dataset_fingerprint: 0103c63b2847ba98b0b309a9e06eebb80ac8030e2f92d1f62320742537a34013

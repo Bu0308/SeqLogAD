@@ -1,5 +1,10 @@
 # SPLIT-001 — Citations and Method Provenance
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 This note records the verified sources reused for SPLIT-001. The implementation
 does not add a scientific claim or a SeqLogAD model result. Full search details
 and source caveats remain in

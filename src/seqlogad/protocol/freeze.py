@@ -491,7 +491,7 @@ def build_g0_receipt(project_root: str | Path) -> dict:
 
     # A signed G0 lifts only what Excel says it lifts.
     unlocked = (
-        ["P2.1 (representation and target-adaptation work is no longer forbidden)"]
+        ["P2.PRE (metadata freeze only; expert execution requires its verified completion)"]
         if gate_state == "PROTOCOL_READY"
         else []
     )
@@ -538,7 +538,7 @@ def build_g0_receipt(project_root: str | Path) -> dict:
             "python scripts/build_protocol.py",
         ],
         "empirical_status": "NOT_RUN",
-        "next_authorized_task": "P2.1",
+        "next_authorized_task": "P2.PRE" if gate_state == "PROTOCOL_READY" else None,
         "unlocked_by_this_gate": unlocked,
         "still_gated": {
             "G1": "Adaptation Ready — blocked for ARCH-HADOOP by EXC-003",

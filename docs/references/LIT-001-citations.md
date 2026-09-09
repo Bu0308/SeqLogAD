@@ -1,5 +1,10 @@
 # LIT-001 — Citation and Method-Provenance Note
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 - **Task:** Targeted prior-art and dataset-suitability review
 - **Search date:** 2026-08-21
 - **Primary window:** 2024-08 through 2026-08

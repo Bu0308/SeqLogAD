@@ -25,7 +25,7 @@ evidence and a first-class abstain state.
 
 ## 3. Who owns decisions?
 
-No agent owns or may amend the workbook. Dataset eligibility, buffer assumptions,
+No agent owns scientific decisions or may amend the workbook without explicit researcher authorization. P2.0.1 is an explicitly authorized namespace migration. Dataset eligibility, buffer assumptions,
 model selection, empirical runs and conclusions are researcher-owned. Gates G0–G4
 are signed by the researcher, never by an agent.
 
@@ -49,8 +49,12 @@ Phase 1 (P1.1–P1.8) is **complete and signed**. All eight tasks are `DONE` and
 signatures are in `../configs/protocols/g0-signatures.yaml` and are re-verified by
 exact payload match on every build.
 
-`NEXT_AUTHORIZED_TASK = P2.1` — freeze the Llama-3.1-8B base, tokenizer, licence and
-GPU budget (`LLM-BASE-001`), owner Người nghiên cứu. **Authorised, not started.**
+`NEXT_AUTHORIZED_TASK = P2.PRE` — Base Model / Tokenizer / Revision Freeze
+(`LLM-BASE-001`), metadata only, owner Người nghiên cứu. **Authorized, not started;
+completion BLOCKED until required metadata is resolved.** P2.1 Semantic Expert
+remains execution-authorized=false. Namespace P2_ARCH_V1 and historical crosswalk:
+`configs/protocols/phase2-roadmap-migration-v1.yaml`. Phase-2 contract:
+`configs/protocols/phase2-architecture-v1.yaml`; source-label C2 remains denied.
 
 G1–G4 remain `NOT_PASSED`. `EXC-003` blocks G1 for the ARCH-HADOOP fold: its burn-in
 buffer is `REJECTED` under `BUFFER-REJECT-001`, so that fold may not build target

@@ -238,7 +238,7 @@
 - **Alternatives:** Globally replace every `1.0`; accept an unrestricted version string; silently default to `1.1`; reuse `MutationRecord`; discard retained no-op controls.
 - **Reason:** The chosen patch preserves historical provenance, prevents new artifacts from silently claiming v1.0, matches Protocol v1.1/EFFECT-001, and avoids conflating synthetic anomaly localization with an order-destruction control.
 - **Consequence:** SCHEMA-COMPAT-001 is complete at contract/test level. No real split, parser output, event sequence, shuffle, TEST lock, scientific TEST access, or metric was generated. META-001 remains the next dependency-correct task.
-- **Evidence:** `docs/references/SCHEMA-COMPAT-001-citations.md`; schema tests use synthetic identities only.
+- **Evidence:** `docs/references/SCHEMA-001-citations.md` and `docs/references/SCHEMA-002-citations.md`; schema tests use synthetic identities only. The separate SCHEMA-COMPAT note carried no external source and was removed by `REFERENCE-CONSOLIDATION-001`.
 
 ## ADR-028 — Parser-independent raw metadata and chronology contract
 
@@ -297,7 +297,7 @@
 - **Alternatives:** Rewrite frozen protocol history; copy artifact identities into every config; silently change the split snapshot from pre-fit to post-fit; leave stale TODO/status pointers; select MIT/Apache/GPL without owner approval.
 - **Reason:** A separate active-state registry keeps operational truth current without changing frozen scientific decisions or embedding private paths/TEST membership. Explicit license deferral preserves owner authority.
 - **Consequence:** ALIGN-FIX-001 is repository-state cleanup only. Dataset bytes, split membership, parser states, EFFECT-001, method budgets, TEST seals, and empirical statuses are unchanged. `CANONICAL-EVENT-001` becomes the next scientific task; LICENSE remains a repository-hygiene blocker but not a canonical-event blocker.
-- **Evidence:** `configs/active-state.yaml`, `docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md`, and `docs/references/ALIGN-FIX-001-citations.md`. No external scientific source was required.
+- **Evidence:** `configs/active-state.yaml` and `docs/audits/PROJECT-CONTEXT-POST-PARSE-001.md`. No external scientific source was required, and the empty citation note was removed by `REFERENCE-CONSOLIDATION-001`.
 
 ## ADR-033 — HDFS purge representativeness concern and human stop gate
 

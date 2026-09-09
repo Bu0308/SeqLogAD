@@ -1,5 +1,10 @@
 # PARSE-001 — Literature and implementation provenance
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 Status: `VERIFIED 2026-08-23`  
 Scope: normal-only `BASE_TRAIN` selection, Drain3 fit/freeze semantics, parser
 configuration provenance, and representation-leakage controls. This note does

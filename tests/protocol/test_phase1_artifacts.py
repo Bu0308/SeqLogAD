@@ -302,13 +302,18 @@ def test_receipt_binds_every_contract_hash(receipt: dict) -> None:
 def test_receipt_hashes_match_the_files_on_disk(receipt: dict) -> None:
     from seqlogad.common.checksum import sha256_file
 
+    migration = yaml.safe_load(
+        (PROJECT_ROOT / "configs/protocols/phase2-roadmap-migration-v1.yaml").read_text()
+    )["migration"]
+    # The unchanged receipt binds its historical roadmap, not the migrated plan.
+    assert receipt["plan_sha256"] == migration["from_sha256"]
     for relative, digest in receipt["artifact_sha256"].items():
-        path = PROJECT_ROOT / relative
+        path = PROJECT_ROOT / migration["historical_receipt_bindings"].get(relative, relative)
         if path.is_file():
             assert sha256_file(path) == digest, relative
 
 
-def test_receipt_points_at_the_workbook_phase_2_task(receipt: dict) -> None:
+def test_historical_receipt_preserves_its_original_task_namespace(receipt: dict) -> None:
     assert receipt["next_authorized_task"] == "P2.1"
 
 
@@ -403,15 +408,19 @@ def test_active_state_mirrors_the_receipt_and_cannot_overstate_it(receipt: dict)
 
     signed = receipt["gate_state"] == "PROTOCOL_READY"
     assert (state["gates"]["G0"] == "PASSED") == signed
-    assert state["next_authorized_task"] == receipt["next_authorized_task"]
+    migration = yaml.safe_load(
+        (PROJECT_ROOT / "configs/protocols/phase2-roadmap-migration-v1.yaml").read_text()
+    )["migration"]
+    assert migration["from_sha256"] == receipt["plan_sha256"]
+    assert migration["crosswalk"][receipt["next_authorized_task"]] == [state["next_authorized_task"]]
     assert state["scientific_results_status"] == receipt["empirical_status"] == "NOT_RUN"
     assert state["representation_training_status"] == "NOT_STARTED"
     assert state["target_adaptation_status"] == "NOT_STARTED"
 
-    # G0 unlocks P2.1 only; every later gate stays closed.
+    # Historical P2.1 base freeze now routes P2.PRE; later gates stay closed.
     for gate in ("G1", "G2", "G3", "G4"):
         assert state["gates"][gate] == "NOT_PASSED"
-    assert state["next_authorized_task_status"] == "AUTHORIZED_NOT_STARTED"
+    assert state["next_authorized_task_status"] == "AUTHORIZED_NOT_STARTED_METADATA_ONLY"
 
     # The open exceptions survive the signature.
     assert "EXC-003" in state["open_items_after_g0"]

@@ -1,0 +1,300 @@
+# P2.0 architecture contract, routing migrated by P2.0.1. No training authorization.
+phase2:
+  id: P2-ARCH-001
+  version: '1.1'
+  document: docs/protocol/P2.0-phase2-architecture-contract.md
+  decision_authority: USER_REQUEST_2026_09_09
+  status: CONTRACT_FROZEN_ROUTING_MIGRATED
+  execution_ready: false
+  training_authorized: false
+  phase3_enabled: false
+  scientific_results: NOT_RUN
+  task_namespace: P2_ARCH_V1
+  routing_migration: COMPLETE
+  current_workbook: Bang_ke_hoach_SeqLogAD.xlsx
+  phase1_contracts:
+  - configs/protocols/cross-system-split-v1.yaml
+  - configs/protocols/target-buffer-v1.yaml
+  - configs/parsing/normalizer-cs-v1.yaml
+  sequence_requirement: EXPLICIT_SEQUENCE_CAPABILITY_REQUIRED
+  sequence_winner: UNDECIDED
+  gtat_satisfies_sequence_role: false
+  source_label_scope: UNRESOLVED_DENY
+  experts:
+  - id: SEMANTIC_LLAMA
+    role: SEMANTIC
+    status: PLANNED
+    model: Llama-3.1-8B
+    adapter: LoRA-Semantic
+    primary_objective: RAW_TEXT_SEMANTIC_SELF_SUPERVISION
+    access_profile: SOURCE_ONLY_LABEL_FREE
+    data_view: semantic
+    training_task: P2.1
+    notebook: notebooks/P2.1_train_semantic_expert.ipynb
+  - id: SEQUENCE_LLAMA_REFERENCE
+    role: SEQUENCE
+    status: REFERENCE_CANDIDATE
+    model: Llama-3.1-8B
+    adapter: LoRA-Sequence
+    primary_objective: CAUSAL_NEXT_EVENT_OR_NEXT_LOG
+    access_profile: SOURCE_ONLY_LABEL_FREE
+    data_view: sequence
+    training_task: P2.2
+    notebook: notebooks/P2.2_train_sequence_reference.ipynb
+  - id: SEQUENCE_LIGHTWEIGHT
+    role: SEQUENCE
+    status: REQUIRED_CANDIDATE_SLOT
+    model: TO_BE_SELECTED_BEFORE_P2_3_TRAINING
+    adapter: null
+    primary_objective: EXPLICIT_CAUSAL_SEQUENCE_MODELING
+    access_profile: SOURCE_ONLY_LABEL_FREE
+    data_view: sequence
+    training_task: P2.3
+    notebook: notebooks/P2.3_train_lightweight_sequence_expert.ipynb
+  - id: GTAT_STRUCTURAL_TEMPORAL
+    role: STRUCTURAL_TEMPORAL
+    status: SPECIFICATION_REQUIRED
+    model: Temporal_Graph_Transformer_GTAT
+    adapter: null
+    primary_objective: STRUCTURAL_TEMPORAL_SELF_SUPERVISION_TO_SPECIFY
+    access_profile: SOURCE_ONLY_LABEL_FREE
+    data_view: graph
+    training_task: P2.4
+    notebook: notebooks/P2.4_train_gtat_expert.ipynb
+  adapter_policy:
+    shared_frozen_base_revision: true
+    share_adapter_weights: false
+    share_adaptation_checkpoints: false
+    shared_forward_or_kv_cache_assumed: false
+  sequence_controls:
+  - event_permutation
+  - missing_event
+  - duplicate_event
+  - unexpected_next_event
+  - long_range_dependency_violation
+  - locally_plausible_globally_invalid
+  access_profiles:
+    SOURCE_ONLY_LABEL_FREE:
+      representation_training: [SOURCE_TRAIN]
+      checkpoint_selection: [SOURCE_VALIDATION]
+      hyperparameter_search: [SOURCE_VALIDATION]
+      reference_fit: [SOURCE_TRAIN]
+      sequence_construction: [SOURCE_TRAIN, SOURCE_VALIDATION]
+      graph_construction: [SOURCE_TRAIN, SOURCE_VALIDATION]
+      normalization_apply: [SOURCE_TRAIN, SOURCE_VALIDATION]
+      learned_feature_fit: [SOURCE_TRAIN]
+      threshold_selection: []
+      calibration: []
+      anomaly_labels: false
+      synthetic_controls_for_training_or_selection: false
+      forbidden_partitions: [TARGET_BURN_IN, TARGET_EVALUATION, GUARD, EXCLUDED, SOURCE_LATE]
+  evaluation:
+    source_inputs: [SOURCE_VALIDATION]
+    target_inputs: []
+    anomaly_label_access: false
+    supervised_metrics_status: BLOCKED_PENDING_SOURCE_EVALUATION_SCOPE
+    synthetic_control_truth: ALLOWED_ONLY_IN_ISOLATED_DIAGNOSTIC_EVALUATOR
+    synthetic_results_are_natural_anomaly_results: false
+    synthetic_controls_select_winner: false
+    adaptive_fusion: false
+    g2_auto_pass: false
+    comparison_candidates: [SEQUENCE_LLAMA_REFERENCE, SEQUENCE_LIGHTWEIGHT]
+    cheap_comparators: [unseen_rarity, count_vector, isolation_forest, ngram_markov]
+    practical_margin: TO_BE_PREREGISTERED_NOT_INHERITED_FROM_EFFECT_001
+  portability:
+    data_root: data/phase2
+    prepared_data_status: NOT_CREATED_YET
+    fold_root: folds/{fold_id}
+    train_partition: SOURCE_TRAIN
+    val_partition: SOURCE_VALIDATION
+    reference_partition: SOURCE_TRAIN
+    evaluation_in_training_bundle: false
+    labels_in_training_bundle: false
+    raw_data_required_on_gpu_host: false
+    external_symlinks_allowed: false
+    absolute_manifest_paths_allowed: false
+    relative_to: DATA_ROOT
+    required_bundle_files: [README.md, manifests/bundle.json, manifests/checksums.sha256]
+    required_fold_files: [manifests/fold.json, manifests/lineage.json, metadata/normalizer-cs-v1.yaml]
+    views:
+      semantic:
+        creator_task: P2.1
+        required: [train/records.parquet, val/records.parquet, metadata/view.json]
+        optional: [metadata/token_cache.parquet]
+      sequence:
+        creator_task: P2.2
+        required: [train/windows.parquet, val/windows.parquet, metadata/events.parquet, metadata/view.json]
+        optional: [metadata/embedding_cache.parquet]
+        shared_by: [SEQUENCE_LLAMA_REFERENCE, SEQUENCE_LIGHTWEIGHT]
+      graph:
+        creator_task: P2.4
+        required: [train/graphs.parquet, val/graphs.parquet, metadata/nodes.parquet, metadata/view.json]
+        optional: [metadata/embedding_cache.parquet]
+    manifest_required_fields:
+    - bundle_id
+    - schema_version
+    - dataset_id
+    - architecture_id
+    - fold_id
+    - partition
+    - file_path
+    - record_count
+    - sample_count
+    - sha256
+    - membership_sha256
+    - source_corpus_sha256
+    - stream_index_sha256
+    - target_labels_read
+    - label_columns
+    - phase1_receipt_sha256
+    - split_contract_sha256
+    - normalizer_sha256
+    - builder_revision
+    - builder_config_sha256
+    - label_policy
+    - provenance
+    evaluator_root: data/phase2-evaluation
+    target_burn_in_owner: PHASE_3_SEPARATE_BUNDLE
+  notebooks:
+    implementation_owner: PYTHON_MODULES
+    role: ORCHESTRATION_ONLY
+    mandatory_for_every_real_training_task: true
+    required_config_keys: [DATA_ROOT, OUTPUT_ROOT, FOLD_ID, EXPERT_ID, SEED, MODEL_REVISION, TOKENIZER_REVISION,
+      RESUME_FROM]
+    required_sections:
+    - upload_instructions
+    - configuration
+    - cuda_and_environment_report
+    - dependency_check_install_missing_only
+    - manifest_and_partition_preflight
+    - reusable_module_training
+    - checkpoint_resume
+    - inference_sanity_check
+    - artifact_export
+    output_root: outputs/phase2
+    run_directory: '{fold_id}/{expert_id}/{run_id}'
+    required_run_artifacts: [checkpoints, config.yaml, metrics.json, logs, manifest.json, environment.json]
+  evidence:
+    schema_owner_task: P2.5
+    required_fields:
+    - schema_version
+    - expert_id
+    - expert_role
+    - fold_id
+    - architecture_id
+    - unit_id
+    - record_ids
+    - score_raw
+    - score_direction
+    - score_calibrated
+    - calibration_status
+    - uncertainty
+    - uncertainty_method
+    - coverage
+    - evidence
+    - localisation
+    - status
+    - reason
+    - model_revision
+    - checkpoint_sha256
+    - input_manifest_sha256
+    - context_config_sha256
+    score_direction: HIGHER_IS_MORE_ANOMALOUS
+    calibration_status_in_phase2: NOT_CALIBRATED
+    score_calibrated_in_phase2: null
+    unknown_uncertainty: null
+    missing_input_policy: LOW_COVERAGE_OR_ABSTAIN_NEVER_ZERO_FILL
+    evidence_is_causal_proof: false
+  implementation_preflight:
+    required_before_materialization_or_training: true
+    status: FUTURE_IMPLEMENTATION_REQUIRED
+    forbid_label_inventory_as_model_input: true
+    verify:
+    - file_allowlist
+    - column_allowlist
+    - no_label_sidecars
+    - neutral_provenance
+    - checksum_and_counts
+    - fold_membership
+    - source_role_only
+    - reference_closure
+    - no_cross_fold_cache
+    - no_external_paths
+    feature_allowlists:
+      semantic: [canonical_message, normalized_message, level, service, component, parse_status, timestamp_status]
+      sequence: [ordered_event_features, positions, delta_time, time_mask, session_boundary_mask, context_mask]
+      graph: [node_features, node_types, edge_index, edge_types, edge_weights, positions, delta_time,
+        time_mask]
+    provenance_is_predictive_feature: false
+  final_freeze:
+    retain_reference_checkpoint_and_evidence: true
+    retain_all_candidate_dispositions: true
+    sequence_candidate_ids: [SEQUENCE_LLAMA_REFERENCE, SEQUENCE_LIGHTWEIGHT]
+    gtat_can_fill_sequence_slot: false
+    requires_executed_manifest_preflight: true
+  tasks:
+    P2.PRE:
+      name: Base Model / Tokenizer / Revision Freeze
+      execution_authorized: true
+      status: NOT_STARTED
+      depends_on: [P1.8]
+      blockers: []
+      old_tasks: [P2.1]
+    P2.1:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE, BASE_FREEZE_BEFORE_TRAINING]
+      name: Semantic Expert
+      depends_on: [P2.PRE]
+      old_tasks: [P2.2, P2.3, P2.4]
+      status: NOT_STARTED
+    P2.2:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE]
+      name: Sequence Reference Framework
+      depends_on: [P2.1]
+      old_tasks: [P2.5, P2.6]
+      status: NOT_STARTED
+    P2.3:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE]
+      name: Lightweight Sequence Expert
+      depends_on: [P2.2]
+      old_tasks: []
+      status: NOT_STARTED
+    P2.4:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE, GTAT_SPECIFICATION_BEFORE_TRAINING]
+      name: GTAT Expert
+      depends_on: [P2.3]
+      old_tasks: [P2.7]
+      status: NOT_STARTED
+    P2.5:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE]
+      name: Common Evidence Contract
+      depends_on: [P2.4]
+      old_tasks: [P2.8]
+      status: NOT_STARTED
+    P2.6:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE, SOURCE_LABEL_SCOPE_FOR_SUPERVISED_METRICS]
+      name: Expert Diversity / Scientific Evaluation
+      depends_on: [P2.5]
+      old_tasks: []
+      status: NOT_STARTED
+    P2.7:
+      execution_authorized: false
+      blockers: [PREDECESSOR_NOT_COMPLETE, SOURCE_LABEL_SCOPE_FOR_SUPERVISED_METRICS]
+      name: Final Phase-2 Freeze
+      depends_on: [P2.6]
+      old_tasks: []
+      status: NOT_STARTED
+  migration_ledger: configs/protocols/phase2-roadmap-migration-v1.yaml
+  base_freeze_contract: configs/models/base-freeze-v1.yaml
+  source_label_blocker:
+    id: C2
+    status: UNRESOLVED_DENY
+    blocks: [P2.6_SUPERVISED_METRICS, P2.7_REQUIRED_SCIENTIFIC_EVIDENCE, G2_REQUIRED_LABEL_BASED_EVIDENCE]
+    training_or_selection_permission: false
+    future_dependents: [P3.1_G2_HANDOFF, P3_LEARNED_FUSION_AFTER_G2]
+    does_not_block: P2.PRE metadata work or future label-free expert work after prerequisites

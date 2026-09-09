@@ -1,5 +1,10 @@
 # PROTOCOL-SPLIT-CLARIFY-001 — Sources and Search Record
 
+> **HISTORICAL / SUPERSEDED.** This citation pack belongs to the retired v1.1
+> study. It is retained for provenance only and is **not** an active reference
+> source. The authoritative registry is
+> [`reference_registry.yaml`](reference_registry.yaml).
+
 This note records the external sources retained for the exact split-semantics
 clarification. It contains no SeqLogAD experimental result. Search and
 screening were completed before real partition generation.

@@ -112,6 +112,7 @@ def build(project_root: Path) -> dict:
             "owner": record["owner"],
             "depends_on": _split_dependencies(record.get("depends_on", "")),
             "workbook_status": record["status"],
+            "evidence_link": record.get("evidence_link___note", ""),
         }
         for record in _records(sheets["Gates"], 2)
         if record.get("gate")

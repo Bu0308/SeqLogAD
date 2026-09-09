@@ -67,3 +67,5 @@ exports/private/
 **/AGENTS.md
 _agent_workspace_pack/
 Question.md
+
+.ai/
