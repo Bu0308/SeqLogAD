@@ -69,3 +69,5 @@ _agent_workspace_pack/
 Question.md
 
 .ai/
+# Phase-2 local training artifacts; configs/manifests for review live in docs/configs.
+outputs/phase2/**

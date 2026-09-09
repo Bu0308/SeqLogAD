@@ -1,68 +1,357 @@
 base_freeze:
   id: LLM-BASE-001
+  version: '1.1'
   task_id: P2.PRE
+  document: docs/protocol/P2.PRE-base-model-freeze.md
+  decision_authority: USER_REQUEST_P2_PRE_2026_09_09
   status: BLOCKED
-  completion_status: NOT_STARTED
+  completion_status: METADATA_POLICIES_FROZEN_ACCESS_BLOCKED
   execution_scope: METADATA_ONLY
   execution_authorized: true
   training_authorized: false
   download_authorized: false
+  metadata_fetch_authorized: true
   blocks:
   - P2.1
   blockers:
-  - REQUIRED_METADATA_NOT_FROZEN
-  expected_model_family: Llama-3.1-8B
-  applies_to:
-  - SEMANTIC_LLAMA
-  - SEQUENCE_LLAMA_REFERENCE
+  - HF_GATED_METADATA_ACCESS
+  - LICENSE_ACCESS_CONFIRMATION
+  evidence:
+    path: docs/references/P2.PRE-upstream-verification.json
+    sha256: 5647b28ef4e300cffca787494793bbbe45c4d52920663ff8a15ec14192486d95
   required_metadata:
-    base_model_identifier: null
-    model_revision_commit: null
-    tokenizer_identifier: null
-    tokenizer_revision_commit: null
-    quantization_policy: null
-    precision_policy: null
-    peft_lora_library_constraints: null
-    expected_context_length: null
-    license_identifier_and_terms_url: null
-    access_requirements_and_verification: null
-    artifact_checkpoint_naming: null
-    reproducibility_metadata: null
-    gpu_memory_and_fair_comparison_budget: null
-  field_requirements:
-    model_revision_commit: Immutable upstream commit, never main/latest or a fabricated hash. Record official
-      provenance URL.
-    tokenizer_revision_commit: Immutable tokenizer commit; record explicit identity even if equal to model
-      commit.
-    quantization_policy: Explicit none or method, bits, compute/storage dtypes and version constraints.
-    precision_policy: Parameter, compute and optimizer dtypes; hardware assumptions.
-    peft_lora_library_constraints: Pin compatible peft, transformers, torch, accelerate and quantization
-      backend if used; lockfile/hash. LoRA implementation/version recorded; ranks/targets remain task-specific
-      until frozen before run.
-    expected_context_length: Numeric context cap, tokenizer limits, truncation policy and future runtime
-      verification.
-    access_requirements_and_verification: License/access eligibility evidence without credentials or downloading
-      weights.
-    artifact_checkpoint_naming: Versioned run identity with task/expert/fold/seed/revisions and checkpoint
-      hashes; no overwrites.
-    reproducibility_metadata: Seeds, config/lock/provenance hashes, model/tokenizer source URLs and verification
-      date, environment policy, deterministic settings/limitations.
-  pass_criteria:
-  - Every required_metadata value non-null and concrete; no TBD/main/latest placeholders.
-  - Exact immutable revisions verified from official metadata without weight downloads.
-  - Compatible version constraints, licensing/access evidence and context/resource policies reviewed and
-    recorded.
-  - Manifest is hashed and researcher review recorded; update routing explicitly only after verified PASS.
+    base_model_identifier: meta-llama/Llama-3.1-8B
+    model_revision_commit: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+    tokenizer_identifier: meta-llama/Llama-3.1-8B
+    tokenizer_revision_commit: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+    quantization_policy: '#quantization'
+    precision_policy: '#precision'
+    peft_lora_library_constraints: '#runtime'
+    expected_context_length: '#context'
+    license_identifier_and_terms_url: '#access'
+    access_requirements_and_verification: '#access'
+    artifact_checkpoint_naming: '#artifacts'
+    reproducibility_metadata: '#artifacts'
+    gpu_memory_and_fair_comparison_budget: '#hardware'
+  model:
+    family: Llama 3.1
+    scale: 8B
+    parameter_count_metadata: 8030261248
+    architecture: LlamaForCausalLM
+    type: DECODER_ONLY_AUTOREGRESSIVE_PRETRAINED_BASE
+    upstream_parameter_dtype: BF16
+    intended_use: SOURCE_ONLY_SELF_SUPERVISED_LOG_SEMANTICS_AND_REFERENCE_SEQUENCE_ADAPTATION
+    base_weights_immutable: true
+    same_upstream_base_for_both_adapters: true
+    applies_to:
+    - SEMANTIC_LLAMA
+    - SEQUENCE_LLAMA_REFERENCE
+    weights_materialized: false
+  revision_policy:
+    strategy: IMMUTABLE_HF_REPOSITORY_COMMIT
+    model_and_tokenizer_same_commit: true
+    allow_floating_revision: false
+    trust_remote_code: false
+    use_safetensors: true
+    verify_before_load:
+    - Hub model_info revision response sha equals frozen commit
+    - fetch only pinned metadata; validate config architecture/context and tokenizer config
+    - record metadata/tokenizer file checksums and resolved loading class
+    - resolve every weight shard at same pinned revision; verify/cache hashes during P2.1
+    - record SeqLogAD config/code/data identities; reject resume mismatch
+    model_config_sha256: null
+    tokenizer_config_sha256: null
+    metadata_resolution_status: AUTHENTICATED_READ_REQUIRED
+    forbid_unverified_mirrors: true
+  tokenizer:
+    loading_policy: AutoTokenizer.from_pretrained(frozen_tokenizer_id, revision=frozen_tokenizer_revision, use_fast=True,
+      trust_remote_code=False)
+    required_fast: true
+    resolved_class: VERIFY_FROM_PINNED_METADATA
+    training_padding_side: right
+    generation_padding_side: left
+    pad_policy: ALIAS_EXISTING_EOS_NO_NEW_TOKEN
+    pad_loss_policy: Mask only attention_mask==0 positions with -100; preserve genuine EOS targets
+    bos_token: <|begin_of_text|>
+    eos_token: <|end_of_text|>
+    numeric_special_token_ids: RESOLVE_FROM_PINNED_TOKENIZER_NEVER_GUESS
+    add_special_tokens: false
+    bos_policy: Exactly one existing BOS per independent context; no chat template
+    eos_policy: Append existing EOS only at a genuine completed unit boundary; never fabricate EOS at truncation;
+      unit boundary finalized by owning expert
+    vocabulary_mutation: NO_VOCABULARY_MUTATION_BEFORE_P2.1_JUSTIFICATION
+    new_eventid_tokens_allowed: false
+    resize_embeddings_allowed: false
+    source_text_literal_special_tokens: Must not become control tokens silently; P2.1 tests escaping/literal handling
+  context:
+    upstream_advertised_tokens: 128K
+    upstream_capability_tokens: 131072
+    pinned_config_value_verification: PENDING_AUTHENTICATED_CONFIG_READ
+    practical_max_tokens_including_specials: 2048
+    low_memory_max_tokens_including_specials: 1024
+    actual_horizon: null
+    actual_horizon_owner:
+    - P2.1
+    - P2.2
+    preflight_start_tokens: 512
+    truncation: NO_SILENT_TOKENIZER_TRUNCATION; build bounded units/windows, record original length, retained record
+      IDs and dropped span/coverage; task owns preregistered crop strategy
+    sequence_order_and_session_boundaries_preserved: true
+    no_cross_partition_packing: true
+    larger_context_requires: Explicit versioned amendment and new memory/coverage preflight; no assumption of 128K
+      training
+  precision:
+    preferred: BF16_NATIVE
+    native_check: torch.cuda.is_bf16_supported(including_emulation=False)
+    fallback: FP16_CONDITIONAL_ON_FINITE_PREFLIGHT
+    fp16_requires:
+    - CUDA GPU supporting selected wheel kernels
+    - torch.amp.GradScaler with FP32 trainable adapter parameters
+    - finite loss and gradients throughout preflight; abort on overflow/NaN/Inf
+    on_fp16_failure: STOP; use native BF16 hardware, not silently change scientific settings
+    adapter_master_and_optimizer_state: FP32
+    sensitive_reductions_and_layer_norm: FP32 as prepared for k-bit training; record actual dtypes
+    full_fp32_training: NOT_PLANNED
+    tf32_enabled: false
+    cross_precision_results: SEPARATE_RUN_CONDITION; record and stratify; no silent pooling
+  quantization:
+    default_training_mode: QLORA_NF4_DOUBLE_QUANT
+    low_memory_mode: QLORA_NF4_DOUBLE_QUANT_LOW_MEMORY
+    load_in_4bit: true
+    load_in_8bit: false
+    bnb_4bit_quant_type: nf4
+    bnb_4bit_use_double_quant: true
+    bnb_4bit_quant_storage: uint8
+    bnb_4bit_compute_dtype: RESOLVED_BY_PRECISION_POLICY
+    non_quantized_module_dtype: RESOLVED_BY_PRECISION_POLICY_THEN_KBIT_PREPARATION
+    prepare_model_for_kbit_training: true
+    gradient_checkpointing: true
+    use_cache_during_training: false
+    low_memory_micro_batch: 1
+    low_memory_changes: Context <=1024, micro-batch 1; same quantizer; record accumulation/effective batch and match
+      comparison budget
+    standard_16bit_lora: NOT_DEFAULT; separate preregistered sensitivity mode requiring versioned config
+    modes_directly_poolable: false
+    base_identity_note: Both adapters use identical upstream revision AND quantization configuration; quantized
+      runtime representation is not bit-identical to original BF16 weights
+  peft:
+    implementation: huggingface/peft
+    mechanism: STANDARD_ADDITIVE_LOW_RANK_DELTA_W_PLUS_SCALED_BA
+    task_type: CAUSAL_LM
+    bias: none
+    trainable_base_parameters: false
+    trainable_embeddings: false
+    modules_to_save: []
+    adapter_isolation: true
+    share_adapter_weights: false
+    share_optimizer_or_resume_state: false
+    autocast_adapter_dtype: true
+    target_modules_policy: Explicit named Llama linear-module allowlist; finalized and hashed in P2.1/P2.2 before
+      runs; no implicit library default
+    candidate_target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    experimental_hyperparameters:
+      r: null
+      lora_alpha: null
+      lora_dropout: null
+      learning_rate: null
+      target_modules: null
+    finalization_owner:
+    - P2.1
+    - P2.2
+    merge_policy: NO_MERGE_FOR_TRAINING_OR_CANONICAL_EVALUATION; any later export requires separate artifact/review;
+      never overwrite upstream base
+    active_adapters_per_forward: 1
+  runtime:
+    python: '>=3.12,<3.13'
+    platform: Linux x86_64
+    pins:
+      torch: 2.9.1
+      transformers: 4.57.6
+      peft: 0.18.1
+      accelerate: 1.12.0
+      bitsandbytes: 0.49.2
+      tokenizers: 0.22.2
+      safetensors: 0.7.0
+      huggingface-hub: 0.36.2
+    cuda_build: cu128
+    torch_index: https://download.pytorch.org/whl/cu128
+    cuda_runtime: '12.8'
+    host_driver: Must support chosen CUDA 12.8 wheel and actual GPU; validate with NVIDIA documentation and runtime,
+      do not infer from nvidia-smi banner alone
+    recommended_gpu_compute_capability_min: 8.0
+    conditional_gpu_compute_capability_min: 7.5
+    attention_implementation: sdpa
+    device_placement: One CUDA device per run; no device_map=auto inference/offload placement
+    datasets_library_required: false
+    unnecessary_packages_not_added:
+    - datasets
+    - trl
+    - flash-attn
+    - deepspeed
+    - torchvision
+    - torchaudio
+    repo_dependency_contract: pyproject.toml
+    existing_lock: requirements.lock is macOS evidence, not a Linux GPU lock
+    version_selection: Explicit compatible 4.x Transformers baseline supporting Llama 3.1; latest 5.x/Hub 1.x inspected
+      but not silently substituted
+    compatibility_evidence: Direct package requirements/Python markers and wheel availability verified from PyPI;
+      PyTorch CUDA 12.8 wheel documented officially; no installed-stack claim
+    future_linux_lock: Resolve full transitive Linux GPU environment with these pins, pip check and import checks
+      before training; save lock/install report/hashes; conflicts stop, no silent upgrades
+    local_environment_modified: false
+  hardware:
+    measurement_status: NOT_MEASURED_BY_SEQLOGAD
+    recommended_class: Single NVIDIA Ampere-or-newer with native BF16
+    minimum_practical_candidate_vram_gb: 16
+    minimum_is_guaranteed: false
+    preferred_vram_gb: 24
+    headroom_option_vram_gb: 48
+    low_memory_candidate: T4-class 16 GB, FP16 conditional, <=1024 tokens, micro-batch 1, checkpointing; preflight
+      may reject
+    budget_classification: SEQLOGAD_ENGINEERING_ESTIMATE_NOT_BENCHMARK
+    weight_storage_only_estimate: 8,030,261,248 parameters * 2 bytes ~16.06 GB BF16; ideal 4-bit ~4.02 GB before
+      unquantized layers, quantization metadata, activations, logits, adapters and optimizer
+    preflight_measurements:
+    - Record GPU/model/driver/runtime, available and total VRAM before load
+    - reset_peak_memory_stats; synchronize; measure max_memory_allocated and max_memory_reserved after load and
+      representative forward/backward/optimizer steps
+    - Measure load-time and steady-state peaks, wall time, token throughput and gradient finiteness at 512 then
+      intended bounded context
+    - Use allowed source data only after manifest checks; label-free validation; no P2.PRE model test
+    - Record fragmentation/headroom, OOM and rejected combinations, effective batch, rank/targets and lengths; never
+      present failed trials as results
+    fairness: Same base/tokenizer revision, quantizer, precision, folds, contexts for sequence candidates, effective
+      token/step budgets and reporting; compare modes separately
+  access:
+    mechanism: HUGGING_FACE_MANUALLY_GATED
+    license: Llama 3.1 Community License Agreement
+    license_url: https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE
+    model_card_url: https://huggingface.co/meta-llama/Llama-3.1-8B
+    acceptable_use_url: https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/USE_POLICY.md
+    license_acceptance_required: true
+    account_approval_required: true
+    owner_confirmation: PENDING
+    authenticated_metadata_verified: false
+    hf_token: Colab Secrets or RunPod environment; least-privilege token for approved account; never print/commit/embed
+      in notebooks
+    credential_search_performed: false
+    repo_policy: Configs, hashes and metadata only; neither upstream base weights nor adapter/checkpoint binaries
+      committed
+    external_adapters: Keep private external artifacts by default; any redistribution requires license/AUP review,
+      license copy, required attribution/NOTICE, Built with Llama and applicable Llama-prefixed distributed model
+      naming
+    commercial_restriction_note: License includes additional terms for entities above its 700M MAU condition; eligibility
+      not inferred for the owner
+    upstream_weights_external: true
+  artifacts:
+    output_root: outputs/phase2
+    run_directory: '{fold_id}/{expert_id}/{run_id}'
+    run_id_policy: EXP-YYYYMMDD-NNN plus unique suffix if needed; never overwrite; identify task/mode/seed/revisions
+      in manifest
+    checkpoint_directory: checkpoints/step-{global_step}/
+    adapter_files:
+    - adapter_model.safetensors
+    - adapter_config.json
+    required_run_files:
+    - config.yaml
+    - metrics.json
+    - logs/
+    - manifest.json
+    - environment.json
+    - dependency-lock.txt
+    - install-report.json
+    - checksums.sha256
+    manifest_fields:
+    - base_model_id
+    - base_model_revision
+    - tokenizer_id
+    - tokenizer_revision
+    - metadata_file_sha256
+    - adapter_config
+    - seed
+    - python_and_dependencies
+    - cuda_and_driver
+    - training_mode
+    - precision
+    - quantization_config
+    - training_metrics
+    - label_free_validation_metrics
+    - data_manifest_path
+    - data_manifest_sha256
+    - seqlogad_git_commit
+    - dirty_diff_sha256
+    - timestamp_utc
+    - hardware
+    - checkpoint_sha256
+    - resume_parent
+    - rng_optimizer_scheduler_state
+    - completion_status
+    resume: Match base/tokenizer/config/data/mode/checkpoint hashes; save optimizer/scheduler/scaler/RNG; reject
+      incompatible or partial restore
+    model_cache: HF_HOME outside repository; never check base shards into Git
+  notebook:
+    contract_reference: configs/protocols/phase2-architecture-v1.yaml#phase2.notebooks
+    required_future_path: notebooks/P2.1_train_semantic_expert.ipynb
+    created: false
+    implementation_owner: PYTHON_MODULES
+    top_config_keys:
+    - DATA_ROOT
+    - OUTPUT_ROOT
+    - BASE_FREEZE_CONFIG
+    - MODEL_ID
+    - MODEL_REVISION
+    - TOKENIZER_REVISION
+    - HF_TOKEN_SECRET_MECHANISM
+    - SEED
+    - TRAINING_MODE
+    - RESUME_FROM
+    - FOLD_ID
+    immutable_values_loaded_from_contract: true
+    hf_token_must_be_redacted: true
+    install_policy: Only missing compatible packages; fail/recreate environment for incompatible versions; never
+      silently upgrade Colab
+  data:
+    contract_reference: configs/protocols/phase2-architecture-v1.yaml#phase2.portability
+    root: data/phase2
+    semantic: data/phase2/folds/{fold_id}/semantic
+    sequence: data/phase2/folds/{fold_id}/sequence
+    graph: data/phase2/folds/{fold_id}/graph
+    created: false
+    source_label_scope: UNRESOLVED_DENY
   review:
-    status: NOT_REVIEWED
-    evidence: null
+    status: ENGINEERING_POLICIES_REVIEWED_ACCESS_EVIDENCE_PENDING
+    evidence: docs/protocol/P2.PRE-base-model-freeze.md
+    gate_signature_created: false
+  unresolved_fields:
+  - access.owner_confirmation
+  - access.authenticated_metadata_verified
+  - revision_policy.model_config_sha256
+  - revision_policy.tokenizer_config_sha256
+  - tokenizer.resolved_class
+  pass_criteria:
+  - Official immutable model/tokenizer identities verified
+  - Authenticated pinned config/tokenizer metadata read and hashed; actual loading class/special-token contract
+    checked
+  - Owner license/access acceptance and account eligibility confirmation recorded without secrets
+  - All frozen runtime/precision/quantization/artifact policies consistent and tests pass
+  - Only then mark PASS and migrate workbook/routing to P2.1 without starting it
   future_runtime_preflight:
     owner: P2.1
     required_before_training: true
+    executed: false
     checks:
     - model/tokenizer smoke-load
-    - revision/hash matches frozen metadata
-    - license/access
-    - CUDA/precision/context support
-    executed: false
+    - revision and metadata/hash agreement
+    - GPU kernel and precision support
+    - finite forward/backward on allowed source inputs
+    - peak VRAM and throughput
+    - adapter isolation and frozen base assertion
+    - Linux lock/pip check/import verification
   planned_artifact: reports/phase2/base-freeze/LLM-BASE-001.json

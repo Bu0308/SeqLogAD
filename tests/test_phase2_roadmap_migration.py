@@ -121,7 +121,8 @@ def test_data_notebooks_experts_and_label_permissions_are_unchanged():
 def test_base_prerequisite_is_metadata_only_and_cannot_claim_pass():
     base = read(P2["base_freeze_contract"])["base_freeze"]
     assert base["task_id"] == "P2.PRE"
-    assert base["status"] == "BLOCKED" and base["completion_status"] == "NOT_STARTED"
+    assert base["status"] == "BLOCKED"
+    assert base["completion_status"] == "METADATA_POLICIES_FROZEN_ACCESS_BLOCKED"
     assert base["execution_scope"] == "METADATA_ONLY"
     assert base["download_authorized"] is base["training_authorized"] is False
     fields = base["required_metadata"]
@@ -130,8 +131,26 @@ def test_base_prerequisite_is_metadata_only_and_cannot_claim_pass():
             "peft_lora_library_constraints", "expected_context_length",
             "license_identifier_and_terms_url", "access_requirements_and_verification",
             "artifact_checkpoint_naming", "reproducibility_metadata"} <= set(fields)
-    assert all(v is None for v in fields.values())
-    assert base["review"]["status"] == "NOT_REVIEWED"
+    assert fields["base_model_identifier"] == "meta-llama/Llama-3.1-8B"
+    assert fields["model_revision_commit"] == "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b"
+    assert fields["tokenizer_identifier"] == "meta-llama/Llama-3.1-8B"
+    assert fields["tokenizer_revision_commit"] == "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b"
+
+    policy_refs = {
+        "quantization_policy": "#quantization",
+        "precision_policy": "#precision",
+        "peft_lora_library_constraints": "#runtime",
+        "expected_context_length": "#context",
+        "license_identifier_and_terms_url": "#access",
+        "access_requirements_and_verification": "#access",
+        "artifact_checkpoint_naming": "#artifacts",
+        "reproducibility_metadata": "#artifacts",
+        "gpu_memory_and_fair_comparison_budget": "#hardware",
+    }
+
+    for key, expected in policy_refs.items():
+        assert fields[key] == expected
+    assert base["review"]["status"] == "ENGINEERING_POLICIES_REVIEWED_ACCESS_EVIDENCE_PENDING"
     assert base["future_runtime_preflight"]["owner"] == "P2.1"
     assert base["future_runtime_preflight"]["executed"] is False
     state = read("configs/active-state.yaml")["active_state"]
