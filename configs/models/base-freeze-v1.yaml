@@ -1,6 +1,6 @@
 base_freeze:
   id: LLM-BASE-001
-  version: '1.1'
+  version: '1.2'
   task_id: P2.PRE
   document: docs/protocol/P2.PRE-base-model-freeze.md
   decision_authority: USER_REQUEST_P2_PRE_2026_09_09
@@ -11,11 +11,8 @@ base_freeze:
   training_authorized: false
   download_authorized: false
   metadata_fetch_authorized: true
-  blocks:
-  - P2.1
-  blockers:
-  - HF_GATED_METADATA_ACCESS
-  - LICENSE_ACCESS_CONFIRMATION
+  blocks: [P2.1]
+  blockers: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
   evidence:
     path: docs/references/P2.PRE-upstream-verification.json
     sha256: 5647b28ef4e300cffca787494793bbbe45c4d52920663ff8a15ec14192486d95
@@ -43,9 +40,7 @@ base_freeze:
     intended_use: SOURCE_ONLY_SELF_SUPERVISED_LOG_SEMANTICS_AND_REFERENCE_SEQUENCE_ADAPTATION
     base_weights_immutable: true
     same_upstream_base_for_both_adapters: true
-    applies_to:
-    - SEMANTIC_LLAMA
-    - SEQUENCE_LLAMA_REFERENCE
+    applies_to: [SEMANTIC_LLAMA, SEQUENCE_LLAMA_REFERENCE]
     weights_materialized: false
   revision_policy:
     strategy: IMMUTABLE_HF_REPOSITORY_COMMIT
@@ -90,9 +85,7 @@ base_freeze:
     practical_max_tokens_including_specials: 2048
     low_memory_max_tokens_including_specials: 1024
     actual_horizon: null
-    actual_horizon_owner:
-    - P2.1
-    - P2.2
+    actual_horizon_owner: [P2.1, P2.2]
     preflight_start_tokens: 512
     truncation: NO_SILENT_TOKENIZER_TRUNCATION; build bounded units/windows, record original length, retained record
       IDs and dropped span/coverage; task owns preregistered crop strategy
@@ -148,23 +141,14 @@ base_freeze:
     autocast_adapter_dtype: true
     target_modules_policy: Explicit named Llama linear-module allowlist; finalized and hashed in P2.1/P2.2 before
       runs; no implicit library default
-    candidate_target_modules:
-    - q_proj
-    - k_proj
-    - v_proj
-    - o_proj
-    - gate_proj
-    - up_proj
-    - down_proj
+    candidate_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
     experimental_hyperparameters:
       r: null
       lora_alpha: null
       lora_dropout: null
       learning_rate: null
       target_modules: null
-    finalization_owner:
-    - P2.1
-    - P2.2
+    finalization_owner: [P2.1, P2.2]
     merge_policy: NO_MERGE_FOR_TRAINING_OR_CANONICAL_EVALUATION; any later export requires separate artifact/review;
       never overwrite upstream base
     active_adapters_per_forward: 1
@@ -190,13 +174,7 @@ base_freeze:
     attention_implementation: sdpa
     device_placement: One CUDA device per run; no device_map=auto inference/offload placement
     datasets_library_required: false
-    unnecessary_packages_not_added:
-    - datasets
-    - trl
-    - flash-attn
-    - deepspeed
-    - torchvision
-    - torchaudio
+    unnecessary_packages_not_added: [datasets, trl, flash-attn, deepspeed, torchvision, torchaudio]
     repo_dependency_contract: pyproject.toml
     existing_lock: requirements.lock is macOS evidence, not a Linux GPU lock
     version_selection: Explicit compatible 4.x Transformers baseline supporting Llama 3.1; latest 5.x/Hub 1.x inspected
@@ -256,9 +234,7 @@ base_freeze:
     run_id_policy: EXP-YYYYMMDD-NNN plus unique suffix if needed; never overwrite; identify task/mode/seed/revisions
       in manifest
     checkpoint_directory: checkpoints/step-{global_step}/
-    adapter_files:
-    - adapter_model.safetensors
-    - adapter_config.json
+    adapter_files: [adapter_model.safetensors, adapter_config.json]
     required_run_files:
     - config.yaml
     - metrics.json
@@ -317,6 +293,14 @@ base_freeze:
     hf_token_must_be_redacted: true
     install_policy: Only missing compatible packages; fail/recreate environment for incompatible versions; never
       silently upgrade Colab
+    primary_training_environment: Google Colab
+    applies_to_every_phase2_training_task: true
+    colab_ready_ipynb_required: true
+    colab_data_root: /content/phase2
+    colab_output_root: /content/drive/MyDrive/SeqLogAD/outputs/phase2
+    secondary_environment: RunPod
+    output_persistence: Mount persistent Drive or export run artifacts before runtime deletion; do not change relative
+      run layout.
   data:
     contract_reference: configs/protocols/phase2-architecture-v1.yaml#phase2.portability
     root: data/phase2
@@ -355,3 +339,16 @@ base_freeze:
     - adapter isolation and frozen base assertion
     - Linux lock/pip check/import verification
   planned_artifact: reports/phase2/base-freeze/LLM-BASE-001.json
+  roadmap_status_update:
+    id: P2-PRE-STATUS-001
+    scope: STATUS_ONLY
+    previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--P2.0.1-complete-2026-09-09.xlsx
+    previous_projection: docs/history/excel-roadmap--P2.0.1-complete-2026-09-09.yaml
+    from_sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
+    to_sha256: e9212aafec475bf379f4e7836cdf1071332e357492be065107c9aabb83736c42
+    changed_cells:
+      Task Register!K13:
+        before: Not started
+        after: Blocked
+    phase1_changed: false
+    gate_signature_created: false

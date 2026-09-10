@@ -50,8 +50,8 @@ signatures are in `../configs/protocols/g0-signatures.yaml` and are re-verified 
 exact payload match on every build.
 
 `NEXT_AUTHORIZED_TASK = P2.PRE` — Base Model / Tokenizer / Revision Freeze
-(`LLM-BASE-001`), metadata only, owner Người nghiên cứu. **Authorized, not started;
-completion BLOCKED until required metadata is resolved.** P2.1 Semantic Expert
+(`LLM-BASE-001`), metadata only, owner Người nghiên cứu. **Metadata policies frozen;
+completion BLOCKED pending authenticated metadata and license/access confirmation.** P2.1 Semantic Expert
 remains execution-authorized=false. Namespace P2_ARCH_V1 and historical crosswalk:
 `configs/protocols/phase2-roadmap-migration-v1.yaml`. Phase-2 contract:
 `configs/protocols/phase2-architecture-v1.yaml`; source-label C2 remains denied.

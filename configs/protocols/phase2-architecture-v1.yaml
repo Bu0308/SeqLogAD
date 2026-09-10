@@ -1,4 +1,3 @@
-# P2.0 architecture contract, routing migrated by P2.0.1. No training authorization.
 phase2:
   id: P2-ARCH-001
   version: '1.1'
@@ -223,8 +222,7 @@ phase2:
     feature_allowlists:
       semantic: [canonical_message, normalized_message, level, service, component, parse_status, timestamp_status]
       sequence: [ordered_event_features, positions, delta_time, time_mask, session_boundary_mask, context_mask]
-      graph: [node_features, node_types, edge_index, edge_types, edge_weights, positions, delta_time,
-        time_mask]
+      graph: [node_features, node_types, edge_index, edge_types, edge_weights, positions, delta_time, time_mask]
     provenance_is_predictive_feature: false
   final_freeze:
     retain_reference_checkpoint_and_evidence: true
@@ -236,9 +234,9 @@ phase2:
     P2.PRE:
       name: Base Model / Tokenizer / Revision Freeze
       execution_authorized: true
-      status: NOT_STARTED
+      status: BLOCKED
       depends_on: [P1.8]
-      blockers: []
+      blockers: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
       old_tasks: [P2.1]
     P2.1:
       execution_authorized: false

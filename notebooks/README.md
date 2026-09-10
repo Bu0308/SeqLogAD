@@ -15,3 +15,10 @@ These names use P2_ARCH_V1; workbook migration completed in P2.0.1. P2.0 does
 not authorize training. Future notebooks take explicit DATA_ROOT and OUTPUT_ROOT,
 verify the portable `data/phase2/` bundle and record environment/seed/revisions.
 Exploration notebooks remain allowed but are never the only pipeline implementation.
+
+P2.PRE addendum: every future Phase-2 real-training task must provide a Colab-ready
+notebook; Google Colab is primary, RunPod secondary. The future default is
+`DATA_ROOT=/content/phase2` while the repository root stays `data/phase2/`.
+Load frozen model/runtime policy from `configs/models/base-freeze-v1.yaml`; expose
+OUTPUT_ROOT, HF_TOKEN secret mechanism, SEED, training mode and resume checkpoint.
+No training notebook has been created by P2.PRE.

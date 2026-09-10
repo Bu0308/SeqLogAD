@@ -16,7 +16,7 @@ A research project testing **whether knowledge transfers across heterogeneous lo
 </div>
 
 > [!IMPORTANT]
-> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 (Data & Protocol) is **complete and signed**: gate **G0 = `PROTOCOL_READY`**, 19 of 19 criteria pass, signed by the researcher on 2026-09-06. `NEXT_AUTHORIZED_TASK = P2.PRE` (Base Model / Tokenizer / Revision Freeze), metadata-only, authorised and not started. P2.1 Semantic Expert remains blocked until P2.PRE passes. G1–G4 remain closed, and `EXC-003` blocks G1 for the ARCH-HADOOP fold. No model has been trained: SeqLogAD reports **no scientific performance result**.
+> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 (Data & Protocol) is **complete and signed**: gate **G0 = `PROTOCOL_READY`**, 19 of 19 criteria pass, signed by the researcher on 2026-09-06. `NEXT_AUTHORIZED_TASK = P2.PRE` (Base Model / Tokenizer / Revision Freeze), metadata-only, policies frozen; completion BLOCKED pending gated metadata/access evidence. P2.1 Semantic Expert remains blocked until P2.PRE passes. G1–G4 remain closed, and `EXC-003` blocks G1 for the ARCH-HADOOP fold. No model has been trained: SeqLogAD reports **no scientific performance result**.
 
 ## The question
 

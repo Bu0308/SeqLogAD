@@ -420,7 +420,7 @@ def test_active_state_mirrors_the_receipt_and_cannot_overstate_it(receipt: dict)
     # Historical P2.1 base freeze now routes P2.PRE; later gates stay closed.
     for gate in ("G1", "G2", "G3", "G4"):
         assert state["gates"][gate] == "NOT_PASSED"
-    assert state["next_authorized_task_status"] == "AUTHORIZED_NOT_STARTED_METADATA_ONLY"
+    assert state["next_authorized_task_status"] == "BLOCKED_METADATA_ACCESS"
 
     # The open exceptions survive the signature.
     assert "EXC-003" in state["open_items_after_g0"]

@@ -2,10 +2,10 @@ active_state:
   id: ACTIVE-STATE-G0-SIGNED-001
   version: '3.2'
   status: SYNCHRONIZED
-  synchronized_by: P2-ROADMAP-MIGRATION-001
+  synchronized_by: P2-PRE-STATUS-001
   authoritative_plan:
     path: Bang_ke_hoach_SeqLogAD.xlsx
-    sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
+    sha256: e9212aafec475bf379f4e7836cdf1071332e357492be065107c9aabb83736c42
     authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
     machine_readable_projection: configs/plan/excel-roadmap-v1.yaml
     regenerate_with: python scripts/extract_excel_roadmap.py
@@ -21,6 +21,7 @@ active_state:
       signed_sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
       ledger: configs/protocols/g0-signatures.yaml
     phase2_migration: configs/protocols/phase2-roadmap-migration-v1.yaml
+    base_freeze_status_update: configs/models/base-freeze-v1.yaml#base_freeze.roadmap_status_update
   implementation_contract:
     id: DOMAIN-ADAPTIVE-FUSION-001
     version: '2.0'
@@ -46,7 +47,7 @@ active_state:
   g0_receipt: data/processed/protocol/G0-receipt.json
   next_authorized_task: P2.PRE
   next_authorized_task_name: Base Model / Tokenizer / Revision Freeze
-  next_authorized_task_blocked_by: null
+  next_authorized_task_blocked_by: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
   scientific_results_status: NOT_RUN
   representation_training_status: NOT_STARTED
   target_adaptation_status: NOT_STARTED
@@ -69,9 +70,9 @@ active_state:
     CANONICAL-NUL-DECISION-001:
       classification: REUSE_WITH_EXISTING_DECISION
       policy_version: seqlogad-nul-escape-v1
-      note: Option A adopted verbatim as the byte-safety layer of LOG-UNIFY-001. This is a reuse of an
-        existing repository decision, not a new methodological choice. Its v1.1-scoped consequence (CANONICAL-EVENT-001
-        corpus generation) remains unexecuted and belongs to the retired plan.
+      note: Option A adopted verbatim as the byte-safety layer of LOG-UNIFY-001. This is a reuse of an existing
+        repository decision, not a new methodological choice. Its v1.1-scoped consequence (CANONICAL-EVENT-001 corpus
+        generation) remains unexecuted and belongs to the retired plan.
   historical_foundation:
     protocol: configs/protocols/protocol-v1.1.yaml
     status: SUPERSEDED_HISTORICAL_PROVENANCE
@@ -103,15 +104,11 @@ active_state:
     G0: Protocol Ready. Signed by the researcher on 2026-09-06; 19/19 criteria pass.
     G1: Adaptation Ready. Blocked for the ARCH-HADOOP fold by EXC-003 (buffer REJECTED under BUFFER-REJECT-001).
       Also depends on P3.2-P3.5.
-  next_authorized_task_status: AUTHORIZED_NOT_STARTED_METADATA_ONLY
+  next_authorized_task_status: BLOCKED_METADATA_ACCESS
   researcher_signatures:
     ledger: configs/protocols/g0-signatures.yaml
     signed_on: '2026-09-06'
-    verified:
-    - P1.1
-    - P1.6
-    - P1.7
-    - P1.8/G0
+    verified: [P1.1, P1.6, P1.7, P1.8/G0]
     verification: EXACT_PAYLOAD_MATCH_RECHECKED_ON_EVERY_BUILD
   open_items_after_g0:
     EXC-001: HDFS boundary exclusion removes 19.75% of records; prevalence effect unmeasured.
@@ -119,8 +116,8 @@ active_state:
     EXC-003: ARCH-HADOOP burn-in buffer REJECTED; blocks G1 for that fold only.
     EXC-004: ARCH-OPENSTACK is source-only; 3 evaluation folds, not 4.
     EXC-006: Thunderbird absent from the portfolio (storage).
-    C2: Source per-unit evaluation-label permission unresolved; supervised P2.6 metrics and dependent
-      P2.7/G2 evidence blocked.
+    C2: Source per-unit evaluation-label permission unresolved; supervised P2.6 metrics and dependent P2.7/G2 evidence
+      blocked.
   phase2_contract: configs/protocols/phase2-architecture-v1.yaml
   task_namespace: P2_ARCH_V1
   phase2_base_freeze_status: BLOCKED

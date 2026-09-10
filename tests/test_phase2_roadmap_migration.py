@@ -27,6 +27,8 @@ def cells(path):
 
 P2 = read("configs/protocols/phase2-architecture-v1.yaml")["phase2"]
 MIG = read("configs/protocols/phase2-roadmap-migration-v1.yaml")["migration"]
+BASE = read("configs/models/base-freeze-v1.yaml")["base_freeze"]
+MIGRATED_WORKBOOK = BASE["roadmap_status_update"]["previous_workbook"]
 
 
 def test_unique_ids_and_exact_linear_order_across_authorities():
@@ -45,7 +47,7 @@ def test_unique_ids_and_exact_linear_order_across_authorities():
         contract = P2["tasks"][task["task_id"]]
         assert task["dependencies"] == contract["depends_on"] == expected
         assert task["workstream"] == contract["name"]
-        assert task["workbook_status"] == "Not started"
+        assert task["workbook_status"] == ("Blocked" if index == 0 else "Not started")
     for task in roadmap["tasks"]:
         assert set(task["dependencies"]) <= set(ids)
     for path in (".ai/task-routing.md", ".ai/primary-context.md", "README.md"):
@@ -71,7 +73,7 @@ def test_every_old_phase2_id_has_an_unambiguous_historical_crosswalk():
 def test_migration_preserves_signed_history_and_chains_exact_hashes():
     previous = read("configs/protocols/g0-signatures.yaml")["g0_signatures"]["plan_amendments"][0]
     assert previous["to_sha256"] == MIG["from_sha256"] == sha(MIG["previous_workbook"])
-    assert MIG["to_sha256"] == sha(MIG["workbook"])
+    assert MIG["to_sha256"] == sha(MIGRATED_WORKBOOK)
     assert MIG["previous_projection_sha256"] == sha(MIG["previous_projection"])
     for path, digest in MIG["frozen_history"].items():
         assert sha(path) == digest
@@ -82,7 +84,7 @@ def test_migration_preserves_signed_history_and_chains_exact_hashes():
 
 
 def test_only_declared_phase2_and_dependent_cells_changed():
-    before, after = cells(MIG["previous_workbook"]), cells(MIG["workbook"])
+    before, after = cells(MIG["previous_workbook"]), cells(MIGRATED_WORKBOOK)
     moved = {k for k in before.keys() | after.keys() if before.get(k) != after.get(k)}
     assert moved == set(MIG["changed_cells"])
     permitted = {f"Task Register!{c}{r}" for r in range(13, 21) for c in "ABCDEFGHIJK"}
@@ -93,7 +95,7 @@ def test_only_declared_phase2_and_dependent_cells_changed():
                   "Gates!F7", "Executive!B11", "Executive!E11", "Roadmap!C6", "Roadmap!E6"}
     assert moved <= permitted  # No P1, G0, research-source or unrelated P3/P4 edits.
     old = openpyxl.load_workbook(ROOT / MIG["previous_workbook"])
-    new = openpyxl.load_workbook(ROOT / MIG["workbook"])
+    new = openpyxl.load_workbook(ROOT / MIGRATED_WORKBOOK)
     assert old.sheetnames == new.sheetnames
     for s in old:
         assert str(s.merged_cells) == str(new[s.title].merged_cells)

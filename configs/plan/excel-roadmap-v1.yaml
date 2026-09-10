@@ -2,7 +2,7 @@ roadmap:
   schema_version: '1.0'
   authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
   source_workbook: Bang_ke_hoach_SeqLogAD.xlsx
-  source_workbook_sha256: 0a75ff69a2f74f3bf5dd19790ae128fd8845240204117fe2d29d4a5d563e4cc2
+  source_workbook_sha256: e9212aafec475bf379f4e7836cdf1071332e357492be065107c9aabb83736c42
   worksheets:
   - Executive
   - Roadmap
@@ -432,7 +432,7 @@ roadmap:
     - P1.8
     definition_of_done: All required metadata resolved and reviewed under configs/models/base-freeze-v1.yaml;
       immutable revisions, policy/lock hashes and access evidence recorded. No placeholder permits PASS.
-    workbook_status: Not started
+    workbook_status: Blocked
     playbook:
       method: 'Freeze metadata only: base/tokenizer IDs and exact commits, quantization/precision, context,
         PEFT/LoRA versions, license/access, GPU/budget, seeds, artifact naming and provenance. No model
