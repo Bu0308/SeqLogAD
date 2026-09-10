@@ -29,7 +29,7 @@ protocol:
   empirical_status: NOT_RUN
   execution_ready: false
   current_phase: P1_DATA_AND_PROTOCOL
-  next_authorized_task: P2.PRE
+  next_authorized_task: P2.1
 
 schema:
   contract: LOG-UNIFY-001
@@ -84,7 +84,7 @@ pipeline:
   P1.6: COMPLETE_PENDING_RESEARCHER_SIGNATURE
   P1.7: COMPLETE
   P1.8: COMPLETE_PENDING_RESEARCHER_SIGNATURE
-  next_authorized_task: P2.PRE
+  next_authorized_task: P2.1
 
 repository_hygiene:
   license_status: OWNER_DECISION_REQUIRED

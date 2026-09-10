@@ -234,13 +234,13 @@ phase2:
     P2.PRE:
       name: Base Model / Tokenizer / Revision Freeze
       execution_authorized: true
-      status: BLOCKED
+      status: PASS
       depends_on: [P1.8]
-      blockers: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
+      blockers: []
       old_tasks: [P2.1]
     P2.1:
-      execution_authorized: false
-      blockers: [PREDECESSOR_NOT_COMPLETE, BASE_FREEZE_BEFORE_TRAINING]
+      execution_authorized: true
+      blockers: []
       name: Semantic Expert
       depends_on: [P2.PRE]
       old_tasks: [P2.2, P2.3, P2.4]

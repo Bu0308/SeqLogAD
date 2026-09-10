@@ -2,10 +2,10 @@ active_state:
   id: ACTIVE-STATE-G0-SIGNED-001
   version: '3.2'
   status: SYNCHRONIZED
-  synchronized_by: P2-PRE-STATUS-001
+  synchronized_by: P2-PRE-PASS-001
   authoritative_plan:
     path: Bang_ke_hoach_SeqLogAD.xlsx
-    sha256: e9212aafec475bf379f4e7836cdf1071332e357492be065107c9aabb83736c42
+    sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
     authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
     machine_readable_projection: configs/plan/excel-roadmap-v1.yaml
     regenerate_with: python scripts/extract_excel_roadmap.py
@@ -21,7 +21,7 @@ active_state:
       signed_sha256: c33aad3333c0d1b032ad324459392f2e5da4b65eb85603d80c2130dfd174d56b
       ledger: configs/protocols/g0-signatures.yaml
     phase2_migration: configs/protocols/phase2-roadmap-migration-v1.yaml
-    base_freeze_status_update: configs/models/base-freeze-v1.yaml#base_freeze.roadmap_status_update
+    base_freeze_status_update: configs/models/base-freeze-v1.yaml#base_freeze.completion_status_update
   implementation_contract:
     id: DOMAIN-ADAPTIVE-FUSION-001
     version: '2.0'
@@ -45,9 +45,9 @@ active_state:
     G3: NOT_PASSED
     G4: NOT_PASSED
   g0_receipt: data/processed/protocol/G0-receipt.json
-  next_authorized_task: P2.PRE
-  next_authorized_task_name: Base Model / Tokenizer / Revision Freeze
-  next_authorized_task_blocked_by: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
+  next_authorized_task: P2.1
+  next_authorized_task_name: Semantic Expert
+  next_authorized_task_blocked_by: []
   scientific_results_status: NOT_RUN
   representation_training_status: NOT_STARTED
   target_adaptation_status: NOT_STARTED
@@ -93,10 +93,7 @@ active_state:
     - HDFS_BGL_ONLY_FIVE_PARTITION_SPLIT
     - SEALED_TEST_FINAL_EVALUATION_WORKFLOW
     retired_artifacts_retained: true
-    addenda:
-    - configs/protocols/effect-001.yaml
-    - configs/protocols/split-clarification-v1.yaml
-    - configs/protocols/purge-decision-v1.yaml
+    addenda: [configs/protocols/effect-001.yaml, configs/protocols/split-clarification-v1.yaml, configs/protocols/purge-decision-v1.yaml]
   repository_hygiene:
     license_status: OWNER_DECISION_REQUIRED
     pending_deletions: docs/migration/EXCEL-RELEVANCE-AUDIT.md#delete--identified-execution-blocked
@@ -104,7 +101,7 @@ active_state:
     G0: Protocol Ready. Signed by the researcher on 2026-09-06; 19/19 criteria pass.
     G1: Adaptation Ready. Blocked for the ARCH-HADOOP fold by EXC-003 (buffer REJECTED under BUFFER-REJECT-001).
       Also depends on P3.2-P3.5.
-  next_authorized_task_status: BLOCKED_METADATA_ACCESS
+  next_authorized_task_status: AUTHORIZED_NOT_STARTED
   researcher_signatures:
     ledger: configs/protocols/g0-signatures.yaml
     signed_on: '2026-09-06'
@@ -120,8 +117,8 @@ active_state:
       blocked.
   phase2_contract: configs/protocols/phase2-architecture-v1.yaml
   task_namespace: P2_ARCH_V1
-  phase2_base_freeze_status: BLOCKED
-  semantic_execution_authorized: false
+  phase2_base_freeze_status: PASS
+  semantic_execution_authorized: true
   phase3_enabled: false
 historical_datasets:
   hdfs:

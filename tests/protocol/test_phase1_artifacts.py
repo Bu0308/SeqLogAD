@@ -412,7 +412,9 @@ def test_active_state_mirrors_the_receipt_and_cannot_overstate_it(receipt: dict)
         (PROJECT_ROOT / "configs/protocols/phase2-roadmap-migration-v1.yaml").read_text()
     )["migration"]
     assert migration["from_sha256"] == receipt["plan_sha256"]
-    assert migration["crosswalk"][receipt["next_authorized_task"]] == [state["next_authorized_task"]]
+    assert migration["crosswalk"][receipt["next_authorized_task"]] == ["P2.PRE"]
+    assert state["phase2_base_freeze_status"] == "PASS"
+    assert state["next_authorized_task"] == "P2.1"
     assert state["scientific_results_status"] == receipt["empirical_status"] == "NOT_RUN"
     assert state["representation_training_status"] == "NOT_STARTED"
     assert state["target_adaptation_status"] == "NOT_STARTED"
@@ -420,7 +422,7 @@ def test_active_state_mirrors_the_receipt_and_cannot_overstate_it(receipt: dict)
     # Historical P2.1 base freeze now routes P2.PRE; later gates stay closed.
     for gate in ("G1", "G2", "G3", "G4"):
         assert state["gates"][gate] == "NOT_PASSED"
-    assert state["next_authorized_task_status"] == "BLOCKED_METADATA_ACCESS"
+    assert state["next_authorized_task_status"] == "AUTHORIZED_NOT_STARTED"
 
     # The open exceptions survive the signature.
     assert "EXC-003" in state["open_items_after_g0"]

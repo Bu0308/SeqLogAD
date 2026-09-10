@@ -84,9 +84,9 @@ def test_active_status_next_task_test_state_and_license_are_exact() -> None:
     assert plan["conflict_rule"] == "THE_WORKBOOK_WINS_OVER_EVERY_OTHER_DOCUMENT"
     assert default["plan"]["authoritative"] == "Bang_ke_hoach_SeqLogAD.xlsx"
 
-    assert state["next_authorized_task"] == "P2.PRE"
-    assert default["protocol"]["next_authorized_task"] == "P2.PRE"
-    assert default["pipeline"]["next_authorized_task"] == "P2.PRE"
+    assert state["next_authorized_task"] == "P2.1"
+    assert default["protocol"]["next_authorized_task"] == "P2.1"
+    assert default["pipeline"]["next_authorized_task"] == "P2.1"
     assert state["scientific_results_status"] == "NOT_RUN"
     assert state["representation_training_status"] == "NOT_STARTED"
     assert state["target_adaptation_status"] == "NOT_STARTED"

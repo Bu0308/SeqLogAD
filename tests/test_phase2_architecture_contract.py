@@ -128,9 +128,10 @@ def test_controls_and_evidence_do_not_promise_calibration() -> None:
 
 def test_task_execution_and_future_preflight_cannot_be_skipped() -> None:
     for task_id, task in P2["tasks"].items():
-        assert task["execution_authorized"] is (task_id == "P2.PRE")
+        assert task["execution_authorized"] is (task_id in {"P2.PRE", "P2.1"})
         assert "ROUTING_MIGRATION" not in task["blockers"]
-    assert "BASE_FREEZE_BEFORE_TRAINING" in P2["tasks"]["P2.1"]["blockers"]
+    assert P2["tasks"]["P2.PRE"]["status"] == "PASS"
+    assert P2["tasks"]["P2.1"]["blockers"] == []
     assert "GTAT_SPECIFICATION_BEFORE_TRAINING" in P2["tasks"]["P2.4"]["blockers"]
     preflight = P2["implementation_preflight"]
     assert preflight["required_before_materialization_or_training"] is True

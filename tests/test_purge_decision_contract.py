@@ -95,7 +95,7 @@ def test_test_seals_remain_closed_and_later_nul_gate_is_respected() -> None:
     assert "CANONICAL-EVENT-001_AS_NEXT_TASK" in (
         active["active_state"]["historical_foundation"]["retired_pointers"]
     )
-    assert active["active_state"]["next_authorized_task"] == "P2.PRE"
+    assert active["active_state"]["next_authorized_task"] == "P2.1"
     for dataset in active["historical_datasets"].values():
         split = dataset["split"]
         assert split["test_status"] == "SEALED"

@@ -31,16 +31,38 @@ def test_immutable_identity_is_bound_to_recorded_upstream_evidence():
     assert (ROOT / BASE['document']).is_file()
 
 
-def test_missing_access_evidence_blocks_expert_execution():
-    assert BASE['status'] == P2['tasks']['P2.PRE']['status'] == 'BLOCKED'
-    assert set(BASE['blockers']) == set(STATE['next_authorized_task_blocked_by'])
-    assert BASE['access']['owner_confirmation'] == 'PENDING'
-    assert BASE['access']['authenticated_metadata_verified'] is False
-    for key in ('model_config_sha256', 'tokenizer_config_sha256'):
-        assert BASE['revision_policy'][key] is None
+def test_authenticated_metadata_is_required_for_pass_and_only_semantic_is_authorized():
+    assert BASE['status'] == P2['tasks']['P2.PRE']['status'] == 'PASS'
+    assert BASE['blockers'] == BASE['unresolved_fields'] == []
+    assert BASE['access']['owner_confirmation'] == 'USER_CONFIRMED_HF_ACCESS_GRANTED'
+    assert BASE['access']['authenticated_metadata_verified'] is True
+    verification = BASE['authenticated_verification']
+    assert verification['gated_access'] == 'PASS'
+    revision = BASE['required_metadata']['model_revision_commit']
+    assert verification['revision'] == verification['revision_api']['observed_sha'] == revision
+    configs = {}
+    for name, item in verification['files'].items():
+        raw = (ROOT / item['path']).read_bytes()
+        assert hashlib.sha256(raw).hexdigest() == item['sha256']
+        assert item['revision'] == revision and f'/resolve/{revision}/' in item['url']
+        assert item['http_status'] == 200
+        configs[name] = json.loads(raw)
+    assert set(configs) == {'config.json', 'tokenizer_config.json'}
+    assert BASE['revision_policy']['model_config_sha256'] == verification['files']['config.json']['sha256']
+    assert BASE['revision_policy']['tokenizer_config_sha256'] == verification['files']['tokenizer_config.json']['sha256']
+    c, t = configs['config.json'], configs['tokenizer_config.json']
+    assert t['tokenizer_class'] == BASE['tokenizer']['resolved_class'] == 'PreTrainedTokenizerFast'
+    assert 'auto_map' not in t and 'pad_token' not in t
+    assert c['max_position_embeddings'] == t['model_max_length'] == BASE['context']['upstream_capability_tokens']
+    for role in ('bos', 'eos'):
+        token_id = c[f'{role}_token_id']
+        assert token_id == BASE['tokenizer']['numeric_special_token_ids'][role]
+        assert t['added_tokens_decoder'][str(token_id)]['content'] == t[f'{role}_token']
+    assert verification['model_weights_downloaded'] is False
     assert P2['tasks']['P2.1']['depends_on'] == ['P2.PRE']
-    assert P2['tasks']['P2.1']['execution_authorized'] is False
-    assert STATE['semantic_execution_authorized'] is False
+    assert P2['tasks']['P2.1']['execution_authorized'] is STATE['semantic_execution_authorized'] is True
+    assert P2['tasks']['P2.1']['status'] == 'NOT_STARTED'
+    assert all(not P2['tasks'][f'P2.{i}']['execution_authorized'] for i in range(2, 8))
     assert STATE['phase3_enabled'] is P2['phase3_enabled'] is False
     assert BASE['data']['source_label_scope'] == P2['source_label_scope'] == 'UNRESOLVED_DENY'
 
@@ -92,9 +114,9 @@ def test_workbook_status_update_has_exact_provenance_and_no_other_cell_changes()
     update = BASE['roadmap_status_update']
     migration = read('configs/protocols/phase2-roadmap-migration-v1.yaml')['migration']
     before_path = ROOT / update['previous_workbook']
-    after_path = ROOT / 'Bang_ke_hoach_SeqLogAD.xlsx'
+    after_path = ROOT / update['result_workbook']
     assert hashlib.sha256(before_path.read_bytes()).hexdigest() == update['from_sha256'] == migration['to_sha256']
-    assert hashlib.sha256(after_path.read_bytes()).hexdigest() == update['to_sha256'] == STATE['authoritative_plan']['sha256']
+    assert hashlib.sha256(after_path.read_bytes()).hexdigest() == update['to_sha256']
     workbooks = [openpyxl.load_workbook(p, data_only=False) for p in (before_path, after_path)]
     before, after = [{f'{s.title}!{c.coordinate}': c.value for s in w for row in s for c in row
                       if c.value is not None} for w in workbooks]
@@ -129,3 +151,18 @@ def test_runtime_pins_match_verified_direct_dependency_metadata():
                 assert pins[dependency] in requirement.specifier
     # This checks recorded direct constraints, not an installed/transitive GPU stack.
     assert BASE['runtime']['local_environment_modified'] is False
+
+
+def test_completion_status_update_preserves_blocked_history():
+    update = BASE['completion_status_update']
+    before_path = ROOT / update['previous_workbook']
+    after_path = ROOT / 'Bang_ke_hoach_SeqLogAD.xlsx'
+    assert hashlib.sha256(before_path.read_bytes()).hexdigest() == update['from_sha256'] == BASE['roadmap_status_update']['to_sha256']
+    assert hashlib.sha256(after_path.read_bytes()).hexdigest() == update['to_sha256'] == STATE['authoritative_plan']['sha256']
+    snapshots = [{f'{s.title}!{c.coordinate}': c.value for s in openpyxl.load_workbook(p)
+                  for row in s for c in row if c.value is not None} for p in (before_path, after_path)]
+    before, after = snapshots
+    changed = {k: {'before': before.get(k), 'after': after.get(k)}
+               for k in before.keys() | after.keys() if before.get(k) != after.get(k)}
+    assert changed == update['changed_cells'] == {'Task Register!K13': {'before': 'Blocked', 'after': 'Done'}}
+    assert update['phase1_changed'] is update['gate_signature_created'] is False

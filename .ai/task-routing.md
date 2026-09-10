@@ -31,8 +31,8 @@ which criteria hold; it may not declare a gate passed.
 ## Current state
 
 `CURRENT_PHASE = P1_COMPLETE` · `G0 = PASSED` (signed 2026-09-06) ·
-`NEXT_AUTHORIZED_TASK = P2.PRE`, metadata policies frozen; authenticated access still required;
-P2.PRE completion BLOCKED pending gated metadata/access evidence; P2.1 execution_authorized=false ·
+`NEXT_AUTHORIZED_TASK = P2.1`; P2.PRE PASS after authenticated metadata verification;
+P2.1 execution_authorized=true, NOT_STARTED ·
 `G1..G4 = NOT_PASSED` · `EXC-003` blocks G1 for the ARCH-HADOOP fold.
 
 ## Retired routing

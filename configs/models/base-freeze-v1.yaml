@@ -1,18 +1,18 @@
 base_freeze:
   id: LLM-BASE-001
-  version: '1.2'
+  version: '1.3'
   task_id: P2.PRE
   document: docs/protocol/P2.PRE-base-model-freeze.md
   decision_authority: USER_REQUEST_P2_PRE_2026_09_09
-  status: BLOCKED
-  completion_status: METADATA_POLICIES_FROZEN_ACCESS_BLOCKED
+  status: PASS
+  completion_status: METADATA_VERIFIED
   execution_scope: METADATA_ONLY
   execution_authorized: true
   training_authorized: false
   download_authorized: false
   metadata_fetch_authorized: true
   blocks: [P2.1]
-  blockers: [HF_GATED_METADATA_ACCESS, LICENSE_ACCESS_CONFIRMATION]
+  blockers: []
   evidence:
     path: docs/references/P2.PRE-upstream-verification.json
     sha256: 5647b28ef4e300cffca787494793bbbe45c4d52920663ff8a15ec14192486d95
@@ -54,22 +54,25 @@ base_freeze:
     - record metadata/tokenizer file checksums and resolved loading class
     - resolve every weight shard at same pinned revision; verify/cache hashes during P2.1
     - record SeqLogAD config/code/data identities; reject resume mismatch
-    model_config_sha256: null
-    tokenizer_config_sha256: null
-    metadata_resolution_status: AUTHENTICATED_READ_REQUIRED
+    model_config_sha256: 54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd
+    tokenizer_config_sha256: 8004530facf809ac432114de2a4dcc65fcb632da5ec16d666091aeb6a2ee444a
+    metadata_resolution_status: VERIFIED_AUTHENTICATED
     forbid_unverified_mirrors: true
   tokenizer:
     loading_policy: AutoTokenizer.from_pretrained(frozen_tokenizer_id, revision=frozen_tokenizer_revision, use_fast=True,
       trust_remote_code=False)
     required_fast: true
-    resolved_class: VERIFY_FROM_PINNED_METADATA
+    resolved_class: PreTrainedTokenizerFast
     training_padding_side: right
     generation_padding_side: left
     pad_policy: ALIAS_EXISTING_EOS_NO_NEW_TOKEN
     pad_loss_policy: Mask only attention_mask==0 positions with -100; preserve genuine EOS targets
     bos_token: <|begin_of_text|>
     eos_token: <|end_of_text|>
-    numeric_special_token_ids: RESOLVE_FROM_PINNED_TOKENIZER_NEVER_GUESS
+    numeric_special_token_ids:
+      bos: 128000
+      eos: 128001
+      padding_alias: 128001
     add_special_tokens: false
     bos_policy: Exactly one existing BOS per independent context; no chat template
     eos_policy: Append existing EOS only at a genuine completed unit boundary; never fabricate EOS at truncation;
@@ -81,7 +84,7 @@ base_freeze:
   context:
     upstream_advertised_tokens: 128K
     upstream_capability_tokens: 131072
-    pinned_config_value_verification: PENDING_AUTHENTICATED_CONFIG_READ
+    pinned_config_value_verification: VERIFIED_AUTHENTICATED_CONFIG_131072
     practical_max_tokens_including_specials: 2048
     low_memory_max_tokens_including_specials: 1024
     actual_horizon: null
@@ -215,8 +218,8 @@ base_freeze:
     acceptable_use_url: https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/USE_POLICY.md
     license_acceptance_required: true
     account_approval_required: true
-    owner_confirmation: PENDING
-    authenticated_metadata_verified: false
+    owner_confirmation: USER_CONFIRMED_HF_ACCESS_GRANTED
+    authenticated_metadata_verified: true
     hf_token: Colab Secrets or RunPod environment; least-privilege token for approved account; never print/commit/embed
       in notebooks
     credential_search_performed: false
@@ -235,15 +238,8 @@ base_freeze:
       in manifest
     checkpoint_directory: checkpoints/step-{global_step}/
     adapter_files: [adapter_model.safetensors, adapter_config.json]
-    required_run_files:
-    - config.yaml
-    - metrics.json
-    - logs/
-    - manifest.json
-    - environment.json
-    - dependency-lock.txt
-    - install-report.json
-    - checksums.sha256
+    required_run_files: [config.yaml, metrics.json, logs/, manifest.json, environment.json, dependency-lock.txt,
+      install-report.json, checksums.sha256]
     manifest_fields:
     - base_model_id
     - base_model_revision
@@ -310,15 +306,10 @@ base_freeze:
     created: false
     source_label_scope: UNRESOLVED_DENY
   review:
-    status: ENGINEERING_POLICIES_REVIEWED_ACCESS_EVIDENCE_PENDING
+    status: PASS_METADATA_VERIFIED_RUNTIME_PREFLIGHT_DEFERRED
     evidence: docs/protocol/P2.PRE-base-model-freeze.md
     gate_signature_created: false
-  unresolved_fields:
-  - access.owner_confirmation
-  - access.authenticated_metadata_verified
-  - revision_policy.model_config_sha256
-  - revision_policy.tokenizer_config_sha256
-  - tokenizer.resolved_class
+  unresolved_fields: []
   pass_criteria:
   - Official immutable model/tokenizer identities verified
   - Authenticated pinned config/tokenizer metadata read and hashed; actual loading class/special-token contract
@@ -330,14 +321,9 @@ base_freeze:
     owner: P2.1
     required_before_training: true
     executed: false
-    checks:
-    - model/tokenizer smoke-load
-    - revision and metadata/hash agreement
-    - GPU kernel and precision support
-    - finite forward/backward on allowed source inputs
-    - peak VRAM and throughput
-    - adapter isolation and frozen base assertion
-    - Linux lock/pip check/import verification
+    checks: [model/tokenizer smoke-load, revision and metadata/hash agreement, GPU kernel and precision support,
+      finite forward/backward on allowed source inputs, peak VRAM and throughput, adapter isolation and frozen base
+        assertion, Linux lock/pip check/import verification]
   planned_artifact: reports/phase2/base-freeze/LLM-BASE-001.json
   roadmap_status_update:
     id: P2-PRE-STATUS-001
@@ -350,5 +336,52 @@ base_freeze:
       Task Register!K13:
         before: Not started
         after: Blocked
+    phase1_changed: false
+    gate_signature_created: false
+    result_workbook: docs/history/Bang_ke_hoach_SeqLogAD--P2.PRE-blocked-2026-09-09.xlsx
+  authenticated_verification:
+    verified_on: '2026-09-10'
+    auth_available: true
+    gated_access: PASS
+    revision: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+    revision_api:
+      url: https://huggingface.co/api/models/meta-llama/Llama-3.1-8B/revision/d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+      response_sha256: 88f127f76d6d9c58e58d8c041632c3a3ecf89487f348800bfdcc975a6db93af8
+      observed_sha: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+    files:
+      config.json:
+        path: docs/references/P2.PRE-metadata/config.json
+        sha256: 54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd
+        revision: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/d04e592bb4f6aa9cfee91e2e20afa771667e1d4b/config.json
+        http_status: 200
+        bytes: 826
+      tokenizer_config.json:
+        path: docs/references/P2.PRE-metadata/tokenizer_config.json
+        sha256: 8004530facf809ac432114de2a4dcc65fcb632da5ec16d666091aeb6a2ee444a
+        revision: d04e592bb4f6aa9cfee91e2e20afa771667e1d4b
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/d04e592bb4f6aa9cfee91e2e20afa771667e1d4b/tokenizer_config.json
+        http_status: 200
+        bytes: 50500
+    loader_sources:
+      models/auto/tokenization_auto.py:
+        url: https://raw.githubusercontent.com/huggingface/transformers/v4.57.6/src/transformers/models/auto/tokenization_auto.py
+        sha256: 5265e6def5a83c1b37871fa46ff2a59440ef80b377c249bc0c2135353157f730
+      tokenization_utils_fast.py:
+        url: https://raw.githubusercontent.com/huggingface/transformers/v4.57.6/src/transformers/tokenization_utils_fast.py
+        sha256: 558e454ee6850e90e8bc5d1782e35878dfda1da9bfdf997ae113fa7ff771a0f3
+    verification_scope: METADATA_AND_PINNED_LOADER_SOURCE_NOT_RUNTIME_SMOKE_LOAD
+    model_weights_downloaded: false
+  completion_status_update:
+    id: P2-PRE-PASS-001
+    scope: STATUS_ONLY
+    previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--P2.PRE-blocked-2026-09-09.xlsx
+    previous_projection: docs/history/excel-roadmap--P2.PRE-blocked-2026-09-09.yaml
+    from_sha256: e9212aafec475bf379f4e7836cdf1071332e357492be065107c9aabb83736c42
+    to_sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
+    changed_cells:
+      Task Register!K13:
+        before: Blocked
+        after: Done
     phase1_changed: false
     gate_signature_created: false

@@ -47,11 +47,11 @@ def test_unique_ids_and_exact_linear_order_across_authorities():
         contract = P2["tasks"][task["task_id"]]
         assert task["dependencies"] == contract["depends_on"] == expected
         assert task["workstream"] == contract["name"]
-        assert task["workbook_status"] == ("Blocked" if index == 0 else "Not started")
+        assert task["workbook_status"] == ("Done" if index == 0 else "Not started")
     for task in roadmap["tasks"]:
         assert set(task["dependencies"]) <= set(ids)
     for path in (".ai/task-routing.md", ".ai/primary-context.md", "README.md"):
-        assert "NEXT_AUTHORIZED_TASK = P2.PRE" in (ROOT / path).read_text()
+        assert "NEXT_AUTHORIZED_TASK = P2.1" in (ROOT / path).read_text()
     routing = (ROOT / ".ai/task-routing.md").read_text()
     assert " → ".join(ORDER) in routing
 
@@ -120,11 +120,11 @@ def test_data_notebooks_experts_and_label_permissions_are_unchanged():
         assert "SOURCE_LABEL_SCOPE_FOR_SUPERVISED_METRICS" in P2["tasks"][tid]["blockers"]
 
 
-def test_base_prerequisite_is_metadata_only_and_cannot_claim_pass():
+def test_base_prerequisite_pass_is_metadata_only():
     base = read(P2["base_freeze_contract"])["base_freeze"]
     assert base["task_id"] == "P2.PRE"
-    assert base["status"] == "BLOCKED"
-    assert base["completion_status"] == "METADATA_POLICIES_FROZEN_ACCESS_BLOCKED"
+    assert base["status"] == "PASS"
+    assert base["completion_status"] == "METADATA_VERIFIED"
     assert base["execution_scope"] == "METADATA_ONLY"
     assert base["download_authorized"] is base["training_authorized"] is False
     fields = base["required_metadata"]
@@ -152,13 +152,14 @@ def test_base_prerequisite_is_metadata_only_and_cannot_claim_pass():
 
     for key, expected in policy_refs.items():
         assert fields[key] == expected
-    assert base["review"]["status"] == "ENGINEERING_POLICIES_REVIEWED_ACCESS_EVIDENCE_PENDING"
+    assert base["review"]["status"] == "PASS_METADATA_VERIFIED_RUNTIME_PREFLIGHT_DEFERRED"
     assert base["future_runtime_preflight"]["owner"] == "P2.1"
     assert base["future_runtime_preflight"]["executed"] is False
     state = read("configs/active-state.yaml")["active_state"]
-    assert state["next_authorized_task"] == "P2.PRE"
-    assert state["semantic_execution_authorized"] is state["phase3_enabled"] is False
-    assert P2["tasks"]["P2.1"]["execution_authorized"] is False
+    assert state["next_authorized_task"] == "P2.1"
+    assert state["semantic_execution_authorized"] is True
+    assert state["phase3_enabled"] is False
+    assert P2["tasks"]["P2.1"]["execution_authorized"] is True
     assert P2["training_authorized"] is P2["phase3_enabled"] is False
     assert all(state["gates"][g] == "NOT_PASSED" for g in ("G1", "G2", "G3", "G4"))
 
