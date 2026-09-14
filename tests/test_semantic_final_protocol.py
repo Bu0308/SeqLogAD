@@ -117,7 +117,8 @@ def test_kaggle_final_notebook_discovers_read_only_inputs_and_writes_only_to_wor
     for term in ['/kaggle/input', '/kaggle/working', 'kaggle_secrets',
                  'rglob("manifests/bundle.json")', 'CODE_PROVENANCE.json',
                  'P2.1-FINAL-', 'EXPECTED_BUNDLE_SHA256', 'PATCHED_IN_WORKING_COPY',
-                 'env.pop("PYTHONPATH", None)', 'isolated_subprocess_env()']:
+                 'env.pop("PYTHONPATH", None)', 'isolated_subprocess_env()',
+                 'wrapt>=1.16,<2']:
         assert term in code
     for forbidden in ['/content/', 'google.colab', 'files.download', 'RUN_MODE = "pilot"']:
         assert forbidden not in code

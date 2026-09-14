@@ -1,5 +1,3 @@
-<div align="center">
-
 # SeqLogAD
 
 ### Domain-Adaptive Fusion for Zero-Label Cross-System Log Anomaly Detection
