@@ -1,0 +1,22 @@
+{
+  "artifact_integrity": "PASS_WITH_MINOR_LEDGER_HARDENING",
+  "artifact_path": "outputs/colab/seqlogad_outputs.zip",
+  "artifact_sha256": "2df2bfcc554f32ac7dd2e566952d719dedd4998564007789ad4c37f788961d24",
+  "best_checkpoint": "step-300",
+  "best_checkpoint_adapter_sha256": "bc93340c67a0c2a8930456847b4e25fd1f1a643f503071cffdda7840c9661f9d",
+  "fold_id": "FOLD-TARGET-ARCH-BGL",
+  "pilot_status": "PASS",
+  "registered_at": "2026-09-13",
+  "run_id": "PILOT-BGL-20260912-100258",
+  "run_type": "PILOT",
+  "scientific_status": "NOT_EVALUATED",
+  "selected_checkpoint_engineering_evaluation": "REQUIRES_AUTHENTICATED_CUDA_RUN",
+  "validation_curve": {
+    "100": 0.09528828066557556,
+    "200": 0.06028573137646731,
+    "300": 0.050859822091107766,
+    "400": 0.056795481179979866,
+    "500": 0.05473682772514129
+  },
+  "weakness": "Pilot top-level ledger omits five nested checksums.sha256 files; nested ledgers and outer ZIP hash were independently verified. Future final runs require direct nested-ledger coverage."
+}

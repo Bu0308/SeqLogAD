@@ -1,0 +1,72 @@
+semantic:
+  id: LORA-SEM-001
+  version: '1.0'
+  expert_id: SEMANTIC_LLAMA
+  adapter_name: semantic
+  base_contract: configs/models/base-freeze-v1.yaml
+  training_mode: QLORA_NF4_DOUBLE_QUANT
+  objective: CAUSAL_SINGLE_MESSAGE_DENOISING_RECONSTRUCTION
+  input_field: normalized_message
+  mask_fraction: 0.30
+  seed: 42
+  context_length: 512
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  learning_rate: 0.0001
+  micro_batch_size: 1
+  gradient_accumulation_steps: 16
+  max_steps: 500
+  warmup_steps: 25
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  save_steps: 100
+  train_records_per_source: 4096
+  validation_records_per_source: 128
+  validation_selection: SEEDED_SOURCE_RANK_SUBSET_LABEL_FREE
+  checkpoint_selection: LOWEST_SOURCE_VALIDATION_RECONSTRUCTION_NLL
+  corruption_policy: DETERMINISTIC_WORD_MASK_BY_TEXT_AND_SEED
+  truncation_policy: DECREASING_HEAD_WORD_PREFIX_FITTING_BOTH_PROMPT_AND_TARGET
+  source_alignment: NOT_IMPLEMENTED
+  domain_adversarial_disposition: DEFERRED_CONDITIONAL_REP_DG_001_NO_DANN_CLAIM
+  clean_normal_claim: false
+  source_label_status: UNRESOLVED_DENY
+  real_training_completed: false
+  fp16_initial_scale: 1.0
+  fp16_growth_interval: 2000
+  numerical_failure_policy: ABORT_NO_SKIPPED_UPDATES
+  run_mode: pilot
+  validation_steps: 100
+  early_stopping_patience: null
+  early_stopping_min_delta: 0.0
+  final_protocol:
+    status: FROZEN
+    frozen_at: '2026-09-13'
+    regime: UNLABELED_POSSIBLY_CONTAMINATED
+    target_folds:
+      - FOLD-TARGET-ARCH-HDFS
+      - FOLD-TARGET-ARCH-BGL
+      - FOLD-TARGET-ARCH-HADOOP
+    seeds: [42, 3407, 8675309]
+    train_records_per_source: 8192
+    validation_records_per_source: 512
+    source_balancing: UNIFORM_SOURCE_THEN_UNIFORM_RECORD_WITH_REPLACEMENT
+    max_steps: 1536
+    effective_batch_size: 16
+    micro_batch_size: 1
+    gradient_accumulation_steps: 16
+    learning_rate: 0.0001
+    warmup_steps: 100
+    context_length: 512
+    validation_steps: 100
+    save_steps: 100
+    early_stopping_patience: 3
+    early_stopping_min_delta: 0.001
+    checkpoint_selection: LOWEST_AGGREGATE_SOURCE_VALIDATION_RECONSTRUCTION_NLL
+    tie_breaking: EARLIEST_STEP
+    lora:
+      rank: 16
+      alpha: 32
+      dropout: 0.05
+      target_modules: [q_proj, k_proj, v_proj, o_proj]

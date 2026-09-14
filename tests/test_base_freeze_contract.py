@@ -61,7 +61,7 @@ def test_authenticated_metadata_is_required_for_pass_and_only_semantic_is_author
     assert verification['model_weights_downloaded'] is False
     assert P2['tasks']['P2.1']['depends_on'] == ['P2.PRE']
     assert P2['tasks']['P2.1']['execution_authorized'] is STATE['semantic_execution_authorized'] is True
-    assert P2['tasks']['P2.1']['status'] == 'NOT_STARTED'
+    assert P2['tasks']['P2.1']['status'] in {'IMPLEMENTING', 'IMPLEMENTATION_READY'}
     assert all(not P2['tasks'][f'P2.{i}']['execution_authorized'] for i in range(2, 8))
     assert STATE['phase3_enabled'] is P2['phase3_enabled'] is False
     assert BASE['data']['source_label_scope'] == P2['source_label_scope'] == 'UNRESOLVED_DENY'
@@ -103,8 +103,8 @@ def test_colab_contract_preserves_data_and_future_notebooks():
     assert BASE['data']['root'] == P2['portability']['data_root'] == 'data/phase2'
     for view in ('semantic', 'sequence', 'graph'):
         assert BASE['data'][view] == f'data/phase2/folds/{{fold_id}}/{view}'
-    assert not (ROOT / BASE['data']['root']).exists()
-    assert all(not (ROOT / expert['notebook']).exists() for expert in P2['experts'])
+    assert BASE['data']['root'] == 'data/phase2'  # Materialization belongs to P2.1, not PRE.
+    assert all(not (ROOT / expert['notebook']).exists() for expert in P2['experts'] if expert['id'] != 'SEMANTIC_LLAMA')
     assert BASE['artifacts']['output_root'] == 'outputs/phase2'
     assert {'base_model_revision', 'tokenizer_revision', 'data_manifest_sha256',
             'seqlogad_git_commit', 'hardware'} <= set(BASE['artifacts']['manifest_fields'])
@@ -156,9 +156,9 @@ def test_runtime_pins_match_verified_direct_dependency_metadata():
 def test_completion_status_update_preserves_blocked_history():
     update = BASE['completion_status_update']
     before_path = ROOT / update['previous_workbook']
-    after_path = ROOT / 'Bang_ke_hoach_SeqLogAD.xlsx'
+    after_path = ROOT / P2['tasks']['P2.1']['roadmap_update']['previous_workbook']
     assert hashlib.sha256(before_path.read_bytes()).hexdigest() == update['from_sha256'] == BASE['roadmap_status_update']['to_sha256']
-    assert hashlib.sha256(after_path.read_bytes()).hexdigest() == update['to_sha256'] == STATE['authoritative_plan']['sha256']
+    assert hashlib.sha256(after_path.read_bytes()).hexdigest() == update['to_sha256']
     snapshots = [{f'{s.title}!{c.coordinate}': c.value for s in openpyxl.load_workbook(p)
                   for row in s for c in row if c.value is not None} for p in (before_path, after_path)]
     before, after = snapshots

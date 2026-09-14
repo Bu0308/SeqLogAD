@@ -32,7 +32,7 @@ which criteria hold; it may not declare a gate passed.
 
 `CURRENT_PHASE = P1_COMPLETE` · `G0 = PASSED` (signed 2026-09-06) ·
 `NEXT_AUTHORIZED_TASK = P2.1`; P2.PRE PASS after authenticated metadata verification;
-P2.1 execution_authorized=true, NOT_STARTED ·
+P2.1 execution_authorized=true; IMPLEMENTATION_READY, training NOT_STARTED ·
 `G1..G4 = NOT_PASSED` · `EXC-003` blocks G1 for the ARCH-HADOOP fold.
 
 ## Retired routing

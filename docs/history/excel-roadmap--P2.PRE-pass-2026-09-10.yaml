@@ -2,7 +2,7 @@ roadmap:
   schema_version: '1.0'
   authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
   source_workbook: Bang_ke_hoach_SeqLogAD.xlsx
-  source_workbook_sha256: 154a69a1092605739bf1d4646399b120c00b09235c810798790297030d4873b4
+  source_workbook_sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
   worksheets:
   - Executive
   - Roadmap
@@ -457,7 +457,7 @@ roadmap:
     - P2.PRE
     definition_of_done: P2.PRE PASS before execution; independent adapter and scoring provenance, label-free
       source train/validation, semantic notebook and tests; REP-DG-001 conditional disposition recorded.
-    workbook_status: In progress
+    workbook_status: Not started
     playbook:
       method: Implement semantic self-supervision and scoring with independent LoRA-Semantic. Retain source
         alignment / domain-adversarial diagnostic as conditional REP-DG-001 with explicit disposition;

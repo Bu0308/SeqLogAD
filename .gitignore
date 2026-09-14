@@ -71,3 +71,8 @@ Question.md
 .ai/
 # Phase-2 local training artifacts; configs/manifests for review live in docs/configs.
 outputs/phase2/**
+
+# Prepared semantic corpora and portable local upload bundles
+data/phase2/**
+data/phase2.building/**
+outputs/colab/**

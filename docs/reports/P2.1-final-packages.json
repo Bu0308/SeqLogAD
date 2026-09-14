@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-09-13",
+  "data_package_rebuilt": false,
+  "data_archive": {
+    "path": "outputs/colab/phase2-final.zip",
+    "sha256": "ebcfdfd6eb7b1607eb6d57e60fae88456d03bcb8ae2c6688ea398042c856224b",
+    "extraction_validation": "PASS"
+  },
+  "code_archive": {
+    "path": "outputs/colab/seqlogad-code-final.zip",
+    "sha256": "99c61ed60062db2c012dd3e4272eb01f70ef4e7096fab195028b6324a190ac0c",
+    "extraction_validation": "PASS"
+  },
+  "forbidden_content": {
+    "hf_tokens": false,
+    "llama_base_weights": false,
+    "pilot_checkpoints": false
+  }
+}

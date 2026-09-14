@@ -1,0 +1,16 @@
+{
+  "protocol_status": "FROZEN",
+  "scientific_result": "NOT_EVALUATED",
+  "training_status": "NOT_STARTED",
+  "runs": [
+    {"fold_id":"FOLD-TARGET-ARCH-BGL","seed":42,"run_id":"P2.1-FINAL-BGL-S42"},
+    {"fold_id":"FOLD-TARGET-ARCH-BGL","seed":3407,"run_id":"P2.1-FINAL-BGL-S3407"},
+    {"fold_id":"FOLD-TARGET-ARCH-BGL","seed":8675309,"run_id":"P2.1-FINAL-BGL-S8675309"},
+    {"fold_id":"FOLD-TARGET-ARCH-HDFS","seed":42,"run_id":"P2.1-FINAL-HDFS-S42"},
+    {"fold_id":"FOLD-TARGET-ARCH-HDFS","seed":3407,"run_id":"P2.1-FINAL-HDFS-S3407"},
+    {"fold_id":"FOLD-TARGET-ARCH-HDFS","seed":8675309,"run_id":"P2.1-FINAL-HDFS-S8675309"},
+    {"fold_id":"FOLD-TARGET-ARCH-HADOOP","seed":42,"run_id":"P2.1-FINAL-HADOOP-S42"},
+    {"fold_id":"FOLD-TARGET-ARCH-HADOOP","seed":3407,"run_id":"P2.1-FINAL-HADOOP-S3407"},
+    {"fold_id":"FOLD-TARGET-ARCH-HADOOP","seed":8675309,"run_id":"P2.1-FINAL-HADOOP-S8675309"}
+  ]
+}

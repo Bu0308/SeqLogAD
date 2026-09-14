@@ -1,5 +1,6 @@
 """P2.0.1 authority, provenance and fail-closed execution guards."""
 
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -47,7 +48,7 @@ def test_unique_ids_and_exact_linear_order_across_authorities():
         contract = P2["tasks"][task["task_id"]]
         assert task["dependencies"] == contract["depends_on"] == expected
         assert task["workstream"] == contract["name"]
-        assert task["workbook_status"] == ("Done" if index == 0 else "Not started")
+        assert task["workbook_status"] == ("Done" if index == 0 else "In progress" if index == 1 else "Not started")
     for task in roadmap["tasks"]:
         assert set(task["dependencies"]) <= set(ids)
     for path in (".ai/task-routing.md", ".ai/primary-context.md", "README.md"):
@@ -105,7 +106,15 @@ def test_only_declared_phase2_and_dependent_cells_changed():
 
 def test_data_notebooks_experts_and_label_permissions_are_unchanged():
     for key, digest in MIG["preserved_p20_section_sha256"].items():
-        assert hashlib.sha256(json.dumps(P2[key], sort_keys=True).encode()).hexdigest() == digest
+        historical = copy.deepcopy(P2[key])
+        # P2.1 advances lifecycle only; reconstruct the P2.0 snapshot for its hash.
+        if key == "portability":
+            assert historical["prepared_data_status"] == "SEMANTIC_MATERIALIZED_OTHERS_NOT_CREATED"
+            historical["prepared_data_status"] = "NOT_CREATED_YET"
+        if key == "experts":
+            assert historical[0]["status"] == "IMPLEMENTATION_READY"
+            historical[0]["status"] = "PLANNED"
+        assert hashlib.sha256(json.dumps(historical, sort_keys=True).encode()).hexdigest() == digest
     assert P2["portability"]["data_root"] == "data/phase2"
     assert P2["portability"]["fold_root"] == "folds/{fold_id}"
     assert [e["notebook"] for e in P2["experts"]] == [

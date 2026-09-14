@@ -2,10 +2,10 @@ active_state:
   id: ACTIVE-STATE-G0-SIGNED-001
   version: '3.2'
   status: SYNCHRONIZED
-  synchronized_by: P2-PRE-PASS-001
+  synchronized_by: P2.1-IMPLEMENTATION-001
   authoritative_plan:
     path: Bang_ke_hoach_SeqLogAD.xlsx
-    sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
+    sha256: 154a69a1092605739bf1d4646399b120c00b09235c810798790297030d4873b4
     authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
     machine_readable_projection: configs/plan/excel-roadmap-v1.yaml
     regenerate_with: python scripts/extract_excel_roadmap.py
@@ -22,6 +22,7 @@ active_state:
       ledger: configs/protocols/g0-signatures.yaml
     phase2_migration: configs/protocols/phase2-roadmap-migration-v1.yaml
     base_freeze_status_update: configs/models/base-freeze-v1.yaml#base_freeze.completion_status_update
+    semantic_status_update: configs/protocols/phase2-architecture-v1.yaml#phase2.tasks.P2.1.roadmap_update
   implementation_contract:
     id: DOMAIN-ADAPTIVE-FUSION-001
     version: '2.0'
@@ -50,6 +51,14 @@ active_state:
   next_authorized_task_blocked_by: []
   scientific_results_status: NOT_RUN
   representation_training_status: NOT_STARTED
+  semantic_expert_status:
+    implementation_ready: true
+    bgl_pilot_closeout: PASS
+    final_protocol_frozen: true
+    final_training: NOT_STARTED
+    scientific_result: NOT_EVALUATED
+    p2_2_ready: false
+    next_task: P2.1-FINAL-COLAB-EXECUTION
   target_adaptation_status: NOT_STARTED
   phase_1_artifacts:
     dataset_registry: data/registry/dataset_registry.json
@@ -101,7 +110,7 @@ active_state:
     G0: Protocol Ready. Signed by the researcher on 2026-09-06; 19/19 criteria pass.
     G1: Adaptation Ready. Blocked for the ARCH-HADOOP fold by EXC-003 (buffer REJECTED under BUFFER-REJECT-001).
       Also depends on P3.2-P3.5.
-  next_authorized_task_status: AUTHORIZED_NOT_STARTED
+  next_authorized_task_status: IMPLEMENTATION_READY_WAITING_FOR_COLAB
   researcher_signatures:
     ledger: configs/protocols/g0-signatures.yaml
     signed_on: '2026-09-06'

@@ -11,10 +11,7 @@ phase2:
   task_namespace: P2_ARCH_V1
   routing_migration: COMPLETE
   current_workbook: Bang_ke_hoach_SeqLogAD.xlsx
-  phase1_contracts:
-  - configs/protocols/cross-system-split-v1.yaml
-  - configs/protocols/target-buffer-v1.yaml
-  - configs/parsing/normalizer-cs-v1.yaml
+  phase1_contracts: [configs/protocols/cross-system-split-v1.yaml, configs/protocols/target-buffer-v1.yaml, configs/parsing/normalizer-cs-v1.yaml]
   sequence_requirement: EXPLICIT_SEQUENCE_CAPABILITY_REQUIRED
   sequence_winner: UNDECIDED
   gtat_satisfies_sequence_role: false
@@ -22,7 +19,7 @@ phase2:
   experts:
   - id: SEMANTIC_LLAMA
     role: SEMANTIC
-    status: PLANNED
+    status: IMPLEMENTATION_READY
     model: Llama-3.1-8B
     adapter: LoRA-Semantic
     primary_objective: RAW_TEXT_SEMANTIC_SELF_SUPERVISION
@@ -65,13 +62,8 @@ phase2:
     share_adapter_weights: false
     share_adaptation_checkpoints: false
     shared_forward_or_kv_cache_assumed: false
-  sequence_controls:
-  - event_permutation
-  - missing_event
-  - duplicate_event
-  - unexpected_next_event
-  - long_range_dependency_violation
-  - locally_plausible_globally_invalid
+  sequence_controls: [event_permutation, missing_event, duplicate_event, unexpected_next_event, long_range_dependency_violation,
+    locally_plausible_globally_invalid]
   access_profiles:
     SOURCE_ONLY_LABEL_FREE:
       representation_training: [SOURCE_TRAIN]
@@ -102,7 +94,7 @@ phase2:
     practical_margin: TO_BE_PREREGISTERED_NOT_INHERITED_FROM_EFFECT_001
   portability:
     data_root: data/phase2
-    prepared_data_status: NOT_CREATED_YET
+    prepared_data_status: SEMANTIC_MATERIALIZED_OTHERS_NOT_CREATED
     fold_root: folds/{fold_id}
     train_partition: SOURCE_TRAIN
     val_partition: SOURCE_VALIDATION
@@ -244,7 +236,30 @@ phase2:
       name: Semantic Expert
       depends_on: [P2.PRE]
       old_tasks: [P2.2, P2.3, P2.4]
-      status: NOT_STARTED
+      status: IMPLEMENTATION_READY
+      implementation_ready: true
+      training_completed: false
+      waiting_for_colab_run: false
+      pilot_closeout: PASS
+      pilot_run_id: PILOT-BGL-20260912-100258
+      pilot_best_checkpoint: step-300
+      final_protocol_frozen: true
+      final_training_status: NOT_STARTED
+      scientific_result: NOT_EVALUATED
+      next_task: P2.1-FINAL-COLAB-EXECUTION
+      implementation_contract: docs/protocol/P2.1-semantic-expert.md
+      implementation_config: configs/models/semantic-v1.yaml
+      roadmap_update:
+        id: P2.1-IMPLEMENTATION-001
+        previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--P2.PRE-pass-2026-09-10.xlsx
+        previous_projection: docs/history/excel-roadmap--P2.PRE-pass-2026-09-10.yaml
+        from_sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
+        to_sha256: 154a69a1092605739bf1d4646399b120c00b09235c810798790297030d4873b4
+        changed_cells:
+          Task Register!K14:
+            before: Not started
+            after: In progress
+        gate_signature_created: false
     P2.2:
       execution_authorized: false
       blockers: [PREDECESSOR_NOT_COMPLETE]

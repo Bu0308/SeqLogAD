@@ -16,7 +16,7 @@ A research project testing **whether knowledge transfers across heterogeneous lo
 </div>
 
 > [!IMPORTANT]
-> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 (Data & Protocol) is **complete and signed**: gate **G0 = `PROTOCOL_READY`**, 19 of 19 criteria pass, signed by the researcher on 2026-09-06. `NEXT_AUTHORIZED_TASK = P2.1` (Semantic Expert), execution-authorized but NOT_STARTED. P2.PRE metadata freeze is PASS after authenticated verification; model/GPU smoke-load remains P2.1 preflight. G1–G4 remain closed, and `EXC-003` blocks G1 for the ARCH-HADOOP fold. No model has been trained: SeqLogAD reports **no scientific performance result**.
+> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 is complete and G0 passed. P2.PRE is PASS. `NEXT_AUTHORIZED_TASK = P2.1`: implementation and BGL pilot closeout are PASS; its final protocol is frozen, but final Colab training is NOT_STARTED and the scientific result is NOT_EVALUATED. P2.2 remains blocked. G1–G4 remain closed.
 
 ## The question
 

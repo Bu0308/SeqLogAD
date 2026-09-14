@@ -1,0 +1,63 @@
+{
+  "bundle_sha256": "3ef2bfe36d2ad68205eea4290a632eb81db0d63acfb76c92f25a3eb96e8205de",
+  "bytes": 26559518,
+  "data_root": "data/phase2",
+  "folds": {
+    "FOLD-TARGET-ARCH-BGL": {
+      "SOURCE_TRAIN": {
+        "ARCH-HADOOP": 237429,
+        "ARCH-HDFS": 4746575,
+        "ARCH-OPENSTACK": 103898
+      },
+      "SOURCE_VALIDATION": {
+        "ARCH-HADOOP": 110110,
+        "ARCH-HDFS": 1025895,
+        "ARCH-OPENSTACK": 31135
+      }
+    },
+    "FOLD-TARGET-ARCH-HADOOP": {
+      "SOURCE_TRAIN": {
+        "ARCH-BGL": 2373981,
+        "ARCH-HDFS": 4746575,
+        "ARCH-OPENSTACK": 103898
+      },
+      "SOURCE_VALIDATION": {
+        "ARCH-BGL": 712195,
+        "ARCH-HDFS": 1025895,
+        "ARCH-OPENSTACK": 31135
+      }
+    },
+    "FOLD-TARGET-ARCH-HDFS": {
+      "SOURCE_TRAIN": {
+        "ARCH-BGL": 2373981,
+        "ARCH-HADOOP": 237429,
+        "ARCH-OPENSTACK": 103898
+      },
+      "SOURCE_VALIDATION": {
+        "ARCH-BGL": 712195,
+        "ARCH-HADOOP": 110110,
+        "ARCH-OPENSTACK": 31135
+      }
+    }
+  },
+  "model_trained_locally": false,
+  "status": "PASS",
+  "portable_archive_validation": "PASS_ALL_THREE_FOLDS_AND_CODE_HASHES",
+  "upload_archives": {
+    "outputs/colab/phase2.zip": {
+      "sha256": "ebcfdfd6eb7b1607eb6d57e60fae88456d03bcb8ae2c6688ea398042c856224b",
+      "bytes": 8008605
+    },
+    "outputs/colab/seqlogad_code.zip": {
+      "sha256": "e621e86275086acf06403d02fe19d81c121462d01e92f9c2be8e9ec1d6387f78",
+      "bytes": 82432
+    }
+  },
+  "tests": {
+    "focused": "66 passed in 2.27s",
+    "full": "386 passed in 4.60s",
+    "excel": "CURRENT",
+    "references": "CURRENT",
+    "git_diff_check": "PASS"
+  }
+}

@@ -49,7 +49,7 @@ Phase 1 (P1.1–P1.8) is **complete and signed**. All eight tasks are `DONE` and
 signatures are in `../configs/protocols/g0-signatures.yaml` and are re-verified by
 exact payload match on every build.
 
-`NEXT_AUTHORIZED_TASK = P2.1` — Semantic Expert, execution-authorized=true, NOT_STARTED.
+`NEXT_AUTHORIZED_TASK = P2.1` — Semantic Expert, execution-authorized=true; implementation-ready, training NOT_STARTED.
 P2.PRE (`LLM-BASE-001`) is PASS after authenticated pinned metadata verification;
 model/GPU smoke-load remains future P2.1 preflight. Namespace P2_ARCH_V1 and historical crosswalk:
 `configs/protocols/phase2-roadmap-migration-v1.yaml`. Phase-2 contract:
