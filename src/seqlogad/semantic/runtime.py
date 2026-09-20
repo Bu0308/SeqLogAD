@@ -30,7 +30,7 @@ def install_missing(repo_root):
 def environment():
     import torch
     if not torch.cuda.is_available():
-        raise RuntimeError('Enable a Colab NVIDIA GPU runtime')
+        raise RuntimeError('Enable an NVIDIA CUDA GPU runtime')
     free, total = torch.cuda.mem_get_info()
     return {'python': platform.python_version(), 'platform': platform.platform(),
         'packages': {d.metadata['Name']: d.version for d in md.distributions()},

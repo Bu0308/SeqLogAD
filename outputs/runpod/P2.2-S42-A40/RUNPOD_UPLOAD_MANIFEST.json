@@ -1,0 +1,38 @@
+{
+  "bundle_manifest_sha256": "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129",
+  "code_after_extraction": "/workspace/SeqLogAD/runtime/412f09624920-4ed76b92e4b0/seqlogad_code_all_experts_s42",
+  "contains_base_model_weights": false,
+  "contains_semantic_adapter": false,
+  "dataset_after_extraction": "/workspace/SeqLogAD/runtime/412f09624920-4ed76b92e4b0/phase2_sequence",
+  "expert_id": "SEQUENCE_LLAMA_REFERENCE",
+  "files": {
+    "P2.2_run_all_sequence_lora_s42.ipynb": {
+      "sha256": "3e63c86ea39c455ae0623d56158ae4ee2cda33f41bf7331bf0b3e46efd4db448",
+      "size": 12831
+    },
+    "phase2-sequence-s42.zip": {
+      "sha256": "4ed76b92e4b001138b28b4b3b4d3017d6ff7f30dd31e8cca0649bfdf34ede781",
+      "size": 28268043
+    },
+    "seqlogad-code-all-experts-s42.zip": {
+      "sha256": "412f096249201edf6ba2ca908c0282b5d3d5d504c05a973023b2dcf95408bd64",
+      "size": 131540
+    }
+  },
+  "gpu": "NVIDIA A40 48GB",
+  "network_volume_mount": "/workspace",
+  "persistent_results": "/workspace/SeqLogAD/P2.2",
+  "requires_hf_token_secret": true,
+  "runtime": "RUNPOD",
+  "runtime_root": "/workspace/SeqLogAD/runtime/412f09624920-4ed76b92e4b0",
+  "schema": "SEQLOGAD-RUNPOD-UPLOAD-KIT-1",
+  "scientific_result": "NOT_EVALUATED",
+  "seed": 42,
+  "source_label_status": "UNRESOLVED_DENY",
+  "targets": [
+    "BGL",
+    "HDFS",
+    "HADOOP"
+  ],
+  "task_id": "P2.2"
+}

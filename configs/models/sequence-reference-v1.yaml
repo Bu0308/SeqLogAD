@@ -1,0 +1,71 @@
+sequence_reference:
+  id: LORA-SEQ-001
+  version: '1.0'
+  expert_id: SEQUENCE_LLAMA_REFERENCE
+  adapter_name: sequence
+  base_contract: configs/models/base-freeze-v1.yaml
+  implementation_contract: docs/protocol/P2.2-sequence-reference.md
+  training_mode: QLORA_NF4_DOUBLE_QUANT
+  run_mode: development
+  seed: 42
+  objective: CAUSAL_NEXT_LOG_TARGET_TOKEN_NLL
+  score_direction: HIGHER_IS_MORE_ANOMALOUS
+  target_scoring_unit: MEAN_NLL_OVER_TARGET_LOG_TOKENS
+  context_policy:
+    max_predecessor_records: 8
+    minimum_predecessor_records: 1
+    group_when_available: true
+    missing_group_policy: GLOBAL_ARCHITECTURE_PARTITION_CHRONOLOGY
+    reset_boundaries: [ARCHITECTURE, PARTITION, GROUP]
+    crop_policy: DROP_OLDEST_WHOLE_CONTEXT_RECORD_THEN_DECREASE_TARGET_WORD_PREFIX
+    cross_partition_context: false
+    cross_architecture_context: false
+  materialization:
+    train_candidate_windows_per_source: 32768
+    validation_candidate_windows_per_source: 2048
+    selection: LOWEST_SHA256_OF_FOLD_INDEPENDENT_ARCH_PARTITION_TARGET_RANK
+    includes_labels: false
+    includes_target_data: false
+  context_length: 512
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  learning_rate: 0.0001
+  micro_batch_size: 1
+  gradient_accumulation_steps: 16
+  max_steps: 1536
+  warmup_steps: 100
+  max_grad_norm: 1.0
+  weight_decay: 0.0
+  save_steps: 100
+  validation_steps: 100
+  train_windows_per_source: 8192
+  validation_windows_per_source: 512
+  source_balancing: UNIFORM_SOURCE_THEN_UNIFORM_WINDOW_WITH_REPLACEMENT
+  validation_selection: SEEDED_SOURCE_WINDOW_SUBSET_LABEL_FREE
+  checkpoint_selection: LOWEST_AGGREGATE_SOURCE_VALIDATION_NEXT_LOG_NLL
+  tie_breaking: EARLIEST_STEP
+  early_stopping_patience: 3
+  early_stopping_min_delta: 0.001
+  fp16_initial_scale: 1.0
+  fp16_growth_interval: 2000
+  numerical_failure_policy: ABORT_NO_SKIPPED_UPDATES
+  clean_normal_claim: false
+  source_label_status: UNRESOLVED_DENY
+  real_training_completed: false
+  target_folds:
+    - FOLD-TARGET-ARCH-BGL
+    - FOLD-TARGET-ARCH-HDFS
+    - FOLD-TARGET-ARCH-HADOOP
+  sequence_controls:
+    - event_permutation
+    - missing_event
+    - duplicate_event
+    - unexpected_next_event
+    - long_range_dependency_violation
+    - locally_plausible_globally_invalid
+  completion_claims:
+    scientific_result: NOT_EVALUATED
+    multi_seed_stability: NOT_CLAIMED
+    winner_selection: FORBIDDEN

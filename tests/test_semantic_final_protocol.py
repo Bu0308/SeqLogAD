@@ -79,14 +79,14 @@ def test_hardened_run_ledger_directly_covers_nested_ledgers(tmp_path):
         verify_seal(tmp_path, require_nested_ledgers=True)
 
 
-def test_status_does_not_unlock_p2_2():
+def test_completed_development_wave_unlocks_p2_2_without_scientific_claim():
     phase2 = yaml.safe_load((ROOT / 'configs/protocols/phase2-architecture-v1.yaml').read_text())['phase2']
     p21 = phase2['tasks']['P2.1']
     assert p21['pilot_closeout'] == 'PASS'
     assert p21['final_protocol_frozen'] is True
-    assert p21['final_training_status'] == 'NOT_STARTED'
+    assert p21['final_training_status'] == 'DEVELOPMENT_S42_COMPLETE'
     assert p21['scientific_result'] == 'NOT_EVALUATED'
-    assert phase2['tasks']['P2.2']['execution_authorized'] is False
+    assert phase2['tasks']['P2.2']['execution_authorized'] is True
 
 
 def test_notebook_has_explicit_pilot_and_final_modes():

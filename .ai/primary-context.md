@@ -49,9 +49,14 @@ Phase 1 (P1.1–P1.8) is **complete and signed**. All eight tasks are `DONE` and
 signatures are in `../configs/protocols/g0-signatures.yaml` and are re-verified by
 exact payload match on every build.
 
-`NEXT_AUTHORIZED_TASK = P2.1` — Semantic Expert, execution-authorized=true; implementation-ready, training NOT_STARTED.
+`NEXT_AUTHORIZED_TASK = P3.1` — Sequence Reference Framework,
+execution-authorized=true and implementation-ready for the RunPod A40 seed-42 wave.
+Phase 2 (P2.PRE and P2.1) seed-42 development execution is complete; its scientific result remains
+NOT_EVALUATED and no multi-seed claim is made.
 P2.PRE (`LLM-BASE-001`) is PASS after authenticated pinned metadata verification;
-model/GPU smoke-load remains future P2.1 preflight. Namespace P2_ARCH_V1 and historical crosswalk:
+model/GPU smoke-load was part of completed P2.1 execution. Current planning namespace
+SIX_PHASE_V1; crosswalk: `configs/plan/six-phase-migration-v1.yaml`.
+Existing runtime namespace P2_ARCH_V1 and historical crosswalk:
 `configs/protocols/phase2-roadmap-migration-v1.yaml`. Phase-2 contract:
 `configs/protocols/phase2-architecture-v1.yaml`; source-label C2 remains denied.
 
@@ -60,7 +65,8 @@ buffer is `REJECTED` under `BUFFER-REJECT-001`, so that fold may not build targe
 memory, calibrate, fit drift or set abstention thresholds. Relaxing the readiness
 minima is a forbidden remedy.
 
-Scientific results: `NOT_RUN`. No model has been trained.
+Scientific results: `NOT_RUN`. Development training artifacts are not scientific
+results and do not pass G2.
 
 ## 6. What must never happen?
 

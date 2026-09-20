@@ -41,20 +41,24 @@ def test_unique_ids_and_exact_linear_order_across_authorities():
     roadmap = read("configs/plan/excel-roadmap-v1.yaml")["roadmap"]
     ids = [t["task_id"] for t in roadmap["tasks"]]
     assert len(ids) == len(set(ids)) == 32
-    tasks = [t for t in roadmap["tasks"] if t["task_id"].startswith("P2.")]
-    assert [t["task_id"] for t in tasks] == list(P2["tasks"]) == MIG["execution_order"] == ORDER
+    mapping = read("configs/plan/six-phase-migration-v1.yaml")["migration"]["mapping_old_to_new"]
+    tasks = [t for t in roadmap["tasks"] if t["task_id"] in {mapping[key] for key in ORDER}]
+    assert [t["task_id"] for t in tasks] == [mapping[key] for key in ORDER]
+    assert list(P2["tasks"]) == MIG["execution_order"] == ORDER
     for index, task in enumerate(tasks):
         expected = ["P1.8"] if index == 0 else [ORDER[index - 1]]
-        contract = P2["tasks"][task["task_id"]]
-        assert task["dependencies"] == contract["depends_on"] == expected
-        assert task["workstream"] == contract["name"]
-        assert task["workbook_status"] == ("Done" if index == 0 else "In progress" if index == 1 else "Not started")
+        contract = P2["tasks"][ORDER[index]]
+        assert contract["depends_on"] == expected
+        assert task["dependencies"] == [mapping.get(key, key) for key in expected]
+        assert task["workstream"] == ("Expert Freeze" if index == 7 else contract["name"])
+        expected_status = "Done" if index in {0, 1} else "In progress" if index == 2 else "Not started"
+        assert task["workbook_status"] == expected_status
     for task in roadmap["tasks"]:
         assert set(task["dependencies"]) <= set(ids)
     for path in (".ai/task-routing.md", ".ai/primary-context.md", "README.md"):
-        assert "NEXT_AUTHORIZED_TASK = P2.1" in (ROOT / path).read_text()
+        assert "NEXT_AUTHORIZED_TASK = P3.1" in (ROOT / path).read_text()
     routing = (ROOT / ".ai/task-routing.md").read_text()
-    assert " → ".join(ORDER) in routing
+    assert "P3.1 → P3.2" in routing and "P4.1 → P4.2 → P4.3 → P4.4" in routing
 
 
 def test_every_old_phase2_id_has_an_unambiguous_historical_crosswalk():
@@ -109,11 +113,15 @@ def test_data_notebooks_experts_and_label_permissions_are_unchanged():
         historical = copy.deepcopy(P2[key])
         # P2.1 advances lifecycle only; reconstruct the P2.0 snapshot for its hash.
         if key == "portability":
-            assert historical["prepared_data_status"] == "SEMANTIC_MATERIALIZED_OTHERS_NOT_CREATED"
+            assert historical["prepared_data_status"] == "SEMANTIC_AND_SEQUENCE_MATERIALIZED_GRAPH_NOT_CREATED"
             historical["prepared_data_status"] = "NOT_CREATED_YET"
         if key == "experts":
             assert historical[0]["status"] == "IMPLEMENTATION_READY"
             historical[0]["status"] = "PLANNED"
+            assert historical[1]["status"] == "IMPLEMENTATION_READY_DEVELOPMENT_S42"
+            historical[1]["status"] = "REFERENCE_CANDIDATE"
+            historical[1].pop("implementation_contract")
+            historical[1].pop("implementation_config")
         assert hashlib.sha256(json.dumps(historical, sort_keys=True).encode()).hexdigest() == digest
     assert P2["portability"]["data_root"] == "data/phase2"
     assert P2["portability"]["fold_root"] == "folds/{fold_id}"
@@ -165,9 +173,10 @@ def test_base_prerequisite_pass_is_metadata_only():
     assert base["future_runtime_preflight"]["owner"] == "P2.1"
     assert base["future_runtime_preflight"]["executed"] is False
     state = read("configs/active-state.yaml")["active_state"]
-    assert state["next_authorized_task"] == "P2.1"
+    assert state["next_authorized_task"] == "P3.1"
     assert state["semantic_execution_authorized"] is True
-    assert state["phase3_enabled"] is False
+    assert state["phase3_enabled"] is True
+    assert state["phase5_enabled"] is False
     assert P2["tasks"]["P2.1"]["execution_authorized"] is True
     assert P2["training_authorized"] is P2["phase3_enabled"] is False
     assert all(state["gates"][g] == "NOT_PASSED" for g in ("G1", "G2", "G3", "G4"))

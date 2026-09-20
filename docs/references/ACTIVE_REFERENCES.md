@@ -11,7 +11,7 @@ Organised according to `Bang_ke_hoach_SeqLogAD.xlsx`. Verified 2026-09-07 agains
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S1` | Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics | 2023 | IEEE International Symposium on Software Reliability Engineering (ISSRE) | [link](https://doi.org/10.1109/ISSRE59848.2023.00071) | P1.2, P1.3, P1.8, P4.6, P4.8 | Provenance and architecture diversity of the four active corpora. |
+| `S1` | Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics | 2023 | IEEE International Symposium on Software Reliability Engineering (ISSRE) | [link](https://doi.org/10.1109/ISSRE59848.2023.00071) | P1.2, P1.3, P1.8, P6.6, P6.8 | Provenance and architecture diversity of the four active corpora. |
 | `S16` | Loghub: A Large Collection of System Log Datasets for AI-driven Log Analytics (dataset record) | 2023 | Zenodo | [link](https://doi.org/10.5281/zenodo.8196385) | P1.2; P1.8 | Download source, CC-BY-4.0 licence and published MD5 digests. |
 | `S12` | Detecting large-scale system problems by mining console logs | 2009 | ACM SIGOPS Symposium on Operating Systems Principles (SOSP) | [link](https://doi.org/10.1145/1629575.1629587) | P1.2; ARCH-HDFS registry row | Origin and block-trace labelling of HDFS_v1. |
 | `S13` | What Supercomputers Say: A Study of Five System Logs | 2007 | IEEE/IFIP International Conference on Dependable Systems and Networks (DSN) | [link](https://doi.org/10.1109/DSN.2007.103) | P1.2; ARCH-BGL registry row | Origin of the BGL log and its inline alert markers. |
@@ -29,27 +29,27 @@ Organised according to `Bang_ke_hoach_SeqLogAD.xlsx`. Verified 2026-09-07 agains
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S3` | LogDLR: Unsupervised Cross-System Log Anomaly Detection Through Domain-Invariant Latent Representation | 2025 | IEEE Transactions on Dependable and Secure Computing | [link](https://doi.org/10.1109/TDSC.2025.3548050) | P1.1, P1.2, P1.5, P1.7, P2.1, P2.6, P2.7, P3.1, P3.4, P4.1, P4.2, P4.7, P4.8 | Published evidence that cross-system domain-invariant representation is a live direction. |
-| `S4` | ZeroLog: Zero-Label Generalizable Cross-System Log-based Anomaly Detection | 2025 | arXiv | [link](https://arxiv.org/abs/2511.05862) | P1.1, P1.2, P1.5, P1.6, P1.7, P1.8, P2.1, P2.2, P2.3, P3.2, P3.3, P3.7, P4.1, P4.2, P4.4, P4.5, P4.7, P4.8 | Design reference for the zero-label target protocol. |
+| `S3` | LogDLR: Unsupervised Cross-System Log Anomaly Detection Through Domain-Invariant Latent Representation | 2025 | IEEE Transactions on Dependable and Secure Computing | [link](https://doi.org/10.1109/TDSC.2025.3548050) | P1.1, P1.2, P1.5, P1.7, P2.1, P4.3, P4.4, P5.1, P5.4, P6.1, P6.2, P6.7, P6.8 | Published evidence that cross-system domain-invariant representation is a live direction. |
+| `S4` | ZeroLog: Zero-Label Generalizable Cross-System Log-based Anomaly Detection | 2025 | arXiv | [link](https://arxiv.org/abs/2511.05862) | P1.1, P1.2, P1.5, P1.6, P1.7, P1.8, P2.1, P3.1, P3.2, P5.2, P5.3, P5.7, P6.1, P6.2, P6.4, P6.5, P6.7, P6.8 | Design reference for the zero-label target protocol. |
 
 ## LLM / representation
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S5` | LogLLaMA: Transformer-based log anomaly detection with LLaMA | 2025 | arXiv | [link](https://arxiv.org/abs/2503.14849) | P2.1, P2.2, P2.3, P2.5, P3.6, P4.3, P4.8 | Design reference for LLaMA-family next-log modelling. |
-| `S11` | Introducing Llama 3.1: Our most capable models to date | 2024 | Meta AI official release | [link](https://ai.meta.com/blog/meta-llama-3-1/) | P2.1, P2.2, P2.PRE, P4.6, P4.8 | Llama-3.1-8B revision, tokenizer and licence provenance. |
+| `S5` | LogLLaMA: Transformer-based log anomaly detection with LLaMA | 2025 | arXiv | [link](https://arxiv.org/abs/2503.14849) | P2.1, P3.1, P3.2, P4.2, P5.6, P6.3, P6.8 | Design reference for LLaMA-family next-log modelling. |
+| `S11` | Introducing Llama 3.1: Our most capable models to date | 2024 | Meta AI official release | [link](https://ai.meta.com/blog/meta-llama-3-1/) | P2.1, P2.PRE, P3.1, P6.6, P6.8 | Llama-3.1-8B revision, tokenizer and licence provenance. |
 
 ## LoRA / parameter-efficient tuning
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S7` | LoRA: Low-Rank Adaptation of Large Language Models | 2021 | arXiv (later ICLR 2022) | [link](https://arxiv.org/abs/2106.09685) | P2.1, P2.2, P2.PRE, P4.3, P4.6, P4.8 | Frozen base plus separate low-rank adapters. |
+| `S7` | LoRA: Low-Rank Adaptation of Large Language Models | 2021 | arXiv (later ICLR 2022) | [link](https://arxiv.org/abs/2106.09685) | P2.1, P2.PRE, P3.1, P6.3, P6.6, P6.8 | Frozen base plus separate low-rank adapters. |
 
 ## Graph / temporal expert
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S6` | LogGT: Cross-system log anomaly detection via heterogeneous graph feature and transfer learning | 2024 | Expert Systems with Applications | [link](https://doi.org/10.1016/j.eswa.2024.124082) | P1.3, P1.4, P1.5, P2.4, P2.5, P2.6, P2.7, P3.1, P3.2, P3.4, P3.7, P3.8, P4.1, P4.2, P4.3, P4.8 | Graph features over log entities for cross-system detection. |
+| `S6` | LogGT: Cross-system log anomaly detection via heterogeneous graph feature and transfer learning | 2024 | Expert Systems with Applications | [link](https://doi.org/10.1016/j.eswa.2024.124082) | P1.3, P1.4, P1.5, P4.1, P4.2, P4.3, P4.4, P5.1, P5.2, P5.4, P5.7, P5.8, P6.1, P6.2, P6.3, P6.8 | Graph features over log entities for cross-system detection. |
 
 ## Adaptation / calibration / uncertainty
 
@@ -61,13 +61,13 @@ Organised according to `Bang_ke_hoach_SeqLogAD.xlsx`. Verified 2026-09-07 agains
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S9` | SelectiveNet: A Deep Neural Network with an Integrated Reject Option | 2019 | Proceedings of Machine Learning Research, vol. 97 (ICML) | [link](https://proceedings.mlr.press/v97/geifman19a.html) | P1.6, P2.5, P2.7, P3.3, P3.5, P3.7, P3.8, P4.4, P4.5, P4.7, P4.8 | Abstention with an explicit reject option and risk-coverage framing. |
+| `S9` | SelectiveNet: A Deep Neural Network with an Integrated Reject Option | 2019 | Proceedings of Machine Learning Research, vol. 97 (ICML) | [link](https://proceedings.mlr.press/v97/geifman19a.html) | P1.6, P4.2, P4.4, P5.3, P5.5, P5.7, P5.8, P6.4, P6.5, P6.7, P6.8 | Abstention with an explicit reject option and risk-coverage framing. |
 
 ## Baselines
 
 | ID | Title | Year | Venue | Link | Used by | Relevance |
 | --- | --- | ---: | --- | --- | --- | --- |
-| `S10` | Isolation Forest | 2008 | IEEE International Conference on Data Mining (ICDM) | [link](https://doi.org/10.1109/ICDM.2008.17) | P3.6 | Explicit unsupervised anomaly baseline for P3.6. |
+| `S10` | Isolation Forest | 2008 | IEEE International Conference on Data Mining (ICDM) | [link](https://doi.org/10.1109/ICDM.2008.17) | P5.6 | Explicit unsupervised anomaly baseline for P3.6. |
 
 ## Publication status
 

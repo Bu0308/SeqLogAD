@@ -31,7 +31,7 @@ def test_immutable_identity_is_bound_to_recorded_upstream_evidence():
     assert (ROOT / BASE['document']).is_file()
 
 
-def test_authenticated_metadata_is_required_for_pass_and_only_semantic_is_authorized():
+def test_authenticated_metadata_is_required_for_pass_and_ready_experts_are_authorized():
     assert BASE['status'] == P2['tasks']['P2.PRE']['status'] == 'PASS'
     assert BASE['blockers'] == BASE['unresolved_fields'] == []
     assert BASE['access']['owner_confirmation'] == 'USER_CONFIRMED_HF_ACCESS_GRANTED'
@@ -62,8 +62,10 @@ def test_authenticated_metadata_is_required_for_pass_and_only_semantic_is_author
     assert P2['tasks']['P2.1']['depends_on'] == ['P2.PRE']
     assert P2['tasks']['P2.1']['execution_authorized'] is STATE['semantic_execution_authorized'] is True
     assert P2['tasks']['P2.1']['status'] in {'IMPLEMENTING', 'IMPLEMENTATION_READY'}
-    assert all(not P2['tasks'][f'P2.{i}']['execution_authorized'] for i in range(2, 8))
-    assert STATE['phase3_enabled'] is P2['phase3_enabled'] is False
+    assert P2['tasks']['P2.2']['execution_authorized'] is True
+    assert all(not P2['tasks'][f'P2.{i}']['execution_authorized'] for i in range(3, 8))
+    assert STATE['phase3_enabled'] is True  # Sequence in the six-phase plan.
+    assert STATE['phase5_enabled'] is P2['phase3_enabled'] is False  # Legacy adaptation ID.
     assert BASE['data']['source_label_scope'] == P2['source_label_scope'] == 'UNRESOLVED_DENY'
 
 

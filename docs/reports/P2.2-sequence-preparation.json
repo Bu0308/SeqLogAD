@@ -1,0 +1,74 @@
+{
+  "schema": "SEQLOGAD-P2.2-PREPARATION-RECEIPT-1",
+  "task_id": "P2.2",
+  "expert_id": "SEQUENCE_LLAMA_REFERENCE",
+  "date": "2026-09-20",
+  "preparation_status": "PASS",
+  "live_gpu_execution_status": "RESTART_PENDING_WITH_OPTIMIZED_KIT",
+  "scientific_result": "NOT_EVALUATED",
+  "seed": 42,
+  "targets": ["BGL", "HDFS", "HADOOP"],
+  "runtime": {
+    "provider": "RUNPOD",
+    "required_gpu": "NVIDIA A40 48GB",
+    "native_bf16_required": true,
+    "network_volume_mount": "/workspace"
+  },
+  "data": {
+    "root": "data/phase2-sequence",
+    "bundle_manifest_sha256": "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129",
+    "folds_validated": [
+      "FOLD-TARGET-ARCH-BGL",
+      "FOLD-TARGET-ARCH-HDFS",
+      "FOLD-TARGET-ARCH-HADOOP"
+    ],
+    "candidate_windows_per_source": {
+      "SOURCE_TRAIN": 32768,
+      "SOURCE_VALIDATION": 2048
+    },
+    "target_labels_read": false,
+    "target_data_included": false
+  },
+  "upload_kit": {
+    "directory": "outputs/runpod/P2.2-S42-A40",
+    "outer_zip": "outputs/runpod/P2.2-S42-A40-upload.zip",
+    "outer_zip_size": 28397003,
+    "outer_zip_sha256": "be456f0ca91971ae214213f6a50ce2b3f50de1f2ba5e9a51ce9430bd9999d3f8",
+    "deterministic_repeat_build": "PASS",
+    "zip_crc": "PASS",
+    "clean_extraction_three_fold_validation": "PASS",
+    "files": {
+      "P2.2_run_all_sequence_lora_s42.ipynb": "3e63c86ea39c455ae0623d56158ae4ee2cda33f41bf7331bf0b3e46efd4db448",
+      "phase2-sequence-s42.zip": "4ed76b92e4b001138b28b4b3b4d3017d6ff7f30dd31e8cca0649bfdf34ede781",
+      "seqlogad-code-all-experts-s42.zip": "412f096249201edf6ba2ca908c0282b5d3d5d504c05a973023b2dcf95408bd64"
+    }
+  },
+  "verification": {
+    "focused_tests": "24 passed",
+    "repository_tests_in_scope": "433 passed, 3 deselected",
+    "known_pre_existing_full_suite_failures": [
+      "tests/test_semantic_final_protocol.py::test_notebook_has_explicit_pilot_and_final_modes",
+      "tests/test_semantic_final_protocol.py::test_kaggle_final_notebook_discovers_read_only_inputs_and_writes_only_to_working",
+      "tests/test_semantic_pipeline.py::test_notebook_compiles_and_calls_authoritative_pipeline"
+    ],
+    "legacy_failure_reason": "Two P2.1 legacy notebook files were removed before this task; they were not restored or replaced.",
+    "workbook_projection": "CURRENT",
+    "reference_registry": "CURRENT",
+    "git_diff_check": "PASS",
+    "overflow_encoding_equivalence": "PASS_ON_REAL_SELECTED_OPENSTACK_WINDOWS",
+    "tokenization_optimization": "BATCHED_FAST_PATH_AND_CACHED_BATCHED_OVERFLOW_CROP"
+  },
+  "workbook": {
+    "path": "Bang_ke_hoach_SeqLogAD.xlsx",
+    "sha256": "5725723cdc5c556c017c3d5f31d34f3e12bf94159df5bd68d8b983162b9d51d1",
+    "changed_cell": "Task Register!K15",
+    "status": "In progress"
+  },
+  "claims_forbidden": [
+    "P2.2 training complete",
+    "multi-seed stability",
+    "sequence winner selected",
+    "natural anomaly performance established",
+    "G2 passed"
+  ]
+}

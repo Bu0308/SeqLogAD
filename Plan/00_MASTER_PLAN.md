@@ -9,8 +9,10 @@ definitions of done. Machine-readable projection:
 Where any plan document in this directory disagrees with the workbook, the workbook
 wins. See [`../docs/migration/EXCEL-PLAN-MIGRATION-001.md`](../docs/migration/EXCEL-PLAN-MIGRATION-001.md).
 
-Phase 1 is complete; G0 is `PROTOCOL_READY_PENDING_RESEARCHER_SIGNATURE`;
-`NEXT_AUTHORIZED_TASK = P2.1`.
+Phases 1 and 2 are complete: data/protocol and Semantic seed-42 execution.
+G0 is signed `PASSED`; `NEXT_AUTHORIZED_TASK = P3.1` (Sequence reference).
+The six-phase crosswalk is [SIX-PHASE-2026-09-20](../docs/migration/SIX-PHASE-2026-09-20.md).
+Existing RunPod artifacts still use the immutable execution ID `P2.2` for P3.1.
 
 ## Supporting implementation plan
 
@@ -51,15 +53,15 @@ Historical assets that remain available for reuse as source-domain material:
 - PURGE-DECISION-001 human-approved Option B: primary HDFS split unchanged and secondary purge sensitivity pre-registered / `NOT_RUN`;
 - EFFECT-001 frozen and human-approved with `delta_HDFS = delta_BGL = 0.01 AP`; empirical status remains `NOT_RUN`.
 
-Not implemented/run:
+Historical v1.1 work not implemented/run under that retired protocol:
 
 - canonical event corpus generated from the frozen parser;
 - real sequences and sequence-destruction artifacts;
 - baselines, models, training, tuning, killer experiments, or final TEST.
 
-No Domain-Adaptive Fusion artifact, target adaptation, model run or new TEST
-result exists. The planning critical path is defined in v2; implementation is
-not authorized by this document alone.
+Semantic seed-42 training is complete under the active protocol. Sequence reference
+implementation is ready and its live run remains unfinished. Target adaptation,
+fusion and final target evaluation remain future Phases 5–6.
 
 ## Historical v1.1 critical path
 

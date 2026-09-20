@@ -6,7 +6,7 @@ A research project testing **whether knowledge transfers across heterogeneous lo
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 ![Plan](https://img.shields.io/badge/plan-Bang__ke__hoach__SeqLogAD.xlsx-informational)
-![Phase](https://img.shields.io/badge/phase-P1%20complete-success)
+![Phase](https://img.shields.io/badge/phase-P2%20complete%20S42-green)
 ![Gate](https://img.shields.io/badge/G0-PASSED%20%C2%B7%20signed%202026--09--06-success)
 ![Results](https://img.shields.io/badge/scientific%20results-NOT__RUN-lightgrey)
 ![Type](https://img.shields.io/badge/type-research%20prototype-8A2BE2)
@@ -14,7 +14,7 @@ A research project testing **whether knowledge transfers across heterogeneous lo
 </div>
 
 > [!IMPORTANT]
-> The authoritative scientific plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**. Phase 1 is complete and G0 passed. P2.PRE is PASS. `NEXT_AUTHORIZED_TASK = P2.1`: implementation and BGL pilot closeout are PASS; its final protocol is frozen, but final Colab training is NOT_STARTED and the scientific result is NOT_EVALUATED. P2.2 remains blocked. G1–G4 remain closed.
+> The authoritative plan is **`Bang_ke_hoach_SeqLogAD.xlsx`**, now organized into six phases. Phases 1 and 2 (Semantic seed 42) are complete. `NEXT_AUTHORIZED_TASK = P3.1`: Sequence reference, using the existing RunPod execution ID `P2.2`. Phase 4 covers GTAT/evidence/diversity, Phase 5 adaptation/fusion and Phase 6 final evaluation. Scientific results remain NOT_EVALUATED; G1–G4 remain closed. See [task crosswalk](docs/migration/SIX-PHASE-2026-09-20.md).
 
 ## The question
 

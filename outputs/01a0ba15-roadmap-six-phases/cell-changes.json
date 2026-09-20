@@ -1,0 +1,758 @@
+[
+  {
+    "sheet": "Roadmap",
+    "row": 6,
+    "column": 1,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Roadmap",
+    "row": 7,
+    "column": 1,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Roadmap",
+    "row": 8,
+    "column": 1,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 13,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 14,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 15,
+    "column": 1,
+    "before": "P2.2",
+    "after": "P3.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 15,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 16,
+    "column": 1,
+    "before": "P2.3",
+    "after": "P3.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 16,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 16,
+    "column": 9,
+    "before": "P2.2",
+    "after": "P3.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 17,
+    "column": 1,
+    "before": "P2.4",
+    "after": "P4.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 17,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 17,
+    "column": 9,
+    "before": "P2.3",
+    "after": "P3.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 18,
+    "column": 1,
+    "before": "P2.5",
+    "after": "P4.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 18,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 18,
+    "column": 9,
+    "before": "P2.4",
+    "after": "P4.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 19,
+    "column": 1,
+    "before": "P2.6",
+    "after": "P4.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 19,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 19,
+    "column": 9,
+    "before": "P2.5",
+    "after": "P4.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 20,
+    "column": 1,
+    "before": "P2.7",
+    "after": "P4.4"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 20,
+    "column": 2,
+    "before": "P2 · Representation & Experts",
+    "after": "P2 · Semantic Expert"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 20,
+    "column": 5,
+    "before": "Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.",
+    "after": "Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase 5 activation."
+  },
+  {
+    "sheet": "Task Register",
+    "row": 20,
+    "column": 9,
+    "before": "P2.6",
+    "after": "P4.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 20,
+    "column": 10,
+    "before": "P2.6 complete; source-label/capability issues resolved for required evidence; reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.",
+    "after": "P4.3 complete; source-label/capability issues resolved for required evidence; reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed."
+  },
+  {
+    "sheet": "Task Register",
+    "row": 21,
+    "column": 1,
+    "before": "P3.1",
+    "after": "P5.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 21,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 21,
+    "column": 5,
+    "before": "Receive P2.6 diversity evidence and P2.7 freeze package; verify G2 before Phase-3 integration, without rerunning or owning Phase-2 evaluation.",
+    "after": "Receive P4.3 diversity evidence and P4.4 freeze package; verify G2 before Phase 5 integration, without rerunning or owning Phase-2 evaluation."
+  },
+  {
+    "sheet": "Task Register",
+    "row": 21,
+    "column": 9,
+    "before": "P2.7",
+    "after": "P4.4"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 21,
+    "column": 10,
+    "before": "P2.6 evidence hashes and researcher G2 signature verified; Phase 3 remains disabled before approval.",
+    "after": "P4.3 evidence hashes and researcher G2 signature verified; Phase 5 remains disabled before approval."
+  },
+  {
+    "sheet": "Task Register",
+    "row": 22,
+    "column": 1,
+    "before": "P3.2",
+    "after": "P5.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 22,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 22,
+    "column": 9,
+    "before": "P1.6; P2.7",
+    "after": "P1.6; P4.4"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 23,
+    "column": 1,
+    "before": "P3.3",
+    "after": "P5.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 23,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 23,
+    "column": 9,
+    "before": "P3.2",
+    "after": "P5.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 24,
+    "column": 1,
+    "before": "P3.4",
+    "after": "P5.4"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 24,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 24,
+    "column": 9,
+    "before": "P3.2",
+    "after": "P5.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 25,
+    "column": 1,
+    "before": "P3.5",
+    "after": "P5.5"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 25,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 25,
+    "column": 9,
+    "before": "P2.5; P3.3",
+    "after": "P4.2; P5.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 26,
+    "column": 1,
+    "before": "P3.6",
+    "after": "P5.6"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 26,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 26,
+    "column": 9,
+    "before": "P3.3",
+    "after": "P5.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 27,
+    "column": 1,
+    "before": "P3.7",
+    "after": "P5.7"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 27,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 27,
+    "column": 9,
+    "before": "P3.4; P3.5; P3.6",
+    "after": "P5.4; P5.5; P5.6"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 28,
+    "column": 1,
+    "before": "P3.8",
+    "after": "P5.8"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 28,
+    "column": 2,
+    "before": "P3 · Adaptation & Fusion",
+    "after": "P5 · Adaptation & Fusion"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 28,
+    "column": 9,
+    "before": "P3.1; P3.6; P3.7",
+    "after": "P5.1; P5.6; P5.7"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 29,
+    "column": 1,
+    "before": "P4.1",
+    "after": "P6.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 29,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 29,
+    "column": 9,
+    "before": "P3.8",
+    "after": "P5.8"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 30,
+    "column": 1,
+    "before": "P4.2",
+    "after": "P6.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 30,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 30,
+    "column": 9,
+    "before": "P4.1",
+    "after": "P6.1"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 31,
+    "column": 1,
+    "before": "P4.3",
+    "after": "P6.3"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 31,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 31,
+    "column": 9,
+    "before": "P4.2",
+    "after": "P6.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 32,
+    "column": 1,
+    "before": "P4.4",
+    "after": "P6.4"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 32,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 32,
+    "column": 9,
+    "before": "P4.2",
+    "after": "P6.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 33,
+    "column": 1,
+    "before": "P4.5",
+    "after": "P6.5"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 33,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 33,
+    "column": 9,
+    "before": "P4.2",
+    "after": "P6.2"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 34,
+    "column": 1,
+    "before": "P4.6",
+    "after": "P6.6"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 34,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 34,
+    "column": 9,
+    "before": "P4.2; P4.3; P4.4; P4.5",
+    "after": "P6.2; P6.3; P6.4; P6.5"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 35,
+    "column": 1,
+    "before": "P4.7",
+    "after": "P6.7"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 35,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 35,
+    "column": 9,
+    "before": "P4.6",
+    "after": "P6.6"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 36,
+    "column": 1,
+    "before": "P4.8",
+    "after": "P6.8"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 36,
+    "column": 2,
+    "before": "P4 · Cross-System Validation",
+    "after": "P6 · Cross-System Validation"
+  },
+  {
+    "sheet": "Task Register",
+    "row": 36,
+    "column": 9,
+    "before": "P4.7",
+    "after": "P6.7"
+  },
+  {
+    "sheet": "Gates",
+    "row": 6,
+    "column": 6,
+    "before": "P1.6; P3.2–P3.5",
+    "after": "P1.6; P5.2–P5.5"
+  },
+  {
+    "sheet": "Gates",
+    "row": 7,
+    "column": 6,
+    "before": "P2.PRE; P2.1–P2.7",
+    "after": "P2.PRE; P2.1; P3.1–P3.2; P4.1–P4.4"
+  },
+  {
+    "sheet": "Gates",
+    "row": 8,
+    "column": 6,
+    "before": "P3.6–P3.8",
+    "after": "P5.6–P5.8"
+  },
+  {
+    "sheet": "Gates",
+    "row": 9,
+    "column": 6,
+    "before": "P4.1–P4.7",
+    "after": "P6.1–P6.7"
+  },
+  {
+    "sheet": "Traceability",
+    "row": 6,
+    "column": 5,
+    "before": "P1.6; P3.2–P3.5",
+    "after": "P1.6; P5.2–P5.5"
+  },
+  {
+    "sheet": "Traceability",
+    "row": 7,
+    "column": 5,
+    "before": "P3.6–P3.8; P4.3",
+    "after": "P5.6–P5.8; P6.3"
+  },
+  {
+    "sheet": "Traceability",
+    "row": 8,
+    "column": 5,
+    "before": "P4.4–P4.5",
+    "after": "P6.4–P6.5"
+  },
+  {
+    "sheet": "Traceability",
+    "row": 9,
+    "column": 5,
+    "before": "P4.6–P4.8",
+    "after": "P6.6–P6.8"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 15,
+    "column": 1,
+    "before": "P2.2",
+    "after": "P3.1"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 16,
+    "column": 1,
+    "before": "P2.3",
+    "after": "P3.2"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 17,
+    "column": 1,
+    "before": "P2.4",
+    "after": "P4.1"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 18,
+    "column": 1,
+    "before": "P2.5",
+    "after": "P4.2"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 19,
+    "column": 1,
+    "before": "P2.6",
+    "after": "P4.3"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 20,
+    "column": 1,
+    "before": "P2.7",
+    "after": "P4.4"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 20,
+    "column": 2,
+    "before": "Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.",
+    "after": "Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase 5 activation."
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 20,
+    "column": 4,
+    "before": "P2.6 complete; source-label/capability issues resolved for required evidence; reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.",
+    "after": "P4.3 complete; source-label/capability issues resolved for required evidence; reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed."
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 21,
+    "column": 1,
+    "before": "P3.1",
+    "after": "P5.1"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 21,
+    "column": 2,
+    "before": "Verify P2.6 diagnostic artifacts and P2.7 package hashes; confirm researcher G2 signature before integration. Do not duplicate source evaluation or use target labels for tuning.",
+    "after": "Verify P4.3 diagnostic artifacts and P4.4 package hashes; confirm researcher G2 signature before integration. Do not duplicate source evaluation or use target labels for tuning."
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 21,
+    "column": 4,
+    "before": "Existing diversity evidence verified, G2 signed and Phase-3 execution separately authorized; no new evaluation or superiority claim.",
+    "after": "Existing diversity evidence verified, G2 signed and Phase 5 execution separately authorized; no new evaluation or superiority claim."
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 22,
+    "column": 1,
+    "before": "P3.2",
+    "after": "P5.2"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 23,
+    "column": 1,
+    "before": "P3.3",
+    "after": "P5.3"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 24,
+    "column": 1,
+    "before": "P3.4",
+    "after": "P5.4"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 25,
+    "column": 1,
+    "before": "P3.5",
+    "after": "P5.5"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 26,
+    "column": 1,
+    "before": "P3.6",
+    "after": "P5.6"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 27,
+    "column": 1,
+    "before": "P3.7",
+    "after": "P5.7"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 28,
+    "column": 1,
+    "before": "P3.8",
+    "after": "P5.8"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 29,
+    "column": 1,
+    "before": "P4.1",
+    "after": "P6.1"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 30,
+    "column": 1,
+    "before": "P4.2",
+    "after": "P6.2"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 31,
+    "column": 1,
+    "before": "P4.3",
+    "after": "P6.3"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 32,
+    "column": 1,
+    "before": "P4.4",
+    "after": "P6.4"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 33,
+    "column": 1,
+    "before": "P4.5",
+    "after": "P6.5"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 34,
+    "column": 1,
+    "before": "P4.6",
+    "after": "P6.6"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 35,
+    "column": 1,
+    "before": "P4.7",
+    "after": "P6.7"
+  },
+  {
+    "sheet": "Task Playbooks",
+    "row": 36,
+    "column": 1,
+    "before": "P4.8",
+    "after": "P6.8"
+  }
+]

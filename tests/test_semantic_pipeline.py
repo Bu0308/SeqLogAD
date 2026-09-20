@@ -206,7 +206,8 @@ def test_workbook_semantic_state_is_not_training_completion():
     p2 = yaml.safe_load((ROOT / 'configs/protocols/phase2-architecture-v1.yaml').read_text())['phase2']
     task = p2['tasks']['P2.1']; update = task['roadmap_update']
     import openpyxl
-    paths = [ROOT / update['previous_workbook'], ROOT / 'Bang_ke_hoach_SeqLogAD.xlsx']
+    p22 = p2['tasks']['P2.2']['roadmap_update']
+    paths = [ROOT / update['previous_workbook'], ROOT / p22['previous_workbook']]
     assert sha256_file(paths[0]) == update['from_sha256']
     assert sha256_file(paths[1]) == update['to_sha256']
     before, after = [{f'{s.title}!{c.coordinate}': c.value for s in openpyxl.load_workbook(p)
@@ -215,4 +216,4 @@ def test_workbook_semantic_state_is_not_training_completion():
                if before.get(k) != after.get(k)}
     assert changed == update['changed_cells'] == {'Task Register!K14':{'before':'Not started','after':'In progress'}}
     assert task['training_completed'] is p2['phase3_enabled'] is False
-    assert p2['tasks']['P2.2']['execution_authorized'] is False
+    assert p2['tasks']['P2.2']['execution_authorized'] is True

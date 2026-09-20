@@ -1,0 +1,69 @@
+{
+  "builder_code_sha256": {
+    "__init__.py": "0683c49852c76026893ae55a5a908d6765cb36433ed6c03f565a4da6a66a3e6b",
+    "checkpoint.py": "0b4847199a7debbc9bab652505848d054b832e61ab34772b2a08c34fc6421773",
+    "cli.py": "0b5cb67a6a5db632eea24644df0c9406e2b662c9c0c9aca1125dccd372f74c8e",
+    "config.py": "1b3d0972ecc11b4d088b64c89d49a7e9be6257893446d8ee15f04cfec8a9ac93",
+    "contracts.py": "47ceff883bb5fcb7f9a2834e9f8b451ee11b1dde634e72e66403e0808ed70211",
+    "expert.py": "67b3c57a443efc5270c4eea99277fdf19012728ee0081fc348b9ff5af298e75e",
+    "model.py": "d748b0a53c23f49da3ac7f944408db98414593107a99c379b72579d8c06ac3e9",
+    "objective.py": "be02f2ba1b89b7683f7d9b7fff407753d5935c1d577ddd5ff826c31ceaa8a6f2",
+    "prepare.py": "697f27121e30862d00bca62b5876a59877d62bf7301c3b9002bb5a6a88e85bc3",
+    "runtime.py": "ccd8230d306f541f00180d5d21e08c936c17c3994374512125ee903068c3e39a",
+    "scoring.py": "93deec80c4cff460beae96b91a560715893fad1e6a660e85b1f99307dfdb8315",
+    "train.py": "a9d4893f5566fc61993bdfba40ebef46041e27b9f3efba489c661746da578606"
+  },
+  "builder_config_sha256": "ccb78f40e23d3ea15a4691610cfdf7f8ad5f2fb97b3d9531f7e1dab2a1f58329",
+  "builder_revision": "SEMANTIC-VIEW-1",
+  "created_at": "2026-09-10T13:38:31.767637+00:00",
+  "git": {
+    "commit": "285adccfa537a4ee82b25e3a1ecf46e9c6bb5177",
+    "diff_sha256": "087e0449931e271a69d3f468cbe68f16cb83e5a4edb44848c017387d33ad8fab",
+    "dirty": true
+  },
+  "original_fold_sha256": "05decbc92d4c64edb1f1e54f76e8559d7833d64357dd86574803993006d61600",
+  "phase1_receipt_sha256": "7bac6930a074a4a490c1e070b41774fe85982a197128f9078b38543362ef5204",
+  "sources": {
+    "ARCH-BGL": {
+      "source_files": [
+        {
+          "bytes": 743185031,
+          "sha256": "666130b15ef44eb32fd02bd053e6c6e007c37696b5e7e8b9d8e45b729876a5d2",
+          "source_id": "file-0000"
+        }
+      ],
+      "stream_index_sha256": "429a02dddf1d010bb76402cae23953d96caee55e9e241c34d580823901142c9d"
+    },
+    "ARCH-HDFS": {
+      "source_files": [
+        {
+          "bytes": 1577982906,
+          "sha256": "0783096174d7832c618337f9609e06e04abd86ddd7089b3c12b407e63bfebc52",
+          "source_id": "file-0000"
+        }
+      ],
+      "stream_index_sha256": "eab537672daea0812f12b0bd161be0dd1f09a5155adf928bea6e94d0abf1849e"
+    },
+    "ARCH-OPENSTACK": {
+      "source_files": [
+        {
+          "bytes": 15499595,
+          "sha256": "4e4d47347bdae198056bb3b0a8a755e1cb0100d6c6a30bbd4058684234769199",
+          "source_id": "file-0000"
+        },
+        {
+          "bytes": 40506365,
+          "sha256": "3c51741dcea1fb0731d1f86588b12587707e7abea01e725ee16c9441b8b68db7",
+          "source_id": "file-0001"
+        },
+        {
+          "bytes": 5436122,
+          "sha256": "7ab718fbb2f2b804893955cecf37ad9533cfa0efaf5b03009474d5bb019b6af4",
+          "source_id": "file-0002"
+        }
+      ],
+      "stream_index_sha256": "9178dc6010f6bf482a80061d256963aef1284ca3a37a74164b1b1c3bb08d358f"
+    }
+  },
+  "target_labels_read": false
+}

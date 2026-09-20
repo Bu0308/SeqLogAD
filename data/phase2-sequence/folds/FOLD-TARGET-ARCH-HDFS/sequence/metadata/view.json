@@ -1,0 +1,124 @@
+{
+  "context_policy": {
+    "crop_policy": "DROP_OLDEST_WHOLE_CONTEXT_RECORD_THEN_DECREASE_TARGET_WORD_PREFIX",
+    "cross_architecture_context": false,
+    "cross_partition_context": false,
+    "group_when_available": true,
+    "max_predecessor_records": 8,
+    "minimum_predecessor_records": 1,
+    "missing_group_policy": "GLOBAL_ARCHITECTURE_PARTITION_CHRONOLOGY",
+    "reset_boundaries": [
+      "ARCHITECTURE",
+      "PARTITION",
+      "GROUP"
+    ]
+  },
+  "events_file": "metadata/events.parquet",
+  "events_sha256": "171b58a21a1c40a590d326fdc7d868275ca94a1c55656c3e913687d5ea6d54bc",
+  "fold_id": "FOLD-TARGET-ARCH-HDFS",
+  "label_columns": [],
+  "materialization": {
+    "includes_labels": false,
+    "includes_target_data": false,
+    "selection": "LOWEST_SHA256_OF_FOLD_INDEPENDENT_ARCH_PARTITION_TARGET_RANK",
+    "train_candidate_windows_per_source": 32768,
+    "validation_candidate_windows_per_source": 2048
+  },
+  "objective": "CAUSAL_NEXT_LOG_TARGET_TOKEN_NLL",
+  "partitions": [
+    {
+      "architecture_id": "ARCH-BGL",
+      "eligible_window_count": 2373980,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/train/windows.parquet",
+      "input_record_count": 2373981,
+      "membership_sha256": "130989c60952161a3e606ca969f6343a036209fd89d6ff06cde2885ee4dad914",
+      "partition": "SOURCE_TRAIN",
+      "referenced_event_count": 278827,
+      "sample_count": 32768,
+      "sha256": "eba35facc7cbffa8ce05b3d7ff9242f38fcff5f1978ad4eaf5d30b32163e76bc",
+      "stream_index_sha256": "429a02dddf1d010bb76402cae23953d96caee55e9e241c34d580823901142c9d"
+    },
+    {
+      "architecture_id": "ARCH-HADOOP",
+      "eligible_window_count": 237394,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/train/windows.parquet",
+      "input_record_count": 237429,
+      "membership_sha256": "ccadc065a9166889133dc94c86320a9b4d0c74a4c99ef495f402dafb07e28914",
+      "partition": "SOURCE_TRAIN",
+      "referenced_event_count": 174926,
+      "sample_count": 32768,
+      "sha256": "eba35facc7cbffa8ce05b3d7ff9242f38fcff5f1978ad4eaf5d30b32163e76bc",
+      "stream_index_sha256": "6d266baf3f5fead9f7e79b7d0dca8c72ff455fd4eb1b5f487043dcebdd257630"
+    },
+    {
+      "architecture_id": "ARCH-OPENSTACK",
+      "eligible_window_count": 102788,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/train/windows.parquet",
+      "input_record_count": 103898,
+      "membership_sha256": "77a328061e362517562cee728015f39c2da159e56a9f279017ec4252c816b914",
+      "partition": "SOURCE_TRAIN",
+      "referenced_event_count": 98401,
+      "sample_count": 32768,
+      "sha256": "eba35facc7cbffa8ce05b3d7ff9242f38fcff5f1978ad4eaf5d30b32163e76bc",
+      "stream_index_sha256": "9178dc6010f6bf482a80061d256963aef1284ca3a37a74164b1b1c3bb08d358f"
+    },
+    {
+      "architecture_id": "ARCH-BGL",
+      "eligible_window_count": 712194,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/val/windows.parquet",
+      "input_record_count": 712195,
+      "membership_sha256": "b1f1353d885f38ce4d24618d41da08b749fbed9e4e4aecd8b7cef4307b7c5439",
+      "partition": "SOURCE_VALIDATION",
+      "referenced_event_count": 18237,
+      "sample_count": 2048,
+      "sha256": "e9578abc261f08a4e11479602250d08095934eeb1366fc8018f15976caea877e",
+      "stream_index_sha256": "429a02dddf1d010bb76402cae23953d96caee55e9e241c34d580823901142c9d"
+    },
+    {
+      "architecture_id": "ARCH-HADOOP",
+      "eligible_window_count": 110105,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/val/windows.parquet",
+      "input_record_count": 110110,
+      "membership_sha256": "ace69958f2cbade6046a4ab09ee1cd11374918811c77c28feefcb4572f7ad8a7",
+      "partition": "SOURCE_VALIDATION",
+      "referenced_event_count": 17064,
+      "sample_count": 2048,
+      "sha256": "e9578abc261f08a4e11479602250d08095934eeb1366fc8018f15976caea877e",
+      "stream_index_sha256": "6d266baf3f5fead9f7e79b7d0dca8c72ff455fd4eb1b5f487043dcebdd257630"
+    },
+    {
+      "architecture_id": "ARCH-OPENSTACK",
+      "eligible_window_count": 30804,
+      "file_path": "folds/FOLD-TARGET-ARCH-HDFS/sequence/val/windows.parquet",
+      "input_record_count": 31135,
+      "membership_sha256": "9b7a17ba2ed1c53bf315fd74017ace28be11e5dd62069182c1677f171add1802",
+      "partition": "SOURCE_VALIDATION",
+      "referenced_event_count": 14011,
+      "sample_count": 2048,
+      "sha256": "e9578abc261f08a4e11479602250d08095934eeb1366fc8018f15976caea877e",
+      "stream_index_sha256": "9178dc6010f6bf482a80061d256963aef1284ca3a37a74164b1b1c3bb08d358f"
+    }
+  ],
+  "provenance": {
+    "builder_config_sha256": "4b9e474631fa3a3fc206e3ce204506a0ffba315632cb828eda7868af4ea6709f",
+    "builder_revision": "SEQUENCE-VIEW-1",
+    "created_at": "2026-09-19T14:55:49.189840+00:00",
+    "git": {
+      "commit": "05e488c1a611ee3e79752eb1a2ee3c9b93e4bfed",
+      "diff_sha256": "e1226c2a093c08965e4a8cf4b3e6199f7b0a9879e8bedd1a9514ecfe5980d8da",
+      "dirty": true
+    },
+    "semantic_bundle_sha256": "3ef2bfe36d2ad68205eea4290a632eb81db0d63acfb76c92f25a3eb96e8205de",
+    "target_labels_read": false
+  },
+  "schema_version": "SEQUENCE-VIEW-1",
+  "semantic_lineage_sha256": "e772674c3e02489996788cddb05ffb58ed08620d580a228534e9a7428bcdf998",
+  "source_architectures": [
+    "ARCH-BGL",
+    "ARCH-HADOOP",
+    "ARCH-OPENSTACK"
+  ],
+  "target_labels_read": false,
+  "target_scoring_unit": "MEAN_NLL_OVER_TARGET_LOG_TOKENS",
+  "view_id": "P2.2-SEQUENCE-REFERENCE-001"
+}

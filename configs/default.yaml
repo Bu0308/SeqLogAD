@@ -28,8 +28,9 @@ protocol:
   active_state_registry: configs/active-state.yaml
   empirical_status: NOT_RUN
   execution_ready: false
-  current_phase: P1_DATA_AND_PROTOCOL
-  next_authorized_task: P2.1
+  current_phase: P3_SEQUENCE_EXPERTS
+  next_authorized_task: P3.1
+  execution_task_id: P2.2
 
 schema:
   contract: LOG-UNIFY-001
@@ -84,7 +85,10 @@ pipeline:
   P1.6: COMPLETE_PENDING_RESEARCHER_SIGNATURE
   P1.7: COMPLETE
   P1.8: COMPLETE_PENDING_RESEARCHER_SIGNATURE
-  next_authorized_task: P2.1
+  P2.PRE: COMPLETE
+  P2.1: DEVELOPMENT_S42_COMPLETE_SCIENTIFIC_RESULT_NOT_EVALUATED
+  P3.1: IMPLEMENTATION_READY_WAITING_FOR_RUNPOD
+  next_authorized_task: P3.1
 
 repository_hygiene:
   license_status: OWNER_DECISION_REQUIRED

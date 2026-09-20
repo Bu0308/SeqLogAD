@@ -52,6 +52,7 @@ def test_optimizer_counts_only_finite_updates(tmp_path, monkeypatch, norm, succe
 
 def test_resume_preserves_patience_history_and_scheduler_checkpoint(tmp_path, monkeypatch):
     saved = {}
+    callbacks = []
     class Loss(float):
         def detach(self): return self
     class Scaler:
@@ -85,9 +86,12 @@ def test_resume_preserves_patience_history_and_scheduler_checkpoint(tmp_path, mo
     best, metrics = module.optimize(Model(), NS(pad_token_id=0), 'fp16',
         [{'architecture_id': 'ARCH-HDFS'}], [{'architecture_id': 'ARCH-HDFS'}], cfg,
         NS(zero_grad=lambda **kw: None, param_groups=[{}]), Scaler(), tmp_path, {},
-        2, {'loss': 0.5, 'checkpoint': 'resume-best'}, initial)
+        2, {'loss': 0.5, 'checkpoint': 'resume-best'}, initial,
+        lambda run, checkpoint, selected: callbacks.append(
+            (run, checkpoint.name, selected)))
     assert metrics['step'] == 3 and metrics['early_stopping']['triggered'] is True
     assert saved['early']['stale_evaluations'] == 3
     assert len(saved['early']['validation_history']) == 3
     assert saved['scheduler']['last_completed_step'] == 3
     assert best == {'loss': 0.4895, 'checkpoint': 'step-3'}  # selection uses raw minimum
+    assert callbacks == [(tmp_path, 'step-3', 'step-3')]

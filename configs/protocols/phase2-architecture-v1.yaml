@@ -29,7 +29,7 @@ phase2:
     notebook: notebooks/P2.1_train_semantic_expert.ipynb
   - id: SEQUENCE_LLAMA_REFERENCE
     role: SEQUENCE
-    status: REFERENCE_CANDIDATE
+    status: IMPLEMENTATION_READY_DEVELOPMENT_S42
     model: Llama-3.1-8B
     adapter: LoRA-Sequence
     primary_objective: CAUSAL_NEXT_EVENT_OR_NEXT_LOG
@@ -37,6 +37,8 @@ phase2:
     data_view: sequence
     training_task: P2.2
     notebook: notebooks/P2.2_train_sequence_reference.ipynb
+    implementation_contract: docs/protocol/P2.2-sequence-reference.md
+    implementation_config: configs/models/sequence-reference-v1.yaml
   - id: SEQUENCE_LIGHTWEIGHT
     role: SEQUENCE
     status: REQUIRED_CANDIDATE_SLOT
@@ -94,7 +96,7 @@ phase2:
     practical_margin: TO_BE_PREREGISTERED_NOT_INHERITED_FROM_EFFECT_001
   portability:
     data_root: data/phase2
-    prepared_data_status: SEMANTIC_MATERIALIZED_OTHERS_NOT_CREATED
+    prepared_data_status: SEMANTIC_AND_SEQUENCE_MATERIALIZED_GRAPH_NOT_CREATED
     fold_root: folds/{fold_id}
     train_partition: SOURCE_TRAIN
     val_partition: SOURCE_VALIDATION
@@ -239,18 +241,20 @@ phase2:
       status: IMPLEMENTATION_READY
       implementation_ready: true
       training_completed: false
+      development_s42_training_completed: true
       waiting_for_colab_run: false
       pilot_closeout: PASS
       pilot_run_id: PILOT-BGL-20260912-100258
       pilot_best_checkpoint: step-300
       final_protocol_frozen: true
-      final_training_status: NOT_STARTED
+      final_training_status: DEVELOPMENT_S42_COMPLETE
       scientific_result: NOT_EVALUATED
-      next_task: P2.1-FINAL-COLAB-EXECUTION
+      next_task: P2.2-RUNPOD-EXECUTION
       implementation_contract: docs/protocol/P2.1-semantic-expert.md
       implementation_config: configs/models/semantic-v1.yaml
       roadmap_update:
         id: P2.1-IMPLEMENTATION-001
+        superseded_by: P2.2-IMPLEMENTATION-001
         previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--P2.PRE-pass-2026-09-10.xlsx
         previous_projection: docs/history/excel-roadmap--P2.PRE-pass-2026-09-10.yaml
         from_sha256: e03b8a64ee8bd2f623cae61864db1795bc032a1546e17d5ab6aabab94b715d33
@@ -261,12 +265,28 @@ phase2:
             after: In progress
         gate_signature_created: false
     P2.2:
-      execution_authorized: false
-      blockers: [PREDECESSOR_NOT_COMPLETE]
+      execution_authorized: true
+      blockers: []
       name: Sequence Reference Framework
       depends_on: [P2.1]
       old_tasks: [P2.5, P2.6]
-      status: NOT_STARTED
+      status: IMPLEMENTATION_READY_DEVELOPMENT_S42
+      implementation_ready: true
+      training_completed: false
+      live_execution_status: NOT_STARTED
+      scientific_result: NOT_EVALUATED
+      implementation_contract: docs/protocol/P2.2-sequence-reference.md
+      implementation_config: configs/models/sequence-reference-v1.yaml
+      roadmap_update:
+        id: P2.2-IMPLEMENTATION-001
+        previous_workbook: docs/history/Bang_ke_hoach_SeqLogAD--pre-P2.2-2026-09-19.xlsx
+        from_sha256: 154a69a1092605739bf1d4646399b120c00b09235c810798790297030d4873b4
+        to_sha256: 5725723cdc5c556c017c3d5f31d34f3e12bf94159df5bd68d8b983162b9d51d1
+        changed_cells:
+          Task Register!K15:
+            before: Not started
+            after: In progress
+        gate_signature_created: false
     P2.3:
       execution_authorized: false
       blockers: [PREDECESSOR_NOT_COMPLETE]

@@ -1,0 +1,49 @@
+migration:
+  id: SIX-PHASE-2026-09-20
+  authority: EXPLICIT_USER_REQUEST
+  planning_namespace: SIX_PHASE_V1
+  preserved_execution_namespace: P2_ARCH_V1
+  original_workbook_sha256: 5725723cdc5c556c017c3d5f31d34f3e12bf94159df5bd68d8b983162b9d51d1
+  revised_workbook_sha256: fddc0b17d4be0d72a1b51b205e29d27b040bc6d2027130fb877673d646d786f7
+  original_snapshot: outputs/01a0ba15-roadmap-six-phases/before-migration.xlsx
+  task_count: 32
+  gate_ids_preserved: [G0, G1, G2, G3, G4]
+  mapping_old_to_new:
+    P2.PRE: P2.PRE
+    P2.1: P2.1
+    P2.2: P3.1
+    P2.3: P3.2
+    P2.4: P4.1
+    P2.5: P4.2
+    P2.6: P4.3
+    P2.7: P4.4
+    P3.1: P5.1
+    P3.2: P5.2
+    P3.3: P5.3
+    P3.4: P5.4
+    P3.5: P5.5
+    P3.6: P5.6
+    P3.7: P5.7
+    P3.8: P5.8
+    P4.1: P6.1
+    P4.2: P6.2
+    P4.3: P6.3
+    P4.4: P6.4
+    P4.5: P6.5
+    P4.6: P6.6
+    P4.7: P6.7
+    P4.8: P6.8
+  phase2_completion:
+    scope: SEMANTIC_DEVELOPMENT_SEED_42
+    status: COMPLETE
+    supporting_prerequisite: P2.PRE
+    task: P2.1
+    evidence: outputs/runpod/P2.1-S42-A40-upload/seqlogad_outputs_P2.1_S42_FINAL.zip
+    scientific_result: NOT_EVALUATED
+    multi_seed_claim: false
+  runtime_compatibility:
+    active_planning_task: P3.1
+    execution_task_id: P2.2
+    rename_notebooks_or_artifacts: false
+    mutate_signed_receipts: false
+    note: Existing execution contracts, hashes, run IDs and historical snapshots retain original IDs. Resolve them through this crosswalk; do not use their phase numbers as current planning authority.

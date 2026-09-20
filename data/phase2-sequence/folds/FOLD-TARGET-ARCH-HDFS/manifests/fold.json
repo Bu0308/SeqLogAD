@@ -1,0 +1,116 @@
+{
+  "fold_id": "FOLD-TARGET-ARCH-HDFS",
+  "partitions": {
+    "SOURCE_TRAIN": {
+      "architectures": [
+        "ARCH-BGL",
+        "ARCH-HADOOP",
+        "ARCH-OPENSTACK"
+      ],
+      "members": [
+        {
+          "architecture_id": "ARCH-BGL",
+          "distinct_normalized_messages": 2133,
+          "first_rank": 0,
+          "first_timestamp_utc": "2005-06-03T15:42:50.363779+00:00",
+          "last_rank": 2373980,
+          "last_timestamp_utc": "2005-07-17T04:26:47.157764+00:00",
+          "membership_sha256": "130989c60952161a3e606ca969f6343a036209fd89d6ff06cde2885ee4dad914",
+          "records": 2373981,
+          "segments": [
+            "EARLY"
+          ]
+        },
+        {
+          "architecture_id": "ARCH-HADOOP",
+          "distinct_normalized_messages": 17403,
+          "first_rank": 0,
+          "first_timestamp_utc": "2015-10-17T15:37:56.547000+00:00",
+          "last_rank": 237428,
+          "last_timestamp_utc": "2015-10-18T18:28:48.850000+00:00",
+          "membership_sha256": "ccadc065a9166889133dc94c86320a9b4d0c74a4c99ef495f402dafb07e28914",
+          "records": 237429,
+          "segments": [
+            "EARLY"
+          ]
+        },
+        {
+          "architecture_id": "ARCH-OPENSTACK",
+          "distinct_normalized_messages": 2485,
+          "first_rank": 0,
+          "first_timestamp_utc": "2017-05-14T19:39:01.445000+00:00",
+          "last_rank": 103909,
+          "last_timestamp_utc": "2017-05-16T19:21:00.137000+00:00",
+          "membership_sha256": "77a328061e362517562cee728015f39c2da159e56a9f279017ec4252c816b914",
+          "records": 103898,
+          "segments": [
+            "EARLY"
+          ]
+        }
+      ],
+      "records": 2715308,
+      "role": "SOURCE"
+    },
+    "SOURCE_VALIDATION": {
+      "architectures": [
+        "ARCH-BGL",
+        "ARCH-HADOOP",
+        "ARCH-OPENSTACK"
+      ],
+      "members": [
+        {
+          "architecture_id": "ARCH-BGL",
+          "distinct_normalized_messages": 12290,
+          "first_rank": 2611379,
+          "first_timestamp_utc": "2005-07-23T17:39:41.441102+00:00",
+          "last_rank": 3323573,
+          "last_timestamp_utc": "2005-09-02T13:50:47.164705+00:00",
+          "membership_sha256": "b1f1353d885f38ce4d24618d41da08b749fbed9e4e4aecd8b7cef4307b7c5439",
+          "records": 712195,
+          "segments": [
+            "MID"
+          ]
+        },
+        {
+          "architecture_id": "ARCH-HADOOP",
+          "distinct_normalized_messages": 2300,
+          "first_rank": 237429,
+          "first_timestamp_utc": "2015-10-18T21:33:02.241000+00:00",
+          "last_rank": 347538,
+          "last_timestamp_utc": "2015-10-18T22:20:29.316000+00:00",
+          "membership_sha256": "ace69958f2cbade6046a4ab09ee1cd11374918811c77c28feefcb4572f7ad8a7",
+          "records": 110110,
+          "segments": [
+            "MID"
+          ]
+        },
+        {
+          "architecture_id": "ARCH-OPENSTACK",
+          "distinct_normalized_messages": 820,
+          "first_rank": 114302,
+          "first_timestamp_utc": "2017-05-16T20:37:47.372000+00:00",
+          "last_rank": 145473,
+          "last_timestamp_utc": "2017-05-17T00:27:05.116000+00:00",
+          "membership_sha256": "9b7a17ba2ed1c53bf315fd74017ace28be11e5dd62069182c1677f171add1802",
+          "records": 31135,
+          "segments": [
+            "MID"
+          ]
+        }
+      ],
+      "records": 853440,
+      "role": "SOURCE"
+    }
+  },
+  "source_architectures": [
+    "ARCH-BGL",
+    "ARCH-HADOOP",
+    "ARCH-OPENSTACK"
+  ],
+  "split_contract": {
+    "path": "configs/protocols/cross-system-split-v1.yaml",
+    "sha256": "ce01eebb3638398579db1a76bb8d2a633be7dc38e22e3eb984ae94e740bd9154",
+    "version": "1.0"
+  },
+  "target_architecture": "ARCH-HDFS"
+}

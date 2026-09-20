@@ -122,7 +122,8 @@ def run_engineering_evaluation(repo_root, data_root, fold_id, run_directory,
 
 
 def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=None,
-                 resume_from=None, expected_bundle_sha256=None, run_mode='pilot'):
+                 resume_from=None, expected_bundle_sha256=None, run_mode='pilot',
+                 checkpoint_callback=None):
     import torch
     cfg, base = load_config(repo_root, overrides, run_mode=run_mode)
     validation = validate_bundle(data_root, fold_id, expected_bundle_sha256)
@@ -135,9 +136,15 @@ def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=N
         if run_id != final_run_id(fold_id, cfg['seed']):
             raise ValueError('final run_id does not match frozen fold/seed matrix')
     run = Path(output_root) / fold_id / cfg['expert_id'] / run_id
-    run.mkdir(parents=True, exist_ok=False)  # Resume creates a new run with explicit parent.
-    (run / 'logs').mkdir()
-    (run / 'checkpoints').mkdir()
+    resume_path = Path(resume_from).resolve() if resume_from else None
+    resume_in_place = bool(resume_path and run.exists() and resume_path.is_relative_to(run.resolve()))
+    if run.exists() and not resume_in_place:
+        raise ValueError('run directory exists without an in-place verified resume checkpoint')
+    run.mkdir(parents=True, exist_ok=resume_in_place)
+    (run / 'logs').mkdir(exist_ok=resume_in_place)
+    (run / 'checkpoints').mkdir(exist_ok=resume_in_place)
+    if resume_in_place:
+        (run / 'checksums.sha256').unlink(missing_ok=True)
     run_identity = {'config_sha256': identity(cfg), 'bundle_sha256': validation['bundle_sha256'], 'fold_id': fold_id, 'precision': str(precision(torch))}
     resume = verify_checkpoint(resume_from, run_identity) if resume_from else None
     dump(run / 'config.yaml', cfg)  # JSON is a valid YAML subset.
@@ -181,11 +188,12 @@ def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=N
         previous_best = Path(resume_from).parent / best['checkpoint'] if best['checkpoint'] else Path(resume_from)
         if not previous_best.exists():
             raise ValueError('resume requires prior best checkpoint directory')
-        shutil.copytree(previous_best, run / 'checkpoints/resume-best')
-        best['checkpoint'] = 'resume-best'
+        if not previous_best.resolve().is_relative_to(run.resolve()):
+            shutil.copytree(previous_best, run / 'checkpoints/resume-best')
+            best['checkpoint'] = 'resume-best'
     try:
         best, metrics = optimize(model, tokenizer, dtype, train, val, cfg, optimizer, scaler,
-                                 run, run_identity, first, best, early_state)
+                                 run, run_identity, first, best, early_state, checkpoint_callback)
         selected_checkpoint = run / 'checkpoints' / best['checkpoint']
         from safetensors.torch import load_file
         from peft import set_peft_model_state_dict
@@ -212,6 +220,8 @@ def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=N
         metrics.update(runtime_seconds=time.monotonic() - start, best=best,
             peak_vram_allocated=torch.cuda.max_memory_allocated(), peak_vram_reserved=torch.cuda.max_memory_reserved())
         dump(run / 'metrics.json', metrics)
+        cfg['real_training_completed'] = True
+        dump(run / 'config.yaml', cfg)
         from .prepare import git_state
         manifest = dict(run_id=run_id, fold_id=fold_id, expert_id=cfg['expert_id'], identity=run_identity,
             base_model_id=cfg['model_id'], base_model_revision=cfg['model_revision'], tokenizer_id=cfg['tokenizer_id'],
@@ -220,6 +230,7 @@ def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=N
             data_manifest_sha256=validation['bundle_sha256'], data_manifest_path='manifests/bundle.json',
             git=git_state(repo_root), timestamp_utc=datetime.now(timezone.utc).isoformat(),
             completion_status='TRAINING_COMPLETED_REQUIRES_REVIEW', scientific_results='NOT_EVALUATED',
+            real_training_completed=True,
             environment='environment.json', metrics='metrics.json', dependency_lock='dependency-lock.txt',
             checkpoint=str(final.relative_to(run)), best_checkpoint=best['checkpoint'],
             checkpoint_sha256=sha256_file(final / 'adapter/adapter_model.safetensors'),
@@ -235,7 +246,7 @@ def run_training(repo_root, data_root, output_root, fold_id, run_id, overrides=N
 
 
 def optimize(model, tokenizer, dtype, train, val, cfg, optimizer, scaler, run, run_identity, first, best,
-             early_state=None):
+             early_state=None, checkpoint_callback=None):
     import torch
     model.train()
     early_state = dict(early_state or {})
@@ -309,6 +320,8 @@ def optimize(model, tokenizer, dtype, train, val, cfg, optimizer, scaler, run, r
                 'last_completed_step': step + 1, 'learning_rate_factor': min(1.0, factor)}
             save_checkpoint(model, optimizer, scaler, checkpoint, step + 1, run_identity, best,
                             current_early_state, scheduler_state)
+            if checkpoint_callback is not None:
+                checkpoint_callback(run, checkpoint, best['checkpoint'])
         with (run / 'logs/train.jsonl').open('a') as handle:
             handle.write(json.dumps(metrics) + '\n')
         print(json.dumps(metrics), flush=True)

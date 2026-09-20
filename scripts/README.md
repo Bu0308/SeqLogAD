@@ -13,6 +13,17 @@ META-001 bounded validation is available without writing an artifact:
 The metadata wrapper has no split, TEST, parser, window, model, or experiment
 option.
 
+Phase-2 one-click packaging commands:
+
+    python scripts/package_phase2_all_experts_colab.py --root .
+    python scripts/package_p22_runpod.py --root .
+
+The first command rebuilds the shared pinned code archive. The second validates
+the materialized P2.2 sequence bundle, creates its RunPod A40 notebook, and emits
+the upload directory plus outer ZIP under `outputs/runpod/P2.2-S42-A40*`.
+P2.2 runtime orchestration remains in Python modules; the notebook only verifies,
+installs, resumes, and exports them.
+
 SPLIT-001 structural generation/validation is available through:
 
     python3 -m scripts.split_dataset generate --dataset hdfs --json

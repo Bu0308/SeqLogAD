@@ -24,7 +24,7 @@ def test_roles_and_sequence_candidates_cannot_collapse() -> None:
         "GTAT_STRUCTURAL_TEMPORAL": "STRUCTURAL_TEMPORAL",
     }
     by_id = {e["id"]: e for e in experts}
-    assert by_id["SEQUENCE_LLAMA_REFERENCE"]["status"] == "REFERENCE_CANDIDATE"
+    assert by_id["SEQUENCE_LLAMA_REFERENCE"]["status"] == "IMPLEMENTATION_READY_DEVELOPMENT_S42"
     assert by_id["SEQUENCE_LLAMA_REFERENCE"]["adapter"] == "LoRA-Sequence"
     assert by_id["SEQUENCE_LIGHTWEIGHT"]["status"] == "REQUIRED_CANDIDATE_SLOT"
     assert P2["sequence_winner"] == "UNDECIDED"
@@ -128,7 +128,7 @@ def test_controls_and_evidence_do_not_promise_calibration() -> None:
 
 def test_task_execution_and_future_preflight_cannot_be_skipped() -> None:
     for task_id, task in P2["tasks"].items():
-        assert task["execution_authorized"] is (task_id in {"P2.PRE", "P2.1"})
+        assert task["execution_authorized"] is (task_id in {"P2.PRE", "P2.1", "P2.2"})
         assert "ROUTING_MIGRATION" not in task["blockers"]
     assert P2["tasks"]["P2.PRE"]["status"] == "PASS"
     assert P2["tasks"]["P2.1"]["blockers"] == []

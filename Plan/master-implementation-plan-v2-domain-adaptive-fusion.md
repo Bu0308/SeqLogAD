@@ -70,12 +70,18 @@ Weights are trained only in source-domain episodic folds; the target receives un
 5. Run ablations: remove each expert, replace adaptive gate with equal weighting, remove target adaptation, and remove semantic/sequence/structural views.
 6. Stress-test cold start, new templates, log-volume drift and contaminated burn-in buffers. Freeze source data, target buffer, thresholds and gate configuration before final held-out evaluation.
 
-## 6. Four-phase roadmap
+## 6. Six-phase roadmap (2026-09-20 amendment)
 
 1. **Data and protocol foundation:** multi-source acquisition, canonical schema, target-buffer/adaptation contract, chronological leave-one-architecture-out split and leakage guards.
-2. **Universal representation and experts:** semantic, sequence and structural/time experts plus a common evidence/uncertainty schema.
-3. **Target adaptation and adaptive fusion:** local normal memory, calibration, drift estimator, gate meta-training and explanation contract.
-4. **Cross-architecture validation and report:** held-out architecture evaluation, ablation, robustness, final freeze and reproducible report.
+2. **Semantic expert — complete, seed 42:** P2.PRE base metadata prerequisite and P2.1 independent Semantic training on BGL/HDFS/Hadoop; final artifact retained.
+3. **Sequence experts:** P3.1 Sequence-LoRA reference and P3.2 lighter explicit sequence candidate (former P2.2/P2.3).
+4. **Structural expert and diversity:** P4.1 GTAT, P4.2 common evidence, P4.3 diversity/evaluation and P4.4 expert freeze (former P2.4–P2.7); signed G2 required before integration.
+5. **Target adaptation and adaptive fusion:** local normal memory, calibration, drift estimator, gate meta-training and explanation contract (former Phase 3).
+6. **Cross-architecture validation and report:** held-out architecture evaluation, ablation, robustness, final freeze and reproducible report (former Phase 4).
+
+The 32 tasks and existing eight-week planning envelope are retained. Phase 2
+completion concerns Semantic seed-42 execution; final anomaly evaluation remains
+Phase 6. Immutable run IDs and existing artifact paths use their original namespace.
 
 ## 7. Decision gates
 

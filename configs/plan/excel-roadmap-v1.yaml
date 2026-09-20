@@ -2,7 +2,7 @@ roadmap:
   schema_version: '1.0'
   authority: HUMAN_DECLARED_PRIMARY_SCIENTIFIC_ROADMAP
   source_workbook: Bang_ke_hoach_SeqLogAD.xlsx
-  source_workbook_sha256: 154a69a1092605739bf1d4646399b120c00b09235c810798790297030d4873b4
+  source_workbook_sha256: fddc0b17d4be0d72a1b51b205e29d27b040bc6d2027130fb877673d646d786f7
   worksheets:
   - Executive
   - Roadmap
@@ -17,32 +17,45 @@ roadmap:
   phases:
   - phase: P1 · Data & Protocol
     timing: W1–W2
-    objective: Create multi-source schema, target-buffer contract and leave-one-architecture-out evaluation.
+    objective: Create multi-source schema, buffer contract and architecture-held-out folds.
     micro_task_count: 8
-    key_outputs: Registry, unified schema, split manifests, leakage audit
+    key_outputs: Registry, schema, split manifests, leakage audit
     exit_gate: 'G0: Protocol Ready'
     owner: AI + Researcher
-  - phase: P2 · Representation & Experts
+  - phase: P2 · Semantic Expert
+    timing: W3
+    objective: Freeze base metadata and complete independent Semantic training for BGL, HDFS and Hadoop,
+      seed 42.
+    micro_task_count: 2
+    key_outputs: P2.PRE prerequisite; P2.1 Semantic adapters and verified final ZIP
+    exit_gate: Semantic S42 execution complete
+    owner: AI + Researcher
+  - phase: P3 · Sequence Experts
     timing: W3–W4
-    objective: P2.PRE metadata freeze, semantic expert, sequence reference + lighter candidate, GTAT,
-      evidence and diversity freeze.
-    micro_task_count: 8
-    key_outputs: LLM-BASE-001, semantic, two sequence candidates, GTAT, common evidence, diversity/freeze
-      package
+    objective: Train Sequence-LoRA reference and compare a required lighter sequence candidate.
+    micro_task_count: 2
+    key_outputs: P3.1 reference; P3.2 lighter candidate; sequence controls
+    exit_gate: Both candidates and controls documented
+    owner: AI + Researcher
+  - phase: P4 · Structural Expert & Diversity
+    timing: W4
+    objective: Develop GTAT; validate common evidence, diversity and freeze candidate dispositions.
+    micro_task_count: 4
+    key_outputs: GTAT, common evidence, diversity diagnostics, freeze package
     exit_gate: 'G2: Expert Diversity Ready'
     owner: AI + Researcher
-  - phase: P3 · Adaptation & Fusion
+  - phase: P5 · Adaptation & Fusion
     timing: W5–W6
-    objective: Calibrate target normal buffer; validate MLP 8→32→16→3 gate without target labels.
+    objective: Calibrate approved target normal buffer and validate adaptive fusion.
     micro_task_count: 8
-    key_outputs: Target memory, drift/uncertainty, fusion gate, explanations
-    exit_gate: 'G3: Fusion Justified'
+    key_outputs: Target memory, drift, uncertainty, fusion and explanations
+    exit_gate: 'G1 + G3: Adaptation / Fusion'
     owner: AI + Researcher
-  - phase: P4 · Cross-System Validation
+  - phase: P6 · Cross-System Validation
     timing: W7–W8
-    objective: Evaluate held-out architectures; test ablation, cold start and contamination; report evidence.
+    objective: Evaluate held-out targets, robustness and ablations; publish reproducible report.
     micro_task_count: 8
-    key_outputs: LOAO results, robustness, reproducibility bundle, report
+    key_outputs: LOAO results, robustness, reproducibility and report
     exit_gate: 'G4: Final Evaluation'
     owner: Researcher + AI
   gates:
@@ -62,7 +75,7 @@ roadmap:
     owner: Researcher
     depends_on:
     - P1.6
-    - P3.2–P3.5
+    - P5.2–P5.5
     workbook_status: Not passed
     evidence_link: —
   - gate: G2
@@ -72,7 +85,9 @@ roadmap:
     owner: Researcher
     depends_on:
     - P2.PRE
-    - P2.1–P2.7
+    - P2.1
+    - P3.1–P3.2
+    - P4.1–P4.4
     workbook_status: Not passed
     evidence_link: —
   - gate: G3
@@ -81,7 +96,7 @@ roadmap:
     forbidden_before_pass: Final claim that fusion is superior
     owner: Researcher
     depends_on:
-    - P3.6–P3.8
+    - P5.6–P5.8
     workbook_status: Not passed
     evidence_link: —
   - gate: G4
@@ -90,7 +105,7 @@ roadmap:
     forbidden_before_pass: Post-hoc tuning or universal-generalisation claim
     owner: Researcher
     depends_on:
-    - P4.1–P4.7
+    - P6.1–P6.7
     workbook_status: Not passed
     evidence_link: —
   research_questions:
@@ -99,7 +114,7 @@ roadmap:
     primary_metric: Per-target AP/PR-AUC + CI
     unit_of_evaluation: held-out architecture
     task_ids:
-    - P1–P2
+    - P1–P4
     required_evidence: LOAO splits + expert runs
     claim_allowed: Generalises across evaluated targets
     claim_forbidden: Universal generalisation
@@ -109,7 +124,7 @@ roadmap:
     unit_of_evaluation: target normal buffer + later logs
     task_ids:
     - P1.6
-    - P3.2–P3.5
+    - P5.2–P5.5
     required_evidence: buffer hash + calibration run
     claim_allowed: Adapts without target labels
     claim_forbidden: Works before sufficient normal buffer
@@ -118,8 +133,8 @@ roadmap:
     primary_metric: AP/FAR vs Llama/GTAT/single/equal/legacy baselines
     unit_of_evaluation: architecture × fold
     task_ids:
-    - P3.6–P3.8
-    - P4.3
+    - P5.6–P5.8
+    - P6.3
     required_evidence: paired result + ablation
     claim_allowed: Stable gain on evaluated domains
     claim_forbidden: Gain from arbitrary score sum
@@ -128,7 +143,7 @@ roadmap:
     primary_metric: degradation + latency
     unit_of_evaluation: robustness scenario
     task_ids:
-    - P4.4–P4.5
+    - P6.4–P6.5
     required_evidence: scenario bundles
     claim_allowed: Known operating envelope
     claim_forbidden: Robust to all drift
@@ -137,7 +152,7 @@ roadmap:
     primary_metric: hash/config/seed audit
     unit_of_evaluation: final bundle
     task_ids:
-    - P4.6–P4.8
+    - P6.6–P6.8
     required_evidence: repro + claim map
     claim_allowed: Traceable conclusion
     claim_forbidden: Unbacked metric/claim
@@ -419,7 +434,7 @@ roadmap:
       - S1
       - S4
   - task_id: P2.PRE
-    phase: P2 · Representation & Experts
+    phase: P2 · Semantic Expert
     workstream: Base Model / Tokenizer / Revision Freeze
     task_class: Must
     micro_task: 'Freeze metadata only: base/tokenizer IDs and exact commits, quantization/precision, context,
@@ -444,7 +459,7 @@ roadmap:
       - S11
       - S7
   - task_id: P2.1
-    phase: P2 · Representation & Experts
+    phase: P2 · Semantic Expert
     workstream: Semantic Expert
     task_class: Must
     micro_task: Implement semantic self-supervision and scoring with independent LoRA-Semantic. Retain
@@ -455,9 +470,10 @@ roadmap:
     timing: Week 3
     dependencies:
     - P2.PRE
-    definition_of_done: P2.PRE PASS before execution; independent adapter and scoring provenance, label-free
-      source train/validation, semantic notebook and tests; REP-DG-001 conditional disposition recorded.
-    workbook_status: In progress
+    definition_of_done: P2.PRE PASS; independent Semantic implementation and source-only training complete
+      for BGL/HDFS/Hadoop seed 42; verified final ZIP retained. REP-DG-001 disposition retained. Target
+      anomaly evaluation remains Phase 6.
+    workbook_status: Done
     playbook:
       method: Implement semantic self-supervision and scoring with independent LoRA-Semantic. Retain source
         alignment / domain-adversarial diagnostic as conditional REP-DG-001 with explicit disposition;
@@ -472,8 +488,8 @@ roadmap:
       - S3
       - S8
       - S4
-  - task_id: P2.2
-    phase: P2 · Representation & Experts
+  - task_id: P3.1
+    phase: P3 · Sequence Experts
     workstream: Sequence Reference Framework
     task_class: Must
     micro_task: Retain separate LoRA-Sequence as reference candidate; ordered next-event/log objective,
@@ -486,7 +502,7 @@ roadmap:
     - P2.1
     definition_of_done: Independent reference checkpoint/config; order, session/partition boundaries and
       six sequence controls testable; notebook and lineage complete.
-    workbook_status: Not started
+    workbook_status: In progress
     playbook:
       method: Retain separate LoRA-Sequence as reference candidate; ordered next-event/log objective,
         context evidence and boundary tests. No shared adapter weights/state; require portable data and
@@ -499,8 +515,8 @@ roadmap:
       - S7
       - S11
       - S4
-  - task_id: P2.3
-    phase: P2 · Representation & Experts
+  - task_id: P3.2
+    phase: P3 · Sequence Experts
     workstream: Lightweight Sequence Expert
     task_class: Must
     micro_task: Compare at least one substantially lighter explicit sequence architecture on the same
@@ -510,7 +526,7 @@ roadmap:
     owner: AI
     timing: Week 4
     dependencies:
-    - P2.2
+    - P3.1
     definition_of_done: Required lighter candidate evaluated under frozen resource criterion and shared
       contexts; all six sequence controls, cost/quality evidence and notebook; no unsupported winner claim.
     workbook_status: Not started
@@ -525,8 +541,8 @@ roadmap:
       citations:
       - S5
       - S4
-  - task_id: P2.4
-    phase: P2 · Representation & Experts
+  - task_id: P4.1
+    phase: P4 · Structural Expert & Diversity
     workstream: GTAT Expert
     task_class: Must
     micro_task: Freeze exact GTAT source and graph/temporal specification before training. Report coverage/abstain
@@ -536,7 +552,7 @@ roadmap:
     owner: AI
     timing: Week 4
     dependencies:
-    - P2.3
+    - P3.2
     definition_of_done: Exact graph source/spec/objective frozen; coverage and temporal expressiveness
       tested; missing topology yields unknown; notebook and lineage complete.
     workbook_status: Not started
@@ -549,23 +565,24 @@ roadmap:
         missing topology yields unknown; notebook and lineage complete.
       citations:
       - S6
-  - task_id: P2.5
-    phase: P2 · Representation & Experts
+  - task_id: P4.2
+    phase: P4 · Structural Expert & Diversity
     workstream: Common Evidence Contract
     task_class: Must
-    micro_task: Validate common evidence across all four candidates; raw score, uncertainty/unknown, coverage,
-      record IDs and version lineage. Phase-2 calibrated score remains null; reject missing provenance.
+    micro_task: 'Validate common evidence across all four candidates: raw score, uncertainty/unknown,
+      coverage, record IDs and lineage. Calibrated score remains null until Phase 5; reject missing provenance.'
     output: EVID-CS-001
     owner: AI
     timing: Week 4
     dependencies:
-    - P2.4
+    - P4.1
     definition_of_done: All four candidate outputs validate common contract; unknown is explicit; no calibration,
       fabricated certainty or missing version/coverage.
     workbook_status: Not started
     playbook:
       method: Validate common evidence across all four candidates; raw score, uncertainty/unknown, coverage,
-        record IDs and version lineage. Phase-2 calibrated score remains null; reject missing provenance.
+        record IDs and version lineage. expert-development phases calibrated score remains null; reject
+        missing provenance.
       required_evidence: EVID-CS-001
       verifiable_dod: All four candidate outputs validate common contract; unknown is explicit; no calibration,
         fabricated certainty or missing version/coverage.
@@ -573,8 +590,8 @@ roadmap:
       - S5
       - S6
       - S9
-  - task_id: P2.6
-    phase: P2 · Representation & Experts
+  - task_id: P4.3
+    phase: P4 · Structural Expert & Diversity
     workstream: Expert Diversity / Scientific Evaluation
     task_class: Must
     micro_task: Own source-held-out diversity diagnostics and sequence controls for all candidates. No
@@ -584,7 +601,7 @@ roadmap:
     owner: Người nghiên cứu
     timing: Week 4
     dependencies:
-    - P2.5
+    - P4.2
     definition_of_done: Versioned source diagnostics, redundancy and resource comparison; report unsupported
       capability. C2 blocks supervised metrics and completion evidence depending on them; no gate fitting.
     workbook_status: Not started
@@ -598,55 +615,55 @@ roadmap:
       citations:
       - S3
       - S6
-  - task_id: P2.7
-    phase: P2 · Representation & Experts
-    workstream: Final Phase-2 Freeze
+  - task_id: P4.4
+    phase: P4 · Structural Expert & Diversity
+    workstream: Expert Freeze
     task_class: Must
-    micro_task: Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility
-      package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.
+    micro_task: Freeze candidate dispositions, reference artifacts, common interface and reproducibility
+      package. Assemble G2 evidence for researcher review before Phase 5.
     output: P2-FREEZE-001
     owner: Người nghiên cứu
     timing: Week 4
     dependencies:
-    - P2.6
-    definition_of_done: P2.6 complete; source-label/capability issues resolved for required evidence;
+    - P4.3
+    definition_of_done: P4.3 complete; source-label/capability issues resolved for required evidence;
       reference artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.
     workbook_status: Not started
     playbook:
       method: Freeze candidate dispositions, retained reference artifacts, common interface and reproducibility
-        package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase-3 activation.
+        package. Assemble G2 evidence for researcher review; no automatic gate pass or Phase 5 activation.
       required_evidence: P2-FREEZE-001
-      verifiable_dod: P2.6 complete; source-label/capability issues resolved for required evidence; reference
+      verifiable_dod: P4.3 complete; source-label/capability issues resolved for required evidence; reference
         artifacts retained; researcher G2 review required; G2 remains NOT_PASSED until signed.
       citations:
       - S3
       - S6
       - S9
-  - task_id: P3.1
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.1
+    phase: P5 · Adaptation & Fusion
     workstream: Held-out check
     task_class: Must
-    micro_task: Receive P2.6 diversity evidence and P2.7 freeze package; verify G2 before Phase-3 integration,
-      without rerunning or owning Phase-2 evaluation.
+    micro_task: Receive P4.3 diversity evidence and P4.4 freeze package; verify signed G2 before Phase
+      5 integration.
     output: G2 handoff verification
     owner: Người nghiên cứu
     timing: Week 5
     dependencies:
-    - P2.7
-    definition_of_done: P2.6 evidence hashes and researcher G2 signature verified; Phase 3 remains disabled
+    - P4.4
+    definition_of_done: P4.3 evidence hashes and researcher G2 signature verified; Phase 5 remains disabled
       before approval.
     workbook_status: Waiting researcher
     playbook:
-      method: Verify P2.6 diagnostic artifacts and P2.7 package hashes; confirm researcher G2 signature
+      method: Verify P4.3 diagnostic artifacts and P4.4 package hashes; confirm researcher G2 signature
         before integration. Do not duplicate source evaluation or use target labels for tuning.
       required_evidence: P2.6/P2.7 evidence references and G2 handoff verification.
-      verifiable_dod: Existing diversity evidence verified, G2 signed and Phase-3 execution separately
+      verifiable_dod: Existing diversity evidence verified, G2 signed and Phase 5 execution separately
         authorized; no new evaluation or superiority claim.
       citations:
       - S3
       - S6
-  - task_id: P3.2
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.2
+    phase: P5 · Adaptation & Fusion
     workstream: Target memory
     task_class: Must
     micro_task: Xây normal prototype/memory và graph/sequence statistics từ target burn-in
@@ -655,7 +672,7 @@ roadmap:
     timing: Week 5
     dependencies:
     - P1.6
-    - P2.7
+    - P4.4
     definition_of_done: Memory only uses approved unlabeled buffer; hash/version recorded.
     workbook_status: Not started
     playbook:
@@ -670,8 +687,8 @@ roadmap:
       citations:
       - S4
       - S6
-  - task_id: P3.3
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.3
+    phase: P5 · Adaptation & Fusion
     workstream: Calibration
     task_class: Must
     micro_task: Calibrate Llama-A, Llama-B và GTAT score bằng target-normal quantile
@@ -679,7 +696,7 @@ roadmap:
     owner: AI
     timing: Week 5
     dependencies:
-    - P3.2
+    - P5.2
     definition_of_done: Score scales comparable without target labels.
     workbook_status: Not started
     playbook:
@@ -694,8 +711,8 @@ roadmap:
       citations:
       - S4
       - S9
-  - task_id: P3.4
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.4
+    phase: P5 · Adaptation & Fusion
     workstream: Drift
     task_class: Must
     micro_task: Đo domain drift, buffer coverage và GTAT topology coverage
@@ -703,7 +720,7 @@ roadmap:
     owner: AI
     timing: Week 5
     dependencies:
-    - P3.2
+    - P5.2
     definition_of_done: Drift metric has baseline and no silent recalibration.
     workbook_status: Not started
     playbook:
@@ -718,8 +735,8 @@ roadmap:
       citations:
       - S3
       - S6
-  - task_id: P3.5
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.5
+    phase: P5 · Adaptation & Fusion
     workstream: Uncertainty
     task_class: Must
     micro_task: Định nghĩa confidence/uncertainty cho từng expert và abstain criterion
@@ -727,8 +744,8 @@ roadmap:
     owner: AI
     timing: Week 5
     dependencies:
-    - P2.5
-    - P3.3
+    - P4.2
+    - P5.3
     definition_of_done: Unknown/review is first-class output, not forced anomaly label.
     workbook_status: Not started
     playbook:
@@ -742,8 +759,8 @@ roadmap:
         record thành normal/anomaly.
       citations:
       - S9
-  - task_id: P3.6
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.6
+    phase: P5 · Adaptation & Fusion
     workstream: Fusion baseline
     task_class: Must
     micro_task: Cài strongest-single, Transformer Encoder và Isolation Forest/equal-weight comparator
@@ -751,7 +768,7 @@ roadmap:
     owner: AI
     timing: Week 6
     dependencies:
-    - P3.3
+    - P5.3
     definition_of_done: Không learned target weights; old models remain explicit baselines.
     workbook_status: Not started
     playbook:
@@ -766,8 +783,8 @@ roadmap:
       citations:
       - S10
       - S5
-  - task_id: P3.7
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.7
+    phase: P5 · Adaptation & Fusion
     workstream: Adaptive gate
     task_class: Conditional
     micro_task: Meta-train MLP 8→32→16→3 Softmax on leave-one-architecture-out episodes
@@ -775,9 +792,9 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 6
     dependencies:
-    - P3.4
-    - P3.5
-    - P3.6
+    - P5.4
+    - P5.5
+    - P5.6
     definition_of_done: Gate uses drift/uncertainty/context; not target labels.
     workbook_status: Not started
     playbook:
@@ -793,8 +810,8 @@ roadmap:
       - S4
       - S6
       - S9
-  - task_id: P3.8
-    phase: P3 · Adaptation & Fusion
+  - task_id: P5.8
+    phase: P5 · Adaptation & Fusion
     workstream: Complementarity + explanation
     task_class: Must
     micro_task: Kiểm tra diversity và xuất top expert, weight, evidence, localisation/abstain reason
@@ -802,9 +819,9 @@ roadmap:
     owner: AI
     timing: Week 6
     dependencies:
-    - P3.1
-    - P3.6
-    - P3.7
+    - P5.1
+    - P5.6
+    - P5.7
     definition_of_done: Gate chỉ mở nếu diversity/stability evidence đạt; alert explanation contract pass.
     workbook_status: Not started
     playbook:
@@ -819,8 +836,8 @@ roadmap:
       citations:
       - S6
       - S9
-  - task_id: P4.1
-    phase: P4 · Cross-System Validation
+  - task_id: P6.1
+    phase: P6 · Cross-System Validation
     workstream: LOAO protocol
     task_class: Must
     micro_task: Freeze held-out architecture folds, target buffer và selection policy
@@ -828,7 +845,7 @@ roadmap:
     owner: Người nghiên cứu
     timing: Week 7
     dependencies:
-    - P3.8
+    - P5.8
     definition_of_done: No random mixed-domain split; no post-hoc target tuning.
     workbook_status: Waiting researcher
     playbook:
@@ -844,8 +861,8 @@ roadmap:
       - S3
       - S4
       - S6
-  - task_id: P4.2
-    phase: P4 · Cross-System Validation
+  - task_id: P6.2
+    phase: P6 · Cross-System Validation
     workstream: Core evaluation
     task_class: Must
     micro_task: Run chronological target evaluation for every held-out architecture
@@ -853,7 +870,7 @@ roadmap:
     owner: Người nghiên cứu
     timing: Week 7
     dependencies:
-    - P4.1
+    - P6.1
     definition_of_done: Per-target AP/PR-AUC, AUROC, FAR, TTD, latency and CI traceable.
     workbook_status: Waiting researcher
     playbook:
@@ -869,8 +886,8 @@ roadmap:
       - S3
       - S4
       - S6
-  - task_id: P4.3
-    phase: P4 · Cross-System Validation
+  - task_id: P6.3
+    phase: P6 · Cross-System Validation
     workstream: Ablation
     task_class: Must
     micro_task: Remove LoRA-A, LoRA-B, GTAT, adaptation and gate one at a time
@@ -878,7 +895,7 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 7
     dependencies:
-    - P4.2
+    - P6.2
     definition_of_done: Contribution claims follow paired/cluster uncertainty.
     workbook_status: Not started
     playbook:
@@ -894,8 +911,8 @@ roadmap:
       - S5
       - S6
       - S7
-  - task_id: P4.4
-    phase: P4 · Cross-System Validation
+  - task_id: P6.4
+    phase: P6 · Cross-System Validation
     workstream: Cold start
     task_class: Must
     micro_task: Stress test short burn-in and previously unseen template/service
@@ -903,7 +920,7 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 7
     dependencies:
-    - P4.2
+    - P6.2
     definition_of_done: Report readiness threshold and failure modes.
     workbook_status: Not started
     playbook:
@@ -918,8 +935,8 @@ roadmap:
       citations:
       - S4
       - S9
-  - task_id: P4.5
-    phase: P4 · Cross-System Validation
+  - task_id: P6.5
+    phase: P6 · Cross-System Validation
     workstream: Contamination
     task_class: Must
     micro_task: Stress test contaminated normal buffer and controlled drift
@@ -927,7 +944,7 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 8
     dependencies:
-    - P4.2
+    - P6.2
     definition_of_done: Quantify degradation; no hidden target labels.
     workbook_status: Not started
     playbook:
@@ -942,8 +959,8 @@ roadmap:
       citations:
       - S4
       - S9
-  - task_id: P4.6
-    phase: P4 · Cross-System Validation
+  - task_id: P6.6
+    phase: P6 · Cross-System Validation
     workstream: Reliability
     task_class: Must
     micro_task: Audit dataset/model/gate/buffer hashes, seeds, commands and latency
@@ -951,10 +968,10 @@ roadmap:
     owner: AI
     timing: Week 8
     dependencies:
-    - P4.2
-    - P4.3
-    - P4.4
-    - P4.5
+    - P6.2
+    - P6.3
+    - P6.4
+    - P6.5
     definition_of_done: All reported metrics trace to immutable artifacts.
     workbook_status: Not started
     playbook:
@@ -970,8 +987,8 @@ roadmap:
       - S1
       - S7
       - S11
-  - task_id: P4.7
-    phase: P4 · Cross-System Validation
+  - task_id: P6.7
+    phase: P6 · Cross-System Validation
     workstream: Claims
     task_class: Must
     micro_task: Build claim-to-evidence map and document limits/unknown cases
@@ -979,7 +996,7 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 8
     dependencies:
-    - P4.6
+    - P6.6
     definition_of_done: No universal-generalisation claim beyond evaluated domains.
     workbook_status: Not started
     playbook:
@@ -995,8 +1012,8 @@ roadmap:
       - S3
       - S4
       - S9
-  - task_id: P4.8
-    phase: P4 · Cross-System Validation
+  - task_id: P6.8
+    phase: P6 · Cross-System Validation
     workstream: Final report
     task_class: Must
     micro_task: Write thesis/report and handoff reproducible model package
@@ -1004,7 +1021,7 @@ roadmap:
     owner: AI + Người nghiên cứu
     timing: Week 8
     dependencies:
-    - P4.7
+    - P6.7
     definition_of_done: Architecture, protocol, results, limitations and source links complete.
     workbook_status: Not started
     playbook:

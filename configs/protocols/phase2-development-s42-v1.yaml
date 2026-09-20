@@ -1,0 +1,86 @@
+phase2_development_s42:
+  id: P2-DEV-S42-ONECLICK-001
+  version: '1.1'
+  authority: USER_REQUEST_2026_09_19_P2_2
+  status: ACTIVE_EXECUTION_AMENDMENT
+  purpose: DEVELOPMENT_ARCHITECTURE_VALIDATION_NOT_SCIENTIFIC_COMPLETION
+  preserves_historical_protocols: true
+  run_mode: development
+  seed: 42
+  confirmation_seeds_deferred: [3407, 8675309]
+  targets: [BGL, HDFS, HADOOP]
+  target_order: [BGL, HDFS, HADOOP]
+  folds:
+    BGL: FOLD-TARGET-ARCH-BGL
+    HDFS: FOLD-TARGET-ARCH-HDFS
+    HADOOP: FOLD-TARGET-ARCH-HADOOP
+  source_label_status: UNRESOLVED_DENY
+  anomaly_labels_allowed: false
+  target_data_allowed: false
+  execution:
+    targets_sequential_within_notebook: true
+    experts_may_use_separate_gpu_runtimes: true
+    cross_expert_checkpoint_reuse: false
+    primary_runtime: RUNPOD
+    required_gpu_for_p2_1: NVIDIA_A40_48GB_NATIVE_BF16
+    required_gpu_for_p2_2: NVIDIA_A40_48GB_NATIVE_BF16
+    persistent_root: /workspace/SeqLogAD
+    active_root: /tmp/seqlogad_outputs
+    network_volume_mount: /workspace
+    skip_completed_verified: true
+    resume_verified_recovery: true
+    ambiguous_or_corrupt_state: FAIL_CLOSED
+  experts:
+    P2.1:
+      expert_id: SEMANTIC_LLAMA
+      notebook: notebooks/P2.1_run_all_semantic_s42.ipynb
+      implementation_status: READY
+      required_view: semantic
+      requires_hf_token: true
+      final_zip: seqlogad_outputs_P2.1_S42_FINAL.zip
+      external_registrations:
+        BGL:
+          run_id: P2.1-FINAL-BGL-S42
+          status: PASS
+          selected_checkpoint: step-800
+          adapter_sha256: 63b17c16bb7ed1ee4e4b6f0696d8f02bee05e41b37125e92f0793b032857e0eb
+          historical_archive_sha256: d513dab2c65e7847f84de1e4bfaba8e3931c22da76730fbfc5497409b05c68f7
+          historical_artifact_required_for_skip: false
+    P2.2:
+      expert_id: SEQUENCE_LLAMA_REFERENCE
+      notebook: notebooks/P2.2_run_all_sequence_lora_s42.ipynb
+      implementation_status: READY
+      required_view: sequence
+      requires_hf_token: true
+      final_zip: seqlogad_outputs_P2.2_S42_FINAL.zip
+      implementation_contract: docs/protocol/P2.2-sequence-reference.md
+      implementation_config: configs/models/sequence-reference-v1.yaml
+      objective: CAUSAL_NEXT_LOG_TARGET_TOKEN_NLL
+      context_records: 8
+      blockers: []
+    P2.3:
+      expert_id: SEQUENCE_LIGHTWEIGHT
+      notebook: notebooks/P2.3_run_all_lightweight_sequence_s42.ipynb
+      implementation_status: BLOCKED
+      required_view: sequence
+      requires_hf_token: false
+      final_zip: seqlogad_outputs_P2.3_S42_FINAL.zip
+      blockers:
+        - LIGHTWEIGHT_ARCHITECTURE_AND_RESOURCE_CRITERION_NOT_FROZEN
+        - AUTHORITATIVE_TRAINER_NOT_IMPLEMENTED
+    P2.4:
+      expert_id: GTAT_STRUCTURAL_TEMPORAL
+      notebook: notebooks/P2.4_run_all_gtat_s42.ipynb
+      implementation_status: BLOCKED
+      required_view: graph
+      requires_hf_token: false
+      final_zip: seqlogad_outputs_P2.4_S42_FINAL.zip
+      blockers:
+        - GTAT_EXACT_MODEL_AND_GRAPH_TEMPORAL_SPEC_NOT_FROZEN
+        - GRAPH_VIEW_NOT_MATERIALIZED
+        - AUTHORITATIVE_TRAINER_NOT_IMPLEMENTED
+  completion_claims:
+    multi_seed_stability: FORBIDDEN
+    scientific_result: NOT_EVALUATED
+    p2_6_evaluation: NOT_AUTHORIZED
+    phase3: NOT_AUTHORIZED

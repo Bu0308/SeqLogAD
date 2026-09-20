@@ -58,14 +58,14 @@ def verify_checkpoint(directory, identity):
 
 
 def save_checkpoint(model, optimizer, scaler, directory, step, identity, best,
-                    early_stopping=None, scheduler_state=None):
+                    early_stopping=None, scheduler_state=None, adapter_name='semantic'):
     import torch
     import random
     directory = Path(directory)
     temporary = directory.with_name(directory.name + '.partial')
     temporary.mkdir(parents=True, exist_ok=False)
-    model.save_pretrained(temporary / 'peft', safe_serialization=True, selected_adapters=['semantic'])
-    source = temporary / 'peft/semantic'
+    model.save_pretrained(temporary / 'peft', safe_serialization=True, selected_adapters=[adapter_name])
+    source = temporary / f'peft/{adapter_name}'
     if not source.exists():
         source = temporary / 'peft'
     shutil.copytree(source, temporary / 'adapter')
@@ -77,7 +77,7 @@ def save_checkpoint(model, optimizer, scaler, directory, step, identity, best,
                 'scheduler': scheduler_state or {}}, temporary / 'state.pt')
     dump(temporary / 'manifest.json', {'identity': identity, 'step': step, 'best': best,
          'early_stopping': early_stopping or {}, 'scheduler': scheduler_state or {},
-         'adapter': 'semantic', 'base_weights_saved': False})
+         'adapter': adapter_name, 'base_weights_saved': False})
     seal(temporary)
     temporary.rename(directory)
     return directory
