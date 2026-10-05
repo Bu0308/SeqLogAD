@@ -31,8 +31,12 @@ def package_code(root=Path("."), destination=None):
             root / "configs/models/base-freeze-v1.yaml",
             root / "configs/models/semantic-v1.yaml",
             root / "configs/models/sequence-reference-v1.yaml",
+            root / "configs/models/sequence-reference-v12.yaml",
+            root / "configs/models/sequence-reference-v13.yaml",
+            root / "configs/models/sequence-reference-v13r1.yaml",
             root / "configs/protocols/phase2-architecture-v1.yaml",
             root / "configs/protocols/phase2-development-s42-v1.yaml",
+            root / "docs/protocol/P3.1-source-labeled-development-amendment-2026-09-27.md",
             root / "src/seqlogad/__init__.py",
         ]
         paths = list(fixed)

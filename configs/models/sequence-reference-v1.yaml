@@ -1,6 +1,6 @@
 sequence_reference:
   id: LORA-SEQ-001
-  version: '1.0'
+  version: '1.1'
   expert_id: SEQUENCE_LLAMA_REFERENCE
   adapter_name: sequence
   base_contract: configs/models/base-freeze-v1.yaml

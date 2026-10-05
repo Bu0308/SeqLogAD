@@ -1,4 +1,4 @@
-"""Resolved immutable P2.2 seed-42 development configuration."""
+"""Resolved versioned P2.2 seed-42 Sequence candidate configuration."""
 from __future__ import annotations
 
 import hashlib
@@ -18,16 +18,18 @@ def identity(value) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
 
 
-def development_run_id(fold_id, seed=42):
+def development_run_id(fold_id, seed=42, candidate="v12"):
     target = fold_id.removeprefix("FOLD-TARGET-ARCH-")
-    if target not in TARGETS or seed != 42:
+    if target not in TARGETS or seed != 42 or candidate not in {"v12", "v13", "v13r1"}:
         raise ValueError("P2.2 development run is locked to seed 42 and three target folds")
-    return f"P2.2-DEVELOPMENT-{target}-S42"
+    return f"P2.2-DEVELOPMENT-{target}-S42-{candidate.upper()}"
 
 
-def load_config(repo_root, overrides=None, run_mode="development"):
+def load_config(repo_root, overrides=None, run_mode="development", candidate="v12"):
     root = Path(repo_root)
-    cfg = yaml.safe_load((root / "configs/models/sequence-reference-v1.yaml").read_text())["sequence_reference"]
+    if candidate not in {"v12", "v13", "v13r1"}:
+        raise ValueError("unknown Sequence candidate")
+    cfg = yaml.safe_load((root / f"configs/models/sequence-reference-{candidate}.yaml").read_text())["sequence_reference"]
     base = yaml.safe_load((root / cfg["base_contract"]).read_text())["base_freeze"]
     if run_mode != "development" or cfg.get("run_mode") != "development":
         raise ValueError("P2.2 S42 supports only the frozen development mode")
@@ -68,10 +70,39 @@ def load_config(repo_root, overrides=None, run_mode="development"):
         raise ValueError("P2.2 checkpoint and validation cadence must coincide")
     if cfg["objective"] != "CAUSAL_NEXT_LOG_TARGET_TOKEN_NLL":
         raise ValueError("unexpected P2.2 objective")
+    if cfg["version"] != {"v12": "1.2", "v13": "1.3", "v13r1": "1.3.1"}[candidate] or cfg["context_policy"]["crop_policy"] != (
+        "DROP_OLDEST_WHOLE_CONTEXT_RECORD_THEN_DECREASE_TARGET_WORD_PREFIX"
+    ):
+        raise ValueError("unexpected P2.2 encoding variant")
+    views = cfg.get("training_context_views", {})
+    if views != {
+        "policy": "CAUSAL_SUFFIX_MULTI_SCALE",
+        "short_lengths": [1, 2, 4],
+        "full_context_probability": 0.5,
+        "validation_and_inference": "FULL_AVAILABLE_CONTEXT_ONLY",
+    } or cfg.get("use_rslora") is not True:
+        raise ValueError("unexpected P2.2 V12 adaptation variant")
     if cfg["adapter_name"] != "sequence" or cfg["expert_id"] != "SEQUENCE_LLAMA_REFERENCE":
         raise ValueError("P2.2 expert/adapter identity changed")
-    if cfg["source_label_status"] != "UNRESOLVED_DENY" or cfg["clean_normal_claim"]:
+    expected_label_status = ("UNRESOLVED_DENY" if candidate == "v12"
+                             else "SOURCE_VALIDATION_MODEL_SELECTION_ONLY")
+    if cfg["source_label_status"] != expected_label_status or cfg["clean_normal_claim"]:
         raise ValueError("P2.2 label/normality policy changed")
+    if candidate in {"v13", "v13r1"}:
+        if cfg["checkpoint_selection"] != "MAX_MACRO_SOURCE_DEVELOPMENT_F1":
+            raise ValueError("V13 must select checkpoints by labeled source-development F1")
+        development = cfg.get("source_development", {})
+        if (development.get("permitted_architectures") != ["ARCH-BGL", "ARCH-HDFS"]
+                or development.get("partition") != "SOURCE_VALIDATION"
+                or development.get("training_labels_allowed") is not False
+                or development.get("held_out_target_labels_allowed") is not False
+                or development.get("bgl_unit") != "TARGET_LOG_LINE"
+                or development.get("hdfs_unit") != "BLOCK_TRACE"
+                or development.get("unit_score_aggregation") != "MEAN_OF_SELECTED_WINDOW_NLL"
+                or development.get("threshold_selection") != "MAX_F1_HIGHEST_THRESHOLD_ON_TIE_PER_SOURCE"
+                or development.get("macro_aggregation") != "EQUAL_WEIGHT_PER_AVAILABLE_LABELED_SOURCE"
+                or development.get("metrics") != ["accuracy", "precision", "recall", "f1", "auroc", "average_precision"]):
+            raise ValueError("V13 source-development boundary changed")
     if cfg["numerical_failure_policy"] != "ABORT_NO_SKIPPED_UPDATES":
         raise ValueError("P2.2 numerical guard must remain enabled")
     cfg.update(

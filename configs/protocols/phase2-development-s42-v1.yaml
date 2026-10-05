@@ -48,13 +48,13 @@ phase2_development_s42:
           historical_artifact_required_for_skip: false
     P2.2:
       expert_id: SEQUENCE_LLAMA_REFERENCE
-      notebook: notebooks/P2.2_run_all_sequence_lora_s42.ipynb
+      notebook: notebooks/P2.2_run_all_sequence_lora_s42_v12.ipynb
       implementation_status: READY
       required_view: sequence
       requires_hf_token: true
       final_zip: seqlogad_outputs_P2.2_S42_FINAL.zip
-      implementation_contract: docs/protocol/P2.2-sequence-reference.md
-      implementation_config: configs/models/sequence-reference-v1.yaml
+      implementation_contract: docs/protocol/P2.2-sequence-candidate-v12.md
+      implementation_config: configs/models/sequence-reference-v12.yaml
       objective: CAUSAL_NEXT_LOG_TARGET_TOKEN_NLL
       context_records: 8
       blockers: []

@@ -13,7 +13,7 @@ from seqlogad.phase2_execution.specs import TARGETS, deterministic_run_id, load_
 ROOT = Path(__file__).parents[1]
 NOTEBOOKS = {
     "P2.1": "P2.1_run_all_semantic_s42.ipynb",
-    "P2.2": "P2.2_run_all_sequence_lora_s42.ipynb",
+    "P2.2": "P2.2_run_all_sequence_lora_s42_v12.ipynb",
     "P2.3": "P2.3_run_all_lightweight_sequence_s42.ipynb",
     "P2.4": "P2.4_run_all_gtat_s42.ipynb",
 }
@@ -62,7 +62,7 @@ def test_development_amendment_locks_seed_targets_and_preserves_blockers():
 
 def test_run_ids_are_deterministic_and_seed_42_only():
     assert deterministic_run_id("P2.1", "BGL") == "P2.1-FINAL-BGL-S42"
-    assert deterministic_run_id("P2.2", "HDFS") == "P2.2-DEVELOPMENT-HDFS-S42"
+    assert deterministic_run_id("P2.2", "HDFS") == "P2.2-DEVELOPMENT-HDFS-S42-V12"
     with pytest.raises(ValueError):
         deterministic_run_id("P2.1", "BGL", 3407)
     with pytest.raises(ValueError):
@@ -97,6 +97,10 @@ def test_all_notebooks_parse_compile_and_keep_orchestration_thin():
                 assert 'TASK_ID = "P2.2"' in code
                 assert 'DATA_ROOT = str(RUNTIME_ROOT / "phase2_sequence")' in code
                 assert 'UV_FIX=PASS' in code
+                assert 'EXPECTED_PMEM_WHEEL_SHA256' in code
+                assert '[pmem_cli, "run"' in code
+                assert '"export-bundle"' in code
+                assert '"track", "P2.2/seqlogad_outputs_P2.2_S42_FINAL.zip"' in code
         else:
             assert 'NOTEBOOK_STATUS = \'BLOCKED\'' in code
             assert "drive.mount" in code

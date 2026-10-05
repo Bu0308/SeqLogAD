@@ -87,6 +87,8 @@ def encode_window(tokenizer, context_messages, target_message, cfg):
                     "original_context_records": original_context,
                     "complete": complete and len(contexts) == original_context,
                 }
+            if len(contexts) > 1:
+                break
             keep -= max(1, (len(ids) - cfg["context_length"]) // 4)
         if len(contexts) == 1:
             break

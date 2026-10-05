@@ -100,3 +100,103 @@ def test_append_rejects_absolute_or_parent_paths(tmp_path: Path) -> None:
     record = _architecture().model_copy(update={"decision_evidence": ("../secret.json",)})
     with pytest.raises(CollectionError, match="relative POSIX"):
         append_record(tmp_path, "architecture", record)
+
+
+def test_empty_store_is_not_a_ready_package(tmp_path):
+    report = validate_collection(tmp_path)
+    assert report["status"] == "INCOMPLETE"
+    assert report["structural_status"] == "PASS"
+    assert report["handoff_status"] == "NOT_READY"
+    initialize_collection(tmp_path)
+    assert validate_collection(tmp_path)["status"] == "INCOMPLETE"
+
+
+def test_two_variants_share_architecture_without_duplicate_identity(tmp_path):
+    from seqlogad.collection.models import VariantRecord
+    from hashlib import sha256
+    (tmp_path / "config.json").write_text("{}")
+    append_record(tmp_path, "architecture", _architecture())
+    for number in (1, 2):
+        variant = VariantRecord(
+            created_at_utc=NOW, recorder="test", variant_id=f"var-{number}",
+            architecture_id="arch-a-v1", change_reason="test",
+            config_path="config.json", config_sha256=sha256(b"{}").hexdigest(),
+        )
+        assert append_record(tmp_path, "variant", variant)["record_id"] == f"var-{number}"
+    assert validate_collection(tmp_path)["duplicate_or_parse_errors"] == []
+    with pytest.raises(CollectionError, match="duplicate"):
+        append_record(tmp_path, "variant", variant)
+
+
+def _artifact(path="evidence.bin", digest="a" * 64, status="included"):
+    from seqlogad.collection.models import ArtifactManifestRecord
+    return ArtifactManifestRecord(
+        created_at_utc=NOW, recorder="test", artifact_manifest_id="art-1",
+        availability_verified_at_utc=NOW, verified_by="test",
+        items=[dict(role="test", path=path, sha256=digest, size_bytes=3,
+                    content_archived=True, archive_class="restricted",
+                    availability_status=status)],
+    )
+
+
+@pytest.mark.parametrize("path", ["/private/file", "../file", "C:/file", "a\\b", "a\nfile"])
+def test_nested_artifact_path_rejected(tmp_path, path):
+    with pytest.raises(CollectionError, match="relative POSIX"):
+        append_record(tmp_path, "artifact_manifest", _artifact(path=path))
+
+
+def test_invalid_hash_and_changed_bytes_rejected(tmp_path):
+    from hashlib import sha256
+    with pytest.raises(CollectionError, match="SHA-256"):
+        append_record(tmp_path, "artifact_manifest", _artifact(digest="bad"))
+    (tmp_path / "evidence.bin").write_bytes(b"abc")
+    append_record(tmp_path, "artifact_manifest", _artifact(digest=sha256(b"abc").hexdigest()))
+    assert validate_collection(tmp_path)["structural_status"] == "PASS"
+    (tmp_path / "evidence.bin").write_bytes(b"xyz")
+    assert any("checksum mismatch" in e for e in validate_collection(tmp_path)["duplicate_or_parse_errors"])
+
+
+def test_missing_included_bytes_fail_but_declared_missing_remains(tmp_path):
+    append_record(tmp_path, "artifact_manifest", _artifact())
+    assert validate_collection(tmp_path)["status"] == "FAIL"
+    other = tmp_path / "declared"
+    append_record(other, "artifact_manifest", _artifact(status="missing"))
+    assert validate_collection(other)["structural_status"] == "PASS"
+
+
+def test_symlink_cannot_escape_evidence_root(tmp_path):
+    outside = tmp_path / "outside"
+    outside.write_bytes(b"abc")
+    root = tmp_path / "project"
+    root.mkdir()
+    (root / "evidence.bin").symlink_to(outside)
+    append_record(root, "artifact_manifest", _artifact())
+    assert any("escapes" in e for e in validate_collection(root)["duplicate_or_parse_errors"])
+
+
+def test_lineage_endpoints_must_exist(tmp_path):
+    from seqlogad.collection.models import LineageEdgeRecord
+    edge = LineageEdgeRecord(created_at_utc=NOW, recorder="test", edge_id="edge-1",
+                             subject_id="missing", predicate="USES", object_id="also-missing",
+                             evidence_paths=())
+    append_record(tmp_path, "lineage_edge", edge)
+    assert any("orphan lineage" in e for e in validate_collection(tmp_path)["duplicate_or_parse_errors"])
+
+
+def test_every_record_type_uses_its_own_id_not_a_foreign_key():
+    from seqlogad.collection.models import RECORD_FILES
+    from seqlogad.collection.validation import ID_FIELDS, record_id
+    for kind, (_, model) in RECORD_FILES.items():
+        values = {field: "foreign-id" for field in model.model_fields if field.endswith("_id")}
+        values[ID_FIELDS[kind]] = f"primary-{kind}"
+        record = model.model_construct(**values)
+        assert record_id(record) == f"primary-{kind}"
+
+
+def test_lineage_hashes_cannot_be_omitted(tmp_path):
+    from seqlogad.collection.models import LineageEdgeRecord
+    edge = LineageEdgeRecord(created_at_utc=NOW, recorder="test", edge_id="edge-1",
+                             subject_id="a", predicate="USES", object_id="b",
+                             evidence_paths=("source.json",))
+    with pytest.raises(CollectionError, match="one hash"):
+        append_record(tmp_path, "lineage_edge", edge)

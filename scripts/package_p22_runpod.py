@@ -16,10 +16,13 @@ from seqlogad.sequence.contracts import validate_bundle
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DELIVERY = ROOT / "outputs/runpod/P2.2-S42-A40"
-BUNDLE = ROOT / "outputs/runpod/P2.2-S42-A40-upload.zip"
-CODE_ZIP = ROOT / "outputs/colab/seqlogad-code-all-experts-s42.zip"
+DELIVERY = ROOT / "outputs/runpod/P2.2-S42-A40-V12"
+BUNDLE = ROOT / "outputs/runpod/P2.2-S42-A40-V12-upload.zip"
+CODE_ZIP = ROOT / "outputs/colab/seqlogad-code-all-experts-s42-v12.zip"
 DATA_ZIP = ROOT / "outputs/colab/phase2-sequence-s42.zip"
+PMEM_WHEEL = ROOT / "outputs/colab/projmem-0.4.0a1-py3-none-any.whl"
+PMEM_SOURCE_COMMIT = "d684d7d172792344c4d31f9ec74067a23cc023e3"
+PMEM_WHEEL_SHA256 = "637964eed3af38c6170c5571bbc02338268cf31bddb15eaf3cc6d883c6b3ce4f"
 DATA_ROOT = ROOT / "data/phase2-sequence"
 
 
@@ -44,6 +47,8 @@ def _deterministic_outer(directory: Path, destination: Path) -> None:
 
 
 def main():
+    if sha256_file(PMEM_WHEEL) != PMEM_WHEEL_SHA256:
+        raise ValueError("pinned Projmem wheel missing or changed")
     bundle_hash = sha256_file(DATA_ROOT / "manifests/bundle.json")
     for fold in ("FOLD-TARGET-ARCH-BGL", "FOLD-TARGET-ARCH-HDFS", "FOLD-TARGET-ARCH-HADOOP"):
         validate_bundle(DATA_ROOT, fold, bundle_hash)
@@ -52,11 +57,12 @@ def main():
     verify_zip(CODE_ZIP)
     verify_zip(DATA_ZIP)
     notebook_path = ROOT / "notebooks" / NOTEBOOK_NAME
-    notebook_path.write_text(json.dumps(build_notebook(CODE_ZIP, DATA_ZIP), indent=1) + "\n")
+    notebook_path.write_text(json.dumps(build_notebook(CODE_ZIP, DATA_ZIP, PMEM_WHEEL), indent=1) + "\n")
     files = {
         NOTEBOOK_NAME: notebook_path,
         CODE_ZIP.name: CODE_ZIP,
         DATA_ZIP.name: DATA_ZIP,
+        PMEM_WHEEL.name: PMEM_WHEEL,
     }
     hashes = {name: sha256(path) for name, path in files.items()}
     code = "\n".join(
@@ -64,7 +70,7 @@ def main():
         for cell in json.loads(notebook_path.read_text())["cells"]
         if cell["cell_type"] == "code"
     )
-    for name in (CODE_ZIP.name, DATA_ZIP.name):
+    for name in (CODE_ZIP.name, DATA_ZIP.name, PMEM_WHEEL.name):
         if hashes[name] not in code:
             raise ValueError(f"P2.2 notebook does not bind current {name}")
     if bundle_hash not in code:
@@ -75,6 +81,10 @@ def main():
         "schema": "SEQLOGAD-RUNPOD-UPLOAD-KIT-1",
         "task_id": "P2.2",
         "expert_id": "SEQUENCE_LLAMA_REFERENCE",
+        "encoding_variant": "LORA-SEQ-002-v1.2",
+        "training_improvements": ["RANK_STABILIZED_QLORA", "CAUSAL_SUFFIX_MULTI_SCALE"],
+        "projmem": {"version": "0.4.0a1", "source_commit": PMEM_SOURCE_COMMIT,
+                    "capture": "PMEM_RUN_ON_PERSISTENT_NETWORK_VOLUME"},
         "seed": 42,
         "targets": ["BGL", "HDFS", "HADOOP"],
         "runtime": "RUNPOD",
@@ -83,7 +93,7 @@ def main():
         "runtime_root": runtime_root,
         "dataset_after_extraction": f"{runtime_root}/phase2_sequence",
         "code_after_extraction": f"{runtime_root}/seqlogad_code_all_experts_s42",
-        "persistent_results": "/workspace/SeqLogAD/P2.2",
+        "persistent_results": "/workspace/SeqLogAD/sequence-v12/P2.2",
         "bundle_manifest_sha256": bundle_hash,
         "files": {
             name: {"size": path.stat().st_size, "sha256": hashes[name]}
@@ -100,15 +110,20 @@ def main():
 1. Create one RunPod A40 48 GB Pod with a Network Volume mounted at `/workspace`.
 2. Use `runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404`.
 3. Map a RunPod secret to environment variable `HF_TOKEN`.
-4. Upload the three files in this directory into `/workspace/uploads`.
+4. Upload the notebook, both ZIPs and the Projmem wheel in this directory into
+   `/workspace/uploads`.
 5. Open `{NOTEBOOK_NAME}` in JupyterLab and click **Run All Cells** once.
 6. Stop only after `SAFE_TO_STOP_RUNTIME=YES`.
 
 The notebook verifies code `{hashes[CODE_ZIP.name]}`, data `{hashes[DATA_ZIP.name]}`
-and bundle manifest `{bundle_hash}` before loading the model. Interrupted targets
-resume from `/workspace/SeqLogAD/P2.2/recovery`.
+and bundle manifest `{bundle_hash}` before loading the model. Interrupted v1.2
+targets resume from `/workspace/SeqLogAD/sequence-v12/P2.2/recovery`.
 
-Final artifact: `/workspace/SeqLogAD/P2.2/seqlogad_outputs_P2.2_S42_FINAL.zip`.
+Final artifact: `/workspace/SeqLogAD/sequence-v12/P2.2/seqlogad_outputs_P2.2_S42_FINAL.zip`.
+Projmem database: `/workspace/SeqLogAD/sequence-v12/.pmem/pmem.db`.
+Download this private database and the attempt-specific `projmem_exports/*.json`
+alongside the scientific final ZIP. A failed attempt remains in Projmem even
+when the scientific final ZIP was not produced.
 """
     DELIVERY.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=DELIVERY.parent) as folder:

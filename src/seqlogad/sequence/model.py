@@ -57,7 +57,7 @@ def load_model(cfg, base, adapter_path=None, base_only=False):
         lora = LoraConfig(
             task_type="CAUSAL_LM", r=cfg["rank"], lora_alpha=cfg["alpha"],
             lora_dropout=cfg["dropout"], target_modules=cfg["target_modules"],
-            bias="none", modules_to_save=None,
+            bias="none", modules_to_save=None, use_rslora=cfg["use_rslora"],
         )
         model = get_peft_model(model, lora, adapter_name="sequence")
     for _, parameter in model.named_parameters():

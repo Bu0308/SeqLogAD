@@ -4,6 +4,8 @@ from __future__ import annotations
 import math
 
 from .objective import collate, encode_window
+from .evaluation_forward import target_token_losses
+from .model import precision
 
 
 def score_next_log(model, tokenizer, cfg, context_messages, target_message, metadata):
@@ -19,6 +21,9 @@ def score_next_log(model, tokenizer, cfg, context_messages, target_message, meta
         uncertainty=None,
         uncertainty_method="TARGET_TOKEN_NLL_DISPERSION_NOT_CALIBRATED_CONFIDENCE",
         model_revision=cfg["model_revision"],
+        encoding_variant=cfg["version"],
+        adaptation_variant=cfg["id"],
+        training_context_policy=cfg["training_context_views"]["policy"],
         **metadata,
     )
     try:
@@ -31,17 +36,11 @@ def score_next_log(model, tokenizer, cfg, context_messages, target_message, meta
     model.eval()
     batch = {key: value.to(model.device)
              for key, value in collate([encoded], tokenizer.pad_token_id).items()}
-    with torch.no_grad():
-        logits = model(**batch).logits[:, :-1].float()
-        labels = batch["labels"][:, 1:]
-        mask = labels != -100
-        losses = torch.nn.functional.cross_entropy(
-            logits.transpose(1, 2), labels, reduction="none", ignore_index=-100
-        )
-        values = losses[mask].cpu().tolist()
+    losses, mask = target_token_losses(model, batch, precision(torch))
+    values = losses.cpu().tolist()
     if not values:
         raise ValueError("no next-log target token was scored")
-    mean = sum(values) / len(values)
+    mean = float(losses.mean())
     if not math.isfinite(mean):
         raise ValueError("nonfinite next-log inference score")
     variance = sum((value - mean) ** 2 for value in values) / len(values)
@@ -59,6 +58,9 @@ def score_next_log(model, tokenizer, cfg, context_messages, target_message, meta
             "tokens_scored": len(values),
             "original_context_records": encoded["original_context_records"],
             "retained_context_records": encoded["retained_context_records"],
+            "context_coverage": (
+                encoded["retained_context_records"] / encoded["original_context_records"]
+            ),
             "original_target_words": encoded["original_target_words"],
             "retained_target_words": encoded["retained_target_words"],
         }],

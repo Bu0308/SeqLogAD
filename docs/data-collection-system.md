@@ -21,6 +21,15 @@ duplicate identities, project-relative paths, and core cross-record references.
 Collection may be used at capture levels A/B/C from the supplied guide, but
 the repository does not require continuous filesystem or process surveillance.
 
+Validation reports `structural_status` separately from collection completeness.
+Missing files or empty core record types produce `INCOMPLETE` (CLI exit 1), not
+a successful handoff. Even a structurally complete store has handoff status
+`NOT_ASSESSED`: coverage denominators, privacy review, human confirmation and
+holdout gates require separate evidence. Validation checks declared local evidence
+files and hashes, including nested included artifacts. Explicit missing or
+restricted artifact references remain in the inventory without requiring bytes.
+Such references are not certified as available by structural validation.
+
 ## Status boundary
 
 Technical execution status and scientific interpretation status are separate

@@ -10,6 +10,19 @@ from seqlogad.semantic.contracts import read
 from .config import load_config
 from .model import load_model
 from .scoring import score_next_log
+from .implementation import implementation_digest
+
+
+def assert_encoding_compatible(checkpoint_config, reference_config):
+    for key in (
+        "version", "context_policy", "context_length", "objective",
+        "use_rslora", "training_context_views", "rank", "alpha",
+    ):
+        if checkpoint_config[key] != reference_config[key]:
+            raise ValueError("Sequence checkpoint encoding variant mismatch")
+    for key in ("checkpoint_selection", "source_development", "source_label_status"):
+        if checkpoint_config.get(key) != reference_config.get(key):
+            raise ValueError("Sequence checkpoint development policy mismatch")
 
 
 class SequenceExpert:
@@ -17,7 +30,11 @@ class SequenceExpert:
     def from_checkpoint(cls, repo_root, run_directory, checkpoint_name=None):
         run = Path(run_directory)
         cfg = read(run / "config.yaml")
-        defaults, base = load_config(repo_root)
+        candidate = {"1.2": "v12", "1.3": "v13", "1.3.1": "v13r1"}.get(cfg.get("version"))
+        if candidate is None:
+            raise ValueError("unknown Sequence checkpoint version")
+        defaults, base = load_config(repo_root, candidate=candidate)
+        assert_encoding_compatible(cfg, defaults)
         for key in [
             "model_id", "model_revision", "tokenizer_id", "tokenizer_revision",
             "base_config_sha256", "expert_id", "adapter_name",
@@ -25,6 +42,8 @@ class SequenceExpert:
             if cfg[key] != defaults[key]:
                 raise ValueError("Sequence expert incompatible with frozen base/config")
         manifest = read(run / "manifest.json")
+        if candidate == "v13r1" and manifest["identity"].get("implementation_sha256") != implementation_digest(repo_root):
+            raise ValueError("Sequence inference implementation differs from trained code")
         if manifest.get("semantic_adapter_used") is not False:
             raise ValueError("Sequence checkpoint does not prove adapter isolation")
         checkpoint = run / "checkpoints" / (checkpoint_name or manifest["best_checkpoint"])

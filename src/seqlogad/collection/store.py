@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import Any, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -11,53 +11,17 @@ from pydantic import BaseModel, ValidationError
 from seqlogad.collection.models import CollectionRecord, RECORD_FILES
 
 
-class CollectionError(RuntimeError):
-    """Raised when a process-evidence record violates its contract."""
-
+from seqlogad.collection.validation import (
+    CollectionError, record_id as _record_id,
+    check_record as _check_project_relative_paths, verify_files,
+)
 
 RecordT = TypeVar("RecordT", bound=CollectionRecord)
 
 
 def _relative_path(value: str) -> str:
-    path = PurePosixPath(value)
-    if not value or path.is_absolute() or ".." in path.parts or "\\" in value:
-        raise CollectionError("collection paths must be non-empty relative POSIX paths")
-    return value
-
-
-def _record_id(record: BaseModel) -> str | None:
-    data = record.model_dump(mode="json")
-    for key in ("architecture_id", "variant_id", "dataset_id", "event_schema_id", "transform_id", "split_id", "run_alias", "artifact_manifest_id", "incident_id", "edge_id", "deviation_id", "seal_id", "access_id", "toolchain_id"):
-        if key in data:
-            return str(data[key])
-    return None
-
-
-_PATH_FIELDS = {
-    "raw_manifest_path",
-    "processed_manifest_path",
-    "config_path",
-    "metrics_path",
-    "leakage_audit_path",
-    "path",
-    "evidence_paths",
-    "decision_evidence",
-    "bundle_path",
-    "inventory_path",
-    "protocol_path",
-}
-
-
-def _check_project_relative_paths(record: BaseModel) -> None:
-    """Reject absolute/parent-traversing paths in portable evidence records."""
-
-    for field, value in record.model_dump(mode="python").items():
-        if field not in _PATH_FIELDS or value is None:
-            continue
-        values = value if isinstance(value, (tuple, list)) else (value,)
-        for item in values:
-            if isinstance(item, str):
-                _relative_path(item)
+    from seqlogad.collection.validation import relative_path
+    return relative_path(value)
 
 
 def initialize_collection(project_root: str | Path) -> dict[str, Any]:
@@ -82,6 +46,7 @@ def append_record(project_root: str | Path, record_type: str, record: RecordT) -
     filename, expected_model = RECORD_FILES[record_type]
     if not isinstance(record, expected_model):
         raise CollectionError(f"record type {record_type} requires {expected_model.__name__}")
+    record = expected_model.model_validate(record.model_dump(mode="python"))
     _check_project_relative_paths(record)
     root = Path(project_root).resolve() / "research_records"
     root.mkdir(parents=True, exist_ok=True)
@@ -112,10 +77,13 @@ def validate_collection(project_root: str | Path) -> dict[str, Any]:
     errors: list[str] = []
     counts: dict[str, int] = {}
     seen: dict[str, str] = {}
+    missing_files: list[str] = []
     records: dict[str, list[CollectionRecord]] = {record_type: [] for record_type in RECORD_FILES}
     for record_type, (filename, model) in RECORD_FILES.items():
         path = root / filename
         count = 0
+        if not path.exists():
+            missing_files.append(filename)
         if path.exists():
             for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
                 if not line.strip():
@@ -128,6 +96,7 @@ def validate_collection(project_root: str | Path) -> dict[str, Any]:
                     continue
                 try:
                     _check_project_relative_paths(parsed)
+                    verify_files(Path(project_root).resolve(), parsed)
                 except CollectionError as exc:
                     errors.append(f"{filename}:{line_number}: {exc}")
                 records[record_type].append(parsed)
@@ -158,6 +127,9 @@ def validate_collection(project_root: str | Path) -> dict[str, Any]:
                         f"orphan reference {record_type}.{field}={item!r}"
                     )
 
+    require("architecture", "parent_architecture_id", "architecture")
+    for record_type in records:
+        require(record_type, "supersedes_id", record_type)
     require("variant", "architecture_id", "architecture")
     require("variant", "parent_variant_id", "variant")
     require("dataset", "event_schema_id", "event_schema")
@@ -178,4 +150,23 @@ def validate_collection(project_root: str | Path) -> dict[str, Any]:
     require("protocol_deviation", "affected_run_ids", "run_bridge")
     require("seal", "split_id", "split")
     require("access", "seal_id", "seal")
-    return {"status": "PASS" if not errors else "FAIL", "records_checked": sum(counts.values()), "counts": counts, "duplicate_or_parse_errors": errors}
+    for edge in records["lineage_edge"]:
+        for identity in (edge.subject_id, edge.object_id):
+            if identity not in seen:
+                errors.append(f"orphan lineage endpoint {identity}")
+    for record_type, values in records.items():
+        for record in values:
+            if record.supersedes_id == _record_id(record):
+                errors.append(f"self supersession: {_record_id(record)}")
+    required_types = ("architecture", "variant", "dataset", "event_schema", "transform",
+                      "split", "run_bridge", "artifact_manifest", "toolchain")
+    gaps = [f"missing file: {name}" for name in missing_files]
+    gaps += [f"no records: {name}" for name in required_types if not counts[name]]
+    status = "FAIL" if errors else ("INCOMPLETE" if gaps else "PASS")
+    return {
+        "status": status, "structural_status": "FAIL" if errors else "PASS",
+        "handoff_status": "NOT_READY" if errors or gaps else "NOT_ASSESSED",
+        "handoff_note": "Structural validation does not certify coverage, privacy, human approval or holdout gates.",
+        "records_checked": sum(counts.values()), "counts": counts,
+        "duplicate_or_parse_errors": errors, "completeness_gaps": gaps,
+    }

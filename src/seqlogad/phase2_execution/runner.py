@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import shutil
+from functools import partial
 from pathlib import Path
 
 from seqlogad.common.checksum import sha256_file
@@ -54,9 +55,9 @@ def _paths(drive_root, task_id, target):
     }
 
 
-def inspect_target(task_id, target, drive_root, registration=None):
+def inspect_target(task_id, target, drive_root, registration=None, sequence_candidate="v12"):
     paths = _paths(drive_root, task_id, target)
-    run_id = deterministic_run_id(task_id, target)
+    run_id = deterministic_run_id(task_id, target, sequence_candidate=sequence_candidate)
     if registration is not None:
         if paths["target_zip"].exists() or paths["recovery_zip"].exists():
             raise ValueError("external registration conflicts with persisted target state")
@@ -133,7 +134,9 @@ def _semantic_train(repo_root, data_root, output_root, target, expected_bundle_s
 
 
 def _sequence_train(repo_root, data_root, output_root, target, expected_bundle_sha256,
-                    resume_from, recovery_destination):
+                    resume_from, recovery_destination, *, candidate="v12",
+                    source_development_root=None,
+                    expected_source_development_sha256=None):
     from seqlogad.sequence.train import run_training
 
     def checkpoint_callback(run, checkpoint, best_checkpoint):
@@ -148,12 +151,15 @@ def _sequence_train(repo_root, data_root, output_root, target, expected_bundle_s
 
     return run_training(
         repo_root, data_root, output_root, FOLDS[target],
-        deterministic_run_id("P2.2", target),
+        deterministic_run_id("P2.2", target, sequence_candidate=candidate),
         overrides={"seed": 42, "training_mode": "QLORA_NF4_DOUBLE_QUANT"},
         resume_from=str(resume_from) if resume_from else None,
         expected_bundle_sha256=expected_bundle_sha256,
         run_mode="development",
         checkpoint_callback=checkpoint_callback,
+        candidate=candidate,
+        source_development_root=source_development_root,
+        expected_source_development_sha256=expected_source_development_sha256,
     )
 
 
@@ -172,7 +178,9 @@ def cleanup_gpu():
 
 
 def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
-                    expected_bundle_sha256):
+                    expected_bundle_sha256, sequence_candidate="v12",
+                    source_development_root=None,
+                    expected_source_development_sha256=None):
     repo_root, data_root = Path(repo_root), Path(data_root)
     output_root, drive_root = Path(output_root), Path(drive_root)
     amendment = load_development_spec(repo_root)
@@ -182,6 +190,15 @@ def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
         raise ExecutionBlocked(f"{task_id} is fail-closed: {blockers}")
     if task_id not in {"P2.1", "P2.2"}:
         raise ExecutionBlocked(f"{task_id} has no authoritative real trainer")
+    if task_id != "P2.2" and sequence_candidate != "v12":
+        raise ValueError("Sequence candidate applies only to P2.2")
+    if task_id == "P2.2" and sequence_candidate in {"v13", "v13r1"}:
+        if not source_development_root or not expected_source_development_sha256:
+            raise ValueError("V13 needs a trusted source-development sidecar")
+        if sha256_file(Path(source_development_root) / "manifest.json") != expected_source_development_sha256:
+            raise ValueError("source-development manifest SHA-256 mismatch")
+    elif source_development_root or expected_source_development_sha256:
+        raise ValueError("source-development labels are allowed only for V13")
     if not expected_bundle_sha256:
         raise ValueError("trusted data bundle SHA-256 is required")
     if sha256_file(data_root / "manifests/bundle.json") != expected_bundle_sha256:
@@ -191,7 +208,11 @@ def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
         trainer = _semantic_train
     else:
         _validate_sequence_data(data_root, expected_bundle_sha256)
-        trainer = _sequence_train
+        trainer = (_sequence_train if sequence_candidate == "v12" else partial(
+            _sequence_train, candidate=sequence_candidate,
+            source_development_root=source_development_root,
+            expected_source_development_sha256=expected_source_development_sha256,
+        ))
     if spec["requires_hf_token"] and not os.environ.get("HF_TOKEN"):
         raise ValueError("HF_TOKEN must come from the runtime secret/environment")
 
@@ -200,8 +221,9 @@ def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
     target_results, target_archives, registrations = {}, {}, {}
     for target in TARGETS:
         registration = spec.get("external_registrations", {}).get(target)
-        state, paths = inspect_target(task_id, target, drive_root, registration)
-        run_id = deterministic_run_id(task_id, target)
+        state, paths = inspect_target(task_id, target, drive_root, registration,
+                                      sequence_candidate=sequence_candidate)
+        run_id = deterministic_run_id(task_id, target, sequence_candidate=sequence_candidate)
         run_directory = output_root / FOLDS[target] / spec["expert_id"] / run_id
         if state == "REGISTERED_EXTERNALLY":
             local_receipt = write_external_registration(local_export, task_id, target, 42, registration)
@@ -212,6 +234,13 @@ def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
             print(f"{target}=SKIP_REGISTERED_EXTERNALLY", flush=True)
             continue
         if state == "COMPLETED":
+            if task_id == "P2.2" and sequence_candidate == "v13r1":
+                from .completed_identity import verify_completed_sequence
+                verify_completed_sequence(
+                    paths["target_zip"], repo_root, run_id, FOLDS[target],
+                    sequence_candidate, expected_bundle_sha256,
+                    expected_source_development_sha256,
+                )
             target_archives[target] = paths["target_zip"]
             target_results[target] = {"status": "SKIPPED_COMPLETED", "run_id": run_id}
             print(f"{target}=SKIP_COMPLETED_VERIFIED", flush=True)
@@ -271,7 +300,9 @@ def run_all_targets(*, task_id, repo_root, data_root, output_root, drive_root,
         "run_mode": "development",
         "seed": 42,
         "targets": target_results,
-        "source_label_status": amendment["source_label_status"],
+        "source_label_status": ("SOURCE_VALIDATION_MODEL_SELECTION_ONLY"
+                                if task_id == "P2.2" and sequence_candidate in {"v13", "v13r1"}
+                                else amendment["source_label_status"]),
         "multi_seed_stability": "NOT_CLAIMED",
         "scientific_result": "NOT_EVALUATED",
         "safe_to_stop_runtime": True,

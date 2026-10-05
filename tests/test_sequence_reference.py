@@ -2,10 +2,13 @@ import json
 from pathlib import Path
 
 import polars as pl
+import pytest
 
 from seqlogad.sequence.config import development_run_id, load_config
+from seqlogad.sequence.augmentation import sample_training_view
 from seqlogad.sequence.contracts import validate_bundle
 from seqlogad.sequence.diagnostics import run_probes
+from seqlogad.sequence.expert import assert_encoding_compatible
 from seqlogad.sequence.objective import encode_window, select_windows
 from seqlogad.sequence.train import encoded_windows
 from seqlogad.sequence.prepare import _bounded_windows
@@ -37,7 +40,98 @@ def test_sequence_config_freezes_seed_objective_budget_and_adapter_isolation():
     assert cfg["context_policy"]["max_predecessor_records"] == 8
     assert cfg["train_windows_per_source"] == 8192
     assert base["peft"]["share_adapter_weights"] is False
-    assert development_run_id("FOLD-TARGET-ARCH-BGL") == "P2.2-DEVELOPMENT-BGL-S42"
+    assert cfg["version"] == "1.2"
+    assert cfg["use_rslora"] is True
+    assert cfg["training_context_views"]["short_lengths"] == [1, 2, 4]
+    assert development_run_id("FOLD-TARGET-ARCH-BGL") == "P2.2-DEVELOPMENT-BGL-S42-V12"
+
+
+def test_old_checkpoint_encoding_cannot_be_loaded_as_v12():
+    cfg, _ = load_config(ROOT)
+    previous = dict(cfg, version="1.0")
+    with pytest.raises(ValueError, match="encoding variant mismatch"):
+        assert_encoding_compatible(previous, cfg)
+    previous = dict(cfg, use_rslora=False)
+    with pytest.raises(ValueError, match="encoding variant mismatch"):
+        assert_encoding_compatible(previous, cfg)
+
+
+def test_multiscale_training_view_keeps_target_and_causal_suffix():
+    cfg, _ = load_config(ROOT)
+    tokenizer = Tokenizer()
+    raw = {
+        "context_messages": ["old one", "old two", "recent three", "recent four"],
+        "target_message": "next event",
+    }
+    full = encode_window(tokenizer, raw["context_messages"], raw["target_message"], cfg)
+
+    class ShortRng:
+        def random(self):
+            return 0.9
+
+        def choice(self, lengths):
+            assert lengths == [1, 2]
+            return 2
+
+    short, info = sample_training_view(full, raw, tokenizer, cfg, ShortRng())
+    assert info == {"requested_context_records": 2, "view": "short"}
+    assert short["retained_context_records"] == 2
+    assert short["labels"][-3:] == full["labels"][-3:]
+    assert short["original_context_records"] == 2
+
+    class FullRng:
+        def random(self):
+            return 0.1
+
+    original, info = sample_training_view(full, raw, tokenizer, cfg, FullRng())
+    assert original is full
+    assert info["view"] == "full"
+
+
+def test_v12_runpod_notebook_captures_attempts_with_persistent_projmem():
+    path = ROOT / "notebooks/P2.2_run_all_sequence_lora_s42_v12.ipynb"
+    notebook = json.loads(path.read_text())
+    code = "\n".join("".join(cell["source"]) for cell in notebook["cells"]
+                     if cell["cell_type"] == "code")
+    for index, cell in enumerate(notebook["cells"]):
+        if cell["cell_type"] == "code":
+            compile("".join(cell["source"]), f"v12-cell-{index}", "exec")
+    assert 'PERSISTENT_ROOT = STATE_ROOT / "sequence-v12"' in code
+    assert '[pmem_cli, "run"' in code
+    assert '"export-bundle"' in code
+    assert '"track", "P2.2/seqlogad_outputs_P2.2_S42_FINAL.zip"' in code
+    assert 'assert pmem_success' in code
+
+
+@pytest.mark.parametrize("status", ["success", "failed"])
+def test_v12_notebook_does_not_treat_failed_pmem_run_as_training_success(tmp_path, status):
+    notebook = json.loads((ROOT / "notebooks/P2.2_run_all_sequence_lora_s42_v12.ipynb").read_text())
+    execute = next("".join(cell["source"]) for cell in notebook["cells"]
+                   if cell["cell_type"] == "code"
+                   and '"P2.2 Sequence V12 RunPod attempt"' in "".join(cell["source"]))
+    calls = []
+
+    def fake_run_live(args, **kwargs):
+        calls.append(args)
+        if len(args) > 1 and args[1] == "run":
+            return 0, f"Run run_{'a' * 32} {status}\nexit_code: {0 if status == 'success' else 1}\n"
+        return 0
+
+    namespace = {
+        "VENV": tmp_path / "venv", "PERSISTENT_ROOT": tmp_path / "persistent",
+        "SESSION_ROOT": tmp_path / "session-unique", "PYTHON": "python",
+        "TASK_ID": "P2.2", "REPO_ROOT": "repo", "DATA_ROOT": "data",
+        "OUTPUT_ROOT": "output", "EXPECTED_BUNDLE_SHA256": "bundle",
+        "run_live": fake_run_live,
+    }
+    namespace["PERSISTENT_ROOT"].mkdir()
+    if status == "failed":
+        with pytest.raises(AssertionError, match="Projmem recorded a failed"):
+            exec(execute, namespace)
+    else:
+        exec(execute, namespace)
+    assert any("export-bundle" in args for args in calls)
+    assert any("track" in args for args in calls) is (status == "success")
 
 
 def test_target_only_causal_encoding_preserves_context_and_eos():
@@ -86,6 +180,29 @@ def test_batched_encoding_matches_single_window_overflow_crop_path():
             "retained_target_words", "retained_context_records",
         ):
             assert batch_item[key] == single_item[key]
+
+
+def test_overflow_keeps_full_target_by_dropping_oldest_context_first():
+    cfg, _ = load_config(ROOT)
+    cfg = dict(cfg, context_length=24)
+    contexts = ["old context has several words", "recent context has several words"]
+    target = "target message has several words"
+    single = encode_window(Tokenizer(), contexts, target, cfg)
+    assert single["retained_context_records"] == 1
+    assert single["retained_target_words"] == len(target.split())
+    assert single["coverage"] == 1.0
+    assert single["labels"][-1] == Tokenizer.eos_token_id
+    assert single["complete"] is False
+    row = {
+        "architecture_id": "ARCH-X", "window_id": "w-crop",
+        "context_ranks": [1, 2], "target_rank": 3,
+        "context_messages": contexts, "target_message": target,
+    }
+    batched, rejected = encoded_windows([row], Tokenizer(), cfg, batch_size=1)
+    assert rejected == []
+    for key in ("input_ids", "labels", "coverage", "retained_target_words",
+                "retained_context_records", "complete"):
+        assert batched[0][key] == single[key]
 
 
 def test_bounded_windows_never_cross_group_and_preserve_multiplicity():

@@ -8,7 +8,7 @@ from pathlib import Path
 from seqlogad.common.checksum import sha256_file
 
 
-NOTEBOOK_NAME = "P2.2_run_all_sequence_lora_s42.ipynb"
+NOTEBOOK_NAME = "P2.2_run_all_sequence_lora_s42_v12.ipynb"
 
 
 def cell(kind, source):
@@ -18,21 +18,24 @@ def cell(kind, source):
     return value
 
 
-def build_notebook(code_zip, data_zip):
+def build_notebook(code_zip, data_zip, pmem_wheel):
     code_hash = sha256_file(code_zip)
     data_hash = sha256_file(data_zip)
-    markdown = f"""# P2.2 — Sequence-LoRA Reference — ONE CLICK S42 (RunPod A40)
+    pmem_hash = sha256_file(pmem_wheel)
+    markdown = f"""# P2.2 — Sequence-LoRA Candidate v1.2 — ONE CLICK S42 (RunPod A40)
 
 Status: **READY**. This notebook trains/resumes `BGL → HDFS → HADOOP` with seed
 `42`. Every checkpoint and completed target is persisted below
-`/workspace/SeqLogAD/P2.2`. It never loads the P2.1 Semantic adapter.
+`/workspace/SeqLogAD/sequence-v12/P2.2`. It never loads the P2.1 Semantic
+adapter or resumes a v1.0/v1.1 Sequence recovery snapshot.
 
 Before clicking **Run All**:
 
 1. Deploy one NVIDIA **A40 48 GB** Pod with a Network Volume at `/workspace`.
    Use `runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404`.
 2. Map a RunPod secret to environment variable `HF_TOKEN`.
-3. Upload `{code_zip.name}` and `{data_zip.name}` to `/workspace/uploads`.
+3. Upload `{code_zip.name}`, `{data_zip.name}` and `{pmem_wheel.name}` to
+   `/workspace/uploads`.
 4. Upload/open this notebook in JupyterLab and click **Run All** once.
 
 After interruption, restart with the same Network Volume and click **Run All**
@@ -50,7 +53,7 @@ SEED = 42
 TARGETS = ["BGL", "HDFS", "HADOOP"]
 UPLOAD_ROOT = Path("/workspace/uploads")
 STATE_ROOT = Path("/workspace/SeqLogAD")
-PERSISTENT_ROOT = STATE_ROOT
+PERSISTENT_ROOT = STATE_ROOT / "sequence-v12"
 HF_HOME = STATE_ROOT / "hf-cache"
 VENV = STATE_ROOT / "venv-py312"
 RUNTIME_ROOT = STATE_ROOT / "runtime" / "{code_hash[:12]}-{data_hash[:12]}"
@@ -60,6 +63,7 @@ SESSION_ROOT = Path("/tmp/seqlogad_sessions") / uuid.uuid4().hex
 OUTPUT_ROOT = str(SESSION_ROOT / "seqlogad_outputs")
 EXPECTED_CODE_ZIP_SHA256 = {code_hash!r}
 EXPECTED_DATA_ZIP_SHA256 = {data_hash!r}
+EXPECTED_PMEM_WHEEL_SHA256 = {pmem_hash!r}
 EXPECTED_BUNDLE_SHA256 = "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129"
 REQUIRED_GPU = "NVIDIA A40"
 MIN_VRAM_GIB = 40
@@ -96,8 +100,8 @@ def digest(path):
             value.update(block)
     return value.hexdigest()
 
-def locate(expected):
-    matches = [path for path in UPLOAD_ROOT.glob("*.zip") if digest(path) == expected]
+def locate(expected, pattern="*.zip"):
+    matches = [path for path in UPLOAD_ROOT.glob(pattern) if digest(path) == expected]
     assert len(matches) == 1, f"Expected one upload with SHA-256 {expected}; found {matches}"
     return matches[0]
 
@@ -116,6 +120,7 @@ def safe_extract(archive, destination):
 
 code_zip = locate(EXPECTED_CODE_ZIP_SHA256)
 data_zip = locate(EXPECTED_DATA_ZIP_SHA256)
+pmem_wheel = locate(EXPECTED_PMEM_WHEEL_SHA256, "*.whl")
 marker = RUNTIME_ROOT / "EXTRACTION.json"
 expected_marker = {"code_sha256": EXPECTED_CODE_ZIP_SHA256, "data_sha256": EXPECTED_DATA_ZIP_SHA256}
 if RUNTIME_ROOT.exists():
@@ -144,10 +149,13 @@ def isolated_env():
     env["PYTHONUNBUFFERED"] = "1"
     return env
 
-def run_live(args, check=True):
+def run_live(args, check=True, cwd=None, capture=False):
+    output = []
     with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                          text=True, bufsize=1, env=isolated_env()) as process:
+                          text=True, bufsize=1, env=isolated_env(), cwd=cwd) as process:
         for line in process.stdout:
+            if capture:
+                output.append(line)
             token = os.environ.get("HF_TOKEN")
             if token:
                 line = line.replace(token, "[TOKEN_HIDDEN]")
@@ -155,7 +163,7 @@ def run_live(args, check=True):
         code = process.wait()
     if check and code:
         raise subprocess.CalledProcessError(code, args)
-    return code
+    return (code, "".join(output)) if capture else code
 
 run_live(["nvidia-smi"])
 PYTHON = str(VENV / "bin/python")
@@ -178,6 +186,7 @@ run_live([PYTHON, "-m", "pip", "install", "torch==2.9.1", "--index-url",
           "https://download.pytorch.org/whl/cu128"])
 run_live([PYTHON, "-m", "pip", "install", "-e", REPO_ROOT, "packaging>=24,<27"])
 run_live([PYTHON, "-c", "from seqlogad.semantic.runtime import install_missing; install_missing(" + repr(REPO_ROOT) + ")"])
+run_live([PYTHON, "-m", "pip", "install", str(pmem_wheel)])
 hardware_check = f"""
 import json, torch
 assert torch.cuda.is_available(), "CUDA is unavailable"
@@ -198,7 +207,13 @@ run_live([PYTHON, "-m", "seqlogad.sequence.cli", "environment", "--repo-root", R
 assert token, "Set HF_TOKEN as a RunPod environment secret; never paste it into the notebook"
 run_live([PYTHON, "-m", "seqlogad.sequence.cli", "auth", "--repo-root", REPO_ROOT])
 '''
-    execute = r'''args = [
+    execute = r'''import re
+
+pmem_cli = str(VENV / "bin/pmem")
+run_live([pmem_cli, "init", "--name", "SeqLogAD Sequence V12",
+          "--metric", "source_validation_next_log_nll",
+          "--metric-direction", "min"], cwd=str(PERSISTENT_ROOT))
+args = [
     PYTHON, "-m", "seqlogad.phase2_execution.cli",
     "--task-id", TASK_ID,
     "--repo-root", REPO_ROOT,
@@ -207,7 +222,26 @@ run_live([PYTHON, "-m", "seqlogad.sequence.cli", "auth", "--repo-root", REPO_ROO
     "--persistent-root", str(PERSISTENT_ROOT),
     "--expected-bundle-sha256", EXPECTED_BUNDLE_SHA256,
 ]
-run_live(args, check=True)
+pmem_cli_exit, pmem_result = run_live(
+    [pmem_cli, "run", "--name", "P2.2 Sequence V12 RunPod attempt",
+     "--seed", "42", "--", *args],
+    check=False, cwd=str(PERSISTENT_ROOT), capture=True,
+)
+pmem_success = pmem_cli_exit == 0 and bool(
+    re.search(r"(?m)^Run run_[0-9a-f]+ success$", pmem_result)
+)
+bundle_path = PERSISTENT_ROOT / "projmem_exports" / f"{SESSION_ROOT.name}.json"
+bundle_path.parent.mkdir(parents=True, exist_ok=True)
+try:
+    if pmem_success:
+        run_live([pmem_cli, "track", "P2.2/seqlogad_outputs_P2.2_S42_FINAL.zip",
+                  "--update"], cwd=str(PERSISTENT_ROOT))
+finally:
+    run_live([pmem_cli, "export-bundle", "--out", str(bundle_path)],
+             cwd=str(PERSISTENT_ROOT))
+print({"projmem_db": str(PERSISTENT_ROOT / ".pmem/pmem.db"),
+       "projmem_export": str(bundle_path)})
+assert pmem_success, "Projmem recorded a failed Sequence V12 execution; inspect its run and export"
 '''
     final = r'''final_zip = PERSISTENT_ROOT / TASK_ID / "seqlogad_outputs_P2.2_S42_FINAL.zip"
 final_sidecar = Path(str(final_zip) + ".sha256")
@@ -253,9 +287,13 @@ def main():
     parser.add_argument("--root", default=".")
     parser.add_argument("--code-zip", required=True)
     parser.add_argument("--data-zip", required=True)
+    parser.add_argument("--pmem-wheel", required=True)
     args = parser.parse_args()
     root = Path(args.root).resolve()
-    notebook = build_notebook(Path(args.code_zip).resolve(), Path(args.data_zip).resolve())
+    notebook = build_notebook(
+        Path(args.code_zip).resolve(), Path(args.data_zip).resolve(),
+        Path(args.pmem_wheel).resolve(),
+    )
     path = root / "notebooks" / NOTEBOOK_NAME
     path.write_text(json.dumps(notebook, indent=1) + "\n")
     print(path)

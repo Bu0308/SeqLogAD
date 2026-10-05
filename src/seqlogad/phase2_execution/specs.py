@@ -29,9 +29,13 @@ def expert_spec(repo_root, task_id):
     return load_development_spec(repo_root)["experts"][task_id]
 
 
-def deterministic_run_id(task_id, target, seed=42):
+def deterministic_run_id(task_id, target, seed=42, sequence_candidate="v12"):
     if target not in TARGETS or seed != 42:
         raise ValueError("development execution is locked to seed 42 and three target folds")
     if task_id == "P2.1":
         return f"P2.1-FINAL-{target}-S42"
+    if task_id == "P2.2":
+        if sequence_candidate not in {"v12", "v13", "v13r1"}:
+            raise ValueError("unknown Sequence candidate")
+        return f"P2.2-DEVELOPMENT-{target}-S42-{sequence_candidate.upper()}"
     return f"{task_id}-DEVELOPMENT-{target}-S42"
