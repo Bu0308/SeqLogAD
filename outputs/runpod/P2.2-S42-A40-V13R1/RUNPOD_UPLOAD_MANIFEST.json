@@ -1,0 +1,60 @@
+{
+  "checkpoint_selection": "MAX_MACRO_SOURCE_DEVELOPMENT_F1",
+  "contains_base_model_weights": false,
+  "contains_semantic_adapter": false,
+  "encoding_variant": "LORA-SEQ-003-R1-v1.3.1",
+  "expert_id": "SEQUENCE_LLAMA_REFERENCE",
+  "files": {
+    "P2.2_run_all_sequence_lora_s42_v13r1.ipynb": {
+      "sha256": "62433c4728b45ea375b5930b064c00d6af23adfefb7ebb77e228c9c2d4fb9880",
+      "size": 21704
+    },
+    "phase2-sequence-s42.zip": {
+      "sha256": "4ed76b92e4b001138b28b4b3b4d3017d6ff7f30dd31e8cca0649bfdf34ede781",
+      "size": 28268043
+    },
+    "phase2-source-development-v13r1.zip": {
+      "sha256": "c765eb88a4feebc8ceb157110e5a6bd28dec942a7fb9343d7f6b969b3e79b295",
+      "size": 456155
+    },
+    "projmem-0.4.0a1-py3-none-any.whl": {
+      "sha256": "637964eed3af38c6170c5571bbc02338268cf31bddb15eaf3cc6d883c6b3ce4f",
+      "size": 257836
+    },
+    "seqlogad-code-all-experts-s42-v13r1.zip": {
+      "sha256": "ad0f313b1b2e482f75eb2f5d10800fe59c451a2d1adc0c9e85aa0f1b0d01efb3",
+      "size": 156087
+    }
+  },
+  "gpu": "NVIDIA A40 48GB",
+  "label_provenance": "V13 builder parsed the full HDFS label CSV; only source-validation labels entered per-fold sidecars. This migration reads existing sidecars only.",
+  "persistent_results": "/workspace/SeqLogAD/sequence-v13r1/P2.2",
+  "projmem": {
+    "capture": "PMEM_RUN_ON_PERSISTENT_NETWORK_VOLUME",
+    "source_commit": "d684d7d172792344c4d31f9ec74067a23cc023e3",
+    "version": "0.4.0a1"
+  },
+  "requires_hf_token_secret": true,
+  "runtime": "RUNPOD",
+  "schema": "SEQLOGAD-RUNPOD-UPLOAD-KIT-1",
+  "scientific_result": "NOT_EVALUATED",
+  "seed": 42,
+  "sequence_bundle_manifest_sha256": "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129",
+  "source_development_manifest_sha256": "885b53821671e7f60e6df5270a78a23535900bf4ba6d339e69b29f93eb2c6399",
+  "source_development_metrics": [
+    "accuracy",
+    "precision",
+    "recall",
+    "f1",
+    "auroc",
+    "average_precision"
+  ],
+  "source_label_status": "SOURCE_VALIDATION_MODEL_SELECTION_ONLY",
+  "target_labels_used_for_selection": false,
+  "targets": [
+    "BGL",
+    "HDFS",
+    "HADOOP"
+  ],
+  "task_id": "P2.2"
+}

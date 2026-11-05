@@ -1,4 +1,4 @@
-# Project Scope — v2 Domain-Adaptive Fusion
+# Project Scope — v2 Applying Large Language Models to Domain-Adaptive Fusion
 
 ## Problem statement
 

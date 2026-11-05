@@ -1,0 +1,30 @@
+digraph SequenceV12 {
+  graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.35", ranksep="0.48",
+         label="Sequence Expert V12  |  source-only candidate  |  seed 42",
+         labelloc=t, fontsize=20, fontname="Helvetica"];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11,
+        color="#234e70", fillcolor="#eaf3fa", margin="0.16,0.11"];
+  edge [color="#526477", arrowsize=0.8];
+
+  source [label="SOURCE_TRAIN logs\navailable non-target architectures\nno anomaly labels"];
+  windows [label="Causal windows\n1 target + up to 8 ordered predecessors\nreset by architecture / partition / group"];
+  views [label="Training views\n50% full context\n50% suffix: 1, 2 or 4 records", fillcolor="#dff3ea", color="#247353"];
+  tokens [label="Llama tokenizer\n512-token horizon\ntarget-only loss mask"];
+  model [label="Frozen Llama-3.1-8B\n4-bit NF4 + double quantization\nrsLoRA rank 16 on q/k/v/o", fillcolor="#fff1d6", color="#a56813"];
+  train [label="Next-log target NLL\nbackprop only through Sequence adapter"];
+  val [label="Source VALIDATION\nfull available context\nper-source NLL + perplexity"];
+  stop [label="Checkpoint selection\nminimum aggregate NLL\nearly stop: patience 3", fillcolor="#fce8e6", color="#b54335"];
+  infer [label="Inference\nfull available causal context\nmean target-token NLL + coverage"];
+  evidence [label="Evidence + metrics\nNLL, coverage, context views, VRAM\nF1 / AUROC / AP: pending labels"];
+  pmem [label="Projmem on RunPod\n.pmem/pmem.db + export bundle\nevery attempt via pmem run", fillcolor="#eeeafb", color="#6750a4"];
+
+  source -> windows -> views -> tokens -> model -> train;
+  windows -> val;
+  val -> stop;
+  train -> stop;
+  stop -> infer -> evidence;
+  model -> infer;
+  train -> pmem;
+  stop -> pmem;
+  evidence -> pmem;
+}

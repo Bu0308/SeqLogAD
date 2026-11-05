@@ -1,0 +1,24 @@
+{
+  "schema": "SEQLOGAD-COLLECT-HANDOFF-1",
+  "training_variant": "VAR-SEQ-LO-001-V013R1",
+  "training_inputs_unchanged": {
+    "P2.2_run_all_sequence_lora_s42_v13r1.ipynb": "62433c4728b45ea375b5930b064c00d6af23adfefb7ebb77e228c9c2d4fb9880",
+    "phase2-sequence-s42.zip": "4ed76b92e4b001138b28b4b3b4d3017d6ff7f30dd31e8cca0649bfdf34ede781",
+    "phase2-source-development-v13r1.zip": "c765eb88a4feebc8ceb157110e5a6bd28dec942a7fb9343d7f6b969b3e79b295",
+    "projmem-0.4.0a1-py3-none-any.whl": "637964eed3af38c6170c5571bbc02338268cf31bddb15eaf3cc6d883c6b3ce4f",
+    "seqlogad-code-all-experts-s42-v13r1.zip": "ad0f313b1b2e482f75eb2f5d10800fe59c451a2d1adc0c9e85aa0f1b0d01efb3"
+  },
+  "files": {
+    "HUONG_DAN_RUNPOD_V13R1_VI.md": "f2b0afb804641fec1a7879c5b824cdfa8297f2d14a2f640678e6b4c25fbbda36",
+    "P2.2_run_all_sequence_lora_s42_v13r1.ipynb": "62433c4728b45ea375b5930b064c00d6af23adfefb7ebb77e228c9c2d4fb9880",
+    "P2.2_run_all_sequence_lora_s42_v13r1_collect.ipynb": "8941f707486085603d7a9991f00481814802c58a964f7dafcab522f5035ca5f1",
+    "README.md": "667e13e1f8fb06800703c2fadf20ef262e5b203b9d0e81e341b81fa74bb994d6",
+    "RUNPOD_UPLOAD_MANIFEST.json": "0b5add9e53a8d8628c9fa0b8105c030f2afc4f701e75dc54b84a6353835f43db",
+    "collect_v13r1.py": "8206845d9de2e90829588abcc49a92eeb11e667862682db3f066959396c8bb2e",
+    "collection_archive_v13r1.py": "ca7192308c4a4197937a921800524b1fb08b0711e21e27a1b2a1dff6c7936036",
+    "phase2-sequence-s42.zip": "4ed76b92e4b001138b28b4b3b4d3017d6ff7f30dd31e8cca0649bfdf34ede781",
+    "phase2-source-development-v13r1.zip": "c765eb88a4feebc8ceb157110e5a6bd28dec942a7fb9343d7f6b969b3e79b295",
+    "projmem-0.4.0a1-py3-none-any.whl": "637964eed3af38c6170c5571bbc02338268cf31bddb15eaf3cc6d883c6b3ce4f",
+    "seqlogad-code-all-experts-s42-v13r1.zip": "ad0f313b1b2e482f75eb2f5d10800fe59c451a2d1adc0c9e85aa0f1b0d01efb3"
+  }
+}

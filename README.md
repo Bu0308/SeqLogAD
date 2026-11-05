@@ -1,6 +1,6 @@
 # SeqLogAD
 
-### Domain-Adaptive Fusion for Zero-Label Cross-System Log Anomaly Detection
+### Applying Large Language Models to Domain-Adaptive Fusion for Zero-Label Cross-System Log Anomaly Detection
 
 A research project testing **whether knowledge transfers across heterogeneous log architectures and adapts to an unseen target using only an unlabeled normal buffer**.
 
