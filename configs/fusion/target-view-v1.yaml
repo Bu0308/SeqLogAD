@@ -1,0 +1,21 @@
+# TV-001 — label-free target-fold view (docs/fusion/TARGET_VIEW_DESIGN.md).
+# Every value is fixed before any target label or target score exists.
+target_view:
+  id: TV-001
+  version: "1.0"
+  split_contract: configs/protocols/cross-system-split-v1.yaml
+  buffer_contract: configs/protocols/target-buffer-v1.yaml
+  folds: [FOLD-TARGET-ARCH-BGL, FOLD-TARGET-ARCH-HDFS]   # Hadoop: buffer REJECTED (TV-D2)
+  segments: {buffer: EARLY, evaluation: LATE}              # MID excluded (TV-D1)
+  context_records: 8                                       # same as P2.2 Sequence
+  template_min_digits: 3                                   # seqlogad.fusion.volatile.MIN_DIGITS (TV-D6)
+  strata: 20                                               # equal-count chronological strata
+  chunk_lines: 100                                         # BGL secondary unit
+  embargo_seconds: 3600                                    # sensitivity flag only (TV-D9)
+  calibration:
+    units: 4095                                            # p-value resolution 1/4096
+    recent_fraction: 0.2                                   # last 20% of EARLY (Barber et al. 2023)
+  evaluation_sample_units:                                 # 0 = every unit
+    ARCH-BGL: 0
+    ARCH-HDFS: 20000
+  selection_tag: TV-001-v1                                 # hash salt; never re-drawn after seeing results
