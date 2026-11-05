@@ -1,0 +1,283 @@
+{
+  "scenarios": [
+    {
+      "regime": "AND",
+      "rho": 0.0,
+      "shift": 1.5,
+      "best_single_ap": 0.3245166446512784,
+      "mean_gain": {
+        "cauchy": 0.08842920610524783,
+        "vovk_wang_mean": 0.18899411628486867,
+        "bonferroni_min": 0.03789069505041841,
+        "fisher": 0.19926219876337947,
+        "stouffer": 0.22187616532627188,
+        "copula_onesided": 0.13938523943068495,
+        "zscore_mean": 0.22222974103870563
+      }
+    },
+    {
+      "regime": "AND",
+      "rho": 0.0,
+      "shift": 3.0,
+      "best_single_ap": 0.852121545174878,
+      "mean_gain": {
+        "cauchy": 0.11022455455359315,
+        "vovk_wang_mean": 0.11695745013073507,
+        "bonferroni_min": 0.06729661882276691,
+        "fisher": 0.12911409020769826,
+        "stouffer": 0.12815960676935917,
+        "copula_onesided": 0.12179330757736426,
+        "zscore_mean": 0.12982162139925965
+      }
+    },
+    {
+      "regime": "AND",
+      "rho": 0.5,
+      "shift": 1.5,
+      "best_single_ap": 0.32441135917664476,
+      "mean_gain": {
+        "cauchy": 0.03536920844860354,
+        "vovk_wang_mean": 0.0637844086337459,
+        "bonferroni_min": 0.009690511824768771,
+        "fisher": 0.06693621444922732,
+        "stouffer": 0.06977525479343975,
+        "copula_onesided": -0.0019591045644782785,
+        "zscore_mean": 0.07143817461070537
+      }
+    },
+    {
+      "regime": "AND",
+      "rho": 0.5,
+      "shift": 3.0,
+      "best_single_ap": 0.8485003408235858,
+      "mean_gain": {
+        "cauchy": 0.056387273224582334,
+        "vovk_wang_mean": 0.061012525410620556,
+        "bonferroni_min": 0.026510266344852974,
+        "fisher": 0.06545034051097792,
+        "stouffer": 0.06554205438682369,
+        "copula_onesided": 0.009961010547450248,
+        "zscore_mean": 0.06560902423551736
+      }
+    },
+    {
+      "regime": "AND",
+      "rho": 0.8,
+      "shift": 1.5,
+      "best_single_ap": 0.32249702529234375,
+      "mean_gain": {
+        "cauchy": 0.008382331762596987,
+        "vovk_wang_mean": 0.019297808891358865,
+        "bonferroni_min": -0.007175816638510925,
+        "fisher": 0.017740532844989745,
+        "stouffer": 0.019442177815101266,
+        "copula_onesided": -0.06383946817531086,
+        "zscore_mean": 0.019886228252877843
+      }
+    },
+    {
+      "regime": "AND",
+      "rho": 0.8,
+      "shift": 3.0,
+      "best_single_ap": 0.8450987398621845,
+      "mean_gain": {
+        "cauchy": 0.018858293358393716,
+        "vovk_wang_mean": 0.0202015036018286,
+        "bonferroni_min": 0.002923529400207177,
+        "fisher": 0.02104005649120487,
+        "stouffer": 0.021227456841006756,
+        "copula_onesided": -0.14707405673565363,
+        "zscore_mean": 0.02092293947540906
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.0,
+      "shift": 1.5,
+      "best_single_ap": 0.16874898777018005,
+      "mean_gain": {
+        "cauchy": 0.03969949987511253,
+        "vovk_wang_mean": -0.04730482769841679,
+        "bonferroni_min": 0.04061904623166812,
+        "fisher": 0.03069830793208495,
+        "stouffer": -0.00898109480682171,
+        "copula_onesided": 0.040673893987882716,
+        "zscore_mean": -0.0023004224113882276
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.0,
+      "shift": 3.0,
+      "best_single_ap": 0.47332583435086295,
+      "mean_gain": {
+        "cauchy": 0.2771272094467587,
+        "vovk_wang_mean": -0.2666514537171066,
+        "bonferroni_min": 0.29218504595003203,
+        "fisher": 0.1470042430837262,
+        "stouffer": -0.0795785053304486,
+        "copula_onesided": 0.24101794232620846,
+        "zscore_mean": 0.07236895380831292
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.5,
+      "shift": 1.5,
+      "best_single_ap": 0.16998128670285997,
+      "mean_gain": {
+        "cauchy": 0.02606643904946636,
+        "vovk_wang_mean": -0.07390166338868885,
+        "bonferroni_min": 0.04308790964864206,
+        "fisher": -0.020069857498550184,
+        "stouffer": -0.046672819399699174,
+        "copula_onesided": 0.058988684745222134,
+        "zscore_mean": -0.041948928755217024
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.5,
+      "shift": 3.0,
+      "best_single_ap": 0.47502454669523814,
+      "mean_gain": {
+        "cauchy": 0.22833352493245312,
+        "vovk_wang_mean": -0.34116627264761745,
+        "bonferroni_min": 0.2971201875903322,
+        "fisher": -0.0469566948762429,
+        "stouffer": -0.20056590240536773,
+        "copula_onesided": 0.31727783706996926,
+        "zscore_mean": -0.0802114730621872
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.8,
+      "shift": 1.5,
+      "best_single_ap": 0.16936403822097917,
+      "mean_gain": {
+        "cauchy": 0.026410961355468734,
+        "vovk_wang_mean": -0.08564756147938682,
+        "bonferroni_min": 0.06330381097080322,
+        "fisher": -0.03570818469427291,
+        "stouffer": -0.057291818338676706,
+        "copula_onesided": 0.22512886360964238,
+        "zscore_mean": -0.0522049779515482
+      }
+    },
+    {
+      "regime": "OR",
+      "rho": 0.8,
+      "shift": 3.0,
+      "best_single_ap": 0.4732348578529269,
+      "mean_gain": {
+        "cauchy": 0.20264106330009682,
+        "vovk_wang_mean": -0.3653987929902926,
+        "bonferroni_min": 0.3126392734150127,
+        "fisher": -0.11681363739038657,
+        "stouffer": -0.23938286789583507,
+        "copula_onesided": 0.45912294798430775,
+        "zscore_mean": -0.1311357725191668
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.0,
+      "shift": 1.5,
+      "best_single_ap": 0.21643731206429712,
+      "mean_gain": {
+        "cauchy": 0.056369166863930883,
+        "vovk_wang_mean": 0.028672007436467584,
+        "bonferroni_min": 0.04214460867483596,
+        "fisher": 0.091631548350898,
+        "stouffer": 0.07051751946901258,
+        "copula_onesided": 0.0816944948614741,
+        "zscore_mean": 0.07484550448965237
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.0,
+      "shift": 3.0,
+      "best_single_ap": 0.6081982629607254,
+      "mean_gain": {
+        "cauchy": 0.21405422349542516,
+        "vovk_wang_mean": -0.100032212071421,
+        "bonferroni_min": 0.21095992509661957,
+        "fisher": 0.15506739620859264,
+        "stouffer": 0.021717568344642377,
+        "copula_onesided": 0.21627910598516228,
+        "zscore_mean": 0.11297428165752595
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.5,
+      "shift": 1.5,
+      "best_single_ap": 0.22079944150610897,
+      "mean_gain": {
+        "cauchy": 0.024702936521293458,
+        "vovk_wang_mean": -0.03589787724360368,
+        "bonferroni_min": 0.02939476003284607,
+        "fisher": 0.0065367958173238655,
+        "stouffer": -0.012334642420437854,
+        "copula_onesided": 0.043183872048630494,
+        "zscore_mean": -0.007599150546062113
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.5,
+      "shift": 3.0,
+      "best_single_ap": 0.6027567526575642,
+      "mean_gain": {
+        "cauchy": 0.16256144993064237,
+        "vovk_wang_mean": -0.17839132869351018,
+        "bonferroni_min": 0.20476956046962688,
+        "fisher": 0.01221290417606552,
+        "stouffer": -0.08186086689675573,
+        "copula_onesided": 0.23607924582008813,
+        "zscore_mean": -0.006076086271196098
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.8,
+      "shift": 1.5,
+      "best_single_ap": 0.21995447868621912,
+      "mean_gain": {
+        "cauchy": 0.01860602147487421,
+        "vovk_wang_mean": -0.06002715599309009,
+        "bonferroni_min": 0.03930902894916469,
+        "fisher": -0.01923212604227849,
+        "stouffer": -0.035942657723705196,
+        "copula_onesided": 0.14523755053784884,
+        "zscore_mean": -0.03136731175923859
+      }
+    },
+    {
+      "regime": "MIXED",
+      "rho": 0.8,
+      "shift": 3.0,
+      "best_single_ap": 0.6020919412313691,
+      "mean_gain": {
+        "cauchy": 0.12763360368587162,
+        "vovk_wang_mean": -0.22000479745195636,
+        "bonferroni_min": 0.2049725824384648,
+        "fisher": -0.051452043844959904,
+        "stouffer": -0.12989757022240692,
+        "copula_onesided": 0.30551041412136226,
+        "zscore_mean": -0.06033021241302108
+      }
+    }
+  ],
+  "scenarios_with_positive_gain": {
+    "cauchy": 18,
+    "vovk_wang_mean": 7,
+    "bonferroni_min": 17,
+    "fisher": 12,
+    "stouffer": 8,
+    "copula_onesided": 15,
+    "zscore_mean": 9
+  }
+}

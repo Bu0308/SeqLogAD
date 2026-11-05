@@ -1,0 +1,1160 @@
+{
+  "experiment_id": "FUSION-E4-GATED",
+  "cohorts": {
+    "BGL@HDFS-fold": {
+      "fold": "FOLD-TARGET-ARCH-HDFS",
+      "architecture": "ARCH-BGL",
+      "aggregate": "mean",
+      "units": 16384,
+      "positives": 688,
+      "windows": 16384,
+      "abstained": {
+        "sequence_hdfs_best": 0,
+        "semantic_hdfs_best_mkmean": 0,
+        "pca_xu2009": 0,
+        "iforest_liu2008": 0,
+        "deeplog_du2017": 0,
+        "knn_tfidf_k4": 0,
+        "b0_frequency": 0,
+        "b0_markov": 0
+      },
+      "gate": {
+        "statistic": {
+          "n": 16384,
+          "k": 820,
+          "q": 0.05,
+          "overlap": 59.616655196145906,
+          "expected": 41.0400390625,
+          "lift": 1.4526461611148938,
+          "p_value": 0.0004997501249375312,
+          "permutations": 2000
+        },
+        "open": {
+          "primary": false,
+          "lift1.5": false,
+          "lift3.0": false
+        }
+      },
+      "metrics": {
+        "sequence_hdfs_best": {
+          "average_precision": 0.1361198748995309,
+          "auroc": 0.8441355966858687,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.1555232558139535,
+            "precision": 0.13048780487804879,
+            "fpr": 0.04542558613659531
+          }
+        },
+        "semantic_hdfs_best_mkmean": {
+          "average_precision": 0.1555983392921616,
+          "auroc": 0.8357972998601332,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.10465116279069768,
+            "precision": 0.43902439024390244,
+            "fpr": 0.005861365953109072
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.10755813953488372,
+            "precision": 0.09024390243902439,
+            "fpr": 0.04752803261977574
+          }
+        },
+        "gated_vw": {
+          "average_precision": 0.1361198748995309,
+          "auroc": 0.8441355966858687,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.1555232558139535,
+            "precision": 0.13048780487804879,
+            "fpr": 0.04542558613659531
+          }
+        },
+        "ungated_vw": {
+          "average_precision": 0.2593000425106445,
+          "auroc": 0.9171452825338406,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.03488372093023256,
+            "precision": 0.14634146341463414,
+            "fpr": 0.00891946992864424
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.31540697674418605,
+            "precision": 0.2646341463414634,
+            "fpr": 0.03841743119266055
+          }
+        },
+        "ungated_cauchy": {
+          "average_precision": 0.15585774296700303,
+          "auroc": 0.8383804457660669,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.024709302325581394,
+            "precision": 0.10365853658536585,
+            "fpr": 0.009365443425076453
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.24273255813953487,
+            "precision": 0.20365853658536584,
+            "fpr": 0.04160295616717635
+          }
+        },
+        "gated_vw_lift1.5": {
+          "average_precision": 0.1361198748995309,
+          "auroc": 0.8441355966858687,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.1555232558139535,
+            "precision": 0.13048780487804879,
+            "fpr": 0.04542558613659531
+          }
+        },
+        "gated_vw_lift3.0": {
+          "average_precision": 0.1361198748995309,
+          "auroc": 0.8441355966858687,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.1555232558139535,
+            "precision": 0.13048780487804879,
+            "fpr": 0.04542558613659531
+          }
+        },
+        "deeplog_du2017": {
+          "average_precision": 0.11098271103186694,
+          "auroc": 0.805687791882986,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.011627906976744186,
+            "precision": 0.00975609756097561,
+            "fpr": 0.0517329255861366
+          }
+        },
+        "pca_xu2009": {
+          "average_precision": 0.12226254281169995,
+          "auroc": 0.8355746372205628,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0014534883720930232,
+            "precision": 0.006097560975609756,
+            "fpr": 0.010384811416921508
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.06831395348837209,
+            "precision": 0.05731707317073171,
+            "fpr": 0.04924821610601427
+          }
+        },
+        "iforest_liu2008": {
+          "average_precision": 0.039966308908243216,
+          "auroc": 0.22027312542967545,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.052242609582059125
+          }
+        },
+        "knn_tfidf_k4": {
+          "average_precision": 0.167936208251167,
+          "auroc": 0.793792078562454,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.06831395348837209,
+            "precision": 0.2865853658536585,
+            "fpr": 0.007454128440366973
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.26308139534883723,
+            "precision": 0.22073170731707317,
+            "fpr": 0.040711009174311925
+          }
+        },
+        "b0_frequency": {
+          "average_precision": 0.11255789131339443,
+          "auroc": 0.823977242757746,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.00436046511627907,
+            "precision": 0.003658536585365854,
+            "fpr": 0.052051478083588176
+          }
+        },
+        "b0_markov": {
+          "average_precision": 0.1021223556253867,
+          "auroc": 0.7857934938986084,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.00436046511627907,
+            "precision": 0.003658536585365854,
+            "fpr": 0.052051478083588176
+          }
+        }
+      },
+      "tests": {
+        "H9_gain_vs_best_expert": {
+          "point": -0.019478464392630707,
+          "ci_low": -0.11237544878573674,
+          "ci_high": 0.0,
+          "one_sided_p_le_0": 1.0,
+          "replicates": 2000
+        },
+        "X_ungated_vw_gain_vs_best_expert": {
+          "point": 0.10370170321848288,
+          "ci_low": 0.01370035194889052,
+          "ci_high": 0.1728799360210025,
+          "one_sided_p_le_0": 0.014992503748125937,
+          "replicates": 2000
+        }
+      },
+      "vs_baselines": {
+        "deeplog_du2017": {
+          "point": 0.02513716386766396,
+          "ci_low": -0.0021373317726172928,
+          "ci_high": 0.06823282376535998,
+          "one_sided_p_le_0": 0.03698150924537731,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": 0.01385733208783095,
+          "ci_low": -0.017488962014846517,
+          "ci_high": 0.057382355077387766,
+          "one_sided_p_le_0": 0.17991004497751126,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.09615356599128769,
+          "ci_low": 0.05772499893582635,
+          "ci_high": 0.15042742457435537,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": -0.03181633335163611,
+          "ci_low": -0.12431394980007324,
+          "ci_high": 0.029668746314920853,
+          "one_sided_p_le_0": 0.8395802098950524,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.023561983586136467,
+          "ci_low": -0.0034155410636851537,
+          "ci_high": 0.06659697827869057,
+          "one_sided_p_le_0": 0.053973013493253376,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.0339975192741442,
+          "ci_low": 0.008081947034949858,
+          "ci_high": 0.07575737542096446,
+          "one_sided_p_le_0": 0.0074962518740629685,
+          "replicates": 2000
+        }
+      },
+      "sequence_vs_baselines": {
+        "deeplog_du2017": {
+          "point": 0.02513716386766396,
+          "ci_low": -0.0021373317726172928,
+          "ci_high": 0.06823282376535998,
+          "one_sided_p_le_0": 0.03698150924537731,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": 0.01385733208783095,
+          "ci_low": -0.017488962014846517,
+          "ci_high": 0.057382355077387766,
+          "one_sided_p_le_0": 0.17991004497751126,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.09615356599128769,
+          "ci_low": 0.05772499893582635,
+          "ci_high": 0.15042742457435537,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": -0.03181633335163611,
+          "ci_low": -0.12431394980007324,
+          "ci_high": 0.029668746314920853,
+          "one_sided_p_le_0": 0.8395802098950524,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.023561983586136467,
+          "ci_low": -0.0034155410636851537,
+          "ci_high": 0.06659697827869057,
+          "one_sided_p_le_0": 0.053973013493253376,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.0339975192741442,
+          "ci_low": 0.008081947034949858,
+          "ci_high": 0.07575737542096446,
+          "one_sided_p_le_0": 0.0074962518740629685,
+          "replicates": 2000
+        }
+      }
+    },
+    "BGL@HADOOP-fold": {
+      "fold": "FOLD-TARGET-ARCH-HADOOP",
+      "architecture": "ARCH-BGL",
+      "aggregate": "mean",
+      "units": 16384,
+      "positives": 688,
+      "windows": 16384,
+      "abstained": {
+        "sequence_hadoop_best": 0,
+        "semantic_hadoop_best_mkmean": 0,
+        "pca_xu2009": 0,
+        "iforest_liu2008": 0,
+        "deeplog_du2017": 0,
+        "knn_tfidf_k4": 0,
+        "b0_frequency": 0,
+        "b0_markov": 0
+      },
+      "gate": {
+        "statistic": {
+          "n": 16384,
+          "k": 820,
+          "q": 0.05,
+          "overlap": 100.79077770130763,
+          "expected": 41.0400390625,
+          "lift": 2.4559132984209167,
+          "p_value": 0.0004997501249375312,
+          "permutations": 2000
+        },
+        "open": {
+          "primary": true,
+          "lift1.5": true,
+          "lift3.0": false
+        }
+      },
+      "metrics": {
+        "sequence_hadoop_best": {
+          "average_precision": 0.11646241237632454,
+          "auroc": 0.8092137235379181,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.15843023255813954,
+            "precision": 0.1329268292682927,
+            "fpr": 0.04529816513761468
+          }
+        },
+        "semantic_hadoop_best_mkmean": {
+          "average_precision": 0.19505380307339948,
+          "auroc": 0.8530935892421118,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.1002906976744186,
+            "precision": 0.42073170731707316,
+            "fpr": 0.00605249745158002
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.19912790697674418,
+            "precision": 0.16707317073170733,
+            "fpr": 0.04351427115188583
+          }
+        },
+        "gated_vw": {
+          "average_precision": 0.2751383092284584,
+          "auroc": 0.9149075438417135,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.08866279069767442,
+            "precision": 0.3719512195121951,
+            "fpr": 0.006562181447502548
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.2921511627906977,
+            "precision": 0.2451219512195122,
+            "fpr": 0.03943679918450561
+          }
+        },
+        "ungated_vw": {
+          "average_precision": 0.2751383092284584,
+          "auroc": 0.9149075438417135,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.08866279069767442,
+            "precision": 0.3719512195121951,
+            "fpr": 0.006562181447502548
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.2921511627906977,
+            "precision": 0.2451219512195122,
+            "fpr": 0.03943679918450561
+          }
+        },
+        "ungated_cauchy": {
+          "average_precision": 0.16445653809215716,
+          "auroc": 0.8334727926534385,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.030523255813953487,
+            "precision": 0.12804878048780488,
+            "fpr": 0.009110601427115188
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.2761627906976744,
+            "precision": 0.23170731707317074,
+            "fpr": 0.040137614678899085
+          }
+        },
+        "gated_vw_lift1.5": {
+          "average_precision": 0.2751383092284584,
+          "auroc": 0.9149075438417135,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.08866279069767442,
+            "precision": 0.3719512195121951,
+            "fpr": 0.006562181447502548
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.2921511627906977,
+            "precision": 0.2451219512195122,
+            "fpr": 0.03943679918450561
+          }
+        },
+        "gated_vw_lift3.0": {
+          "average_precision": 0.11646241237632454,
+          "auroc": 0.8092137235379181,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.01744186046511628,
+            "precision": 0.07317073170731707,
+            "fpr": 0.009683995922528032
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.15843023255813954,
+            "precision": 0.1329268292682927,
+            "fpr": 0.04529816513761468
+          }
+        },
+        "deeplog_du2017": {
+          "average_precision": 0.11098271103186694,
+          "auroc": 0.805687791882986,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.011627906976744186,
+            "precision": 0.00975609756097561,
+            "fpr": 0.0517329255861366
+          }
+        },
+        "pca_xu2009": {
+          "average_precision": 0.12226254281169995,
+          "auroc": 0.8355746372205628,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0014534883720930232,
+            "precision": 0.006097560975609756,
+            "fpr": 0.010384811416921508
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.06831395348837209,
+            "precision": 0.05731707317073171,
+            "fpr": 0.04924821610601427
+          }
+        },
+        "iforest_liu2008": {
+          "average_precision": 0.039966308908243216,
+          "auroc": 0.22027312542967545,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.052242609582059125
+          }
+        },
+        "knn_tfidf_k4": {
+          "average_precision": 0.167936208251167,
+          "auroc": 0.793792078562454,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.06831395348837209,
+            "precision": 0.2865853658536585,
+            "fpr": 0.007454128440366973
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.26308139534883723,
+            "precision": 0.22073170731707317,
+            "fpr": 0.040711009174311925
+          }
+        },
+        "b0_frequency": {
+          "average_precision": 0.11255789131339443,
+          "auroc": 0.823977242757746,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.00436046511627907,
+            "precision": 0.003658536585365854,
+            "fpr": 0.052051478083588176
+          }
+        },
+        "b0_markov": {
+          "average_precision": 0.1021223556253867,
+          "auroc": 0.7857934938986084,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 164,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010448521916411825
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 820,
+            "recall": 0.00436046511627907,
+            "precision": 0.003658536585365854,
+            "fpr": 0.052051478083588176
+          }
+        }
+      },
+      "tests": {
+        "H9_gain_vs_best_expert": {
+          "point": 0.08008450615505891,
+          "ci_low": -0.02173803351061008,
+          "ci_high": 0.1683718141896448,
+          "one_sided_p_le_0": 0.06096951524237881,
+          "replicates": 2000
+        },
+        "X_ungated_vw_gain_vs_best_expert": {
+          "point": 0.08008450615505891,
+          "ci_low": -0.02173803351061008,
+          "ci_high": 0.1683718141896448,
+          "one_sided_p_le_0": 0.06096951524237881,
+          "replicates": 2000
+        }
+      },
+      "vs_baselines": {
+        "deeplog_du2017": {
+          "point": 0.16415559819659145,
+          "ci_low": 0.08731338423258073,
+          "ci_high": 0.2704871932907992,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": 0.15287576641675843,
+          "ci_low": 0.07771763807390442,
+          "ci_high": 0.25936816404565954,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.23517200032021518,
+          "ci_low": 0.1444278986352465,
+          "ci_high": 0.3498661491881543,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": 0.10720210097729138,
+          "ci_low": 0.03231706641593444,
+          "ci_high": 0.17418231102085865,
+          "one_sided_p_le_0": 0.0024987506246876563,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.16258041791506395,
+          "ci_low": 0.08565621530176436,
+          "ci_high": 0.26893598941720237,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.1730159536030717,
+          "ci_low": 0.09663386240200576,
+          "ci_high": 0.2792594819965255,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        }
+      },
+      "sequence_vs_baselines": {
+        "deeplog_du2017": {
+          "point": 0.005479701344457605,
+          "ci_low": -0.02023459502775397,
+          "ci_high": 0.047573670260104096,
+          "one_sided_p_le_0": 0.2893553223388306,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": -0.005800130435375403,
+          "ci_low": -0.03655831121834814,
+          "ci_high": 0.03700097022245796,
+          "one_sided_p_le_0": 0.5582208895552224,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.07649610346808133,
+          "ci_low": 0.045620088617352755,
+          "ci_high": 0.1253913046482114,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": -0.051473795874842465,
+          "ci_low": -0.13755634928438285,
+          "ci_high": 0.003304851085216024,
+          "one_sided_p_le_0": 0.9645177411294353,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.0039045210629301136,
+          "ci_low": -0.021389484642427563,
+          "ci_high": 0.0452957829104087,
+          "one_sided_p_le_0": 0.3263368315842079,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.014340056750937843,
+          "ci_low": -0.00832876182378039,
+          "ci_high": 0.05485046368027311,
+          "one_sided_p_le_0": 0.11244377811094453,
+          "replicates": 2000
+        }
+      }
+    },
+    "HDFS@HADOOP-fold": {
+      "fold": "FOLD-TARGET-ARCH-HADOOP",
+      "architecture": "ARCH-HDFS",
+      "aggregate": "max",
+      "units": 3000,
+      "positives": 81,
+      "windows": 44769,
+      "abstained": {
+        "sequence_hadoop_best": 0,
+        "semantic_hadoop_best_mkmean": 0,
+        "pca_xu2009": 0,
+        "iforest_liu2008": 0,
+        "deeplog_du2017": 0,
+        "knn_tfidf_k4": 0,
+        "b0_frequency": 0,
+        "b0_markov": 0
+      },
+      "gate": {
+        "statistic": {
+          "n": 3000,
+          "k": 150,
+          "q": 0.05,
+          "overlap": 22.317073170731707,
+          "expected": 7.5,
+          "lift": 2.975609756097561,
+          "p_value": 0.0004997501249375312,
+          "permutations": 2000
+        },
+        "open": {
+          "primary": true,
+          "lift1.5": true,
+          "lift3.0": false
+        }
+      },
+      "metrics": {
+        "sequence_hadoop_best": {
+          "average_precision": 0.7054585326686857,
+          "auroc": 0.8444482509230711,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.37037037037037035,
+            "precision": 1.0,
+            "fpr": 0.0
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.7407407407407407,
+            "precision": 0.4,
+            "fpr": 0.030832476875642344
+          }
+        },
+        "semantic_hadoop_best_mkmean": {
+          "average_precision": 0.2061288822950087,
+          "auroc": 0.4717263226455872,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.18518518518518517,
+            "precision": 0.5,
+            "fpr": 0.0051387461459403904
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.19753086419753085,
+            "precision": 0.10666666666666667,
+            "fpr": 0.045906132237067486
+          }
+        },
+        "gated_vw": {
+          "average_precision": 0.47161019510838476,
+          "auroc": 0.7276866337617737,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.345679012345679,
+            "precision": 0.9333333333333333,
+            "fpr": 0.0006851661527920521
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.6296296296296297,
+            "precision": 0.34,
+            "fpr": 0.03391572456320658
+          }
+        },
+        "ungated_vw": {
+          "average_precision": 0.47161019510838476,
+          "auroc": 0.7276866337617737,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.345679012345679,
+            "precision": 0.9333333333333333,
+            "fpr": 0.0006851661527920521
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.6296296296296297,
+            "precision": 0.34,
+            "fpr": 0.03391572456320658
+          }
+        },
+        "ungated_cauchy": {
+          "average_precision": 0.6913744537633915,
+          "auroc": 0.7281645583004496,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.37037037037037035,
+            "precision": 1.0,
+            "fpr": 0.0
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.7283950617283951,
+            "precision": 0.3933333333333333,
+            "fpr": 0.03117505995203837
+          }
+        },
+        "gated_vw_lift1.5": {
+          "average_precision": 0.47161019510838476,
+          "auroc": 0.7276866337617737,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.345679012345679,
+            "precision": 0.9333333333333333,
+            "fpr": 0.0006851661527920521
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.6296296296296297,
+            "precision": 0.34,
+            "fpr": 0.03391572456320658
+          }
+        },
+        "gated_vw_lift3.0": {
+          "average_precision": 0.7054585326686857,
+          "auroc": 0.8444482509230711,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.37037037037037035,
+            "precision": 1.0,
+            "fpr": 0.0
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.7407407407407407,
+            "precision": 0.4,
+            "fpr": 0.030832476875642344
+          }
+        },
+        "deeplog_du2017": {
+          "average_precision": 0.5437754592264583,
+          "auroc": 0.8288818680505331,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.2222222222222222,
+            "precision": 0.6,
+            "fpr": 0.0041109969167523125
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.7283950617283951,
+            "precision": 0.3933333333333333,
+            "fpr": 0.03117505995203837
+          }
+        },
+        "pca_xu2009": {
+          "average_precision": 0.26738349684885315,
+          "auroc": 0.5964709713710513,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.16049382716049382,
+            "precision": 0.43333333333333335,
+            "fpr": 0.005823912298732443
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.4444444444444444,
+            "precision": 0.24,
+            "fpr": 0.03905447070914697
+          }
+        },
+        "iforest_liu2008": {
+          "average_precision": 0.040229425306281485,
+          "auroc": 0.32347878311107725,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.04938271604938271,
+            "precision": 0.13333333333333333,
+            "fpr": 0.008907159986296678
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.16049382716049382,
+            "precision": 0.08666666666666667,
+            "fpr": 0.046933881466255566
+          }
+        },
+        "knn_tfidf_k4": {
+          "average_precision": 0.026144935323807756,
+          "auroc": 0.48225546546889475,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010277492291880781
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.024691358024691357,
+            "precision": 0.013333333333333334,
+            "fpr": 0.050702295306611855
+          }
+        },
+        "b0_frequency": {
+          "average_precision": 0.026313271001734043,
+          "auroc": 0.4877156475877499,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010277492291880781
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.024691358024691357,
+            "precision": 0.013333333333333334,
+            "fpr": 0.050702295306611855
+          }
+        },
+        "b0_markov": {
+          "average_precision": 0.02629313754994983,
+          "auroc": 0.48770084461531304,
+          "at_1pct": {
+            "budget": 0.01,
+            "flagged": 30,
+            "recall": 0.0,
+            "precision": 0.0,
+            "fpr": 0.010277492291880781
+          },
+          "at_5pct": {
+            "budget": 0.05,
+            "flagged": 150,
+            "recall": 0.024691358024691357,
+            "precision": 0.013333333333333334,
+            "fpr": 0.050702295306611855
+          }
+        }
+      },
+      "tests": {
+        "H10_noninferior_vs_sequence": {
+          "point": -0.213848337560301,
+          "ci_low": -0.29838705005488897,
+          "ci_high": -0.06175865233312293,
+          "one_sided_p_le_0": 0.9985007496251874,
+          "replicates": 2000
+        },
+        "X_ungated_vw_gain_vs_best_expert": {
+          "point": -0.233848337560301,
+          "ci_low": -0.318387050054889,
+          "ci_high": -0.08175865233312293,
+          "one_sided_p_le_0": 1.0,
+          "replicates": 2000
+        }
+      },
+      "vs_baselines": {
+        "deeplog_du2017": {
+          "point": -0.07216526411807356,
+          "ci_low": -0.19483383914637847,
+          "ci_high": 0.10246768286962309,
+          "one_sided_p_le_0": 0.8030984507746127,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": 0.2042266982595316,
+          "ci_low": 0.053893066389993506,
+          "ci_high": 0.4045129981480472,
+          "one_sided_p_le_0": 0.005497251374312844,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.43138076980210327,
+          "ci_low": 0.30903902554741935,
+          "ci_high": 0.6089306117438836,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": 0.445465259784577,
+          "ci_low": 0.31230177241466933,
+          "ci_high": 0.6463457154568891,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.4452969241066507,
+          "ci_low": 0.31225399362145295,
+          "ci_high": 0.6461114192981381,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.4453170575584349,
+          "ci_low": 0.31222844083411505,
+          "ci_high": 0.6461901521299066,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        }
+      },
+      "sequence_vs_baselines": {
+        "deeplog_du2017": {
+          "point": 0.16168307344222743,
+          "ci_low": 0.07415999418215723,
+          "ci_high": 0.24673714055220594,
+          "one_sided_p_le_0": 0.0014992503748125937,
+          "replicates": 2000
+        },
+        "pca_xu2009": {
+          "point": 0.4380750358198326,
+          "ci_low": 0.3368116246762476,
+          "ci_high": 0.5395533773513586,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "iforest_liu2008": {
+          "point": 0.6652291073624043,
+          "ci_low": 0.5817340825692621,
+          "ci_high": 0.7441161893663488,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "knn_tfidf_k4": {
+          "point": 0.679313597344878,
+          "ci_low": 0.5932713686139545,
+          "ci_high": 0.7717501077428307,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "b0_frequency": {
+          "point": 0.6791452616669517,
+          "ci_low": 0.5932188121787694,
+          "ci_high": 0.7715687176605801,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        },
+        "b0_markov": {
+          "point": 0.679165395118736,
+          "ci_low": 0.5931937670649553,
+          "ci_high": 0.7715924277185515,
+          "one_sided_p_le_0": 0.0004997501249375312,
+          "replicates": 2000
+        }
+      }
+    }
+  },
+  "H8_gate_prediction": {
+    "BGL@HDFS-fold": false,
+    "BGL@HADOOP-fold": true,
+    "HDFS@HADOOP-fold": false
+  },
+  "primary_family_holm": {
+    "BGL@HADOOP-fold:H9_gain_vs_best_expert": false,
+    "HDFS@HADOOP-fold:H10_noninferior_vs_sequence": false,
+    "BGL@HDFS-fold:H9_gain_vs_best_expert": false
+  },
+  "secondary_family_holm": {
+    "BGL@HDFS-fold:iforest_liu2008": true,
+    "BGL@HADOOP-fold:deeplog_du2017": true,
+    "BGL@HADOOP-fold:pca_xu2009": true,
+    "BGL@HADOOP-fold:iforest_liu2008": true,
+    "BGL@HADOOP-fold:b0_frequency": true,
+    "BGL@HADOOP-fold:b0_markov": true,
+    "HDFS@HADOOP-fold:iforest_liu2008": true,
+    "HDFS@HADOOP-fold:knn_tfidf_k4": true,
+    "HDFS@HADOOP-fold:b0_frequency": true,
+    "HDFS@HADOOP-fold:b0_markov": true,
+    "BGL@HADOOP-fold:knn_tfidf_k4": true,
+    "HDFS@HADOOP-fold:pca_xu2009": true,
+    "BGL@HDFS-fold:b0_markov": true,
+    "BGL@HDFS-fold:deeplog_du2017": false,
+    "BGL@HDFS-fold:b0_frequency": false,
+    "BGL@HDFS-fold:pca_xu2009": false,
+    "HDFS@HADOOP-fold:deeplog_du2017": false,
+    "BGL@HDFS-fold:knn_tfidf_k4": false
+  }
+}

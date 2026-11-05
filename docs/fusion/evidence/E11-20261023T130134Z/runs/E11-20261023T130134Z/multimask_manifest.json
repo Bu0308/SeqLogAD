@@ -1,0 +1,34 @@
+{
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "consistency_max_abs_diff": {
+    "hdfs": 0.0,
+    "hadoop": 0.0
+  },
+  "timings": {
+    "hdfs_mk42": 24.46,
+    "hdfs_mk43": 23.81,
+    "hdfs_mk44": 24.2,
+    "hdfs_mk45": 24.16,
+    "hdfs_mk46": 24.24,
+    "hdfs_mk47": 24.14,
+    "hdfs_mk48": 24.07,
+    "hdfs_mk49": 23.65,
+    "hadoop_mk42": 51.75,
+    "hadoop_mk43": 52.19,
+    "hadoop_mk44": 53.08,
+    "hadoop_mk45": 54.25,
+    "hadoop_mk46": 53.69,
+    "hadoop_mk47": 52.99,
+    "hadoop_mk48": 53.17,
+    "hadoop_mk49": 51.95
+  }
+}

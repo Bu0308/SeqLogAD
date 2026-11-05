@@ -1,0 +1,23 @@
+VENV_READY 03:09:26
+DEPS_INSTALLED
+INPUTS_READY
+E4_INPUTS_SHA256=PASS
+40 passed, 7 skipped, 1 warning in 45.69s
+IMPLEMENTATION=PASS
+RUNS=runs/E5DEV-BGL-20261024T031025Z runs/E5DEV-HDFS-20261024T031025Z
+Run run_57ec4379cbe14c3f8112a000c91599ca success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_57ec4379cbe14c3f8112a000c91599ca/stdout.txt
+stderr: .pmem/artifacts/runs/run_57ec4379cbe14c3f8112a000c91599ca/stderr.txt
+artifacts: 1
+SCORED FUSION-E5DEV scoring BGL 03:32:00
+Run run_033ca77d5fbd4d318446916874c6f38f success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_033ca77d5fbd4d318446916874c6f38f/stdout.txt
+stderr: .pmem/artifacts/runs/run_033ca77d5fbd4d318446916874c6f38f/stderr.txt
+artifacts: 1
+SCORED FUSION-E5DEV scoring HDFS 04:14:42
+EXPORT_KEYS 17
+86d5c3254e5c8cea7668cbd0ffa773b26e63a8efee4895ebdd12bf6c20af2eeb  runs/E5DEV-compact.json.gz
+-rw-r--r-- 1 root root 15779404 Oct 24 04:14 runs/E5DEV-compact.json.gz
+CHAIN_COMPLETE 04:14:49

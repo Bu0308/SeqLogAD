@@ -1,0 +1,94 @@
+{
+  "P2.2-DEVELOPMENT-HDFS-S42-V13R1": {
+    "ARCH-BGL": {
+      "recorded": {
+        "auroc": 0.8025453629032258,
+        "average_precision": 0.08900289604283317,
+        "mean_window_nll": 0.11745299451087021
+      },
+      "reproduced": {
+        "auroc": 0.8067036290322581,
+        "average_precision": 0.09055907752311332,
+        "mean_window_nll": 0.11743809772143575
+      },
+      "pass": true
+    }
+  },
+  "P2.1-FINAL-HDFS-S42": {
+    "ARCH-BGL": {
+      "recorded": 0.8196442849954337,
+      "reproduced": 0.8238370816367427,
+      "pass": true
+    },
+    "ARCH-HADOOP": {
+      "recorded": 0.06172706999477704,
+      "reproduced": 0.06163965030753563,
+      "pass": true
+    },
+    "ARCH-OPENSTACK": {
+      "recorded": 0.0070591538154474165,
+      "reproduced": 0.006982326294650893,
+      "pass": true
+    }
+  },
+  "P2.2-DEVELOPMENT-HADOOP-S42-V13R1": {
+    "ARCH-BGL": {
+      "recorded": {
+        "auroc": 0.8035534274193549,
+        "average_precision": 0.08745414861738171,
+        "mean_window_nll": 0.1218092730092053
+      },
+      "reproduced": {
+        "auroc": 0.8045614919354839,
+        "average_precision": 0.086126751743099,
+        "mean_window_nll": 0.12182789196560272
+      },
+      "pass": true
+    },
+    "ARCH-HDFS": {
+      "recorded": {
+        "auroc": 0.7236526946107784,
+        "average_precision": 0.04007093603502578,
+        "mean_window_nll": 0.15367783078345099
+      },
+      "reproduced": {
+        "auroc": 0.7256487025948104,
+        "average_precision": 0.03985933959448941,
+        "mean_window_nll": 0.15324460950704927
+      },
+      "pass": true
+    }
+  },
+  "P2.1-FINAL-HADOOP-S42": {
+    "ARCH-BGL": {
+      "recorded": 0.8441323813523525,
+      "reproduced": 0.8456459987046211,
+      "pass": true
+    },
+    "ARCH-HDFS": {
+      "recorded": 0.030272734956994896,
+      "reproduced": 0.03033969396888379,
+      "pass": true
+    },
+    "ARCH-OPENSTACK": {
+      "recorded": 0.009100981952272491,
+      "reproduced": 0.009047614347658085,
+      "pass": true
+    }
+  },
+  "P2.2-DEVELOPMENT-BGL-S42-V13R1": {
+    "ARCH-HDFS": {
+      "recorded": {
+        "auroc": 0.7741516966067864,
+        "average_precision": 0.09532831908647009,
+        "mean_window_nll": 0.09984056631763849
+      },
+      "reproduced": {
+        "auroc": 0.7759481037924152,
+        "average_precision": 0.09545990411797664,
+        "mean_window_nll": 0.09949214569326831
+      },
+      "pass": true
+    }
+  }
+}

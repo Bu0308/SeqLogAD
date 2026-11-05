@@ -1,0 +1,35 @@
+== BGL@HDFS-fold  Seq AP 0.136
+   sem            AP=0.156 AUROC=0.836 | VW AP=0.259 gain=+0.104 | HM AP=0.144 gain=-0.012
+   sem_rare<1     AP=0.415 AUROC=0.919 | VW AP=0.440 gain=+0.025 | HM AP=0.282 gain=-0.133
+   sem_rare<10    AP=0.192 AUROC=0.827 | VW AP=0.292 gain=+0.099 | HM AP=0.176 gain=-0.016
+   sem_rare<100   AP=0.152 AUROC=0.821 | VW AP=0.267 gain=+0.116 | HM AP=0.146 gain=-0.006
+   sem_rare<1000  AP=0.156 AUROC=0.837 | VW AP=0.259 gain=+0.103 | HM AP=0.144 gain=-0.012
+== BGL@HADOOP-fold  Seq AP 0.116
+   sem            AP=0.195 AUROC=0.853 | VW AP=0.275 gain=+0.080 | HM AP=0.156 gain=-0.039
+   sem_rare<1     AP=0.433 AUROC=0.929 | VW AP=0.424 gain=-0.009 | HM AP=0.276 gain=-0.157
+   sem_rare<10    AP=0.229 AUROC=0.842 | VW AP=0.315 gain=+0.086 | HM AP=0.182 gain=-0.047
+   sem_rare<100   AP=0.182 AUROC=0.837 | VW AP=0.290 gain=+0.108 | HM AP=0.149 gain=-0.032
+   sem_rare<1000  AP=0.199 AUROC=0.855 | VW AP=0.279 gain=+0.080 | HM AP=0.157 gain=-0.041
+== HDFS@HADOOP-fold  Seq AP 0.705
+   sem            AP=0.206 AUROC=0.472 | VW AP=0.472 gain=-0.234 | HM AP=0.700 gain=-0.006
+   sem_rare<1     AP=0.054 AUROC=0.488 | VW AP=0.123 gain=-0.582 | HM AP=0.421 gain=-0.284
+   sem_rare<10    AP=0.054 AUROC=0.488 | VW AP=0.123 gain=-0.582 | HM AP=0.421 gain=-0.284
+   sem_rare<100   AP=0.656 AUROC=0.858 | VW AP=0.704 gain=-0.001 | HM AP=0.710 gain=+0.004
+   sem_rare<1000  AP=0.654 AUROC=0.826 | VW AP=0.703 gain=-0.003 | HM AP=0.709 gain=+0.004
+
+=== ablation (K=100) ===
+== BGL@HDFS-fold  Seq AP 0.136
+   sem_rare100        alone AP=0.152 AUROC=0.821 | VW(seq,.) AP=0.267 gain=+0.116  CI95 [+0.020, +0.187]
+   rarity_only_raw    alone AP=0.113 AUROC=0.824 | VW(seq,.) AP=0.321 gain=+0.185
+   rarity_only_tmpl   alone AP=0.113 AUROC=0.824 | VW(seq,.) AP=0.325 gain=+0.188
+   rare100_indicator  alone AP=0.082 AUROC=0.753 | VW(seq,.) AP=0.172 gain=+0.036
+== BGL@HADOOP-fold  Seq AP 0.116
+   sem_rare100        alone AP=0.182 AUROC=0.837 | VW(seq,.) AP=0.290 gain=+0.108  CI95 [+0.015, +0.196]
+   rarity_only_raw    alone AP=0.113 AUROC=0.824 | VW(seq,.) AP=0.263 gain=+0.146
+   rarity_only_tmpl   alone AP=0.113 AUROC=0.824 | VW(seq,.) AP=0.265 gain=+0.149
+   rare100_indicator  alone AP=0.083 AUROC=0.754 | VW(seq,.) AP=0.149 gain=+0.032
+== HDFS@HADOOP-fold  Seq AP 0.705
+   sem_rare100        alone AP=0.656 AUROC=0.858 | VW(seq,.) AP=0.704 gain=-0.001  CI95 [-0.008, +0.005]
+   rarity_only_raw    alone AP=0.026 AUROC=0.488 | VW(seq,.) AP=0.622 gain=-0.083
+   rarity_only_tmpl   alone AP=0.697 AUROC=0.793 | VW(seq,.) AP=0.720 gain=+0.015
+   rare100_indicator  alone AP=0.049 AUROC=0.654 | VW(seq,.) AP=0.226 gain=-0.479

@@ -1,0 +1,66 @@
+VENV_READY 12:33:56
+DEPS_INSTALLED
+E1_RERUN=E1R-20261023T123402Z
+== 1. integrity
+KIT_SHA256=PASS
+== 2. environment
+NVIDIA A40, 46068 MiB, 595.91.07
+{'gpu': 'NVIDIA A40', 'torch': '2.9.1+cu128', 'cuda': '12.8', 'bf16': True, 'transformers': '4.57.6', 'peft': '0.18.1', 'bnb': '0.49.2'}
+== 3. inputs
+== 4. tests on the pod
+.....sssss......................                                         [100%]
+=============================== warnings summary ===============================
+tests/fusion/test_fusion_statistics.py::test_copula_rejects_degenerate_reference
+  /workspace/fusion/venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3037: RuntimeWarning: invalid value encountered in divide
+    c /= stddev[:, None]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/fusion/test_fusion_cohort.py:18: restricted data absent
+SKIPPED [1] tests/fusion/test_fusion_cohort.py:26: restricted data absent
+SKIPPED [1] tests/fusion/test_fusion_cohort.py:34: restricted data absent
+SKIPPED [1] tests/fusion/test_fusion_run_scoring.py:79: restricted data absent
+SKIPPED [1] tests/fusion/test_fusion_run_scoring.py:86: restricted data absent
+27 passed, 5 skipped, 1 warning in 39.19s
+IMPLEMENTATION=PASS
+== 5. scoring (Projmem-tracked)
+Run run_4937e9260cb6451ab15a6023be3c7a4c success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_4937e9260cb6451ab15a6023be3c7a4c/stdout.txt
+stderr: .pmem/artifacts/runs/run_4937e9260cb6451ab15a6023be3c7a4c/stderr.txt
+artifacts: 1
+== 6. evaluation (CPU, Projmem-tracked)
+Run run_b4dfac79f8db494396bbb1d0914dc964 success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_b4dfac79f8db494396bbb1d0914dc964/stdout.txt
+stderr: .pmem/artifacts/runs/run_b4dfac79f8db494396bbb1d0914dc964/stderr.txt
+artifacts: 1
+== 7. export
+FUSION_E1_EXPORT=/workspace/fusion/exports/fusion-E1R-20261023T123402Z.tar.gz
+SAFE_TO_STOP_POD=YES
+== tests
+SKIPPED [1] tests/fusion/test_fusion_run_scoring.py:86: restricted data absent
+27 passed, 5 skipped, 1 warning in 51.01s
+IMPLEMENTATION=PASS
+== C multimask (GPU)
+Run run_aefd467515674c21b70b3a93e66a28ff success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_aefd467515674c21b70b3a93e66a28ff/stdout.txt
+stderr: .pmem/artifacts/runs/run_aefd467515674c21b70b3a93e66a28ff/stderr.txt
+artifacts: 1
+== evaluation A+B+C (CPU)
+Run run_1e2fdd85625040cca82785bcd5596882 success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_1e2fdd85625040cca82785bcd5596882/stdout.txt
+stderr: .pmem/artifacts/runs/run_1e2fdd85625040cca82785bcd5596882/stderr.txt
+Run run_16f4f1b055e24022a48fb9ff98d1930c success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_16f4f1b055e24022a48fb9ff98d1930c/stdout.txt
+stderr: .pmem/artifacts/runs/run_16f4f1b055e24022a48fb9ff98d1930c/stderr.txt
+Run run_0f5fca9bd30541038ab81461504ece5b success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_0f5fca9bd30541038ab81461504ece5b/stdout.txt
+stderr: .pmem/artifacts/runs/run_0f5fca9bd30541038ab81461504ece5b/stderr.txt
+E11_DIR=runs/E11-20261023T130134Z
+SAFE_TO_STOP_POD=YES
+CHAIN_COMPLETE 13:18:00

@@ -1,0 +1,196 @@
+{
+  "schema": "SEQLOGAD-FUSION-SCORING-1",
+  "experiment_id": "FUSION-E1-SOURCE-DEV",
+  "config_sha256": "4a83b8359af9b94d932f3ab1a97efbb51dd4c8c31559014860014bb7a89ae617",
+  "base": {
+    "model_id": "meta-llama/Llama-3.1-8B",
+    "model_revision": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "tokenizer_id": "meta-llama/Llama-3.1-8B",
+    "tokenizer_revision": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b"
+  },
+  "implementation_sha256": "78a188515d5a74b4ca1bf9c5b763e6e92281ba5746ff22c29e488dbf93dce3e3",
+  "inputs": {
+    "P2.1/recovery/HADOOP/LATEST_RECOVERY.zip": "e168f601e83fac44e7d3813284183f8f7197ab3ff223856392aab04068d50f3f",
+    "P2.1/recovery/HDFS/LATEST_RECOVERY.zip": "e3c2d04f1bce1c04dc1a609b3b846dc157cc94d136cc95bc39b74959438756aa",
+    "P2.1/targets/P2.1_HADOOP_S42.zip": "4ee895e3aa35c843d6db72cd44b8112cf30fcad42ca7ef6f981c7cd24afacb0e",
+    "P2.1/targets/P2.1_HDFS_S42.zip": "8e199a14c8ffcf82881f2f84691a153b6d4e45df80f670839f99e177fc2e3ead",
+    "P2.2/recovery/BGL/LATEST_RECOVERY.zip": "007289148559853bc3b2bcac1b2046b46e3ed8e8f2898e787850d9bb8cc5c7bc",
+    "P2.2/recovery/HADOOP/LATEST_RECOVERY.zip": "a35e62da3f005d100f577a869bc0d2b43d33ec5f8fda2819a7265ed9dedaf41e",
+    "P2.2/recovery/HDFS/LATEST_RECOVERY.zip": "9e07a0075e2a4be2c7dcaca977995dc075ba9567a99f46a6b77445de2e6d0ba9",
+    "P2.2/targets/P2.2_BGL_S42.zip": "1c786db61563203cece6d3fe4d6f00c777df64e7d35ec455f94d09e15904e537",
+    "P2.2/targets/P2.2_HADOOP_S42.zip": "c4d149504c2a83964bf31ab45858bb1a925058ff587166726e1730684b524e2a",
+    "P2.2/targets/P2.2_HDFS_S42.zip": "61ac04dab0267d06f24ba2e2f87dfe723e090810724cff67a69e5993290a0caf"
+  },
+  "bundle_sha256": "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129",
+  "experts": [
+    {
+      "kind": "sequence",
+      "fold_id": "FOLD-TARGET-ARCH-HDFS",
+      "run_id": "P2.2-DEVELOPMENT-HDFS-S42-V13R1",
+      "checkpoints": {
+        "best": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-HDFS-target/P2.2-DEVELOPMENT-HDFS-S42-V13R1/checkpoints/step-100",
+          "step": 100,
+          "adapter_sha256": "b6012c13b6b916c1774f14bc365fe9bea2c408c2e615d5bba1b4e0d7c31c260a"
+        },
+        "latest": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-HDFS-recovery/seqlogad_recovery/run/checkpoints/step-400",
+          "step": 400,
+          "adapter_sha256": "920359b4dcb385829adbf8728f283e525f28946cb4181c0e7f80236fa4481cbd"
+        }
+      },
+      "target_zip_sha256": "61ac04dab0267d06f24ba2e2f87dfe723e090810724cff67a69e5993290a0caf",
+      "recovery_zip_sha256": "9e07a0075e2a4be2c7dcaca977995dc075ba9567a99f46a6b77445de2e6d0ba9"
+    },
+    {
+      "kind": "semantic",
+      "fold_id": "FOLD-TARGET-ARCH-HDFS",
+      "run_id": "P2.1-FINAL-HDFS-S42",
+      "checkpoints": {
+        "best": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/semantic-FOLD-TARGET-ARCH-HDFS-target/P2.1-FINAL-HDFS-S42/checkpoints/step-600",
+          "step": 600,
+          "adapter_sha256": "5ca88f6008df7b7282a3322cc025eef4501c0bc01d827747e7abd4b1d55f4ee9"
+        },
+        "latest": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/semantic-FOLD-TARGET-ARCH-HDFS-recovery/seqlogad_recovery/run/checkpoints/step-900",
+          "step": 900,
+          "adapter_sha256": "191a22944619c1d54708cea3b2f7936bc0de0e4d605fb20bf87577360b380ec4"
+        }
+      },
+      "target_zip_sha256": "8e199a14c8ffcf82881f2f84691a153b6d4e45df80f670839f99e177fc2e3ead",
+      "recovery_zip_sha256": "e3c2d04f1bce1c04dc1a609b3b846dc157cc94d136cc95bc39b74959438756aa"
+    },
+    {
+      "kind": "sequence",
+      "fold_id": "FOLD-TARGET-ARCH-HADOOP",
+      "run_id": "P2.2-DEVELOPMENT-HADOOP-S42-V13R1",
+      "checkpoints": {
+        "best": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-HADOOP-target/P2.2-DEVELOPMENT-HADOOP-S42-V13R1/checkpoints/step-100",
+          "step": 100,
+          "adapter_sha256": "51fbb71c2235d9394625f561a9a4953420eea6a0e95ce4927bf92ee94c0ef0f7"
+        },
+        "latest": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-HADOOP-recovery/seqlogad_recovery/run/checkpoints/step-400",
+          "step": 400,
+          "adapter_sha256": "7f6fdc5e2668c053f73834b7cb5e48825331a89feb60264546458cb80967d00b"
+        }
+      },
+      "target_zip_sha256": "c4d149504c2a83964bf31ab45858bb1a925058ff587166726e1730684b524e2a",
+      "recovery_zip_sha256": "a35e62da3f005d100f577a869bc0d2b43d33ec5f8fda2819a7265ed9dedaf41e"
+    },
+    {
+      "kind": "semantic",
+      "fold_id": "FOLD-TARGET-ARCH-HADOOP",
+      "run_id": "P2.1-FINAL-HADOOP-S42",
+      "checkpoints": {
+        "best": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/semantic-FOLD-TARGET-ARCH-HADOOP-target/P2.1-FINAL-HADOOP-S42/checkpoints/step-500",
+          "step": 500,
+          "adapter_sha256": "73d6734eb3d66d0931a0986e02a05d4d36d98195a4e40158c750f7b51f292d35"
+        },
+        "latest": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/semantic-FOLD-TARGET-ARCH-HADOOP-recovery/seqlogad_recovery/run/checkpoints/step-800",
+          "step": 800,
+          "adapter_sha256": "1fa8c16d65e31eaf31757f9eef63fea2410fd699ae4cd5b9493cf7e4f3ef3279"
+        }
+      },
+      "target_zip_sha256": "4ee895e3aa35c843d6db72cd44b8112cf30fcad42ca7ef6f981c7cd24afacb0e",
+      "recovery_zip_sha256": "e168f601e83fac44e7d3813284183f8f7197ab3ff223856392aab04068d50f3f"
+    },
+    {
+      "kind": "sequence",
+      "fold_id": "FOLD-TARGET-ARCH-BGL",
+      "run_id": "P2.2-DEVELOPMENT-BGL-S42-V13R1",
+      "checkpoints": {
+        "best": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-BGL-target/P2.2-DEVELOPMENT-BGL-S42-V13R1/checkpoints/step-300",
+          "step": 300,
+          "adapter_sha256": "ee42f1ecbad3321df99acf80a966a02891c4de391bcc10fad66a99ee9c6afc6e"
+        },
+        "latest": {
+          "path": "/workspace/fusion/runs/E1R-20261023T123402Z/work/sequence-FOLD-TARGET-ARCH-BGL-recovery/seqlogad_recovery/run/checkpoints/step-600",
+          "step": 600,
+          "adapter_sha256": "732c0208ce032cdfeaeb2220a6097380dd7c3e07e9be30e27c5c2e53f206fac5"
+        }
+      },
+      "target_zip_sha256": "1c786db61563203cece6d3fe4d6f00c777df64e7d35ec455f94d09e15904e537",
+      "recovery_zip_sha256": "007289148559853bc3b2bcac1b2046b46e3ed8e8f2898e787850d9bb8cc5c7bc"
+    }
+  ],
+  "adapters": {
+    "sequence|FOLD-TARGET-ARCH-HDFS|best": "sequence_hdfs_best",
+    "sequence|FOLD-TARGET-ARCH-HDFS|latest": "sequence_hdfs_latest",
+    "semantic|FOLD-TARGET-ARCH-HDFS|best": "semantic_hdfs_best",
+    "semantic|FOLD-TARGET-ARCH-HDFS|latest": "semantic_hdfs_latest",
+    "sequence|FOLD-TARGET-ARCH-HADOOP|best": "sequence_hadoop_best",
+    "sequence|FOLD-TARGET-ARCH-HADOOP|latest": "sequence_hadoop_latest",
+    "semantic|FOLD-TARGET-ARCH-HADOOP|best": "semantic_hadoop_best",
+    "semantic|FOLD-TARGET-ARCH-HADOOP|latest": "semantic_hadoop_latest",
+    "sequence|FOLD-TARGET-ARCH-BGL|best": "sequence_bgl_best",
+    "sequence|FOLD-TARGET-ARCH-BGL|latest": "sequence_bgl_latest"
+  },
+  "parity_pass": true,
+  "timings": {
+    "sequence_hdfs_best": {
+      "seconds": 103.59,
+      "units": 2048
+    },
+    "sequence_hdfs_latest": {
+      "seconds": 103.4,
+      "units": 2048
+    },
+    "semantic_hdfs_best": {
+      "seconds": 23.78,
+      "units": 2048
+    },
+    "semantic_hdfs_latest": {
+      "seconds": 23.78,
+      "units": 2048
+    },
+    "sequence_hadoop_best": {
+      "seconds": 216.01,
+      "units": 4096
+    },
+    "sequence_hadoop_latest": {
+      "seconds": 215.74,
+      "units": 4096
+    },
+    "semantic_hadoop_best": {
+      "seconds": 52.69,
+      "units": 4096
+    },
+    "semantic_hadoop_latest": {
+      "seconds": 52.96,
+      "units": 4096
+    },
+    "sequence_bgl_best": {
+      "seconds": 113.6,
+      "units": 2048
+    },
+    "sequence_bgl_latest": {
+      "seconds": 113.5,
+      "units": 2048
+    },
+    "semantic_base": {
+      "seconds": 49.26,
+      "units": 4096
+    },
+    "sequence_base": {
+      "seconds": 202.64,
+      "units": 4096
+    }
+  },
+  "environment": {
+    "gpu": "NVIDIA A40",
+    "torch": "2.9.1+cu128",
+    "cuda": "12.8",
+    "python": "3.12.3",
+    "peak_vram_allocated": 17941048320,
+    "peak_vram_reserved": 46732935168,
+    "dtype": "torch.bfloat16"
+  },
+  "labels_on_gpu_host": "SOURCE_DEVELOPMENT_ONLY",
+  "target_records_read": false
+}

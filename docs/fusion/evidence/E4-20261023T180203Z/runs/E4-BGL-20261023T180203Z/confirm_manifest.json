@@ -1,0 +1,62 @@
+{
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "timings": {
+    "sequence_hdfs": 225.75,
+    "semantic_hdfs_mk42": 20.59,
+    "semantic_hdfs_mk43": 20.05,
+    "semantic_hdfs_mk44": 20.38,
+    "semantic_hdfs_mk45": 20.29,
+    "semantic_hdfs_mk46": 20.48,
+    "semantic_hdfs_mk47": 20.35,
+    "semantic_hdfs_mk48": 20.56,
+    "semantic_hdfs_mk49": 20.34,
+    "sequence_hadoop": 225.71,
+    "semantic_hadoop_mk42": 20.23,
+    "semantic_hadoop_mk43": 20.03,
+    "semantic_hadoop_mk44": 20.39,
+    "semantic_hadoop_mk45": 20.24,
+    "semantic_hadoop_mk46": 20.48,
+    "semantic_hadoop_mk47": 20.34,
+    "semantic_hadoop_mk48": 20.28,
+    "semantic_hadoop_mk49": 20.52
+  },
+  "anchor": {
+    "P2.2-DEVELOPMENT-HDFS-S42-V13R1": {
+      "ARCH-BGL": {
+        "recorded": {
+          "auroc": 0.8025453629032258,
+          "average_precision": 0.08900289604283317,
+          "mean_window_nll": 0.11745299451087021
+        },
+        "reproduced": {
+          "auroc": 0.8055695564516129,
+          "average_precision": 0.09032408985523974,
+          "mean_window_nll": 0.11744280832920281
+        },
+        "pass": true
+      }
+    }
+  },
+  "dedupe": true,
+  "dedupe_check_hdfs": {
+    "rows": 256,
+    "max_abs_diff": 0.016134444624185562,
+    "tolerance": 0.01,
+    "pass": false
+  },
+  "dedupe_check_hadoop": {
+    "rows": 256,
+    "max_abs_diff": 0.020471375435590744,
+    "tolerance": 0.01,
+    "pass": false
+  }
+}

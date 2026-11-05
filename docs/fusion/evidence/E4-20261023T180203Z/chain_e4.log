@@ -1,0 +1,13 @@
+VENV_READY 18:01:01
+DEPS_INSTALLED
+INPUTS_READY
+E4_INPUTS_SHA256=PASS
+36 passed, 7 skipped, 1 warning in 47.52s
+IMPLEMENTATION=PASS
+RUNS=runs/E4-BGL-20261023T180203Z runs/E4-HDFS-20261023T180203Z
+Run run_6c2c89acb8024c58befcbe40146d3459 success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_6c2c89acb8024c58befcbe40146d3459/stdout.txt
+stderr: .pmem/artifacts/runs/run_6c2c89acb8024c58befcbe40146d3459/stderr.txt
+artifacts: 1
+ANCHOR_OR_DEDUPE_FAILED FUSION-E4 scoring BGL

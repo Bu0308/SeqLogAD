@@ -1,0 +1,67 @@
+{
+  "experiment": "FUSION-E3-HDFS DeepLog (unpaired)",
+  "windows": 44752,
+  "train_windows": 32768,
+  "vocab": 2000,
+  "seconds": 5.94057559967041,
+  "device": "NVIDIA A40",
+  "torch": "2.9.1+cu128",
+  "metrics": {
+    "deeplog_du2017@max": {
+      "average_precision": 0.3783151097400571,
+      "auroc": 0.740133665312541,
+      "at_1pct": {
+        "budget": 0.01,
+        "flagged": 30,
+        "recall": 0.13846153846153847,
+        "precision": 0.3,
+        "fpr": 0.007155025553662692
+      },
+      "at_5pct": {
+        "budget": 0.05,
+        "flagged": 150,
+        "recall": 0.6,
+        "precision": 0.26,
+        "fpr": 0.037819420783645655
+      }
+    },
+    "deeplog_du2017@top3": {
+      "average_precision": 0.17824403161304986,
+      "auroc": 0.6377932118988338,
+      "at_1pct": {
+        "budget": 0.01,
+        "flagged": 30,
+        "recall": 0.13846153846153847,
+        "precision": 0.3,
+        "fpr": 0.007155025553662692
+      },
+      "at_5pct": {
+        "budget": 0.05,
+        "flagged": 150,
+        "recall": 0.35384615384615387,
+        "precision": 0.15333333333333332,
+        "fpr": 0.043270868824531517
+      }
+    },
+    "deeplog_du2017@mean": {
+      "average_precision": 0.5689841201746769,
+      "auroc": 0.9220442930153322,
+      "at_1pct": {
+        "budget": 0.01,
+        "flagged": 30,
+        "recall": 0.35384615384615387,
+        "precision": 0.7666666666666667,
+        "fpr": 0.002385008517887564
+      },
+      "at_5pct": {
+        "budget": 0.05,
+        "flagged": 150,
+        "recall": 0.7230769230769231,
+        "precision": 0.31333333333333335,
+        "fpr": 0.035093696763202724
+      }
+    }
+  },
+  "blocks": 3000,
+  "positives": 65
+}

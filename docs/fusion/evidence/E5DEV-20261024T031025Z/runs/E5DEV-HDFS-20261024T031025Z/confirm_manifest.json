@@ -1,0 +1,80 @@
+{
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "timings": {
+    "sequence_hadoop": 1531.38,
+    "semantic_hadoop_mk42": 55.15,
+    "semantic_hadoop_mk43": 55.22,
+    "semantic_hadoop_mk44": 54.63,
+    "semantic_hadoop_mk45": 54.8,
+    "semantic_hadoop_mk46": 54.96,
+    "semantic_hadoop_mk47": 54.74,
+    "semantic_hadoop_mk48": 54.57,
+    "semantic_hadoop_mk49": 55.21,
+    "semantic_template_hadoop_mk42": 55.72,
+    "semantic_template_hadoop_mk43": 55.79,
+    "semantic_template_hadoop_mk44": 55.56,
+    "semantic_template_hadoop_mk45": 55.12,
+    "semantic_template_hadoop_mk46": 55.69,
+    "semantic_template_hadoop_mk47": 55.35,
+    "semantic_template_hadoop_mk48": 55.94,
+    "semantic_template_hadoop_mk49": 56.01
+  },
+  "anchor": {
+    "P2.2-DEVELOPMENT-HADOOP-S42-V13R1": {
+      "ARCH-BGL": {
+        "recorded": {
+          "auroc": 0.8035534274193549,
+          "average_precision": 0.08745414861738171,
+          "mean_window_nll": 0.1218092730092053
+        },
+        "reproduced": {
+          "auroc": 0.8055695564516129,
+          "average_precision": 0.08821077316616571,
+          "mean_window_nll": 0.12183288976096185
+        },
+        "pass": true
+      },
+      "ARCH-HDFS": {
+        "recorded": {
+          "auroc": 0.7236526946107784,
+          "average_precision": 0.04007093603502578,
+          "mean_window_nll": 0.15367783078345099
+        },
+        "reproduced": {
+          "auroc": 0.7258483033932136,
+          "average_precision": 0.03997605576602481,
+          "mean_window_nll": 0.1531502316387655
+        },
+        "pass": true
+      }
+    }
+  },
+  "dedupe": true,
+  "dedupe_check_hadoop": {
+    "rows": 256,
+    "max_abs_diff": 0.019491040288372563,
+    "tolerance": 0.01,
+    "pass": false
+  },
+  "encoding_semantic_hadoop": {
+    "rows": 44769,
+    "abstain": 0,
+    "rows_with_volatile_tokens_removed": 0,
+    "volatile_tokens_removed": 0
+  },
+  "encoding_semantic_template_hadoop": {
+    "rows": 44769,
+    "abstain": 0,
+    "rows_with_volatile_tokens_removed": 2753,
+    "volatile_tokens_removed": 78508
+  }
+}

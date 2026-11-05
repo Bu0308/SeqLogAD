@@ -1,0 +1,18 @@
+VENV_READY 14:31:19
+DEPS_INSTALLED
+INPUTS_READY
+28 passed, 6 skipped, 1 warning in 75.87s (0:01:15)
+IMPLEMENTATION=PASS
+RUN=runs/E2C-20261023T143258Z
+Run run_96b4ca04eb35438e834e07354244c5d6 success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_96b4ca04eb35438e834e07354244c5d6/stdout.txt
+stderr: .pmem/artifacts/runs/run_96b4ca04eb35438e834e07354244c5d6/stderr.txt
+artifacts: 1
+Run run_1c66485934d54fd7b4a78a12d73b20ac success
+exit_code: 0
+stdout: .pmem/artifacts/runs/run_1c66485934d54fd7b4a78a12d73b20ac/stdout.txt
+stderr: .pmem/artifacts/runs/run_1c66485934d54fd7b4a78a12d73b20ac/stderr.txt
+artifacts: 1
+runs/E2C-20261023T143258Z/confirm_results.json
+CHAIN_COMPLETE 14:55:23

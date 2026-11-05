@@ -1,0 +1,6 @@
+ARCH-BGL: train lines 278827; distinct raw 576 -> template 273; lines with volatile word 3.1%; volatile words 1.0%
+   anomalous units   688: contains unseen msg  raw 96.1%  -> template 96.1%
+   normal    units 15696: contains unseen msg  raw 32.8%  -> template 32.8%
+ARCH-HDFS: train lines 244962; distinct raw 6534 -> template 99; lines with volatile word 5.2%; volatile words 0.7%
+   anomalous units    81: contains unseen msg  raw 88.9%  -> template  2.5%
+   normal    units  2919: contains unseen msg  raw 91.8%  -> template  0.0%
