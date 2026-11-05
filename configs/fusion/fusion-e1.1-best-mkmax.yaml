@@ -1,0 +1,44 @@
+# FUSION-E1.1 (EXPLORATORY, post hoc after E1): A = fixed learned comparator,
+# B = Sequence+B0 gains, C = multi-mask Semantic. Not confirmatory.
+# FUSION-E1: first controlled Semantic + Sequence fusion experiment.
+# Scope: labelled SOURCE_VALIDATION cohorts only (fresh units for reporting).
+# No target-architecture record or label is read. Frozen experts; no backbone
+# or adapter is trained. GPU work = one batched scoring pass.
+experiment_id: FUSION-E1.1-BEST_MKMAX-EXPLORATORY
+seed: 42
+data:
+  sequence_bundle: phase2_sequence            # extracted phase2-sequence-s42.zip
+  semantic_bundle: phase2                     # extracted phase2-final.zip (parity only)
+  source_development: phase2_source_development_v13r1
+artifacts:                                    # paths relative to the artifact directory;
+  FOLD-TARGET-ARCH-HDFS:                      # original names keep the original .sha256 sidecars valid
+    sequence: {target: P2.2/targets/P2.2_HDFS_S42.zip, recovery: P2.2/recovery/HDFS/LATEST_RECOVERY.zip}
+    semantic: {target: P2.1/targets/P2.1_HDFS_S42.zip, recovery: P2.1/recovery/HDFS/LATEST_RECOVERY.zip}
+  FOLD-TARGET-ARCH-HADOOP:
+    sequence: {target: P2.2/targets/P2.2_HADOOP_S42.zip, recovery: P2.2/recovery/HADOOP/LATEST_RECOVERY.zip}
+    semantic: {target: P2.1/targets/P2.1_HADOOP_S42.zip, recovery: P2.1/recovery/HADOOP/LATEST_RECOVERY.zip}
+  FOLD-TARGET-ARCH-BGL:                       # Semantic-BGL adapter bytes are missing
+    sequence: {target: P2.2/targets/P2.2_BGL_S42.zip, recovery: P2.2/recovery/BGL/LATEST_RECOVERY.zip}
+scoring:
+  checkpoints: [best, latest]
+  base_model_control: true                    # adapters disabled, same prompts
+  token_budget: 4096
+  keep_hidden: true                           # last-layer mean over target-predicting positions
+parity:                                       # fail-closed reproduction of recorded numbers
+  tolerance_metric: 0.01                      # |dAUROC|, |dAP| on the 512-unit selection cohort
+  tolerance_rel: 0.02
+  tolerance_abs: 0.002
+evaluation:
+  semantic_variant: best_mkmax
+  primary_metric: average_precision           # fixed before any fusion result was seen
+  report_units: fresh                         # exclude the 512 checkpoint-selection windows
+  unit_aggregation: mean                      # same as V13R1 selection (BGL line, HDFS block)
+  calibration: transductive_ecdf              # label-free, per source cohort
+  # Fixed-sequence (hierarchical) testing order; decided from simulation D-07
+  # before any real fusion score existed.
+  primary_rules: [cauchy, lr_cauchy, vovk_wang_mean]
+  sensitivity_rules: [bonferroni_min, copula_onesided, fisher, stouffer, zscore_mean, learned_logistic]
+  controls: [sequence_best_plus_latest, semantic_plus_b0, sequence_plus_b0]
+  budgets: [0.01, 0.05]
+  bootstrap: {reps: 2000, cluster: time_chunk, seed: 42}
+  learned_logistic: {l2: 1.0, crossfit: time_halves}
