@@ -1,0 +1,5 @@
+hdfs after blocks 68243 lines 1105256
+multi-block groups 0
+hdfs recomputed fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d expected fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d MATCH
+neg control drop last False
+bgl n 4747 recomputed 7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d expected 7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d MATCH

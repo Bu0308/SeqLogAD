@@ -1,0 +1,119 @@
+# TARGET-EVAL-AMEND-001 -- amendment for the E6-TARGET evaluation (P0).
+#
+# Rationale and evidence: docs/protocol/P0-target-evaluation-amendment-2026-11-04.md
+#
+# This file has NO force until target-evaluation-signatures.yaml records the
+# researcher's verbatim payload together with this file's SHA-256. Agents must not
+# add or invent that record. Editing this file after signing requires a new version.
+#
+# The signed contracts below stay byte-identical, because their hashes are bound into
+# fold manifests and the G0 receipt. This file states how E6-TARGET departs from them.
+target_evaluation_amendment:
+  id: TARGET-EVAL-AMEND-001
+  version: "1.0"
+  drafted_on: "2026-11-04"
+  applies_to: E6-TARGET
+  researcher_signature:
+    required: true
+    ledger: configs/protocols/target-evaluation-signatures.yaml
+    expected_payload: "APPROVE TARGET-EVAL-AMEND-001 v1.0"
+
+  amends:
+    - {file: configs/protocols/cross-system-split-v1.yaml, sha256: ce01eebb3638398579db1a76bb8d2a633be7dc38e22e3eb984ae94e740bd9154}
+    - {file: configs/protocols/protocol-v2-domain-adaptive-fusion.yaml, sha256: 8f8992d9fd990508fa10e882668c9fd93a9497e1c38a461e59bf5e363a4e66cf}
+  references:
+    - {file: configs/protocols/target-buffer-v1.yaml, sha256: 1a365047956549e19ba1f75afde45e6c7dba2039de9624815f6780435a99d987}
+    - {file: configs/protocols/leak-cs-001-exceptions.yaml, sha256: f1c8af557cda025f3c9c2823b3cb60d749397ac1a732ef0c1044d4f6be01ac9d}
+    - {file: configs/protocols/protocol-v1.1.yaml, sha256: c75db25f8e496fcc7c1fd6cecf90838bde84827b2fd3bc108748e85af28ba4ea}
+    - {file: configs/fusion/target-view-v1.yaml, sha256: 35e3de3dfe6542d92c775f93ae41e42d768fbe930e8d668760bd3beefd621cf5}
+
+  decisions:
+    TV-D1:
+      change: TARGET_EVALUATION narrows from [MID, LATE] to [LATE] for E6-TARGET.
+      reason: >-
+        E1-E5 opened labels on MID units of BGL and HDFS and used them to choose the
+        fusion configuration. Exact unit lists of E2C, E3 and E4 are not retained, so
+        only whole-MID removal can be verified.
+      limit: >-
+        Removes unit reuse only. BGL and HDFS remain the domains on which the
+        configuration was selected.
+    TV-D2:
+      change: Target folds are ARCH-BGL and ARCH-HDFS. ARCH-HADOOP is a refused target.
+      remedy_used: "accept the rejection and drop the architecture from target-eligible folds"
+      reason: >-
+        BUFFER-REJECT-001 (EXC-003, 4 of 8 readiness checks failed; signed 2026-09-06)
+        forbids calibrating on this buffer. LATE holds 15 applications.
+      reporting: Report Hadoop as refused, target coverage 2 of 3. Do not omit it.
+      required_wording: >-
+        Pre-declared, label-free readiness rejection, signed before any fusion score,
+        with no Hadoop-unit outcome computed.
+      forbidden_wording: "outcome-neutral"
+      unchanged: Hadoop stays a source architecture in the trained folds.
+    TEST_V1_1:
+      change: Two frozen stages, defined below (option C-prime).
+      rejected:
+        - Signed exception leaving the seal file saying never opened, because the record would be false.
+
+  stages:
+    order:
+      - Rerun the TEST identity check; stop on any mismatch.
+      - Score every unit of both stages in one pass.
+      - Hash all scores and record the hash before reading any label.
+      - Stage 1 label read.
+      - Resolve logged code defects, if any.
+      - Stage 2 label read.
+    stage_1:
+      role: INTERNAL_NON_FINAL
+      tool_unlock_required: false
+      rule: "last_rank < floor(0.9 * N)"
+      ARCH-BGL: {N: 4747963, cut_rank: 4273166, lines: 949592}
+      ARCH-HDFS: {N: 11175629, cut_rank: 10058066, blocks: 117703, lines: 2013706}
+      label_reader: Allowlist of stage 1 units only. BGL labels sit inline in raw lines, so reading stops before the cut.
+    stage_2:
+      role: LOCKED_CONFIRMATORY
+      membership: Exactly the sealed v1.1 TEST partition.
+      ARCH-BGL: {test_partition_hash: 7ecf43ab27d6519b7af4ae4e8f7be5cd9d5351c8c11d18b3bd11b4ff896a876d, parents: 4747, lines: 474700}
+      ARCH-HDFS: {test_partition_hash: fa0c743619f8e2f7ef82a3cb2057eb99891515d56b0aa87f168c60bec093175d, blocks: 68243, lines: 1105256}
+      access: seqlogad-final-test-access unlock, run by the researcher, once per dataset.
+      reason_must_state: The tool binds protocol v1.1; the evaluation belongs to protocol v2 under this amendment.
+      unconditional: true
+      unconditional_meaning: >-
+        A stage 1 result, good or bad, can neither cancel nor delay stage 2. Only an
+        open logged code defect may delay it, until that defect is resolved.
+    outside_both_stages:
+      ARCH-BGL: "97 residual lines after the last complete TEST parent"
+      ARCH-HDFS: "2661 blocks straddling the cut (46473 lines); descriptive only, after stage 2"
+    multiplicity: >-
+      Stage 2 alone is confirmatory. Stage 1 is a separate family, labelled internal.
+      No p-value pools the two stages.
+
+  change_control:
+    allowed_between_stages: >-
+      Fixing a code defect: a deviation from the pre-registered specification, shown
+      by a reproducible test and logged before re-scoring. Results before and after
+      the fix are both reported.
+    not_a_defect: [model, checkpoint, fusion rule, baseline set, unit, aggregation, calibration, threshold, metric, cohort]
+    any_other_change: >-
+      A new named variant, exploratory, labelled target-label-informed. It is never
+      evaluated on TEST under this amendment.
+
+  protocol_v2_departures:
+    target_labels_in_final_evaluation_only: >-
+      Stage 1 reads target labels before the final run. They never feed adaptation,
+      calibration or selection of the frozen configuration.
+    final_evaluation: >-
+      Stage 2 is the single locked run, for a fixed-rule system, without G4 being
+      passed. The adaptive gate failed (D-21), so adaptive fusion is not claimed.
+    gates: G1, G2, G3 and G4 remain NOT_PASSED. This amendment passes no gate.
+
+  accepted_consequences:
+    - v1.1 TEST is single-use. After stage 2 no sealed partition remains, for v1.1 or for any later variant.
+    - A later variant can be confirmed only on new data.
+    - Claims are temporal holdout on BGL and HDFS, one training seed. HDFS is the primary fold; BGL is not an unseen domain, because VW(Sequence, B0) was confirmed on it.
+    - A negative result is reported as such.
+
+  must_freeze_in_e6_prereg:
+    - Primary hypotheses, including Sequence versus B0.
+    - Buffer calibration as primary; transductive calibration per stage only.
+    - Cluster definition, HDFS scoring scope, and estimability rule.
+    - Disclosure of every label-free statistic already seen on LATE and on the TEST region.
