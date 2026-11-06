@@ -1,0 +1,44 @@
+{
+  "access_scope": "SOURCE_VALIDATION_MODEL_SELECTION",
+  "class_counts_by_window": {
+    "FOLD-TARGET-ARCH-BGL": {
+      "ARCH-HDFS": {
+        "false": 2017,
+        "true": 31
+      }
+    },
+    "FOLD-TARGET-ARCH-HADOOP": {
+      "ARCH-BGL": {
+        "false": 1965,
+        "true": 83
+      },
+      "ARCH-HDFS": {
+        "false": 2017,
+        "true": 31
+      }
+    },
+    "FOLD-TARGET-ARCH-HDFS": {
+      "ARCH-BGL": {
+        "false": 1965,
+        "true": 83
+      }
+    }
+  },
+  "files": {
+    "FOLD-TARGET-ARCH-BGL.json": "426dedda0e6dc4c5a9692535333f19ca496f976be9d24f276d89aaf2f3ec9afa",
+    "FOLD-TARGET-ARCH-HADOOP.json": "202b913238eb101f54e745627a544a12ba3bad0c04ecdbb2b88590de3e66f31c",
+    "FOLD-TARGET-ARCH-HDFS.json": "61a0dcb906b441cc315e23cc008a522406bf3f0546d6d7c74d52333085a89e12"
+  },
+  "folds": [
+    "FOLD-TARGET-ARCH-BGL",
+    "FOLD-TARGET-ARCH-HADOOP",
+    "FOLD-TARGET-ARCH-HDFS"
+  ],
+  "schema": "SEQUENCE-SOURCE-DEVELOPMENT-1",
+  "sequence_bundle_sha256": "1268b669a8b1b474658cfa7daa6556c987b0f31f07e0101ed30af250a8d7f129",
+  "source_label_file_sha256": {
+    "ARCH-BGL": "666130b15ef44eb32fd02bd053e6c6e007c37696b5e7e8b9d8e45b729876a5d2",
+    "ARCH-HDFS": "1c711ed6c8848fc3243fb4d092f172f31d128c8a6ec7f26ebba72ab931885ed8"
+  },
+  "target_labels_read": false
+}
